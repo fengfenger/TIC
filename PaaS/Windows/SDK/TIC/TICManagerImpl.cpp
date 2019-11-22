@@ -35,7 +35,7 @@ void TICManagerImpl::Init(int sdkappid, TICCallback callback, uint32_t disableMo
 {
 	sdkAppId_ = sdkappid;
 
-	disableTRTC_ = disableModule & TIC_DISABLE_MODULE_TRTC;
+	disableTRTC_ = ((disableModule & TIC_DISABLE_MODULE_TRTC) != 0);
 
 	timRecvNewMsgCallback_ = [](const char *json_msg_array, const void *user_data) {
 		TICManagerImpl *pThis = (TICManagerImpl*)user_data;
@@ -673,7 +673,8 @@ void TICManagerImpl::TRTCEnterRoom()
 	params.userId = userId_.c_str();
 	params.userSig = userSig_.c_str();
 	params.roomId = classId_;
-	getTRTCShareInstance()->enterRoom(params, TRTCAppScene::TRTCAppSceneVideoCall);
+	params.role = TRTCRoleType(roleType_);
+	getTRTCShareInstance()->enterRoom(params, TRTCAppScene(classScene_));
 
 	//判断是否需要打开摄像头设备
 	if (openCamera_) {
