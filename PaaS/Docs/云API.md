@@ -601,7 +601,7 @@
     "nickname":"user1_nickname",
     "gender":"male",
     "avatar":"https://xxxx/head.png",
-    "role":"stduent",
+    "role":"student",
     "phone_no":"15888667799",
     "e_mail":"xx@xx.com",
     "regist_time":1554786131,
@@ -1311,7 +1311,7 @@ quit_class
 	"list": [
 		{
 			"user_id": "user1",
-			"role": "stduent"
+			"role": "student"
 		},
 		{
 			"user_id": "user2",
