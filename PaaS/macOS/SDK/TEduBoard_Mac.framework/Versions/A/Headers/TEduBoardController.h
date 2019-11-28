@@ -81,6 +81,17 @@
  *
  ********************************************************************************************************/
 /**
+ * 设置允许操作哪些用户绘制的图形
+ * @param users             指定允许操作的用户集，为nil表示不加限制
+ * @brief 该接口会产生以下影响：
+ *    1. ERASER 工具只能擦除users参数列出的用户绘制的涂鸦，无法擦除其他人绘制的涂鸦
+ *    2. POINTSELECT、SELECT 工具只能选中users参数列出的用户绘制的涂鸦，无法选中其他人绘制的涂鸦
+ *    3. clear 接口只能用于清空选中涂鸦以及users参数列出的用户绘制的涂鸦，无法清空背景及其他人绘制的涂鸦
+ *    4. 白板包含的其他功能未在本列表明确列出者都可以确定不受本接口影响
+ */
+- (void)setAccessibleUsers:(NSArray<NSString *> *)users;
+
+/**
  * 设置白板是否允许涂鸦
  * @param enabled       是否允许涂鸦，true 表示白板可以涂鸦，false 表示白板不能涂鸦
  * @brief 白板创建后默认为允许涂鸦状态
@@ -244,6 +255,19 @@
  */
 - (void)clearDraws;
 
+/**
+* 清除涂鸦
+* @param  background    是否清除背景色和背景图片
+* @param  selected    是否只清除选中涂鸦
+*/
+- (void)clearBackground:(BOOL)background andSelected:(BOOL)selected;
+
+/**
+* 设置鼠标样式
+* @param toolType  要设置鼠标样式的白板工具类型
+* @param cursorIcon  要设置鼠标样式
+*/
+- (void)setCursorIcon:(TEduBoardToolType)toolType cursorIcon:(TEduBoardCursorIcon *)cursorIcon;
 
 /*********************************************************************************************************
  *
@@ -362,26 +386,33 @@
  *                                             四、文件操作接口
  *
  ********************************************************************************************************/
+
 /**
- * 增加文件
- * @param path      要增加的文件路径
- * @return NSString 文件Id
- * @brief 支持 PPT、PDF、Word、Excel，调用该接口后，SDK会先将文件上传到COS后再执行后续操作，因此该接口会触发文件上传相关回调，文件上传成功后，将自动切换到该文件
+ * 发起文件转码请求
+ * @param path                要转码的文件路径，编码格式为UTF8
+ * @param config            转码参数
+ * @brief 支持 PPT、PDF、Word文件转码
+ * PPT文档默认转为H5动画，能够还原PPT原有动画效果，其它文档转码为静态图片
+ * PPT动画转码耗时约1秒/页，所有文档的静态转码耗时约0.5秒/页
+ * 转码进度和结果将会通过onTEBFileTranscodeProgress回调返回，详情参见该回调说明文档
+ * @warning 本接口设计用于在接入阶段快速体验转码功能，原则上不建议在生产环境中使用，生产环境中的转码请求建议使用后台服务接口发起
  */
-- (NSString *)addFile:(NSString *)path
-__attribute__((deprecated("接口已废弃，后续会删除，不建议使用，添加文件请统一使用addTranscodeFile接口")));
+- (void)applyFileTranscode:(NSString *)path config:(TEduBoardTranscodeConfig *)config;
+
 /**
- * 增加H5动画PPT文件
- * @param url       要增加的H5动画PPT的URL
- * @return NSString 文件Id
- * @brief 调用该接口后，SDK会在后台进行H5加载，期间用户可正常进行其它操作，加载成功或失败后会触发相应回调，H5加载成功后，将自动切换到该文件
+ * 主动查询文件转码进度
+ * @param taskId            通过onTEBFileTranscodeProgress回调拿到的转码任务taskId
+ * @brief 转码进度和结果将会通过onTEBFileTranscodeProgress回调返回，详情参见该回调说明文档
+ * @warning 该接口仅用于特殊业务场景下主动查询文件转码进度，调用ApplyFileTranscode后，SDK内部将会自动定期触发onTEBFileTranscodeProgress回调，正常情况下您不需要主动调用此接口
  */
-- (NSString *)addH5PPTFile:(NSString *)url
-__attribute__((deprecated("接口已废弃，后续会删除，不建议使用，添加文件请统一使用addTranscodeFile接口")));
+- (void)getFileTranscodeProgress:(NSString *)taskId;
+
 /**
  * 添加转码文件
  * @param result 文件转码结果
  * @return NSString 文件Id
+ * @brief 接口只处理result参数中的title、resolution、url、pages字段
+ * @warning 在收到对应的onTEBAddTranscodeFile回调前，无法用返回的文件ID查询到文件信息
  */
 - (NSString *)addTranscodeFile:(TEduBoardTranscodeFileResult *)result;
 /**
@@ -396,6 +427,15 @@ __attribute__((deprecated("接口已废弃，后续会删除，不建议使用�
  * @brief 文件ID为必填项，为空将导致文件切换失败
  */
 - (void)switchFile:(NSString *)fileId;
+/**
+ * 跳转到文件指定白班指定步
+ * @param fileId            文件ID
+ * @param boardId          白板ID
+ * @param stepIndex      步数索引
+ * @brief 只在首次加载文件时有效，跳转到非当前文件的指定白板指定步
+ */
+- (void)switchFile:(NSString *)fileId boardId:(NSString *)boardId stepIndex:(NSInteger)stepIndex;
+
 /**
  * 获取当前文件ID
  * @return 当前文件ID

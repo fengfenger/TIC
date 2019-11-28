@@ -18,6 +18,7 @@
 | class_type | string | 课堂类型，详情参考附录 | 否 | `public` |
 | start_time | int64 | 课堂预计开始时间戳 | 否 | 约课时的时间 | 
 | stop_time | int64 | 课堂预计结束时间戳 | 否 | start_time + 2小时 |
+| password | string  | 进房密码 | 否 | |
 | admin_id | string | 即时通信 IM 管理员 ID，互动课堂用它来创建 IM 群组 | 否 | - |
 | admin_sig | string | 即时通信 IM 管理员 Sig，互动课堂用它来创建 IM 群组 | 否 | - |
 | settings | settings | 课堂配置信息 | 否 |- |
@@ -354,7 +355,7 @@
 
 ```json
 {
-    "teacher_id":"user"
+    "teacher_id":"user",
     "class_id": 1234354
 }
 ```
@@ -393,7 +394,7 @@
 请求：
 ```json
 {
-    "teacher_id":"user"
+    "teacher_id":"user",
     "class_id": 1234354
 }
 ```
@@ -600,7 +601,7 @@
     "nickname":"user1_nickname",
     "gender":"male",
     "avatar":"https://xxxx/head.png",
-    "role":"stduent",
+    "role":"student",
     "phone_no":"15888667799",
     "e_mail":"xx@xx.com",
     "regist_time":1554786131,
@@ -1161,7 +1162,7 @@ quit_class
 "role":student,
 }
 ```
-##  企业模块
+## 企业模块
 
 ### 修改企业信息
 需要修改的字段填写在请求体中，不需要修改的字段不要设置，如果某个字段设置为空，则会覆盖已有数据。
@@ -1310,7 +1311,7 @@ quit_class
 	"list": [
 		{
 			"user_id": "user1",
-			"role": "stduent"
+			"role": "student"
 		},
 		{
 			"user_id": "user2",
@@ -1498,7 +1499,7 @@ quit_class
 | speaker | int | 用户扬声器状态1-打开/0-关闭 | 是 | - |
 | silence | int | 用户是否被禁言1-被禁言/0-未被禁言 | 是 | - |
 | hand_up | int | 用户是否正在举手1-举手/0-未举手 | 是 | - |
-| enable_draw | int  | 0-未授权/1-授权 | 是 |
+| enable_draw | int  | 0-未授权/1-授权 | 是 | - |
 
 #### 举例
 请求：
