@@ -1,5 +1,28 @@
 # Release Notes - iOS & macOS
 
+## 2.3.7 @ 2019.11.21
+
+- 增加接口
+    - setAccessibleUsers设置允许操作特定用户绘制的图形
+    - clearBackground:andSelected删除选中涂鸦
+    - setCursorIcon:cursorIcon;自定义鼠标样式
+
+## 2.3.6 @ 2019.11.18
+
+- 删除接口
+    - -(NSString *)addFile:(NSString *)path
+    - -(NSString *)addH5PPTFile:(NSString *)url
+- 删除回调
+    - -(void)onTEBAddFile:(NSString *)fileId
+    - -(void)onTEBAddH5PPTFile:(NSString *)fileId
+- 增加接口
+    - -(void)switchFile:(NSString *)fileId boardId:(NSString *)boardId stepIndex:(NSInteger)stepIndex
+    - -(void)applyFileTranscode:(NSString *)path config:(TEduBoardTranscodeConfig *)config
+    - -(void)getFileTranscodeProgress:(NSString *)taskId
+- 增加回调
+    - -(void)onTEBFileTranscodeProgress:(TEduBoardTranscodeFileResult *)result path:(NSString *)path errorCode:(NSString *)errorCode errorMsg:(NSString *)errorMsg
+
+
 ## 2.3.5 @ 2019.10.30
 
 - 新增接口getThumbnailImages获取文件缩略图
