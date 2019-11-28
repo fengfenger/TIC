@@ -1,15 +1,12 @@
-const ticNet = require('../../../net/ticnet');
-const CONSTANT = require('../../../constant/Constant');
-const TEST_ACCOUNT = require('../account');
+const ACCOUNT = require('../account');
 
 Page({
   data: {
-    sdkAppId: TEST_ACCOUNT.sdkappid,
-    array: TEST_ACCOUNT.users,
+    sdkAppId: ACCOUNT.sdkappid,
+    array: ACCOUNT.users,
     roomID: null,
     role: 0, // 0 学生， 1： 老师
-    index: 0,
-    mode: 0 // 0 webview 1： canvas
+    index: Math.floor((Math.random() * ACCOUNT.users.length))
   },
 
   bindPickerChange: function (e) {
@@ -50,7 +47,7 @@ Page({
       })
       return;
     }
-    var url = `/pages/tic/${this.data.mode ? 'classroom':'classroom_new'}/room?sdkAppId=${this.data.sdkAppId}&identifier=${TEST_ACCOUNT.users[this.data.index]['userId']}&userSig=${TEST_ACCOUNT.users[this.data.index]['userToken']}&roomID=${this.data.roomID}&role=${this.data.role}`;
+    var url = `/pages/tic/classroom_new/room?sdkAppId=${this.data.sdkAppId}&identifier=${ACCOUNT.users[this.data.index]['userId']}&userSig=${ACCOUNT.users[this.data.index]['userToken']}&roomID=${this.data.roomID}&role=${this.data.role}`;
     wx.navigateTo({
       url: url
     });

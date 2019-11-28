@@ -19,6 +19,7 @@ module.exports = {
     "define": null,
     "exports": null,
     "WebRTCAPI": false,
+    "TRTC": false,
     "webim": false,
     "TEduBoard": false,
     "ActiveXObject": false,
