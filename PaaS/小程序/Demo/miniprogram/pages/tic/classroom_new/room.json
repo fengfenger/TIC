@@ -1,9 +1,9 @@
 {
+  "pageOrientation": "landscape",
   "navigationBarTitleText": "互动课堂",
   "disableScroll": true,
   "disableSwipeBack": true,
   "usingComponents": {
-    "webrtc-room": "/components/webrtc-room/webrtc-room",
-    "tic-component": "/components/tic-component/tic-component"
+    "webrtc-room": "/components/webrtc-room/webrtc-room"
   }
 }

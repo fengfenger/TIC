@@ -26,11 +26,14 @@ Page({
     chatMsg: '', // 聊天输入框值
     msgList: [], // IM消息列表
 
-    loadingImg: 'https://main.qcloudimg.com/raw/0c56375ca9e2dfde99930f36f19b137b.gif',
-    playerBackgroundImg: 'https://main.qcloudimg.com/raw/b14189beafbb8db8275e53c8cb596e1f.png',
+    waitingImg: "https://main.qcloudimg.com/raw/d009e8c5c3455213e13b4b772e53f2a9.png",
+    pusherBackgroundImg: "https://main.qcloudimg.com/raw/d009e8c5c3455213e13b4b772e53f2a9.png",
+    playerBackgroundImg: "https://main.qcloudimg.com/raw/d009e8c5c3455213e13b4b772e53f2a9.png",
 
     isErrorModalShow: false, // 房间事件会重复触发，增加错误窗口是否显示的标志
-    classUrl: '' // 课堂链接
+    classUrl: '', // 课堂链接
+    loadClass: true,
+    videoSize: 150, // 视频的
   },
 
   onReady(options) {
@@ -46,33 +49,41 @@ Page({
     this.data.sdkAppId = options.sdkAppId;
     this.data.roomID = options.roomID;
     this.data.isTeacher = !!(options.role * 1);
-
-    // 获取webrtc组件
-    this.webrtcroomComponent = this.selectComponent('#webrtcroom');
-    // 登录
-    this.startRTC();
+    this.callWebview();
   },
 
   onUnload() {
 
   },
 
+  callWebview() {
+    let url = `https://tic-demo-1259648581.cos.ap-shanghai.myqcloud.com/miniprogram/miniprogram.html?isTeacher=${this.data.isTeacher}&sdkAppId=${this.data.sdkAppId}&classId=${this.data.roomID}&userId=${this.data.identifier}&userSig=${this.data.userSig}&videoSize=${this.data.videoSize}`;
+    console.log('classUrl:', url);
+    this.setData({
+      classUrl: encodeURI(url),
+      loadClass: true
+    }, () => {});
+  },
+
   // 开始RTC
   startRTC() {
+    // 获取webrtc组件
+    this.webrtcroomComponent = this.selectComponent('#webrtcroom');
+
     this.setData({
       userID: this.data.identifier,
       userSig: this.data.userSig,
-      sdkAppID: this.data.sdkAppId,
+      sdkAppId: this.data.sdkAppId,
       roomID: this.data.roomID
     }, () => {
       this.webrtcroomComponent.start();
     });
+  },
 
-    this.setData({
-      classUrl: `https://www.qcloudtrtc.com/miniprogram/miniprogram.html?isTeacher=${this.data.isTeacher}&sdkAppId=${this.data.sdkAppId}&classId=${this.data.roomID}&userId=${this.data.identifier}&userSig=${this.data.userSig}`
-    }, () => {
-      console.log(this.data.classUrl);
-    });
+  webviewLoad() {
+    setTimeout(() => {
+      this.startRTC();
+    }, 1000);
   },
 
   /**
@@ -125,6 +136,8 @@ Page({
         break;
     }
   },
+
+
 
   /**
    * 显示信息弹窗
