@@ -96,8 +96,8 @@ BOOL CDrawTabDlg::OnInitDialog()
 
 	sliderTextSize_.SetRange(1, 1000);
 
-	comboH5_.AddString(_T("https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-38-54/index.html"));
-	comboH5_.AddString(_T("https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-18-25-0/index.html"));
+	comboH5_.AddString(_T("https://cloud.tencent.com/solution/tic"));
+	comboH5_.SetCurSel(0);
 
 	sliderScale_.SetRange(100, 300);
 
@@ -291,7 +291,7 @@ void CDrawTabDlg::OnBnClickedBtnAddH5Ppt()
 		CString h5Url;
 		comboH5_.GetWindowText(h5Url);
 		std::string url = w2a(h5Url.GetString());
-		boardCtrl->AddH5PPTFile(url.c_str());
+		boardCtrl->AddH5File(url.c_str());
 	}
 }
 
@@ -506,7 +506,11 @@ void CFileTabDlg::OnBnClickedBtnAddFile()
 		CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.*||"), NULL);
 		if (dlgFile.DoModal() == IDOK)
 		{
-			boardCtrl->AddFile(w2a(dlgFile.GetPathName().GetString(), CP_UTF8).c_str());
+			//请求转码; 转码进度通过回调onTEBFileTranscodeProgress()通知;
+			TEduBoardTranscodeConfig config;
+			config.minResolution = "960x540";
+			config.thumbnailResolution = "200x200";
+			boardCtrl->ApplyFileTranscode(w2a(dlgFile.GetPathName().GetString(), CP_UTF8).c_str(), config);
 		}
 	}
 }
@@ -843,12 +847,28 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 	}
 }
 
-void CBoardDlg::onTEBAddFile(const char * fileId)
+void CBoardDlg::onTEBFileTranscodeProgress(const char *path, const char *errorCode, const char *errorMsg, const TEduBoardTranscodeFileResult &result)
 {
-	if (histroySync_) fileTabDlg_.UpdateFileList();
+	if (std::string(errorCode) != "") {
+		printf("请求转码失败; errCode: %s errMsg: %s\n", errorCode, errorMsg);
+		return;
+	}
+
+	if (result.status == TEDU_BOARD_FILE_TRANSCODE_FINISHED) { //转码完成
+		printf("转码完成.\n");
+
+		auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+		if (!boardCtrl) {
+			return;
+		}
+		boardCtrl->AddTranscodeFile(result); //实际执行添加操作，添加完成后，到onTEBAddTranscodeFile()回调;
+	}
+	else { //转码中
+		printf("转码进度: %.02lf%%\n", result.progress);
+	}
 }
 
-void CBoardDlg::onTEBAddH5PPTFile(const char * fileId)
+void CBoardDlg::onTEBAddTranscodeFile(const char *fileId)
 {
 	if (histroySync_) fileTabDlg_.UpdateFileList();
 }
