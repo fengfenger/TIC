@@ -479,7 +479,7 @@ BEGIN_MESSAGE_MAP(CFileTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_ADD_FILE, &CFileTabDlg::OnBnClickedBtnAddFile)
 	ON_BN_CLICKED(IDC_BTN_DEL_FILE, &CFileTabDlg::OnBnClickedBtnDelFile)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FILE, &CFileTabDlg::OnNMDbClkListFile)
-	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5Ppt)
+	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5)
 	ON_BN_CLICKED(IDC_BTN_ADD_VIDEO, &CFileTabDlg::OnBnClickedBtnAddVideo)
 END_MESSAGE_MAP()
 
@@ -525,8 +525,7 @@ BOOL CFileTabDlg::OnInitDialog()
 	listFile_.InsertColumn(1, _T("文件名"), LVCFMT_LEFT, 100);
 	listFile_.InsertColumn(2, _T("页码"), LVCFMT_LEFT, 72);
 
-	comboH5_.AddString(_T("https://cloud.tencent.com/solution/tic"));
-	comboH5_.SetCurSel(0);
+	editAddH5_.SetWindowText(_T("https://cloud.tencent.com/solution/tic"));
 
 	editAddVideo_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4"));
 
@@ -538,7 +537,7 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
-	DDX_Control(pDX, IDC_COMBO_H5, comboH5_);
+	DDX_Control(pDX, IDC_EDIT_ADD_H5, editAddH5_);
 	DDX_Control(pDX, IDC_EDIT_ADD_VIDEO, editAddVideo_);
 }
 
@@ -547,7 +546,7 @@ void CFileTabDlg::OnBnClickedBtnAddFile()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.*||"), NULL);
+		CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.ppt;*.pptx;*.doc;*.docx;*.pdf||"), NULL);
 		if (dlgFile.DoModal() == IDOK)
 		{
 			//请求转码; 转码进度通过回调onTEBFileTranscodeProgress()通知;
@@ -585,13 +584,13 @@ void CFileTabDlg::OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-void CFileTabDlg::OnBnClickedBtnAddH5Ppt()
+void CFileTabDlg::OnBnClickedBtnAddH5()
 {
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
 		CString h5Url;
-		comboH5_.GetWindowText(h5Url);
+		editAddH5_.GetWindowText(h5Url);
 		std::string url = w2a(h5Url.GetString());
 		boardCtrl->AddH5File(url.c_str());
 	}

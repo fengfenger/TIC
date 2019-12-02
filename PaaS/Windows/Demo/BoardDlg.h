@@ -138,12 +138,12 @@ private:
 	afx_msg void OnBnClickedBtnAddFile();
 	afx_msg void OnBnClickedBtnDelFile();
 	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBnClickedBtnAddH5Ppt();
+	afx_msg void OnBnClickedBtnAddH5();
 	afx_msg void OnBnClickedBtnAddVideo();
 
 private:
 	CListCtrl listFile_;
-	CComboBox comboH5_;
+	CEdit	editAddH5_;
 	CEdit	editAddVideo_;
 };
 
