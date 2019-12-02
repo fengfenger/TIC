@@ -15,8 +15,6 @@ BEGIN_MESSAGE_MAP(CDrawTabDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_TOOL_TYPE, &CDrawTabDlg::OnCbnSelchangeComboToolType)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_BRUSH_THIN, &CDrawTabDlg::OnNMCustomdrawSliderBrushThin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_TEXT_SIZE, &CDrawTabDlg::OnNMCustomdrawSliderTextSize)
-	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CDrawTabDlg::OnBnClickedBtnAddH5Ppt)
-	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CDrawTabDlg::OnBnClickedBtnAddH5Ppt)
 	ON_BN_CLICKED(IDC_BTN_SET_BACK_H5, &CDrawTabDlg::OnBnClickedBtnSetBackH5)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_SCALE, &CDrawTabDlg::OnNMCustomdrawSliderScale)
 END_MESSAGE_MAP()
@@ -96,9 +94,6 @@ BOOL CDrawTabDlg::OnInitDialog()
 
 	sliderTextSize_.SetRange(1, 1000);
 
-	comboH5_.AddString(_T("https://cloud.tencent.com/solution/tic"));
-	comboH5_.SetCurSel(0);
-
 	sliderScale_.SetRange(100, 300);
 
 	return TRUE;
@@ -122,7 +117,6 @@ void CDrawTabDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLIDER_BRUSH_THIN, sliderBrushThin_);
 	DDX_Control(pDX, IDC_SLIDER_TEXT_SIZE, sliderTextSize_);
 
-	DDX_Control(pDX, IDC_COMBO_H5, comboH5_);
 	DDX_Control(pDX, IDC_EDIT_BACK_H5, editBackH5_);
 
 	DDX_Control(pDX, IDC_SLIDER_SCALE, sliderScale_);
@@ -283,18 +277,6 @@ void CDrawTabDlg::OnNMCustomdrawSliderTextSize(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-void CDrawTabDlg::OnBnClickedBtnAddH5Ppt()
-{
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		CString h5Url;
-		comboH5_.GetWindowText(h5Url);
-		std::string url = w2a(h5Url.GetString());
-		boardCtrl->AddH5File(url.c_str());
-	}
-}
-
 void CDrawTabDlg::OnBnClickedBtnSetBackH5()
 {
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
@@ -444,6 +426,7 @@ BEGIN_MESSAGE_MAP(CFileTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_ADD_FILE, &CFileTabDlg::OnBnClickedBtnAddFile)
 	ON_BN_CLICKED(IDC_BTN_DEL_FILE, &CFileTabDlg::OnBnClickedBtnDelFile)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FILE, &CFileTabDlg::OnNMDbClkListFile)
+	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5Ppt)
 END_MESSAGE_MAP()
 
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
@@ -488,6 +471,9 @@ BOOL CFileTabDlg::OnInitDialog()
 	listFile_.InsertColumn(1, _T("ÎÄ¼þÃû"), LVCFMT_LEFT, 100);
 	listFile_.InsertColumn(2, _T("Ò³Âë"), LVCFMT_LEFT, 72);
 
+	comboH5_.AddString(_T("https://cloud.tencent.com/solution/tic"));
+	comboH5_.SetCurSel(0);
+
 	return TRUE;
 }
 
@@ -496,6 +482,7 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
+	DDX_Control(pDX, IDC_COMBO_H5, comboH5_);
 }
 
 void CFileTabDlg::OnBnClickedBtnAddFile()
@@ -539,6 +526,18 @@ void CFileTabDlg::OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult)
 		boardCtrl->SwitchFile(w2a(text.GetString()).c_str());
 	}
 	*pResult = 0;
+}
+
+void CFileTabDlg::OnBnClickedBtnAddH5Ppt()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString h5Url;
+		comboH5_.GetWindowText(h5Url);
+		std::string url = w2a(h5Url.GetString());
+		boardCtrl->AddH5File(url.c_str());
+	}
 }
 
 BEGIN_MESSAGE_MAP(CBoardDlg, CDialogEx)
