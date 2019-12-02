@@ -94,12 +94,14 @@
     classRoom.userId = userId;
     TICClassroomOption *option = [[TICClassroomOption alloc] init];
     option.classId = [classId intValue];
+    
     [[TICManager sharedInstance] addMessageListener:classRoom];
     [[TICManager sharedInstance] addEventListener:classRoom];
+    __weak typeof(self) ws = self;
     [[TICManager sharedInstance] joinClassroom:option callback:^(TICModule module, int code, NSString *desc) {
         if(code == 0){
             [JMLoadingHUD hide];
-            [self.navigationController pushViewController:classRoom animated:YES];
+            [ws.navigationController pushViewController:classRoom animated:YES];
         }
         else{
             if(code == 10015){

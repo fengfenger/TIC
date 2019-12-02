@@ -249,6 +249,11 @@ id makeWeakRef (id object) {
         [self.boardController reset];
     }
     UInt32 classId = _option.classId;
+    
+    TEView *renderView = [_boardController getBoardRenderView];
+    if(renderView.superview){
+        [renderView removeFromSuperview];
+    }
     [_boardController removeDelegate:self];
     if(_option.boardDelegate){
         [_boardController removeDelegate:_option.boardDelegate];

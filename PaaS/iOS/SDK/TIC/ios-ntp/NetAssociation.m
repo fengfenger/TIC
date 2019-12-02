@@ -347,7 +347,8 @@ double ntpDiffSeconds(union ntpTime * start, union ntpTime * stop) {
         NTP_Logging(@"  [%@] : bad data .. %7.1f", _server, ntpDiffSeconds(&ntpServerBaseTime, &ntpServerSendTime));
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{ [self->_delegate reportFromDelegate]; });// tell delegate we're done
+    __weak typeof(self) ws = self;
+    dispatch_async(dispatch_get_main_queue(), ^{ [ws.delegate reportFromDelegate]; });// tell delegate we're done
 }
 
 - (void) reportFromDelegate {
@@ -570,12 +571,13 @@ double ntpDiffSeconds(union ntpTime * start, union ntpTime * stop) {
 /*┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ applicationBack -- catch the notification when the application goes into the background          │
   └──────────────────────────────────────────────────────────────────────────────────────────────────┘*/
-	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+    __weak typeof(self) ws = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
 													  object:nil queue:nil
 												  usingBlock:^
 	 (NSNotification * note) {
 		 NTP_Logging(@"Application -> Background");
-		 [self snooze];
+		 [ws snooze];
 	 }];
 
 /*┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -586,7 +588,7 @@ double ntpDiffSeconds(union ntpTime * start, union ntpTime * stop) {
 												  usingBlock:^
 	 (NSNotification * note) {
 		 NTP_Logging(@"Application -> Foreground");
-		 [self enable];
+		 [ws enable];
 	 }];
 
 /*┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
