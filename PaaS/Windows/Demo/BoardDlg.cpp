@@ -308,6 +308,8 @@ BEGIN_MESSAGE_MAP(CBoardTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_ADD_BOARD, &CBoardTabDlg::OnBnClickedBtnAddBoard)
 	ON_BN_CLICKED(IDC_BTN_DEL_BOARD, &CBoardTabDlg::OnBnClickedBtnDelBoard)
 	ON_LBN_SELCHANGE(IDC_LIST_BOARD, &CBoardTabDlg::OnLbnSelchangeListBoard)
+	ON_CBN_SELCHANGE(IDC_COMBO_RATIO, &CBoardTabDlg::OnCbnSelchangeComboRatio)
+	ON_CBN_SELCHANGE(IDC_COMBO_FIT_MODE, &CBoardTabDlg::OnCbnSelchangeComboFitMode)
 END_MESSAGE_MAP()
 
 CBoardTabDlg::CBoardTabDlg(CWnd* pParent /*= nullptr*/)
@@ -337,9 +339,35 @@ void CBoardTabDlg::UpdateBoardList()
 	}
 }
 
+void CBoardTabDlg::UpdateBoardRatio()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	std::string ratio = boardCtrl->GetBoardRatio();
+	if (ratio == "16:9") {
+		comboRatio_.SetCurSel(0);
+	}
+	else {
+		comboRatio_.SetCurSel(1);
+	}
+}
+
+void CBoardTabDlg::UpdateBoardContentFitMode()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	comboFitMode_.SetCurSel(boardCtrl->GetBoardContentFitMode());
+}
+
 BOOL CBoardTabDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+
+	comboRatio_.AddString(_T("16:9"));
+	comboRatio_.AddString(_T("4:3"));
+	comboRatio_.SetCurSel(0);
+
+	comboFitMode_.AddString(_T("ÌîÂú°×°å"));
+	comboFitMode_.AddString(_T("ÌîÂúÈÝÆ÷"));
+	comboFitMode_.AddString(_T("¸²¸ÇÈÝÆ÷"));
 
 	return TRUE;
 }
@@ -350,6 +378,8 @@ void CBoardTabDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_CHK_REST_STEP, chkResetStep_);
 	DDX_Control(pDX, IDC_LIST_BOARD, listBoard_);
+	DDX_Control(pDX, IDC_COMBO_FIT_MODE, comboFitMode_);
+	DDX_Control(pDX, IDC_COMBO_RATIO, comboRatio_);
 }
 
 void CBoardTabDlg::OnBnClickedBtnPrevBoard()
@@ -419,6 +449,29 @@ void CBoardTabDlg::OnLbnSelchangeListBoard()
 		CString text;
 		listBoard_.GetText(listBoard_.GetCurSel(), text);
 		boardCtrl->GotoBoard(w2a(text.GetString()).c_str());
+	}
+}
+
+void CBoardTabDlg::OnCbnSelchangeComboRatio()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		if (comboRatio_.GetCurSel() == 0) {
+			boardCtrl->SetBoardRatio("16:9");
+		}
+		else {
+			boardCtrl->SetBoardRatio("4:3");
+		}
+	}
+}
+
+void CBoardTabDlg::OnCbnSelchangeComboFitMode()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		boardCtrl->SetBoardContentFitMode((TEduBoardContentFitMode)(comboFitMode_.GetCurSel()));
 	}
 }
 
@@ -544,8 +597,6 @@ BEGIN_MESSAGE_MAP(CBoardDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_BOARD, &CBoardDlg::OnTabSelChange)
-	ON_CBN_SELCHANGE(IDC_COMBO_RATIO, &CBoardDlg::OnCbnSelchangeComboRatio)
-	ON_CBN_SELCHANGE(IDC_COMBO_FIT_MODE, &CBoardDlg::OnCbnSelchangeComboFitMode)
 END_MESSAGE_MAP()
 
 CBoardDlg::CBoardDlg(CWnd* pParent)
@@ -562,7 +613,7 @@ void CBoardDlg::Init()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		comboFitMode_.SetCurSel(boardCtrl->GetBoardContentFitMode());
+		boardTabDlg_.UpdateBoardContentFitMode();
 
 		drawTabDlg_.Init();
 
@@ -644,14 +695,6 @@ BOOL CBoardDlg::OnInitDialog()
 	fileTabDlg_.MoveWindow(&clientRect);
 	fileTabDlg_.ShowWindow(SW_HIDE);
 
-	comboRatio_.AddString(_T("16:9"));
-	comboRatio_.AddString(_T("4:3"));
-	comboRatio_.SetCurSel(0);
-
-	comboFitMode_.AddString(_T("ÌîÂú°×°å"));
-	comboFitMode_.AddString(_T("ÌîÂúÈÝÆ÷"));
-	comboFitMode_.AddString(_T("¸²¸ÇÈÝÆ÷"));
-
 	UpdateUI();
 
 	return TRUE;
@@ -664,9 +707,6 @@ void CBoardDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TAB_BOARD, tabBoardCtrl_);
 
 	DDX_Control(pDX, IDC_BOARD, staticBoard_);
-
-	DDX_Control(pDX, IDC_COMBO_FIT_MODE, comboFitMode_);
-	DDX_Control(pDX, IDC_COMBO_RATIO, comboRatio_);
 }
 
 void CBoardDlg::UpdateBoardPos()
@@ -678,18 +718,6 @@ void CBoardDlg::UpdateBoardPos()
 		staticBoard_.GetClientRect(&clientRect);
 		// ¸ü¸Ä°×°å´óÐ¡ºÍÎ»ÖÃ
 		boardCtrl->SetBoardRenderViewPos(0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
-	}
-}
-
-void CBoardDlg::UpdateBoardRatio()
-{
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	std::string ratio = boardCtrl->GetBoardRatio();
-	if (ratio == "16:9") {
-		comboRatio_.SetCurSel(0);
-	}
-	else {
-		comboRatio_.SetCurSel(1);
 	}
 }
 
@@ -758,29 +786,6 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 }
 
-void CBoardDlg::OnCbnSelchangeComboRatio()
-{
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		if (comboRatio_.GetCurSel() == 0) {
-			boardCtrl->SetBoardRatio("16:9");
-		}
-		else {
-			boardCtrl->SetBoardRatio("4:3");
-		}
-	}
-}
-
-void CBoardDlg::OnCbnSelchangeComboFitMode()
-{
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		boardCtrl->SetBoardContentFitMode((TEduBoardContentFitMode)(comboFitMode_.GetCurSel()));
-	}
-}
-
 void CBoardDlg::onTEBError(TEduBoardErrorCode code, const char * msg)
 {
 	printf("-----------onTEBError(%d, %s)------------\n", (int)code, msg);
@@ -835,7 +840,7 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		UpdateBoardRatio();
+		boardTabDlg_.UpdateBoardRatio();
 
 		drawTabDlg_.UpdateBackgroundColor();
 		drawTabDlg_.UpdateBoardScale();
