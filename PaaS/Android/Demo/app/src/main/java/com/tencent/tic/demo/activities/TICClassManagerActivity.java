@@ -36,10 +36,8 @@ public class TICClassManagerActivity extends BaseActvity {
 
         tvLog = (TextView) findViewById(R.id.tv_manager_log);
         etRoomIdInput = (EditText) findViewById(R.id.et_roomid);
-        tvClassInfo = (TextView) findViewById(R.id.tv_classInfo);
 
         etRoomIdInput.setText(String.valueOf(mRoomId));
-        tvClassInfo.setText(String.format(Locale.getDefault(), "输入课堂号:"));
     }
 
     @Override
