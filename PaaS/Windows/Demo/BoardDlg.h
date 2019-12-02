@@ -51,7 +51,6 @@ private:
 	afx_msg void OnNMCustomdrawSliderBrushThin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMCustomdrawSliderTextSize(NMHDR *pNMHDR, LRESULT *pResult);
 
-	afx_msg void OnBnClickedBtnAddH5Ppt();
 	afx_msg void OnBnClickedBtnSetBackH5();
 
 	afx_msg void OnNMCustomdrawSliderScale(NMHDR *pNMHDR, LRESULT *pResult);
@@ -71,7 +70,6 @@ private:
 	CSliderCtrl sliderBrushThin_;
 	CSliderCtrl sliderTextSize_;
 
-	CComboBox comboH5_;
 	CEdit editBackH5_;
 
 	CSliderCtrl sliderScale_;
@@ -132,9 +130,11 @@ private:
 	afx_msg void OnBnClickedBtnAddFile();
 	afx_msg void OnBnClickedBtnDelFile();
 	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedBtnAddH5Ppt();
 
 private:
 	CListCtrl listFile_;
+	CComboBox comboH5_;
 };
 
 class CBoardDlg 
