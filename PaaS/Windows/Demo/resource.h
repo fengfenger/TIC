@@ -70,6 +70,7 @@
 #define IDC_EDIT_H5                     1053
 #define IDC_BTN_ADD_H5_PPT              1054
 #define IDC_BTN_PREV_STEP               1055
+#define IDC_BTN_ADD_VIDEO               1055
 #define IDC_BTN_NEXT_STEP               1056
 #define IDC_NOTIFY                      1064
 #define IDC_COMBO_H5                    1065
@@ -87,6 +88,8 @@
 #define IDC_CHK_REST_STEP               1077
 #define IDC_CHECK_ENABLE_PUSH           1079
 #define IDC_PUSH_RENDER                 1080
+#define IDC_EDIT_VIDEO                  1081
+#define IDC_EDIT_ADD_VIDEO              1081
 
 // Next default values for new objects
 // 
@@ -94,7 +97,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1081
+#define _APS_NEXT_CONTROL_VALUE         1082
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

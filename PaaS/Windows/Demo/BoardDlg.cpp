@@ -480,6 +480,7 @@ BEGIN_MESSAGE_MAP(CFileTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_DEL_FILE, &CFileTabDlg::OnBnClickedBtnDelFile)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FILE, &CFileTabDlg::OnNMDbClkListFile)
 	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5Ppt)
+	ON_BN_CLICKED(IDC_BTN_ADD_VIDEO, &CFileTabDlg::OnBnClickedBtnAddVideo)
 END_MESSAGE_MAP()
 
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
@@ -527,6 +528,8 @@ BOOL CFileTabDlg::OnInitDialog()
 	comboH5_.AddString(_T("https://cloud.tencent.com/solution/tic"));
 	comboH5_.SetCurSel(0);
 
+	editAddVideo_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4"));
+
 	return TRUE;
 }
 
@@ -536,6 +539,7 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
 	DDX_Control(pDX, IDC_COMBO_H5, comboH5_);
+	DDX_Control(pDX, IDC_EDIT_ADD_VIDEO, editAddVideo_);
 }
 
 void CFileTabDlg::OnBnClickedBtnAddFile()
@@ -590,6 +594,17 @@ void CFileTabDlg::OnBnClickedBtnAddH5Ppt()
 		comboH5_.GetWindowText(h5Url);
 		std::string url = w2a(h5Url.GetString());
 		boardCtrl->AddH5File(url.c_str());
+	}
+}
+
+void CFileTabDlg::OnBnClickedBtnAddVideo()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString videoUrl;
+		editAddVideo_.GetWindowText(videoUrl);
+		boardCtrl->AddVideoFile(w2a(videoUrl.GetString()).c_str());
 	}
 }
 
