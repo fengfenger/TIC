@@ -69,6 +69,7 @@
 #define IDC_LIST_FILE                   1052
 #define IDC_EDIT_H5                     1053
 #define IDC_BTN_ADD_H5_PPT              1054
+#define IDC_BTN_ADD_H5                  1054
 #define IDC_BTN_PREV_STEP               1055
 #define IDC_BTN_ADD_VIDEO               1055
 #define IDC_BTN_NEXT_STEP               1056
@@ -88,8 +89,8 @@
 #define IDC_CHK_REST_STEP               1077
 #define IDC_CHECK_ENABLE_PUSH           1079
 #define IDC_PUSH_RENDER                 1080
-#define IDC_EDIT_VIDEO                  1081
 #define IDC_EDIT_ADD_VIDEO              1081
+#define IDC_EDIT_ADD_H5                 1082
 
 // Next default values for new objects
 // 
