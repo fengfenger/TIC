@@ -88,6 +88,8 @@ public:
 #endif
 
 	void UpdateBoardList();
+	void UpdateBoardRatio();
+	void UpdateBoardContentFitMode();
 
 private:
 	virtual BOOL OnInitDialog() override;
@@ -103,9 +105,15 @@ private:
 	afx_msg void OnBnClickedBtnDelBoard();
 	afx_msg void OnLbnSelchangeListBoard();
 
+	afx_msg void OnCbnSelchangeComboRatio();
+	afx_msg void OnCbnSelchangeComboFitMode();
+
 private:
 	CButton chkResetStep_;
 	CListBox listBoard_;
+
+	CComboBox comboRatio_;
+	CComboBox comboFitMode_;
 };
 
 //文件操作标签页
@@ -160,15 +168,11 @@ private:
 	virtual void DoDataExchange(CDataExchange* pDX) override;
 
 	void UpdateBoardPos();
-	void UpdateBoardRatio();
 
 	// 消息映射函数
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult);
-
-	afx_msg void OnCbnSelchangeComboRatio();
-	afx_msg void OnCbnSelchangeComboFitMode();
 
 	//TEduBoardCallback
 	//通用事件回调
@@ -210,7 +214,4 @@ private:
 	CDrawTabDlg		drawTabDlg_;
 	CBoardTabDlg	boardTabDlg_;
 	CFileTabDlg		fileTabDlg_;
-
-	CComboBox comboRatio_;
-	CComboBox comboFitMode_;
 };
