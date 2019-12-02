@@ -280,6 +280,7 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
     <ResourceCompile Include="TICDemo.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="config.json" />
     <None Include="res\TICDemo.rc2" />
   </ItemGroup>
   <ItemGroup>
