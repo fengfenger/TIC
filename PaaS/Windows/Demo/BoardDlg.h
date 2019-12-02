@@ -139,10 +139,12 @@ private:
 	afx_msg void OnBnClickedBtnDelFile();
 	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedBtnAddH5Ppt();
+	afx_msg void OnBnClickedBtnAddVideo();
 
 private:
 	CListCtrl listFile_;
 	CComboBox comboH5_;
+	CEdit	editAddVideo_;
 };
 
 class CBoardDlg 
