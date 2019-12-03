@@ -326,8 +326,7 @@ void CBoardTabDlg::UpdateBoardList()
 		listBoard_.SetRedraw(FALSE);
 		listBoard_.ResetContent();
 		std::string fileId = boardCtrl->GetCurrentFile();
-		//TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
-		TEduBoardStringList* boardList = boardCtrl->GetThumbnailImages(fileId.c_str()); //TODO
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
 		std::string curBoardId = boardCtrl->GetCurrentBoard();
 		for (uint32_t i = 0; i < boardList->GetCount(); ++i)
 		{
@@ -646,12 +645,8 @@ void CBoardDlg::Init()
 void CBoardDlg::Uninit()
 {
 	histroySync_ = false;
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		boardState_ = BoardState::NotInit;
-		UpdateUI();
-	}
+	boardState_ = BoardState::NotInit;
+	UpdateUI();
 }
 
 void CBoardDlg::UpdateUI()
@@ -754,8 +749,7 @@ void CBoardDlg::UpdateThumbnailImages()
 	std::string fileId = boardCtrl->GetCurrentFile();
 
 	std::vector<std::string> vecImages;
-	//TEduBoardStringList* list = boardCtrl->GetThumbnailImages(fileId.c_str());
-	TEduBoardStringList* list = boardCtrl->GetFileBoardList(fileId.c_str()); //TODO
+	TEduBoardStringList* list = boardCtrl->GetThumbnailImages(fileId.c_str());
 	for (uint32_t i = 0; i < list->GetCount(); ++i)
 	{
 		std::string url = list->GetString(i);
@@ -886,8 +880,7 @@ void CBoardDlg::OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 			return;
 		}
 		std::string fileId = boardCtrl->GetCurrentFile();
-		//TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
-		TEduBoardStringList* boardList = boardCtrl->GetThumbnailImages(fileId.c_str()); //TODO
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
 		std::string boardId = boardList->GetString(index);
 		boardCtrl->GotoBoard(boardId.c_str());
 		boardList->Release();
