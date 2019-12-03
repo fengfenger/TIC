@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.0
+ * @version 2.3.4.45
  */
 
 #pragma once
@@ -88,7 +88,7 @@ extern "C" {
      *      2. 按下面说明，在您的Render进程内调用SDK的RenderProcessHandler
      *          - Render进程启动后调用接口获取一个sdkHandler实例，CefRefPtr<CefRenderProcessHandler> sdkHandler = (CefRenderProcessHandler*)GetTEduBoardRenderProcessHandler();
      *          - 在Render进程的CefApp中重写GetRenderProcessHandler方法，每次都返回以上sdkHandler
-     *          - 若您需要自定义CefRenderProcessHandler，步骤B可返回自定义Handler，然后在自定义Handler的下面几个方法中，调用sdkHandler的对应方法
+     *          - 若您需要自定义CefRenderProcessHandler，第二步可返回自定义Handler，然后在自定义Handler的下面几个方法中，调用sdkHandler的对应方法
      *              - OnBrowserCreated
      *              - OnBrowserDestroyed
      *              - OnContextCreated
@@ -502,7 +502,7 @@ struct TEduBoardTranscodeConfig {
 struct TEduBoardTranscodeFileResult {
     char taskId[32];                        ///< 任务ID
     TEduBoardFileTranscodeStatus status;    ///< 转码状态
-    double progress;                        ///< 转码进度
+    double progress;                        ///< 转码进度，取值范围 [0, 100]
     char title[256];		                ///< 文件标题
     char resolution[32];	                ///< 文件分辨率
     uint32_t pages;			                ///< 文件总页数
