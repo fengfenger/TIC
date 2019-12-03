@@ -3,8 +3,10 @@
 #import "TICRenderView.h"
 #import "TICConfig.h"
 #import "ColorPickViewController.h"
+#import "ThumbItem.h"
+#import <SDWebImage/SDWebImage.h>
 
-@interface ViewController () <TICMessageListener, TICEventListener, TICStatusListener, TEduBoardDelegate, NSTableViewDelegate, NSTableViewDataSource, NSPopoverDelegate>
+@interface ViewController () <TICMessageListener, TICEventListener, TICStatusListener, TEduBoardDelegate, NSTableViewDelegate, NSTableViewDataSource, NSPopoverDelegate, NSCollectionViewDelegate, NSCollectionViewDataSource>
 @property (weak) IBOutlet NSPopUpButton *userPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *cameraPopUpButton;
 @property (weak) IBOutlet NSPopUpButton *micPopUpButton;
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) NSMutableArray *screenArray;
 @property (nonatomic, strong) NSMutableArray *renderViews;
 @property (nonatomic, assign) int setColorIndex;
+@property (nonatomic, strong) NSArray *thumbUrls;
 
 @property (weak) IBOutlet NSTextField *trtcVerLabel;
 @property (weak) IBOutlet NSTextField *imsdkVerLabel;
@@ -61,8 +64,14 @@
 @property (weak) IBOutlet NSButton *redoButton;
 @property (weak) IBOutlet NSButton *resetStepButton;
 @property (weak) IBOutlet NSView *boardGroupContainer;
+@property (weak) IBOutlet NSCollectionView *thumbView;
+@property (weak) IBOutlet NSTextField *thumbTip;
+@property (weak) IBOutlet NSTextField *h5FileTextField;
+@property (weak) IBOutlet NSTextField *videoTextField;
+@property (weak) IBOutlet NSButton *goBackButton;
+@property (weak) IBOutlet NSButton *goForwardButton;
 
-//视频tab啊扭
+//视频tab
 @property (weak) IBOutlet NSButton *cameraButton;
 @property (weak) IBOutlet NSButton *micButton;
 @property (weak) IBOutlet NSButton *screenButton;
@@ -81,6 +90,7 @@
     [self setupMics];
     [self setupScreens];
     [self setupToolTypes];
+    [self setupThumbView];
     
     //版本信息
     self.trtcVerLabel.stringValue = [TRTCCloud getSDKVersion];
@@ -439,6 +449,7 @@
 
 #pragma mark - 文件
 
+
 - (IBAction)onAddFile:(id)sender {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setMessage:@"选择ppt/pdf"];
@@ -448,7 +459,9 @@
             NSString *path = [url path];
             NSString *ext = [[path pathExtension] lowercaseString];
             if([ext isEqualToString:@"ppt"] || [ext isEqualToString:@"pptx"] || [ext isEqualToString:@"pdf"]) {
-                [[[TICManager sharedInstance] getBoardController] applyFileTranscode:path config:nil];
+                TEduBoardTranscodeConfig *config = [[TEduBoardTranscodeConfig alloc] init];
+                config.thumbnailResolution = @"200x200";
+                [[[TICManager sharedInstance] getBoardController] applyFileTranscode:path config:config];
             }
             else{
                 [self showAlert:TICMODULE_TIC code:-1 desc:@"请选择ppt/pptx/pdf格式文件"];
@@ -461,7 +474,8 @@
     NSInteger index = self.fileTableView.selectedRow;
     if(index >= 0){
         NSArray<TEduBoardFileInfo *> *files = [[[TICManager sharedInstance] getBoardController] getFileInfoList];
-        [[[TICManager sharedInstance] getBoardController] switchFile:files[index].fileId];
+        NSString *fileId = files[index].fileId;
+        [[[TICManager sharedInstance] getBoardController] switchFile:fileId];
     }
 }
 - (IBAction)onDeleteFile:(id)sender {
@@ -472,6 +486,15 @@
     }
 }
 
+- (IBAction)onAddH5File:(id)sender {
+    NSString *url = self.h5FileTextField.stringValue;
+    [[[TICManager sharedInstance] getBoardController] addH5File:url];
+}
+
+- (IBAction)onAddVideo:(id)sender {
+    NSString *url = self.videoTextField.stringValue;
+    [[[TICManager sharedInstance] getBoardController] addVideoFile:url];
+}
 #pragma mark - 白板和文件列表
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -750,6 +773,25 @@
     //更新列表
     [self.fileTableView reloadData];
     [self.boardTableView reloadData];
+    NSString *fileId = [[[TICManager sharedInstance] getBoardController] getCurrentFile];
+    [self loadThumb:fileId];
+}
+
+- (void)onTEBH5FileStatusChanged:(NSString *)fileId status:(TEduBoardH5FileStatus)status
+{
+    if(status == TEDU_BOARD_H5_FILE_STATUS_LOADED){
+        [self.fileTableView reloadData];
+        TEduBoardController *controller = [[TICManager sharedInstance] getBoardController];
+//        self.goForwardButton.enabled = [controller canGoForward];
+//        self.goBackButton.enabled = [controller canGoBack];
+    }
+}
+
+- (void)onTEBVideoStatusChanged:(NSString *)fileId status:(TEduBoardVideoStatus)status progress:(CGFloat)progress duration:(CGFloat)duration
+{
+    if(status == TEDU_BOARD_VIDEO_STATUS_LOADED){
+        [self.fileTableView reloadData];
+    }
 }
 
 - (void)onTEBFileTranscodeProgress:(TEduBoardTranscodeFileResult *)result path:(NSString *)path errorCode:(NSString *)errorCode errorMsg:(NSString *)errorMsg
@@ -847,5 +889,48 @@
 }
 
 
+#pragma mark -缩略图
 
+- (void)onTEBSwitchFile:(NSString *)fileId
+{
+    [self loadThumb:fileId];
+}
+
+- (void)setupThumbView{
+    self.thumbTip.stringValue = @"文件缩略图";
+    self.thumbView.delegate = self;
+    self.thumbView.dataSource = self;
+    [self.thumbView setSelectable:YES];
+    [self.thumbView registerClass:[ThumbItem class] forItemWithIdentifier:@"ThumbItem"];
+}
+
+- (void)loadThumb:(NSString *)fid {
+    self.thumbUrls = [[[TICManager sharedInstance] getBoardController] getThumbnailImages:fid];
+    if(self.thumbUrls.count != 0){
+        self.thumbTip.stringValue = @"";
+    }
+    else {
+        self.thumbTip.stringValue = @"该文件不支持缩略图";
+    }
+    [self.thumbView reloadData];
+}
+
+- (NSInteger)collectionView:(nonnull NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.thumbUrls.count;
+}
+
+- (nonnull NSCollectionViewItem *)collectionView:(nonnull NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    ThumbItem *item = [collectionView makeItemWithIdentifier:@"ThumbItem" forIndexPath:indexPath];
+    NSString *url = self.thumbUrls[indexPath.item];
+    [item.imageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    return item;
+}
+
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths{
+    TEduBoardController *controller = [[TICManager sharedInstance] getBoardController];
+    NSString *fileId = [controller getCurrentFile];
+    NSArray *boarIds = [controller getFileBoardList:fileId];
+    NSString *boardId = boarIds[indexPaths.allObjects[0].item];
+    [controller gotoBoard:boardId];
+}
 @end

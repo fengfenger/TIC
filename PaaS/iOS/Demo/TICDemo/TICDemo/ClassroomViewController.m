@@ -97,9 +97,11 @@ static const NSString *staticClassID = @"";
 
 - (void)onQuitClassRoom
 {
+    [[[TICManager sharedInstance] getBoardController] removeDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[TICManager sharedInstance] removeEventListener:self];
     [[TICManager sharedInstance] removeMessageListener:self];
+    __weak typeof(self) ws = self;
     [[TICManager sharedInstance] quitClassroom:NO callback:^(TICModule module, int code, NSString *desc) {
         if(code == 0){
             //退出课堂成功
@@ -107,8 +109,8 @@ static const NSString *staticClassID = @"";
         else{
             //退出课堂失败
         }
+        [ws.navigationController popViewControllerAnimated:YES];
     }];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)onMenu
