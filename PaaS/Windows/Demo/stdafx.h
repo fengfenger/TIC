@@ -38,7 +38,6 @@
 
 #define WM_UPDATE_THUMB_IMAGE WM_USER+100
 
-#define TEMP_PIC_DIR "./temp_pic/"
 #define ThumpWidth 134
 #define ThumpHeight 75
 

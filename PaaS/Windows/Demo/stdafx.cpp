@@ -73,8 +73,13 @@ void stretchImage(CImage *pImage, CImage *ResultImage, int outWidth, int outHeig
 
 static std::string createLocalPath(std::string strImgUrl)
 {
+	//获取系统的临时目录
+	char tempPath[MAX_PATH] = { 0 };
+	DWORD dwSize = ::GetTempPathA(MAX_PATH, tempPath);
+
 	// 判断文件夹是否存在
-	std::string folderPath = TEMP_PIC_DIR;
+	std::string folderPath = tempPath;
+	folderPath += "tic_demo\\";
 	if (_access(folderPath.c_str(), 0) == -1)
 	{
 		int flag = _mkdir(folderPath.c_str());
