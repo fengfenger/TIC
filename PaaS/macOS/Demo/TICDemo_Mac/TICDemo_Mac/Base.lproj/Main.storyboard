@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -686,11 +686,11 @@
             <objects>
                 <viewController id="oOV-ii-3UA" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="1em-ql-Epg">
-                        <rect key="frame" x="0.0" y="0.0" width="1086" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1086" height="653"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box fixedFrame="YES" title="用户" translatesAutoresizingMaskIntoConstraints="NO" id="zcd-Jh-J0G">
-                                <rect key="frame" x="17" y="443" width="159" height="157"/>
+                                <rect key="frame" x="17" y="476" width="159" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="O0A-dK-npn">
                                     <rect key="frame" x="3" y="3" width="153" height="139"/>
@@ -737,17 +737,17 @@
                                 </view>
                             </box>
                             <tabView fixedFrame="YES" initialItem="Mne-Cr-wqg" translatesAutoresizingMaskIntoConstraints="NO" id="pdN-bG-dtk">
-                                <rect key="frame" x="174" y="26" width="865" height="576"/>
+                                <rect key="frame" x="174" y="37" width="865" height="598"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="视频" identifier="" id="Mne-Cr-wqg">
                                         <view key="view" id="g2E-mk-XZD">
-                                            <rect key="frame" x="10" y="33" width="845" height="530"/>
+                                            <rect key="frame" x="10" y="33" width="845" height="552"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bCk-2Y-sh0" customClass="TICRenderView">
-                                                    <rect key="frame" x="17" y="403" width="212" height="121"/>
+                                                    <rect key="frame" x="17" y="425" width="212" height="121"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5y-9t-65A">
@@ -762,7 +762,7 @@
                                                     </subviews>
                                                 </customView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UlA-lk-qX8" customClass="TICRenderView">
-                                                    <rect key="frame" x="17" y="274" width="212" height="121"/>
+                                                    <rect key="frame" x="17" y="296" width="212" height="121"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApE-lY-WqD">
@@ -777,7 +777,7 @@
                                                     </subviews>
                                                 </customView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VGp-pc-jCj" customClass="TICRenderView">
-                                                    <rect key="frame" x="17" y="145" width="212" height="121"/>
+                                                    <rect key="frame" x="17" y="167" width="212" height="121"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vi7-5Q-Wbs">
@@ -792,7 +792,7 @@
                                                     </subviews>
                                                 </customView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWn-zw-vNm" customClass="TICRenderView">
-                                                    <rect key="frame" x="17" y="16" width="212" height="121"/>
+                                                    <rect key="frame" x="17" y="38" width="212" height="121"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l6l-H3-zB5">
@@ -807,7 +807,7 @@
                                                     </subviews>
                                                 </customView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SdW-Yk-iRL" customClass="TICRenderView">
-                                                    <rect key="frame" x="237" y="145" width="591" height="379"/>
+                                                    <rect key="frame" x="237" y="167" width="591" height="379"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUl-jY-9Y7">
@@ -822,7 +822,7 @@
                                                     </subviews>
                                                 </customView>
                                                 <box fixedFrame="YES" title="摄像头" translatesAutoresizingMaskIntoConstraints="NO" id="WHQ-wb-HA7">
-                                                    <rect key="frame" x="259" y="25" width="179" height="100"/>
+                                                    <rect key="frame" x="259" y="47" width="179" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <view key="contentView" id="BG3-Dt-4ML">
                                                         <rect key="frame" x="3" y="3" width="173" height="83"/>
@@ -859,7 +859,7 @@
                                                     <font key="titleFont" size="11" name=".PingFangSC-Regular"/>
                                                 </box>
                                                 <box fixedFrame="YES" title="屏幕分享" translatesAutoresizingMaskIntoConstraints="NO" id="BSv-tY-gYZ">
-                                                    <rect key="frame" x="629" y="25" width="176" height="100"/>
+                                                    <rect key="frame" x="629" y="47" width="176" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <view key="contentView" id="Oqg-yV-XhY">
                                                         <rect key="frame" x="3" y="3" width="170" height="83"/>
@@ -896,7 +896,7 @@
                                                     <font key="titleFont" size="11" name=".PingFangSC-Regular"/>
                                                 </box>
                                                 <box fixedFrame="YES" title="麦克风" translatesAutoresizingMaskIntoConstraints="NO" id="cjy-Qb-48j">
-                                                    <rect key="frame" x="449" y="25" width="167" height="100"/>
+                                                    <rect key="frame" x="449" y="47" width="167" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <view key="contentView" id="MIW-Tj-Ido">
                                                         <rect key="frame" x="3" y="3" width="161" height="83"/>
@@ -937,21 +937,21 @@
                                     </tabViewItem>
                                     <tabViewItem label="白板" identifier="" id="OjT-Uw-0QA">
                                         <view key="view" ambiguous="YES" id="hBC-xS-aCa">
-                                            <rect key="frame" x="10" y="33" width="845" height="530"/>
+                                            <rect key="frame" x="10" y="33" width="845" height="552"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a8X-ze-65Q">
-                                                    <rect key="frame" x="576" y="1" width="267" height="532"/>
+                                                    <rect key="frame" x="576" y="1" width="267" height="554"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                     <tabViewItems>
                                                         <tabViewItem label="涂鸦" identifier="" id="7YQ-nr-NQd">
                                                             <view key="view" id="aFg-uR-S4S">
-                                                                <rect key="frame" x="10" y="33" width="247" height="486"/>
+                                                                <rect key="frame" x="10" y="33" width="247" height="508"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHY-oY-2M3">
-                                                                        <rect key="frame" x="-3" y="-3" width="253" height="492"/>
+                                                                        <rect key="frame" x="-3" y="19" width="253" height="492"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="uyJ-ds-XOl">
                                                                             <rect key="frame" x="0.0" y="0.0" width="253" height="492"/>
@@ -1187,11 +1187,11 @@
                                                                                 </view>
                                                                             </subviews>
                                                                         </clipView>
-                                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qBN-sO-9FS">
+                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="qBN-sO-9FS">
                                                                             <rect key="frame" x="-100" y="-100" width="238" height="15"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
-                                                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Tnn-Kr-Gbi">
+                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Tnn-Kr-Gbi">
                                                                             <rect key="frame" x="-100" y="-100" width="15" height="492"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
@@ -1201,11 +1201,11 @@
                                                         </tabViewItem>
                                                         <tabViewItem label="白板" identifier="" id="syL-QP-MhQ">
                                                             <view key="view" id="sJw-4d-rpB">
-                                                                <rect key="frame" x="10" y="33" width="247" height="486"/>
+                                                                <rect key="frame" x="10" y="33" width="247" height="508"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4DL-ce-LmF">
-                                                                        <rect key="frame" x="-3" y="-3" width="253" height="492"/>
+                                                                        <rect key="frame" x="-3" y="19" width="253" height="492"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="IMu-zY-hUu">
                                                                             <rect key="frame" x="0.0" y="0.0" width="253" height="492"/>
@@ -1356,11 +1356,11 @@
                                                                                                     </tableView>
                                                                                                 </subviews>
                                                                                             </clipView>
-                                                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Tcd-Nx-GZi">
+                                                                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tcd-Nx-GZi">
                                                                                                 <rect key="frame" x="1" y="118" width="179" height="16"/>
                                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                             </scroller>
-                                                                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Cmk-o4-lt9">
+                                                                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Cmk-o4-lt9">
                                                                                                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                             </scroller>
@@ -1373,11 +1373,11 @@
                                                                                 </view>
                                                                             </subviews>
                                                                         </clipView>
-                                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="M39-Uz-qPB">
+                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="M39-Uz-qPB">
                                                                             <rect key="frame" x="-100" y="-100" width="253" height="15"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
-                                                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="tUW-6c-ORA">
+                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="tUW-6c-ORA">
                                                                             <rect key="frame" x="-100" y="-100" width="15" height="477"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
@@ -1387,11 +1387,11 @@
                                                         </tabViewItem>
                                                         <tabViewItem label="文件" identifier="" id="AC3-jS-5RA">
                                                             <view key="view" ambiguous="YES" id="srb-eL-SWA">
-                                                                <rect key="frame" x="10" y="33" width="247" height="486"/>
+                                                                <rect key="frame" x="10" y="33" width="247" height="508"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pbk-eR-TUH">
-                                                                        <rect key="frame" x="-3" y="-3" width="253" height="492"/>
+                                                                        <rect key="frame" x="-3" y="19" width="253" height="492"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="tWh-6p-hW9">
                                                                             <rect key="frame" x="0.0" y="0.0" width="253" height="492"/>
@@ -1523,11 +1523,11 @@
                                                                                                     </tableView>
                                                                                                 </subviews>
                                                                                             </clipView>
-                                                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Plf-lg-GjN">
+                                                                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Plf-lg-GjN">
                                                                                                 <rect key="frame" x="1" y="118" width="216" height="16"/>
                                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                             </scroller>
-                                                                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="bQg-Kk-pny">
+                                                                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="bQg-Kk-pny">
                                                                                                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                             </scroller>
@@ -1536,15 +1536,106 @@
                                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                             </tableHeaderView>
                                                                                         </scrollView>
+                                                                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exm-sv-eXa">
+                                                                                            <rect key="frame" x="20" y="213" width="146" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="https://cloud.tencent.com/solution/tic" placeholderString="h5" drawsBackground="YES" id="LsT-3h-u23">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1CC-6Q-dGY">
+                                                                                            <rect key="frame" x="174" y="213" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="添加H5" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OWn-fB-Gt1">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onAddH5File:" target="oOV-ii-3UA" id="uGI-X3-vgr"/>
+                                                                                            </connections>
+                                                                                        </button>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h6l-OA-KMs">
+                                                                                            <rect key="frame" x="20" y="175" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="后退" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yna-7p-fg4">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onGoBack:" target="oOV-ii-3UA" id="YC0-5g-C2d"/>
+                                                                                            </connections>
+                                                                                        </button>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vsn-1d-PCT">
+                                                                                            <rect key="frame" x="174" y="175" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="刷新" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Thz-LB-M2j">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onReload:" target="oOV-ii-3UA" id="PFM-7o-fGn"/>
+                                                                                            </connections>
+                                                                                        </button>
+                                                                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MQ1-Yc-ugq">
+                                                                                            <rect key="frame" x="20" y="125" width="146" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4" placeholderString="mp4/m3u8" drawsBackground="YES" id="j8R-aJ-LON">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P1t-cl-AkI">
+                                                                                            <rect key="frame" x="174" y="127" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="添加视频" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vwz-ft-LOL">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onAddVideo:" target="oOV-ii-3UA" id="fqy-Rv-huw"/>
+                                                                                            </connections>
+                                                                                        </button>
+                                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="amW-CO-iEw">
+                                                                                            <rect key="frame" x="20" y="253" width="218" height="2"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" drawsBackground="YES" id="sEm-zY-2sv">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3hm-3c-fIs">
+                                                                                            <rect key="frame" x="20" y="165" width="218" height="2"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" drawsBackground="YES" id="KOl-YK-VK4">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tjH-gq-721">
+                                                                                            <rect key="frame" x="97" y="175" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="前进" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="s3y-ye-Vfa">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onGoForward:" target="oOV-ii-3UA" id="Js7-UC-NAb"/>
+                                                                                            </connections>
+                                                                                        </button>
                                                                                     </subviews>
                                                                                 </view>
                                                                             </subviews>
                                                                         </clipView>
-                                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="wYX-QJ-1fX">
+                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="wYX-QJ-1fX">
                                                                             <rect key="frame" x="-100" y="-100" width="253" height="15"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
-                                                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="fon-L2-OfE">
+                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="fon-L2-OfE">
                                                                             <rect key="frame" x="-100" y="-100" width="15" height="477"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
@@ -1555,37 +1646,37 @@
                                                     </tabViewItems>
                                                 </tabView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YHk-bU-h0J">
-                                                    <rect key="frame" x="17" y="215" width="554" height="312"/>
+                                                    <rect key="frame" x="17" y="237" width="554" height="312"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </customView>
                                                 <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1i-yD-hte">
-                                                    <rect key="frame" x="17" y="47" width="554" height="160"/>
+                                                    <rect key="frame" x="17" y="47" width="554" height="99"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="dzO-Ub-M1j">
-                                                        <rect key="frame" x="1" y="1" width="552" height="158"/>
+                                                        <rect key="frame" x="1" y="1" width="537" height="97"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="vI5-pO-Jr0">
-                                                                <rect key="frame" x="0.0" y="0.0" width="552" height="158"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="537" height="97"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
-                                                                <size key="minSize" width="552" height="158"/>
+                                                                <size key="minSize" width="537" height="97"/>
                                                                 <size key="maxSize" width="836" height="10000000"/>
                                                                 <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             </textView>
                                                         </subviews>
                                                     </clipView>
-                                                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="eqG-O5-Ypf">
+                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="eqG-O5-Ypf">
                                                         <rect key="frame" x="-100" y="-100" width="537" height="15"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
-                                                    <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="LTt-jS-XP1">
-                                                        <rect key="frame" x="537" y="1" width="16" height="158"/>
+                                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="LTt-jS-XP1">
+                                                        <rect key="frame" x="538" y="1" width="15" height="97"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                 </scrollView>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEc-lT-hJs">
-                                                    <rect key="frame" x="471" y="11" width="100" height="30"/>
+                                                    <rect key="frame" x="471" y="10" width="100" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" title="发送" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cRI-Vk-oR4">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1604,6 +1695,42 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <scrollView wantsLayer="YES" fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAa-kG-VdK">
+                                                    <rect key="frame" x="17" y="152" width="554" height="84"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <clipView key="contentView" ambiguous="YES" copiesOnScroll="NO" id="5Zo-EB-RUc">
+                                                        <rect key="frame" x="0.0" y="0.0" width="554" height="84"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <collectionView ambiguous="YES" id="xBw-Ia-I9l">
+                                                                <rect key="frame" x="0.0" y="0.0" width="554" height="84"/>
+                                                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                                <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="z8n-31-RQc">
+                                                                    <size key="itemSize" width="100" height="100"/>
+                                                                </collectionViewFlowLayout>
+                                                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </collectionView>
+                                                        </subviews>
+                                                        <color key="backgroundColor" name="quaternaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    </clipView>
+                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="cvd-6l-qFB">
+                                                        <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1nv-kh-61N">
+                                                        <rect key="frame" x="-100" y="-100" width="15" height="84"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                </scrollView>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEY-fl-fDE">
+                                                    <rect key="frame" x="183" y="187" width="223" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="文件缩略图" id="hPg-9Z-nLO">
+                                                        <font key="font" size="15" name=".PingFangSC-Regular"/>
+                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1619,10 +1746,10 @@
                                 </textFieldCell>
                             </textField>
                             <box fixedFrame="YES" title="版本" translatesAutoresizingMaskIntoConstraints="NO" id="xQt-wE-vPf">
-                                <rect key="frame" x="17" y="32" width="159" height="148"/>
+                                <rect key="frame" x="17" y="43" width="159" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="RsJ-lw-f4h">
-                                    <rect key="frame" x="3" y="3" width="153" height="131"/>
+                                    <rect key="frame" x="3" y="3" width="153" height="153"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6f-xM-DcP">
@@ -1693,7 +1820,7 @@
                                 <font key="titleFont" size="11" name=".PingFangSC-Regular"/>
                             </box>
                             <box fixedFrame="YES" title="房间" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-UA-nnN">
-                                <rect key="frame" x="17" y="189" width="159" height="238"/>
+                                <rect key="frame" x="17" y="222" width="159" height="238"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="6UE-Cy-8zZ">
                                     <rect key="frame" x="3" y="3" width="153" height="220"/>
@@ -1769,7 +1896,10 @@
                         <outlet property="chatTextView" destination="vI5-pO-Jr0" id="K1U-Yr-myJ"/>
                         <outlet property="classIdTextField" destination="zJU-BZ-yh0" id="SdJ-Zn-hUK"/>
                         <outlet property="fileTableView" destination="nad-aL-ywR" id="skA-ph-P0Z"/>
+                        <outlet property="goBackButton" destination="h6l-OA-KMs" id="58u-qz-MOB"/>
+                        <outlet property="goForwardButton" destination="tjH-gq-721" id="pUC-Y0-xCZ"/>
                         <outlet property="h5BackTextField" destination="YVX-Dz-eyL" id="idg-Fn-VaF"/>
+                        <outlet property="h5FileTextField" destination="exm-sv-eXa" id="WJ6-qr-049"/>
                         <outlet property="imsdkVerLabel" destination="dJf-tb-I1K" id="DNn-tI-23l"/>
                         <outlet property="joinRoomButton" destination="dQ3-mH-Dwr" id="CWu-47-ycK"/>
                         <outlet property="localView" destination="ZWn-zw-vNm" id="yFP-4P-jnb"/>
@@ -1789,17 +1919,20 @@
                         <outlet property="screenPopUpButton" destination="h2i-OY-LhE" id="YbI-wm-P3p"/>
                         <outlet property="screenView" destination="SdW-Yk-iRL" id="neo-wT-K6H"/>
                         <outlet property="textColorTextField" destination="wON-r4-Vw0" id="SYF-Yv-oTw"/>
+                        <outlet property="thumbTip" destination="IEY-fl-fDE" id="War-Ff-cg8"/>
+                        <outlet property="thumbView" destination="xBw-Ia-I9l" id="CE9-f9-gco"/>
                         <outlet property="toolTypePopUpButton" destination="kbN-e6-qUZ" id="j3q-K7-rQh"/>
                         <outlet property="trtcVerLabel" destination="Hzp-Mi-aA7" id="Arq-df-yPj"/>
                         <outlet property="undoButton" destination="rxf-Y8-MXy" id="jNT-Vq-MSV"/>
                         <outlet property="userGroupContainer" destination="O0A-dK-npn" id="OZh-02-6dl"/>
                         <outlet property="userPopUpButton" destination="eeB-t7-3rp" id="EGj-j1-JGo"/>
                         <outlet property="videoGroupContainer" destination="g2E-mk-XZD" id="IEB-pA-2Rl"/>
+                        <outlet property="videoTextField" destination="MQ1-Yc-ugq" id="CQz-JI-KGA"/>
                     </connections>
                 </viewController>
                 <customObject id="iBS-j4-U8k" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="905" y="495"/>
+            <point key="canvasLocation" x="806" y="441.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
