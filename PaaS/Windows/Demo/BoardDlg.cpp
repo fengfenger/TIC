@@ -607,6 +607,7 @@ void CFileTabDlg::OnBnClickedBtnAddVideo()
 BEGIN_MESSAGE_MAP(CBoardDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
+	ON_MESSAGE(WM_UPDATE_THUMB_IMAGE, &CBoardDlg::OnUpdateThumImage)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_BOARD, &CBoardDlg::OnTabSelChange)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_THUMB, &CBoardDlg::OnLVNItemChangedListCtrl)
 END_MESSAGE_MAP()
@@ -763,43 +764,16 @@ void CBoardDlg::UpdateThumbnailImages()
 	}
 	listThumb_.ShowWindow(SW_SHOW);
 
-	//下载缩略图
-	for (uint32_t i = 0; i < vecImages.size(); ++i)
-	{
-		vecImages[i] = savePic(vecImages[i]);
-	}
-
-	//更新list
-	listThumb_.SetRedraw(FALSE);
-	listThumb_.DeleteAllItems();
-
-	while (imageList_.GetImageCount() > 0)
-	{
-		imageList_.Remove(0);
-	}
-
-	for (uint32_t i = 0; i < vecImages.size(); ++i)
-	{
-		CImage srcImage, tempImg;
-		srcImage.Load(a2w(vecImages[i]).c_str());
-		stretchImage(&srcImage, &tempImg, ThumpWidth, ThumpHeight);
-
-		CBitmap tempBitmap;
-		HBITMAP hbmp = (HBITMAP)tempImg;
-		tempBitmap.DeleteObject();
-		tempBitmap.Attach(hbmp);
-
-		imageList_.Add(&tempBitmap, RGB(0, 0, 0));
-
-		LVITEM lvItem = { 0 };
-		lvItem.mask = LVIF_IMAGE | LVIF_STATE;   // 图片、状态
-		lvItem.iItem = i;						 // 行号
-		lvItem.iImage = i;                       // 图片索引号
-		lvItem.iSubItem = 0;                     // 子列号
-		int nRow = listThumb_.InsertItem(&lvItem); // 为列表增加项
-	}
-
-	listThumb_.SetRedraw(TRUE);
+	//异步下载缩略图
+	std::thread th([this, vecImages]() {
+		std::vector<std::string> *pVecResult = new std::vector<std::string>();
+		for (uint32_t i = 0; i < vecImages.size(); ++i)
+		{
+			pVecResult->push_back(savePic(vecImages[i]));
+		}
+		this->PostMessage(WM_UPDATE_THUMB_IMAGE, (WPARAM)pVecResult, 0);
+	});
+	th.detach();
 }
 
 void CBoardDlg::OnSize(UINT nType, int cx, int cy)
@@ -887,6 +861,51 @@ void CBoardDlg::OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	*pResult = 0;
+}
+
+LRESULT CBoardDlg::OnUpdateThumImage(WPARAM wParam, LPARAM lParam)
+{
+	std::vector<std::string> *pVecImages = (std::vector<std::string>*)wParam;
+	if (!pVecImages)
+	{
+		return 0;
+	}
+
+	//更新list
+	listThumb_.SetRedraw(FALSE);
+	listThumb_.DeleteAllItems();
+
+	while (imageList_.GetImageCount() > 0)
+	{
+		imageList_.Remove(0);
+	}
+
+	for (uint32_t i = 0; i < pVecImages->size(); ++i)
+	{
+		CImage srcImage, tempImg;
+		srcImage.Load(a2w((*pVecImages)[i]).c_str());
+		stretchImage(&srcImage, &tempImg, ThumpWidth, ThumpHeight);
+
+		CBitmap tempBitmap;
+		HBITMAP hbmp = (HBITMAP)tempImg;
+		tempBitmap.DeleteObject();
+		tempBitmap.Attach(hbmp);
+
+		imageList_.Add(&tempBitmap, RGB(0, 0, 0));
+
+		LVITEM lvItem = { 0 };
+		lvItem.mask = LVIF_IMAGE | LVIF_STATE;   // 图片、状态
+		lvItem.iItem = i;						 // 行号
+		lvItem.iImage = i;                       // 图片索引号
+		lvItem.iSubItem = 0;                     // 子列号
+		int nRow = listThumb_.InsertItem(&lvItem); // 为列表增加项
+	}
+
+	listThumb_.SetRedraw(TRUE);
+
+	delete pVecImages;
+
+	return 0;
 }
 
 void CBoardDlg::onTEBError(TEduBoardErrorCode code, const char * msg)

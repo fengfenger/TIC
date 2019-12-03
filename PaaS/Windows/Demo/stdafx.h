@@ -32,8 +32,11 @@
 #include <io.h>
 #include <direct.h>
 #include <afxinet.h>
+#include <thread>
 
 #include "..\SDK\TIC\TICManager.h"
+
+#define WM_UPDATE_THUMB_IMAGE WM_USER+100
 
 #define TEMP_PIC_DIR "./temp_pic/"
 #define ThumpWidth 134
