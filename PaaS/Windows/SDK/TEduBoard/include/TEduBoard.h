@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief ÌÚÑ¶ÔÆ»¥¶¯°×°åSDK for Window/Linux
- * @version 2.3.4.45
+ * @version 2.4.0.59
  */
 
 #pragma once
