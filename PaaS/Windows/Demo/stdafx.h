@@ -29,8 +29,17 @@
 #include <vector>
 #include <functional>
 #include <fstream>
+#include <io.h>
+#include <direct.h>
+#include <afxinet.h>
+#include <thread>
 
 #include "..\SDK\TIC\TICManager.h"
+
+#define WM_UPDATE_THUMB_IMAGE WM_USER+100
+
+#define ThumpWidth 134
+#define ThumpHeight 75
 
 std::wstring a2w(const std::string &str, unsigned int codePage = CP_ACP);
 std::string w2a(const std::wstring &wstr, unsigned int codePage = CP_ACP);
@@ -38,3 +47,7 @@ std::string w2a(const std::wstring &wstr, unsigned int codePage = CP_ACP);
 std::string  i2s(int num);
 
 void showErrorMsg(TICModule module, int code, const char* desc);
+
+void stretchImage(CImage *pImage, CImage *ResultImage, int outWidth, int outHeight);
+
+std::string savePic(std::string strImgUrl);
