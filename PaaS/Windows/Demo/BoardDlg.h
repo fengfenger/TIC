@@ -171,11 +171,15 @@ private:
 
 	void UpdateBoardPos();
 
+	void UpdateThumbnailImages();
+
 	// 消息映射函数
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult);
-
+	afx_msg void OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg LRESULT OnUpdateThumImage(WPARAM wParam, LPARAM lParam);
+	
 	//TEduBoardCallback
 	//通用事件回调
 	virtual void onTEBError(TEduBoardErrorCode code, const char * msg) override;
@@ -211,6 +215,9 @@ private:
 	bool histroySync_;
 
 	CStatic staticBoard_;
+
+	CImageList imageList_;
+	CListCtrl listThumb_;
 
 	CTabCtrl tabBoardCtrl_;
 	CDrawTabDlg		drawTabDlg_;

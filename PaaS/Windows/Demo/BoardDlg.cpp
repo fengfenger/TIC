@@ -325,8 +325,8 @@ void CBoardTabDlg::UpdateBoardList()
 	{
 		listBoard_.SetRedraw(FALSE);
 		listBoard_.ResetContent();
-		auto* boardList = boardCtrl->GetFileBoardList(boardCtrl->GetCurrentFile());
-		if (!boardList) return;
+		std::string fileId = boardCtrl->GetCurrentFile();
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
 		std::string curBoardId = boardCtrl->GetCurrentBoard();
 		for (uint32_t i = 0; i < boardList->GetCount(); ++i)
 		{
@@ -434,10 +434,7 @@ void CBoardTabDlg::OnBnClickedBtnDelBoard()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		auto *boardList = boardCtrl->GetFileBoardList(boardCtrl->GetCurrentFile());
-		if (!boardList) return;
-		boardCtrl->DeleteBoard(boardList->GetString(listBoard_.GetCurSel()));
-		boardList->Release();
+		boardCtrl->DeleteBoard(boardCtrl->GetCurrentBoard());
 	}
 }
 
@@ -552,7 +549,7 @@ void CFileTabDlg::OnBnClickedBtnAddFile()
 			//请求转码; 转码进度通过回调onTEBFileTranscodeProgress()通知;
 			TEduBoardTranscodeConfig config;
 			config.minResolution = "960x540";
-			config.thumbnailResolution = "200x200";
+			config.thumbnailResolution = "200x112";
 			boardCtrl->ApplyFileTranscode(w2a(dlgFile.GetPathName().GetString(), CP_UTF8).c_str(), config);
 		}
 	}
@@ -610,7 +607,9 @@ void CFileTabDlg::OnBnClickedBtnAddVideo()
 BEGIN_MESSAGE_MAP(CBoardDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
+	ON_MESSAGE(WM_UPDATE_THUMB_IMAGE, &CBoardDlg::OnUpdateThumImage)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_BOARD, &CBoardDlg::OnTabSelChange)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_THUMB, &CBoardDlg::OnLVNItemChangedListCtrl)
 END_MESSAGE_MAP()
 
 CBoardDlg::CBoardDlg(CWnd* pParent)
@@ -647,12 +646,8 @@ void CBoardDlg::Init()
 void CBoardDlg::Uninit()
 {
 	histroySync_ = false;
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		boardState_ = BoardState::NotInit;
-		UpdateUI();
-	}
+	boardState_ = BoardState::NotInit;
+	UpdateUI();
 }
 
 void CBoardDlg::UpdateUI()
@@ -678,6 +673,13 @@ void CBoardDlg::UpdateUI()
 BOOL CBoardDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+
+	imageList_.Create(ThumpWidth, ThumpHeight, ILC_COLOR24, 0, 0); //创建图像序列CImageList对象
+	listThumb_.SetExtendedStyle( listThumb_.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_SUBITEMIMAGES);
+	listThumb_.SetImageList(&imageList_, LVSIL_NORMAL);
+	listThumb_.EnableScrollBar(SB_VERT, ESB_DISABLE_BOTH);
+	listThumb_.SetIconSpacing(ThumpWidth + 10, 0);
+	listThumb_.ShowWindow(SW_HIDE);
 
 	//插入TAB页
 	tabBoardCtrl_.InsertItem(0, _T("涂鸦"));
@@ -721,6 +723,8 @@ void CBoardDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TAB_BOARD, tabBoardCtrl_);
 
 	DDX_Control(pDX, IDC_BOARD, staticBoard_);
+
+	DDX_Control(pDX, IDC_LIST_THUMB, listThumb_);
 }
 
 void CBoardDlg::UpdateBoardPos()
@@ -733,6 +737,43 @@ void CBoardDlg::UpdateBoardPos()
 		// 更改白板大小和位置
 		boardCtrl->SetBoardRenderViewPos(0, 0, clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
 	}
+}
+
+void CBoardDlg::UpdateThumbnailImages()
+{
+	//获取白板缩略图列表
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (!boardCtrl) {
+		return;
+	}
+
+	std::string fileId = boardCtrl->GetCurrentFile();
+
+	std::vector<std::string> vecImages;
+	TEduBoardStringList* list = boardCtrl->GetThumbnailImages(fileId.c_str());
+	for (uint32_t i = 0; i < list->GetCount(); ++i)
+	{
+		std::string url = list->GetString(i);
+		vecImages.emplace_back(url);
+	}
+	list->Release();
+
+	if (vecImages.empty()) {
+		listThumb_.ShowWindow(SW_HIDE);
+		return;
+	}
+	listThumb_.ShowWindow(SW_SHOW);
+
+	//异步下载缩略图
+	std::thread th([this, vecImages]() {
+		std::vector<std::string> *pVecResult = new std::vector<std::string>();
+		for (uint32_t i = 0; i < vecImages.size(); ++i)
+		{
+			pVecResult->push_back(savePic(vecImages[i]));
+		}
+		this->PostMessage(WM_UPDATE_THUMB_IMAGE, (WPARAM)pVecResult, 0);
+	});
+	th.detach();
 }
 
 void CBoardDlg::OnSize(UINT nType, int cx, int cy)
@@ -800,6 +841,73 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 }
 
+void CBoardDlg::OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+
+	if (pNMListView->uChanged == LVIF_STATE && pNMListView->uNewState & LVIS_SELECTED)
+	{
+		int index = pNMListView->iItem;
+
+		auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+		if (!boardCtrl) {
+			return;
+		}
+		std::string fileId = boardCtrl->GetCurrentFile();
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
+		std::string boardId = boardList->GetString(index);
+		boardCtrl->GotoBoard(boardId.c_str());
+		boardList->Release();
+	}
+
+	*pResult = 0;
+}
+
+LRESULT CBoardDlg::OnUpdateThumImage(WPARAM wParam, LPARAM lParam)
+{
+	std::vector<std::string> *pVecImages = (std::vector<std::string>*)wParam;
+	if (!pVecImages)
+	{
+		return 0;
+	}
+
+	//更新list
+	listThumb_.SetRedraw(FALSE);
+	listThumb_.DeleteAllItems();
+
+	while (imageList_.GetImageCount() > 0)
+	{
+		imageList_.Remove(0);
+	}
+
+	for (uint32_t i = 0; i < pVecImages->size(); ++i)
+	{
+		CImage srcImage, tempImg;
+		srcImage.Load(a2w((*pVecImages)[i]).c_str());
+		stretchImage(&srcImage, &tempImg, ThumpWidth, ThumpHeight);
+
+		CBitmap tempBitmap;
+		HBITMAP hbmp = (HBITMAP)tempImg;
+		tempBitmap.DeleteObject();
+		tempBitmap.Attach(hbmp);
+
+		imageList_.Add(&tempBitmap, RGB(0, 0, 0));
+
+		LVITEM lvItem = { 0 };
+		lvItem.mask = LVIF_IMAGE | LVIF_STATE;   // 图片、状态
+		lvItem.iItem = i;						 // 行号
+		lvItem.iImage = i;                       // 图片索引号
+		lvItem.iSubItem = 0;                     // 子列号
+		int nRow = listThumb_.InsertItem(&lvItem); // 为列表增加项
+	}
+
+	listThumb_.SetRedraw(TRUE);
+
+	delete pVecImages;
+
+	return 0;
+}
+
 void CBoardDlg::onTEBError(TEduBoardErrorCode code, const char * msg)
 {
 	printf("-----------onTEBError(%d, %s)------------\n", (int)code, msg);
@@ -820,6 +928,7 @@ void CBoardDlg::onTEBHistroyDataSyncCompleted()
 	histroySync_ = true;
 	fileTabDlg_.UpdateFileList();
 	boardTabDlg_.UpdateBoardList();
+	UpdateThumbnailImages();
 }
 
 void CBoardDlg::onTEBSyncData(const char * data)
@@ -902,5 +1011,6 @@ void CBoardDlg::onTEBSwitchFile(const char * fileId)
 	{
 		fileTabDlg_.UpdateFileList();
 		boardTabDlg_.UpdateBoardList();
+		UpdateThumbnailImages();
 	}
 }
