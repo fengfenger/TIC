@@ -78,6 +78,7 @@ git clone https://github.com/tencentyun/TIC.git
 </table>
 
 demo 功能可参考下面的桌面端/移动端使用手册。
+> Demo中视频为标清，正式Saas版本可在约课时指定分辨率以及码率。
 
 **SaaS 方案接入**
 
