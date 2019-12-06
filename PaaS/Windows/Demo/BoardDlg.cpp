@@ -15,9 +15,8 @@ BEGIN_MESSAGE_MAP(CDrawTabDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_TOOL_TYPE, &CDrawTabDlg::OnCbnSelchangeComboToolType)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_BRUSH_THIN, &CDrawTabDlg::OnNMCustomdrawSliderBrushThin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_TEXT_SIZE, &CDrawTabDlg::OnNMCustomdrawSliderTextSize)
-	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CDrawTabDlg::OnBnClickedBtnAddH5Ppt)
-	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CDrawTabDlg::OnBnClickedBtnAddH5Ppt)
 	ON_BN_CLICKED(IDC_BTN_SET_BACK_H5, &CDrawTabDlg::OnBnClickedBtnSetBackH5)
+	ON_BN_CLICKED(IDC_BTN_ADD_IMAGE, &CDrawTabDlg::OnBnClickedBtnAddImage)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_SCALE, &CDrawTabDlg::OnNMCustomdrawSliderScale)
 END_MESSAGE_MAP()
 
@@ -96,10 +95,10 @@ BOOL CDrawTabDlg::OnInitDialog()
 
 	sliderTextSize_.SetRange(1, 1000);
 
-	comboH5_.AddString(_T("https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-38-54/index.html"));
-	comboH5_.AddString(_T("https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-18-25-0/index.html"));
-
 	sliderScale_.SetRange(100, 300);
+
+	editBackH5_.SetWindowText(_T("https://cloud.tencent.com/product/tiw"));
+	editAddImage_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/qcloud.jpg"));
 
 	return TRUE;
 }
@@ -122,8 +121,8 @@ void CDrawTabDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLIDER_BRUSH_THIN, sliderBrushThin_);
 	DDX_Control(pDX, IDC_SLIDER_TEXT_SIZE, sliderTextSize_);
 
-	DDX_Control(pDX, IDC_COMBO_H5, comboH5_);
 	DDX_Control(pDX, IDC_EDIT_BACK_H5, editBackH5_);
+	DDX_Control(pDX, IDC_EDIT_ADD_IMAGE, editAddImage_);
 
 	DDX_Control(pDX, IDC_SLIDER_SCALE, sliderScale_);
 }
@@ -283,18 +282,6 @@ void CDrawTabDlg::OnNMCustomdrawSliderTextSize(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-void CDrawTabDlg::OnBnClickedBtnAddH5Ppt()
-{
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		CString h5Url;
-		comboH5_.GetWindowText(h5Url);
-		std::string url = w2a(h5Url.GetString());
-		boardCtrl->AddH5PPTFile(url.c_str());
-	}
-}
-
 void CDrawTabDlg::OnBnClickedBtnSetBackH5()
 {
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
@@ -304,6 +291,18 @@ void CDrawTabDlg::OnBnClickedBtnSetBackH5()
 		editBackH5_.GetWindowText(h5Url);
 		std::string url = w2a(h5Url.GetString());
 		boardCtrl->SetBackgroundH5(url.c_str());
+	}
+}
+
+void CDrawTabDlg::OnBnClickedBtnAddImage()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString imageUrl;
+		editAddImage_.GetWindowText(imageUrl);
+		std::string url = w2a(imageUrl.GetString());
+		boardCtrl->AddImageElement(url.c_str());
 	}
 }
 
@@ -326,6 +325,8 @@ BEGIN_MESSAGE_MAP(CBoardTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_ADD_BOARD, &CBoardTabDlg::OnBnClickedBtnAddBoard)
 	ON_BN_CLICKED(IDC_BTN_DEL_BOARD, &CBoardTabDlg::OnBnClickedBtnDelBoard)
 	ON_LBN_SELCHANGE(IDC_LIST_BOARD, &CBoardTabDlg::OnLbnSelchangeListBoard)
+	ON_CBN_SELCHANGE(IDC_COMBO_RATIO, &CBoardTabDlg::OnCbnSelchangeComboRatio)
+	ON_CBN_SELCHANGE(IDC_COMBO_FIT_MODE, &CBoardTabDlg::OnCbnSelchangeComboFitMode)
 END_MESSAGE_MAP()
 
 CBoardTabDlg::CBoardTabDlg(CWnd* pParent /*= nullptr*/)
@@ -341,8 +342,8 @@ void CBoardTabDlg::UpdateBoardList()
 	{
 		listBoard_.SetRedraw(FALSE);
 		listBoard_.ResetContent();
-		auto* boardList = boardCtrl->GetFileBoardList(boardCtrl->GetCurrentFile());
-		if (!boardList) return;
+		std::string fileId = boardCtrl->GetCurrentFile();
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
 		std::string curBoardId = boardCtrl->GetCurrentBoard();
 		for (uint32_t i = 0; i < boardList->GetCount(); ++i)
 		{
@@ -355,9 +356,35 @@ void CBoardTabDlg::UpdateBoardList()
 	}
 }
 
+void CBoardTabDlg::UpdateBoardRatio()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	std::string ratio = boardCtrl->GetBoardRatio();
+	if (ratio == "16:9") {
+		comboRatio_.SetCurSel(0);
+	}
+	else {
+		comboRatio_.SetCurSel(1);
+	}
+}
+
+void CBoardTabDlg::UpdateBoardContentFitMode()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	comboFitMode_.SetCurSel(boardCtrl->GetBoardContentFitMode());
+}
+
 BOOL CBoardTabDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+
+	comboRatio_.AddString(_T("16:9"));
+	comboRatio_.AddString(_T("4:3"));
+	comboRatio_.SetCurSel(0);
+
+	comboFitMode_.AddString(_T("填满白板"));
+	comboFitMode_.AddString(_T("填满容器"));
+	comboFitMode_.AddString(_T("覆盖容器"));
 
 	return TRUE;
 }
@@ -368,6 +395,8 @@ void CBoardTabDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_CHK_REST_STEP, chkResetStep_);
 	DDX_Control(pDX, IDC_LIST_BOARD, listBoard_);
+	DDX_Control(pDX, IDC_COMBO_FIT_MODE, comboFitMode_);
+	DDX_Control(pDX, IDC_COMBO_RATIO, comboRatio_);
 }
 
 void CBoardTabDlg::OnBnClickedBtnPrevBoard()
@@ -422,10 +451,7 @@ void CBoardTabDlg::OnBnClickedBtnDelBoard()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		auto *boardList = boardCtrl->GetFileBoardList(boardCtrl->GetCurrentFile());
-		if (!boardList) return;
-		boardCtrl->DeleteBoard(boardList->GetString(listBoard_.GetCurSel()));
-		boardList->Release();
+		boardCtrl->DeleteBoard(boardCtrl->GetCurrentBoard());
 	}
 }
 
@@ -440,10 +466,35 @@ void CBoardTabDlg::OnLbnSelchangeListBoard()
 	}
 }
 
+void CBoardTabDlg::OnCbnSelchangeComboRatio()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		if (comboRatio_.GetCurSel() == 0) {
+			boardCtrl->SetBoardRatio("16:9");
+		}
+		else {
+			boardCtrl->SetBoardRatio("4:3");
+		}
+	}
+}
+
+void CBoardTabDlg::OnCbnSelchangeComboFitMode()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		boardCtrl->SetBoardContentFitMode((TEduBoardContentFitMode)(comboFitMode_.GetCurSel()));
+	}
+}
+
 BEGIN_MESSAGE_MAP(CFileTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_ADD_FILE, &CFileTabDlg::OnBnClickedBtnAddFile)
 	ON_BN_CLICKED(IDC_BTN_DEL_FILE, &CFileTabDlg::OnBnClickedBtnDelFile)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FILE, &CFileTabDlg::OnNMDbClkListFile)
+	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5)
+	ON_BN_CLICKED(IDC_BTN_ADD_VIDEO, &CFileTabDlg::OnBnClickedBtnAddVideo)
 END_MESSAGE_MAP()
 
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
@@ -488,6 +539,10 @@ BOOL CFileTabDlg::OnInitDialog()
 	listFile_.InsertColumn(1, _T("文件名"), LVCFMT_LEFT, 100);
 	listFile_.InsertColumn(2, _T("页码"), LVCFMT_LEFT, 72);
 
+	editAddH5_.SetWindowText(_T("https://cloud.tencent.com/solution/tic"));
+
+	editAddVideo_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4"));
+
 	return TRUE;
 }
 
@@ -496,6 +551,8 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
+	DDX_Control(pDX, IDC_EDIT_ADD_H5, editAddH5_);
+	DDX_Control(pDX, IDC_EDIT_ADD_VIDEO, editAddVideo_);
 }
 
 void CFileTabDlg::OnBnClickedBtnAddFile()
@@ -503,10 +560,14 @@ void CFileTabDlg::OnBnClickedBtnAddFile()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.*||"), NULL);
+		CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("All Files (*.*)|*.ppt;*.pptx;*.doc;*.docx;*.pdf||"), NULL);
 		if (dlgFile.DoModal() == IDOK)
 		{
-			boardCtrl->AddFile(w2a(dlgFile.GetPathName().GetString(), CP_UTF8).c_str());
+			//请求转码; 转码进度通过回调onTEBFileTranscodeProgress()通知;
+			TEduBoardTranscodeConfig config;
+			config.minResolution = "960x540";
+			config.thumbnailResolution = "200x112";
+			boardCtrl->ApplyFileTranscode(w2a(dlgFile.GetPathName().GetString(), CP_UTF8).c_str(), config);
 		}
 	}
 }
@@ -537,12 +598,35 @@ void CFileTabDlg::OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
+void CFileTabDlg::OnBnClickedBtnAddH5()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString h5Url;
+		editAddH5_.GetWindowText(h5Url);
+		std::string url = w2a(h5Url.GetString());
+		boardCtrl->AddH5File(url.c_str());
+	}
+}
+
+void CFileTabDlg::OnBnClickedBtnAddVideo()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString videoUrl;
+		editAddVideo_.GetWindowText(videoUrl);
+		boardCtrl->AddVideoFile(w2a(videoUrl.GetString()).c_str());
+	}
+}
+
 BEGIN_MESSAGE_MAP(CBoardDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
+	ON_MESSAGE(WM_UPDATE_THUMB_IMAGE, &CBoardDlg::OnUpdateThumImage)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_BOARD, &CBoardDlg::OnTabSelChange)
-	ON_CBN_SELCHANGE(IDC_COMBO_RATIO, &CBoardDlg::OnCbnSelchangeComboRatio)
-	ON_CBN_SELCHANGE(IDC_COMBO_FIT_MODE, &CBoardDlg::OnCbnSelchangeComboFitMode)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_THUMB, &CBoardDlg::OnLVNItemChangedListCtrl)
 END_MESSAGE_MAP()
 
 CBoardDlg::CBoardDlg(CWnd* pParent)
@@ -559,7 +643,7 @@ void CBoardDlg::Init()
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		comboFitMode_.SetCurSel(boardCtrl->GetBoardContentFitMode());
+		boardTabDlg_.UpdateBoardContentFitMode();
 
 		drawTabDlg_.Init();
 
@@ -579,12 +663,8 @@ void CBoardDlg::Init()
 void CBoardDlg::Uninit()
 {
 	histroySync_ = false;
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
-	{
-		boardState_ = BoardState::NotInit;
-		UpdateUI();
-	}
+	boardState_ = BoardState::NotInit;
+	UpdateUI();
 }
 
 void CBoardDlg::UpdateUI()
@@ -610,6 +690,13 @@ void CBoardDlg::UpdateUI()
 BOOL CBoardDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+
+	imageList_.Create(ThumpWidth, ThumpHeight, ILC_COLOR24, 0, 0); //创建图像序列CImageList对象
+	listThumb_.SetExtendedStyle( listThumb_.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_SUBITEMIMAGES);
+	listThumb_.SetImageList(&imageList_, LVSIL_NORMAL);
+	listThumb_.EnableScrollBar(SB_VERT, ESB_DISABLE_BOTH);
+	listThumb_.SetIconSpacing(ThumpWidth + 10, 0);
+	listThumb_.ShowWindow(SW_HIDE);
 
 	//插入TAB页
 	tabBoardCtrl_.InsertItem(0, _T("涂鸦"));
@@ -641,14 +728,6 @@ BOOL CBoardDlg::OnInitDialog()
 	fileTabDlg_.MoveWindow(&clientRect);
 	fileTabDlg_.ShowWindow(SW_HIDE);
 
-	comboRatio_.AddString(_T("16:9"));
-	comboRatio_.AddString(_T("4:3"));
-	comboRatio_.SetCurSel(0);
-
-	comboFitMode_.AddString(_T("填满白板"));
-	comboFitMode_.AddString(_T("填满容器"));
-	comboFitMode_.AddString(_T("覆盖容器"));
-
 	UpdateUI();
 
 	return TRUE;
@@ -662,8 +741,7 @@ void CBoardDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_BOARD, staticBoard_);
 
-	DDX_Control(pDX, IDC_COMBO_FIT_MODE, comboFitMode_);
-	DDX_Control(pDX, IDC_COMBO_RATIO, comboRatio_);
+	DDX_Control(pDX, IDC_LIST_THUMB, listThumb_);
 }
 
 void CBoardDlg::UpdateBoardPos()
@@ -678,16 +756,41 @@ void CBoardDlg::UpdateBoardPos()
 	}
 }
 
-void CBoardDlg::UpdateBoardRatio()
+void CBoardDlg::UpdateThumbnailImages()
 {
+	//获取白板缩略图列表
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	std::string ratio = boardCtrl->GetBoardRatio();
-	if (ratio == "16:9") {
-		comboRatio_.SetCurSel(0);
+	if (!boardCtrl) {
+		return;
 	}
-	else {
-		comboRatio_.SetCurSel(1);
+
+	std::string fileId = boardCtrl->GetCurrentFile();
+
+	std::vector<std::string> vecImages;
+	TEduBoardStringList* list = boardCtrl->GetThumbnailImages(fileId.c_str());
+	for (uint32_t i = 0; i < list->GetCount(); ++i)
+	{
+		std::string url = list->GetString(i);
+		vecImages.emplace_back(url);
 	}
+	list->Release();
+
+	if (vecImages.empty()) {
+		listThumb_.ShowWindow(SW_HIDE);
+		return;
+	}
+	listThumb_.ShowWindow(SW_SHOW);
+
+	//异步下载缩略图
+	std::thread th([this, vecImages]() {
+		std::vector<std::string> *pVecResult = new std::vector<std::string>();
+		for (uint32_t i = 0; i < vecImages.size(); ++i)
+		{
+			pVecResult->push_back(savePic(vecImages[i]));
+		}
+		this->PostMessage(WM_UPDATE_THUMB_IMAGE, (WPARAM)pVecResult, 0);
+	});
+	th.detach();
 }
 
 void CBoardDlg::OnSize(UINT nType, int cx, int cy)
@@ -755,27 +858,71 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 }
 
-void CBoardDlg::OnCbnSelchangeComboRatio()
+void CBoardDlg::OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+
+	if (pNMListView->uChanged == LVIF_STATE && pNMListView->uNewState & LVIS_SELECTED)
 	{
-		if (comboRatio_.GetCurSel() == 0) {
-			boardCtrl->SetBoardRatio("16:9");
+		int index = pNMListView->iItem;
+
+		auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+		if (!boardCtrl) {
+			return;
 		}
-		else {
-			boardCtrl->SetBoardRatio("4:3");
-		}
+		std::string fileId = boardCtrl->GetCurrentFile();
+		TEduBoardStringList* boardList = boardCtrl->GetFileBoardList(fileId.c_str());
+		std::string boardId = boardList->GetString(index);
+		boardCtrl->GotoBoard(boardId.c_str());
+		boardList->Release();
 	}
+
+	*pResult = 0;
 }
 
-void CBoardDlg::OnCbnSelchangeComboFitMode()
+LRESULT CBoardDlg::OnUpdateThumImage(WPARAM wParam, LPARAM lParam)
 {
-	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
-	if (boardCtrl)
+	std::vector<std::string> *pVecImages = (std::vector<std::string>*)wParam;
+	if (!pVecImages)
 	{
-		boardCtrl->SetBoardContentFitMode((TEduBoardContentFitMode)(comboFitMode_.GetCurSel()));
+		return 0;
 	}
+
+	//更新list
+	listThumb_.SetRedraw(FALSE);
+	listThumb_.DeleteAllItems();
+
+	while (imageList_.GetImageCount() > 0)
+	{
+		imageList_.Remove(0);
+	}
+
+	for (uint32_t i = 0; i < pVecImages->size(); ++i)
+	{
+		CImage srcImage, tempImg;
+		srcImage.Load(a2w((*pVecImages)[i]).c_str());
+		stretchImage(&srcImage, &tempImg, ThumpWidth, ThumpHeight);
+
+		CBitmap tempBitmap;
+		HBITMAP hbmp = (HBITMAP)tempImg;
+		tempBitmap.DeleteObject();
+		tempBitmap.Attach(hbmp);
+
+		imageList_.Add(&tempBitmap, RGB(0, 0, 0));
+
+		LVITEM lvItem = { 0 };
+		lvItem.mask = LVIF_IMAGE | LVIF_STATE;   // 图片、状态
+		lvItem.iItem = i;						 // 行号
+		lvItem.iImage = i;                       // 图片索引号
+		lvItem.iSubItem = 0;                     // 子列号
+		int nRow = listThumb_.InsertItem(&lvItem); // 为列表增加项
+	}
+
+	listThumb_.SetRedraw(TRUE);
+
+	delete pVecImages;
+
+	return 0;
 }
 
 void CBoardDlg::onTEBError(TEduBoardErrorCode code, const char * msg)
@@ -798,6 +945,7 @@ void CBoardDlg::onTEBHistroyDataSyncCompleted()
 	histroySync_ = true;
 	fileTabDlg_.UpdateFileList();
 	boardTabDlg_.UpdateBoardList();
+	UpdateThumbnailImages();
 }
 
 void CBoardDlg::onTEBSyncData(const char * data)
@@ -832,7 +980,7 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
 	if (boardCtrl)
 	{
-		UpdateBoardRatio();
+		boardTabDlg_.UpdateBoardRatio();
 
 		drawTabDlg_.UpdateBackgroundColor();
 		drawTabDlg_.UpdateBoardScale();
@@ -843,12 +991,28 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 	}
 }
 
-void CBoardDlg::onTEBAddFile(const char * fileId)
+void CBoardDlg::onTEBFileTranscodeProgress(const char *path, const char *errorCode, const char *errorMsg, const TEduBoardTranscodeFileResult &result)
 {
-	if (histroySync_) fileTabDlg_.UpdateFileList();
+	if (std::string(errorCode) != "") {
+		printf("请求转码失败; errCode: %s errMsg: %s\n", errorCode, errorMsg);
+		return;
+	}
+
+	if (result.status == TEDU_BOARD_FILE_TRANSCODE_FINISHED) { //转码完成
+		printf("转码完成.\n");
+
+		auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+		if (!boardCtrl) {
+			return;
+		}
+		boardCtrl->AddTranscodeFile(result); //实际执行添加操作，添加完成后，到onTEBAddTranscodeFile()回调;
+	}
+	else { //转码中
+		printf("转码进度: %.02lf%%\n", result.progress);
+	}
 }
 
-void CBoardDlg::onTEBAddH5PPTFile(const char * fileId)
+void CBoardDlg::onTEBAddTranscodeFile(const char *fileId)
 {
 	if (histroySync_) fileTabDlg_.UpdateFileList();
 }
@@ -864,5 +1028,6 @@ void CBoardDlg::onTEBSwitchFile(const char * fileId)
 	{
 		fileTabDlg_.UpdateFileList();
 		boardTabDlg_.UpdateBoardList();
+		UpdateThumbnailImages();
 	}
 }

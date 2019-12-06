@@ -22,6 +22,9 @@
 		CF3FB350227707CC001C148E /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = CF3FB34D227707CC001C148E /* config.json */; };
 		CF3FB351227707CC001C148E /* TICConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB34F227707CC001C148E /* TICConfig.m */; };
 		CF7C40E123277B3200136800 /* TICKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7C40DD23277B3100136800 /* TICKeychainWrapper.m */; };
+		CF8E2DC2238F68B80091710F /* 欢迎新同学.ppt in Resources */ = {isa = PBXBuildFile; fileRef = CF8E2DC1238F68B80091710F /* 欢迎新同学.ppt */; };
+		CF8E2DD0238F85DB0091710F /* ThumbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8E2DCE238F85DB0091710F /* ThumbItem.m */; };
+		CF8E2DD1238F85DB0091710F /* ThumbItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8E2DCF238F85DB0091710F /* ThumbItem.xib */; };
 		CFA891DA22D2ECFC003149C9 /* TICDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA891D822D2ECFC003149C9 /* TICDevice.m */; };
 		CFA891DF22D2F000003149C9 /* TICReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA891DC22D2F000003149C9 /* TICReachability.m */; };
 		CFDF44342294FCD1004FFD01 /* TICRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = CFDF44332294FCD1004FFD01 /* TICRecorder.mm */; };
@@ -86,6 +89,10 @@
 		CF3FB34F227707CC001C148E /* TICConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICConfig.m; sourceTree = "<group>"; };
 		CF7C40DD23277B3100136800 /* TICKeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICKeychainWrapper.m; sourceTree = "<group>"; };
 		CF7C40E023277B3200136800 /* TICKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICKeychainWrapper.h; sourceTree = "<group>"; };
+		CF8E2DC1238F68B80091710F /* 欢迎新同学.ppt */ = {isa = PBXFileReference; lastKnownFileType = file; path = "欢迎新同学.ppt"; sourceTree = "<group>"; };
+		CF8E2DCD238F85DB0091710F /* ThumbItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbItem.h; sourceTree = "<group>"; };
+		CF8E2DCE238F85DB0091710F /* ThumbItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbItem.m; sourceTree = "<group>"; };
+		CF8E2DCF238F85DB0091710F /* ThumbItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThumbItem.xib; sourceTree = "<group>"; };
 		CFA891D722D2ECFC003149C9 /* TICDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICDevice.h; sourceTree = "<group>"; };
 		CFA891D822D2ECFC003149C9 /* TICDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICDevice.m; sourceTree = "<group>"; };
 		CFA891DB22D2F000003149C9 /* TICReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICReachability.h; sourceTree = "<group>"; };
@@ -160,6 +167,7 @@
 		6A9FC2AF217EBCC6009ACB83 /* TICDemo_Mac */ = {
 			isa = PBXGroup;
 			children = (
+				CF8E2DC0238F68B80091710F /* Resource */,
 				CF3FB34C227707CC001C148E /* Config */,
 				CF3FB3322276A2C7001C148E /* SDK */,
 				6A9FC2B0217EBCC6009ACB83 /* AppDelegate.h */,
@@ -173,6 +181,9 @@
 				6A9FC2BB217EBCC7009ACB83 /* Info.plist */,
 				6A9FC2BC217EBCC7009ACB83 /* main.m */,
 				6A9FC2BE217EBCC7009ACB83 /* TICDemo_Mac.entitlements */,
+				CF8E2DCD238F85DB0091710F /* ThumbItem.h */,
+				CF8E2DCE238F85DB0091710F /* ThumbItem.m */,
+				CF8E2DCF238F85DB0091710F /* ThumbItem.xib */,
 			);
 			path = TICDemo_Mac;
 			sourceTree = "<group>";
@@ -230,6 +241,14 @@
 				CF3FB34F227707CC001C148E /* TICConfig.m */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		CF8E2DC0238F68B80091710F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				CF8E2DC1238F68B80091710F /* 欢迎新同学.ppt */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		CFDF445722953EB1004FFD01 /* ios-ntp */ = {
@@ -323,6 +342,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9FC2B7217EBCC7009ACB83 /* Assets.xcassets in Resources */,
+				CF8E2DD1238F85DB0091710F /* ThumbItem.xib in Resources */,
+				CF8E2DC2238F68B80091710F /* 欢迎新同学.ppt in Resources */,
 				6A9FC2BA217EBCC7009ACB83 /* Main.storyboard in Resources */,
 				CFDF446622953EB2004FFD01 /* Notes in Resources */,
 				CF3FB350227707CC001C148E /* config.json in Resources */,
@@ -391,6 +412,7 @@
 				CFA891DF22D2F000003149C9 /* TICReachability.m in Sources */,
 				CF7C40E123277B3200136800 /* TICKeychainWrapper.m in Sources */,
 				CFDF446422953EB2004FFD01 /* NetAssociation.m in Sources */,
+				CF8E2DD0238F85DB0091710F /* ThumbItem.m in Sources */,
 				CFDF44342294FCD1004FFD01 /* TICRecorder.mm in Sources */,
 				CFDF446822953EB2004FFD01 /* GCDAsyncUdpSocket.m in Sources */,
 				CF377824230A5D3F00101054 /* TICWeakProxy.m in Sources */,

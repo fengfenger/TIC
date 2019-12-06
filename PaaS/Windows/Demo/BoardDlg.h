@@ -51,8 +51,9 @@ private:
 	afx_msg void OnNMCustomdrawSliderBrushThin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMCustomdrawSliderTextSize(NMHDR *pNMHDR, LRESULT *pResult);
 
-	afx_msg void OnBnClickedBtnAddH5Ppt();
 	afx_msg void OnBnClickedBtnSetBackH5();
+
+	afx_msg void OnBnClickedBtnAddImage();
 
 	afx_msg void OnNMCustomdrawSliderScale(NMHDR *pNMHDR, LRESULT *pResult);
 
@@ -71,8 +72,8 @@ private:
 	CSliderCtrl sliderBrushThin_;
 	CSliderCtrl sliderTextSize_;
 
-	CComboBox comboH5_;
 	CEdit editBackH5_;
+	CEdit editAddImage_;
 
 	CSliderCtrl sliderScale_;
 };
@@ -90,6 +91,8 @@ public:
 #endif
 
 	void UpdateBoardList();
+	void UpdateBoardRatio();
+	void UpdateBoardContentFitMode();
 
 private:
 	virtual BOOL OnInitDialog() override;
@@ -105,9 +108,15 @@ private:
 	afx_msg void OnBnClickedBtnDelBoard();
 	afx_msg void OnLbnSelchangeListBoard();
 
+	afx_msg void OnCbnSelchangeComboRatio();
+	afx_msg void OnCbnSelchangeComboFitMode();
+
 private:
 	CButton chkResetStep_;
 	CListBox listBoard_;
+
+	CComboBox comboRatio_;
+	CComboBox comboFitMode_;
 };
 
 //文件操作标签页
@@ -132,9 +141,13 @@ private:
 	afx_msg void OnBnClickedBtnAddFile();
 	afx_msg void OnBnClickedBtnDelFile();
 	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedBtnAddH5();
+	afx_msg void OnBnClickedBtnAddVideo();
 
 private:
 	CListCtrl listFile_;
+	CEdit	editAddH5_;
+	CEdit	editAddVideo_;
 };
 
 class CBoardDlg 
@@ -160,31 +173,41 @@ private:
 	virtual void DoDataExchange(CDataExchange* pDX) override;
 
 	void UpdateBoardPos();
-	void UpdateBoardRatio();
+
+	void UpdateThumbnailImages();
 
 	// 消息映射函数
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult);
-
-	afx_msg void OnCbnSelchangeComboRatio();
-	afx_msg void OnCbnSelchangeComboFitMode();
-
+	afx_msg void OnLVNItemChangedListCtrl(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg LRESULT OnUpdateThumImage(WPARAM wParam, LPARAM lParam);
+	
 	//TEduBoardCallback
+	//通用事件回调
 	virtual void onTEBError(TEduBoardErrorCode code, const char * msg) override;
 	virtual void onTEBWarning(TEduBoardWarningCode code, const char * msg) override;
+	//基本流程回调
 	virtual void onTEBInit() override;
 	virtual void onTEBHistroyDataSyncCompleted() override;
 	virtual void onTEBSyncData(const char * data) override;
 	virtual void onTEBUndoStatusChanged(bool canUndo) override;
 	virtual void onTEBRedoStatusChanged(bool canRedo) override;
+	virtual void onTEBOffscreenPaint(const void* buffer, uint32_t width, uint32_t height) {};
+	//涂鸦功能回调
 	virtual void onTEBImageStatusChanged(const char * boardId, const char * url, TEduBoardImageStatus status) override {}
 	virtual void onTEBSetBackgroundImage(const char * url) override {}
+	virtual void onTEBBackgroundH5StatusChanged(const char *boardId, const char *url, TEduBoardBackgroundH5Status status) {};
+	//白板页操作回调
 	virtual void onTEBAddBoard(const TEduBoardStringList *boardList, const char * fileId) override;
 	virtual void onTEBDeleteBoard(const TEduBoardStringList *boardList, const char * fileId) override;
 	virtual void onTEBGotoBoard(const char * boardId, const char * fileId) override;
-	virtual void onTEBAddFile(const char * fileId) override;
-	virtual void onTEBAddH5PPTFile(const char * fileId) override;
+	virtual void onTEBGotoStep(uint32_t currentStep, uint32_t totalStep) {};
+	//文件操作回调
+	virtual void onTEBFileTranscodeProgress(const char *path, const char *errorCode, const char *errorMsg, const TEduBoardTranscodeFileResult &result);
+	virtual void onTEBAddTranscodeFile(const char *fileId);
+	virtual void onTEBVideoStatusChanged(const char *fileId, TEduBoardVideoStatus status, double progress, double duration) {};
+	virtual void onTEBH5FileStatusChanged(const char *fileId, TEduBoardH5FileStatus status) {};
 	virtual void onTEBDeleteFile(const char * fileId) override;
 	virtual void onTEBSwitchFile(const char * fileId) override;
 	virtual void onTEBFileUploadProgress(const char *fileId, int currentBytes, int totalBytes, int uploadSpeed, double percent) override {};
@@ -196,11 +219,11 @@ private:
 
 	CStatic staticBoard_;
 
+	CImageList imageList_;
+	CListCtrl listThumb_;
+
 	CTabCtrl tabBoardCtrl_;
 	CDrawTabDlg		drawTabDlg_;
 	CBoardTabDlg	boardTabDlg_;
 	CFileTabDlg		fileTabDlg_;
-
-	CComboBox comboRatio_;
-	CComboBox comboFitMode_;
 };

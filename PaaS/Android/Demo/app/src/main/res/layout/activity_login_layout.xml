@@ -2,13 +2,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:layout_gravity="top|left">
 
     <TextView
         android:id="@+id/tv_login_log"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:visibility="visible" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,43 +37,67 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:background="@android:color/darker_gray"
+                android:background="@android:color/background_light"
                 android:spinnerMode="dropdown" />
 
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onLoginClick"
+            android:text="登录" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onLogoutClick"
+            android:text="退出" />
+
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_version_trtc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:text="选择要进行操作：" />
+                android:text="IMSDK版本号" />
 
-            <Button
-                android:id="@+id/btn_login"
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_version_im"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onLoginClick"
-                android:text="登录" />
+                android:text="IMSDK版本号" />
 
-            <Button
-                android:id="@+id/btn_logout"
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_version_board"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="true"
-                android:onClick="onLogoutClick"
-                android:text="登出" />
+                android:text="IMSDK版本号" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_login_remind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
             android:text="@string/login_remind"
             android:textColor="@color/colorRed"/>
 

@@ -11,9 +11,12 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tencent.imsdk.TIMManager;
+import com.tencent.teduboard.TEduBoardController;
 import com.tencent.tic.core.TICManager;
 import com.tencent.tic.demo.R;
 import com.tencent.tic.demo.TRTCGetUserIDAndUserSig;
+import com.tencent.trtc.TRTCCloud;
 
 import java.util.ArrayList;
 
@@ -63,6 +66,15 @@ public class TICLoginActivity extends BaseActvity implements CompoundButton.OnCh
                 }
             });
         }
+
+        //版本信息
+        TextView trtcVersionTV = (TextView)findViewById(R.id.tv_version_trtc);
+        trtcVersionTV.setText("TRTC: " + TRTCCloud.getSDKVersion());
+        TextView imVersionTV = (TextView)findViewById(R.id.tv_version_im);
+        imVersionTV.setText("IMSDK: " + TIMManager.getInstance().getVersion());
+        TextView boardVersionTV = (TextView)findViewById(R.id.tv_version_board);
+        boardVersionTV.setText("TEduBoard: " + TEduBoardController.getVersion());
+
     }
 
     @Override
