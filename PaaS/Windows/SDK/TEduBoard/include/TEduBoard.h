@@ -1,6 +1,6 @@
 /**
  * @file TEduBoard.h
- * @brief è…¾è®¯äº‘äº’åŠ¨ç™½æ¿SDK for Window/Linux
+ * @brief ÌÚÑ¶ÔÆ»¥¶¯°×°åSDK for Window/Linux
  * @version 2.4.0.60
  */
 
@@ -52,43 +52,43 @@ class TEduBoardController;
 
 /**
  * @defgroup ctrl TEduBoardController
- * ç™½æ¿åŠŸèƒ½çš„ä¸»è¦æ¥å£ç±»
+ * °×°å¹¦ÄÜµÄÖ÷Òª½Ó¿ÚÀà
  */
 
 /**
  * @defgroup callback TEduBoardCallback
- * ç™½æ¿åŠŸèƒ½çš„å›è°ƒæ¥å£ç±»
+ * °×°å¹¦ÄÜµÄ»Øµ÷½Ó¿ÚÀà
  */
 
 /**
- * @defgroup def å…³é”®ç±»å‹å®šä¹‰
+ * @defgroup def ¹Ø¼üÀàĞÍ¶¨Òå
  */
 
 /**
- * @defgroup code é”™è¯¯ç 
+ * @defgroup code ´íÎóÂë
  */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    /// @name åˆ›å»ºé”€æ¯å®ä¾‹
+    /// @name ´´½¨Ïú»ÙÊµÀı
     /// @{
 
     /**
      * @ingroup ctrl
-     * @brief åˆ›å»ºç™½æ¿æ§åˆ¶ç±»å®ä¾‹
-     * @param disableCefInit                æ˜¯å¦ç¦ç”¨CEFæ¡†æ¶åˆå§‹åŒ–ï¼Œé€šå¸¸ä¼ é»˜è®¤å€¼å³å¯
-     * @param cefRenderPath                 ä½¿ç”¨SDKå†…éƒ¨çš„CEFåˆå§‹åŒ–æ—¶ï¼Œç”¨äºæŒ‡å®šè‡ªå®šä¹‰Renderè¿›ç¨‹å¯æ‰§è¡Œç¨‹åºçš„è·¯å¾„ï¼ŒUTF8ç¼–ç ï¼Œä¸ºç©ºæˆ–nullptrè¡¨ç¤ºä½¿ç”¨SDKå†…ç½®Renderè¿›ç¨‹
-     * @return ç™½æ¿æ§åˆ¶ç±»å®ä¾‹æŒ‡é’ˆ
-     * @warning è¯¥æ¥å£å¿…é¡»åœ¨ä¸»çº¿ç¨‹è°ƒç”¨
-     * @note ç”±äºSDKåŸºäºCEFæ¡†æ¶(BSD-licensed)å®ç°ï¼Œè‹¥æ‚¨çš„ç¨‹åºä¸­ä¹Ÿä½¿ç”¨äº†CEFæ¡†æ¶ï¼Œå¯èƒ½ä¼šå­˜åœ¨å†²çªï¼Œæˆ‘ä»¬ä¸ºæ‚¨æä¾›äº†å†²çªè§£å†³æ–¹æ¡ˆï¼š
-     *      1. é€‰ç”¨ä»¥ä¸‹ä¸¤ç§æ–¹æ³•ä¸­çš„ä¸€ç§æ¥å¯ç”¨è‡ªå·±çš„Renderè¿›ç¨‹
-     *          - ä»¤ disableCefInit = falseï¼ŒcefRenderPath æŒ‡å‘æ‚¨è‡ªå·±çš„Renderè¿›ç¨‹
-     *          - ä»¤ disableCefInit = trueï¼Œè‡ªè¡Œå®ç°CEFåˆå§‹åŒ–
-     *      2. æŒ‰ä¸‹é¢è¯´æ˜ï¼Œåœ¨æ‚¨çš„Renderè¿›ç¨‹å†…è°ƒç”¨SDKçš„RenderProcessHandler
-     *          - Renderè¿›ç¨‹å¯åŠ¨åè°ƒç”¨æ¥å£è·å–ä¸€ä¸ªsdkHandlerå®ä¾‹ï¼ŒCefRefPtr<CefRenderProcessHandler> sdkHandler = (CefRenderProcessHandler*)GetTEduBoardRenderProcessHandler();
-     *          - åœ¨Renderè¿›ç¨‹çš„CefAppä¸­é‡å†™GetRenderProcessHandleræ–¹æ³•ï¼Œæ¯æ¬¡éƒ½è¿”å›ä»¥ä¸ŠsdkHandler
-     *          - è‹¥æ‚¨éœ€è¦è‡ªå®šä¹‰CefRenderProcessHandlerï¼Œç¬¬äºŒæ­¥å¯è¿”å›è‡ªå®šä¹‰Handlerï¼Œç„¶ååœ¨è‡ªå®šä¹‰Handlerçš„ä¸‹é¢å‡ ä¸ªæ–¹æ³•ä¸­ï¼Œè°ƒç”¨sdkHandlerçš„å¯¹åº”æ–¹æ³•
+     * @brief ´´½¨°×°å¿ØÖÆÀàÊµÀı
+     * @param disableCefInit                ÊÇ·ñ½ûÓÃCEF¿ò¼Ü³õÊ¼»¯£¬Í¨³£´«Ä¬ÈÏÖµ¼´¿É
+     * @param cefRenderPath                 Ê¹ÓÃSDKÄÚ²¿µÄCEF³õÊ¼»¯Ê±£¬ÓÃÓÚÖ¸¶¨×Ô¶¨ÒåRender½ø³Ì¿ÉÖ´ĞĞ³ÌĞòµÄÂ·¾¶£¬UTF8±àÂë£¬Îª¿Õ»ònullptr±íÊ¾Ê¹ÓÃSDKÄÚÖÃRender½ø³Ì
+     * @return °×°å¿ØÖÆÀàÊµÀıÖ¸Õë
+     * @warning ¸Ã½Ó¿Ú±ØĞëÔÚÖ÷Ïß³Ìµ÷ÓÃ
+     * @note ÓÉÓÚSDK»ùÓÚCEF¿ò¼Ü(BSD-licensed)ÊµÏÖ£¬ÈôÄúµÄ³ÌĞòÖĞÒ²Ê¹ÓÃÁËCEF¿ò¼Ü£¬¿ÉÄÜ»á´æÔÚ³åÍ»£¬ÎÒÃÇÎªÄúÌá¹©ÁË³åÍ»½â¾ö·½°¸£º
+     *      1. Ñ¡ÓÃÒÔÏÂÁ½ÖÖ·½·¨ÖĞµÄÒ»ÖÖÀ´ÆôÓÃ×Ô¼ºµÄRender½ø³Ì
+     *          - Áî disableCefInit = false£¬cefRenderPath Ö¸ÏòÄú×Ô¼ºµÄRender½ø³Ì
+     *          - Áî disableCefInit = true£¬×ÔĞĞÊµÏÖCEF³õÊ¼»¯
+     *      2. °´ÏÂÃæËµÃ÷£¬ÔÚÄúµÄRender½ø³ÌÄÚµ÷ÓÃSDKµÄRenderProcessHandler
+     *          - Render½ø³ÌÆô¶¯ºóµ÷ÓÃ½Ó¿Ú»ñÈ¡Ò»¸ösdkHandlerÊµÀı£¬CefRefPtr<CefRenderProcessHandler> sdkHandler = (CefRenderProcessHandler*)GetTEduBoardRenderProcessHandler();
+     *          - ÔÚRender½ø³ÌµÄCefAppÖĞÖØĞ´GetRenderProcessHandler·½·¨£¬Ã¿´Î¶¼·µ»ØÒÔÉÏsdkHandler
+     *          - ÈôÄúĞèÒª×Ô¶¨ÒåCefRenderProcessHandler£¬µÚ¶ş²½¿É·µ»Ø×Ô¶¨ÒåHandler£¬È»ºóÔÚ×Ô¶¨ÒåHandlerµÄÏÂÃæ¼¸¸ö·½·¨ÖĞ£¬µ÷ÓÃsdkHandlerµÄ¶ÔÓ¦·½·¨
      *              - OnBrowserCreated
      *              - OnBrowserDestroyed
      *              - OnContextCreated
@@ -97,62 +97,62 @@ extern "C" {
 
     /**
      * @ingroup ctrl
-     * @brief é”€æ¯ç™½æ¿æ§åˆ¶ç±»
-     * @param ppBoardController	            æŒ‡å‘ç™½æ¿æ§åˆ¶ç±»æŒ‡é’ˆ
+     * @brief Ïú»Ù°×°å¿ØÖÆÀà
+     * @param ppBoardController	            Ö¸Ïò°×°å¿ØÖÆÀàÖ¸Õë
      *
-     * ppBoardController æŒ‡é’ˆä¼šè¢«è‡ªåŠ¨ç½®ç©º
+     * ppBoardController Ö¸Õë»á±»×Ô¶¯ÖÃ¿Õ
      */
     EDUSDK_API void DestroyTEduBoardController(TEduBoardController **ppBoardController);
 
     /// @}
 
 
-    /// @name æ—¥å¿—ç›¸å…³æ¥å£
+    /// @name ÈÕÖ¾Ïà¹Ø½Ó¿Ú
     /// @{
 
     /**
      * @ingroup ctrl
-     * @brief è·å–SDKç‰ˆæœ¬å·
-     * @return SDKç‰ˆæœ¬å·
+     * @brief »ñÈ¡SDK°æ±¾ºÅ
+     * @return SDK°æ±¾ºÅ
      *
-     * è¿”å›å€¼å†…å­˜ç”±SDKå†…éƒ¨ç®¡ç†ï¼Œç”¨æˆ·ä¸éœ€è¦è‡ªå·±é‡Šæ”¾
+     * ·µ»ØÖµÄÚ´æÓÉSDKÄÚ²¿¹ÜÀí£¬ÓÃ»§²»ĞèÒª×Ô¼ºÊÍ·Å
      */
     EDUSDK_API const char * GetTEduBoardVersion();
 
     /**
      * @ingroup ctrl
-     * @brief è®¾ç½®ç™½æ¿æ—¥å¿—æ–‡ä»¶è·¯å¾„
-     * @param logFilePath					è¦è®¾ç½®çš„ç™½æ¿æ—¥å¿—æ–‡ä»¶è·¯å¾„ï¼ŒåŒ…å«æ–‡ä»¶ååŠæ–‡ä»¶åç¼€ï¼ŒUTF8ç¼–ç ï¼Œä¸ºç©ºæˆ–nullptrè¡¨ç¤ºä½¿ç”¨é»˜è®¤è·¯å¾„
-     * @return è®¾ç½®ç™½æ¿æ—¥å¿—æ–‡ä»¶è·¯å¾„æ˜¯å¦æˆåŠŸ
-     * @warning è¯¥æ¥å£å¿…é¡»è¦åœ¨ç¬¬ä¸€æ¬¡è°ƒç”¨CreateTEduBoardControllerä¹‹å‰è°ƒç”¨æ‰æœ‰æ•ˆï¼Œå¦åˆ™å°†ä¼šå¤±è´¥
+     * @brief ÉèÖÃ°×°åÈÕÖ¾ÎÄ¼şÂ·¾¶
+     * @param logFilePath					ÒªÉèÖÃµÄ°×°åÈÕÖ¾ÎÄ¼şÂ·¾¶£¬°üº¬ÎÄ¼şÃû¼°ÎÄ¼şºó×º£¬UTF8±àÂë£¬Îª¿Õ»ònullptr±íÊ¾Ê¹ÓÃÄ¬ÈÏÂ·¾¶
+     * @return ÉèÖÃ°×°åÈÕÖ¾ÎÄ¼şÂ·¾¶ÊÇ·ñ³É¹¦
+     * @warning ¸Ã½Ó¿Ú±ØĞëÒªÔÚµÚÒ»´Îµ÷ÓÃCreateTEduBoardControllerÖ®Ç°µ÷ÓÃ²ÅÓĞĞ§£¬·ñÔò½«»áÊ§°Ü
      *
-     * - é»˜è®¤è·¯å¾„ï¼ŒWindowsä¸‹ä¸ºï¼š"%AppData%\\..\\Local\TIC\\teduboard.log"
-     * - é»˜è®¤è·¯å¾„ï¼ŒLinuxä¸‹ä¸ºï¼š"~/TIC/teduboard.log"
+     * - Ä¬ÈÏÂ·¾¶£¬WindowsÏÂÎª£º"%AppData%\\..\\Local\TIC\\teduboard.log"
+     * - Ä¬ÈÏÂ·¾¶£¬LinuxÏÂÎª£º"~/TIC/teduboard.log"
      */
     EDUSDK_API bool SetTEduBoardLogFilePath(const char *logFilePath);
 
     /// @}
 
-    /// @name é«˜çº§åŠŸèƒ½æ¥å£
+    /// @name ¸ß¼¶¹¦ÄÜ½Ó¿Ú
     /// @{
 
     /**
      * @ingroup ctrl
-     * @brief å¯ç”¨ç™½æ¿ç¦»å±æ¸²æŸ“
-     * @return å¯ç”¨ç¦»å±æ¸²æŸ“æ˜¯å¦æˆåŠŸ
-     * @warning è¯¥æ¥å£å¿…é¡»è¦åœ¨ç¬¬ä¸€æ¬¡è°ƒç”¨CreateTEduBoardControllerä¹‹å‰è°ƒç”¨æ‰æœ‰æ•ˆï¼Œå¦åˆ™å°†ä¼šå¤±è´¥
+     * @brief ÆôÓÃ°×°åÀëÆÁäÖÈ¾
+     * @return ÆôÓÃÀëÆÁäÖÈ¾ÊÇ·ñ³É¹¦
+     * @warning ¸Ã½Ó¿Ú±ØĞëÒªÔÚµÚÒ»´Îµ÷ÓÃCreateTEduBoardControllerÖ®Ç°µ÷ÓÃ²ÅÓĞĞ§£¬·ñÔò½«»áÊ§°Ü
      *
-     * å¯ç”¨ç¦»å±æ¸²æŸ“æ—¶ï¼ŒSDKä¸å†åˆ›å»ºç™½æ¿VIEWï¼Œè€Œæ˜¯é€šè¿‡onTEBOffscreenPaintå›è°ƒæ¥å£å°†ç™½æ¿ç¦»å±æ¸²æŸ“çš„åƒç´ æ•°æ®æŠ›å‡º
+     * ÆôÓÃÀëÆÁäÖÈ¾Ê±£¬SDK²»ÔÙ´´½¨°×°åVIEW£¬¶øÊÇÍ¨¹ıonTEBOffscreenPaint»Øµ÷½Ó¿Ú½«°×°åÀëÆÁäÖÈ¾µÄÏñËØÊı¾İÅ×³ö
      */
     EDUSDK_API bool EnableTEduBoardOffscreenRender();
 
     /**
      * @ingroup ctrl
-     * @brief è·å–SDKå†…éƒ¨çš„CefRenderProcessHandler
-     * @return SDKå†…éƒ¨çš„CefRenderProcessHandler
+     * @brief »ñÈ¡SDKÄÚ²¿µÄCefRenderProcessHandler
+     * @return SDKÄÚ²¿µÄCefRenderProcessHandler
      * @see CreateTEduBoardController
      *
-     * æœ¬æ¥å£è¯¦ç»†ä½¿ç”¨æ–¹æ³•å‚è§CreateTEduBoardControlleræ¥å£è¯´æ˜
+     * ±¾½Ó¿ÚÏêÏ¸Ê¹ÓÃ·½·¨²Î¼ûCreateTEduBoardController½Ó¿ÚËµÃ÷
      */
     EDUSDK_API void * GetTEduBoardRenderProcessHandler();
 
@@ -164,191 +164,191 @@ extern "C" {
 
 /**
  * @ingroup code
- * @brief ç™½æ¿é”™è¯¯ç ï¼ˆä¸¥é‡ï¼‰
+ * @brief °×°å´íÎóÂë£¨ÑÏÖØ£©
  */
 enum TEduBoardErrorCode {
-    TEDU_BOARD_ERROR_INIT				= 1,	///< åˆå§‹åŒ–å¤±è´¥
-    TEDU_BOARD_ERROR_AUTH				= 2, 	///< æœåŠ¡é‰´æƒå¤±è´¥ï¼Œè¯·å…ˆè´­ä¹°æœåŠ¡
-    TEDU_BOARD_ERROR_LOAD				= 3,	///< æ–‡ä»¶åŠ è½½å¤±è´¥
-    TEDU_BOARD_ERROR_TIM_INVALID    	= 5,    ///< è…¾è®¯äº‘IMSDKä¸å¯ç”¨
-    TEDU_BOARD_ERROR_HISTORYDATA		= 6,	///< åŒæ­¥å†å²æ•°æ®å¤±è´¥
-    TEDU_BOARD_ERROR_RUNTIME			= 100,	///< ç™½æ¿è¿è¡Œé”™è¯¯
-    TEDU_BOARD_ERROR_OOM                = 101,  ///< å†…å­˜è€—å°½
+    TEDU_BOARD_ERROR_INIT				= 1,	///< ³õÊ¼»¯Ê§°Ü
+    TEDU_BOARD_ERROR_AUTH				= 2, 	///< ·şÎñ¼øÈ¨Ê§°Ü£¬ÇëÏÈ¹ºÂò·şÎñ
+    TEDU_BOARD_ERROR_LOAD				= 3,	///< ÎÄ¼ş¼ÓÔØÊ§°Ü
+    TEDU_BOARD_ERROR_TIM_INVALID    	= 5,    ///< ÌÚÑ¶ÔÆIMSDK²»¿ÉÓÃ
+    TEDU_BOARD_ERROR_HISTORYDATA		= 6,	///< Í¬²½ÀúÊ·Êı¾İÊ§°Ü
+    TEDU_BOARD_ERROR_RUNTIME			= 100,	///< °×°åÔËĞĞ´íÎó
+    TEDU_BOARD_ERROR_OOM                = 101,  ///< ÄÚ´æºÄ¾¡
 };
 
 /**
  * @ingroup code
- * @brief ç™½æ¿é”™è¯¯ç ï¼ˆè­¦å‘Šï¼‰
+ * @brief °×°å´íÎóÂë£¨¾¯¸æ£©
  */
 enum TEduBoardWarningCode {
-    TEDU_BOARD_WARNING_SYNC_DATA_PARSE_FAILED       = 1,    ///< æ¥æ”¶åˆ°å…¶ä»–ç«¯çš„åŒæ­¥æ•°æ®è§£æé”™è¯¯
-    TEDU_BOARD_WARNING_TIM_SEND_MSG_FAILED          = 2,    ///< è…¾è®¯äº‘IMSDKå‘é€æ¶ˆæ¯å¤±è´¥
-    TEDU_BOARD_WARNING_H5PPT_ALREADY_EXISTS			= 3,    ///< è¦æ·»åŠ çš„H5PPTå·²å­˜åœ¨
-    TEDU_BOARD_WARNING_AUTO_RELOAD                  = 4,    ///< ç™½æ¿å‘ç”Ÿå¼‚å¸¸è‡ªåŠ¨é‡æ–°åŠ è½½
-    TEDU_BOARD_WARNING_ILLEGAL_OPERATION            = 5,    ///< ç™½æ¿å†å²æ•°æ®åŠ è½½å®Œæˆä¹‹å‰ç¦æ­¢æ“ä½œ
-    TEDU_BOARD_WARNING_H5FILE_ALREADY_EXISTS        = 6,    ///< å½“è¦æ·»åŠ çš„H5Fileå·²å­˜åœ¨æ—¶æŠ›å‡ºè¯¥è­¦å‘Š
-    TEDU_BOARD_WARNING_VIDEO_ALREADY_EXISTS         = 7,    ///< å½“è¦æ·»åŠ çš„è§†é¢‘å·²å­˜åœ¨æ—¶æŠ›å‡ºè¯¥è­¦å‘Š
+    TEDU_BOARD_WARNING_SYNC_DATA_PARSE_FAILED       = 1,    ///< ½ÓÊÕµ½ÆäËû¶ËµÄÍ¬²½Êı¾İ½âÎö´íÎó
+    TEDU_BOARD_WARNING_TIM_SEND_MSG_FAILED          = 2,    ///< ÌÚÑ¶ÔÆIMSDK·¢ËÍÏûÏ¢Ê§°Ü
+    TEDU_BOARD_WARNING_H5PPT_ALREADY_EXISTS			= 3,    ///< ÒªÌí¼ÓµÄH5PPTÒÑ´æÔÚ
+    TEDU_BOARD_WARNING_AUTO_RELOAD                  = 4,    ///< °×°å·¢ÉúÒì³£×Ô¶¯ÖØĞÂ¼ÓÔØ
+    TEDU_BOARD_WARNING_ILLEGAL_OPERATION            = 5,    ///< °×°åÀúÊ·Êı¾İ¼ÓÔØÍê³ÉÖ®Ç°½ûÖ¹²Ù×÷
+    TEDU_BOARD_WARNING_H5FILE_ALREADY_EXISTS        = 6,    ///< µ±ÒªÌí¼ÓµÄH5FileÒÑ´æÔÚÊ±Å×³ö¸Ã¾¯¸æ
+    TEDU_BOARD_WARNING_VIDEO_ALREADY_EXISTS         = 7,    ///< µ±ÒªÌí¼ÓµÄÊÓÆµÒÑ´æÔÚÊ±Å×³ö¸Ã¾¯¸æ
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿å·¥å…·
+ * @brief °×°å¹¤¾ß
  */
 enum TEduBoardToolType {
-    TEDU_BOARD_TOOL_TYPE_MOUSE			= 0,	///< é¼ æ ‡
-    TEDU_BOARD_TOOL_TYPE_PEN			= 1,	///< ç”»ç¬”
-    TEDU_BOARD_TOOL_TYPE_ERASER			= 2,	///< æ©¡çš®æ“¦
-    TEDU_BOARD_TOOL_TYPE_LASER			= 3,	///< æ¿€å…‰ç¬”
-    TEDU_BOARD_TOOL_TYPE_LINE			= 4,	///< ç›´çº¿
-    TEDU_BOARD_TOOL_TYPE_OVAL			= 5,	///< ç©ºå¿ƒæ¤­åœ†
-    TEDU_BOARD_TOOL_TYPE_RECT			= 6,	///< ç©ºå¿ƒçŸ©å½¢
-    TEDU_BOARD_TOOL_TYPE_OVAL_SOLID		= 7,	///< å®å¿ƒæ¤­åœ†
-    TEDU_BOARD_TOOL_TYPE_RECT_SOLID		= 8,	///< å®å¿ƒçŸ©å½¢
-    TEDU_BOARD_TOOL_TYPE_POINT_SELECT	= 9,	///< ç‚¹é€‰å·¥å…·
-    TEDU_BOARD_TOOL_TYPE_RECT_SELECT    = 10,	///< æ¡†é€‰å·¥å…·
-    TEDU_BOARD_TOOL_TYPE_TEXT			= 11,	///< æ–‡æœ¬å·¥å…·
-    TEDU_BOARD_TOOL_TYPE_ZOOM_DRAG		= 12,	///< ç¼©æ”¾ç§»åŠ¨ç™½æ¿å·¥å…·
+    TEDU_BOARD_TOOL_TYPE_MOUSE			= 0,	///< Êó±ê
+    TEDU_BOARD_TOOL_TYPE_PEN			= 1,	///< »­±Ê
+    TEDU_BOARD_TOOL_TYPE_ERASER			= 2,	///< ÏğÆ¤²Á
+    TEDU_BOARD_TOOL_TYPE_LASER			= 3,	///< ¼¤¹â±Ê
+    TEDU_BOARD_TOOL_TYPE_LINE			= 4,	///< Ö±Ïß
+    TEDU_BOARD_TOOL_TYPE_OVAL			= 5,	///< ¿ÕĞÄÍÖÔ²
+    TEDU_BOARD_TOOL_TYPE_RECT			= 6,	///< ¿ÕĞÄ¾ØĞÎ
+    TEDU_BOARD_TOOL_TYPE_OVAL_SOLID		= 7,	///< ÊµĞÄÍÖÔ²
+    TEDU_BOARD_TOOL_TYPE_RECT_SOLID		= 8,	///< ÊµĞÄ¾ØĞÎ
+    TEDU_BOARD_TOOL_TYPE_POINT_SELECT	= 9,	///< µãÑ¡¹¤¾ß
+    TEDU_BOARD_TOOL_TYPE_RECT_SELECT    = 10,	///< ¿òÑ¡¹¤¾ß
+    TEDU_BOARD_TOOL_TYPE_TEXT			= 11,	///< ÎÄ±¾¹¤¾ß
+    TEDU_BOARD_TOOL_TYPE_ZOOM_DRAG		= 12,	///< Ëõ·ÅÒÆ¶¯°×°å¹¤¾ß
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿å›¾ç‰‡å¡«å……å¯¹é½æ¨¡å¼
+ * @brief °×°åÍ¼Æ¬Ìî³ä¶ÔÆëÄ£Ê½
  * 
- * å½“ä»¥å®½åº¦åŸºå‡†ç­‰æ¯”ä¾‹æ”¾å¤§ï¼Œåˆ™å±…å·¦å’Œå±…å³åŒå±…ä¸­å¯¹é½æ•ˆæœä¸€è‡´ï¼›å½“ä»¥é«˜åº¦åŸºå‡†ç­‰æ¯”ä¾‹æ”¾å¤§ï¼Œåˆ™å±…é¡¶å’Œå±…åº•åŒå±…ä¸­å¯¹é½æ•ˆæœä¸€è‡´
+ * µ±ÒÔ¿í¶È»ù×¼µÈ±ÈÀı·Å´ó£¬Ôò¾Ó×óºÍ¾ÓÓÒÍ¬¾ÓÖĞ¶ÔÆëĞ§¹ûÒ»ÖÂ£»µ±ÒÔ¸ß¶È»ù×¼µÈ±ÈÀı·Å´ó£¬Ôò¾Ó¶¥ºÍ¾Óµ×Í¬¾ÓÖĞ¶ÔÆëĞ§¹ûÒ»ÖÂ
  */
 enum TEduBoardImageFitMode {
-    TEDU_BOARD_IMAGE_FIT_MODE_CENTER	= 0,	///< ä»¥å®½åº¦æˆ–è€…é«˜åº¦ä¸ºåŸºå‡†å±…ä¸­å¯¹é½ç­‰æ¯”ä¾‹æ”¾å¤§
-    TEDU_BOARD_IMAGE_FIT_MODE_LEFT		= 4,	///< ä»¥å®½åº¦æˆ–è€…é«˜åº¦ä¸ºåŸºå‡†å·¦å¯¹é½ç­‰æ¯”ä¾‹æ”¾å¤§
-    TEDU_BOARD_IMAGE_FIT_MODE_TOP		= 5,	///< ä»¥å®½åº¦æˆ–è€…é«˜åº¦ä¸ºåŸºå‡†é¡¶å¯¹é½ç­‰æ¯”ä¾‹æ”¾å¤§
-    TEDU_BOARD_IMAGE_FIT_MODE_RIGHT		= 6,	///< ä»¥å®½åº¦æˆ–è€…é«˜åº¦ä¸ºåŸºå‡†å³å¯¹é½ç­‰æ¯”ä¾‹æ”¾å¤§
-    TEDU_BOARD_IMAGE_FIT_MODE_BOTTOM	= 7,	///< ä»¥å®½åº¦æˆ–è€…é«˜åº¦ä¸ºåŸºå‡†åº•å¯¹é½ç­‰æ¯”ä¾‹æ”¾å¤§
+    TEDU_BOARD_IMAGE_FIT_MODE_CENTER	= 0,	///< ÒÔ¿í¶È»òÕß¸ß¶ÈÎª»ù×¼¾ÓÖĞ¶ÔÆëµÈ±ÈÀı·Å´ó
+    TEDU_BOARD_IMAGE_FIT_MODE_LEFT		= 4,	///< ÒÔ¿í¶È»òÕß¸ß¶ÈÎª»ù×¼×ó¶ÔÆëµÈ±ÈÀı·Å´ó
+    TEDU_BOARD_IMAGE_FIT_MODE_TOP		= 5,	///< ÒÔ¿í¶È»òÕß¸ß¶ÈÎª»ù×¼¶¥¶ÔÆëµÈ±ÈÀı·Å´ó
+    TEDU_BOARD_IMAGE_FIT_MODE_RIGHT		= 6,	///< ÒÔ¿í¶È»òÕß¸ß¶ÈÎª»ù×¼ÓÒ¶ÔÆëµÈ±ÈÀı·Å´ó
+    TEDU_BOARD_IMAGE_FIT_MODE_BOTTOM	= 7,	///< ÒÔ¿í¶È»òÕß¸ß¶ÈÎª»ù×¼µ×¶ÔÆëµÈ±ÈÀı·Å´ó
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿å›¾ç‰‡çŠ¶æ€
+ * @brief °×°åÍ¼Æ¬×´Ì¬
  */
 enum TEduBoardImageStatus {
-    TEDU_BOARD_IMAGE_STATUS_LOADING		= 1,	///< èƒŒæ™¯å›¾ç‰‡æ­£åœ¨åŠ è½½
-    TEDU_BOARD_IMAGE_STATUS_LOAD_DONE	= 2,	///< èƒŒæ™¯å›¾ç‰‡åŠ è½½å®Œæˆ
-    TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT	= 3,	///< èƒŒæ™¯å›¾ç‰‡åŠ è½½ä¸­æ–­
-    TEDU_BOARD_IMAGE_STATUS_LOAD_ERROR	= 4,	///< èƒŒæ™¯å›¾ç‰‡åŠ è½½é”™è¯¯
+    TEDU_BOARD_IMAGE_STATUS_LOADING		= 1,	///< ±³¾°Í¼Æ¬ÕıÔÚ¼ÓÔØ
+    TEDU_BOARD_IMAGE_STATUS_LOAD_DONE	= 2,	///< ±³¾°Í¼Æ¬¼ÓÔØÍê³É
+    TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT	= 3,	///< ±³¾°Í¼Æ¬¼ÓÔØÖĞ¶Ï
+    TEDU_BOARD_IMAGE_STATUS_LOAD_ERROR	= 4,	///< ±³¾°Í¼Æ¬¼ÓÔØ´íÎó
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿æ–‡æœ¬æ ·å¼
+ * @brief °×°åÎÄ±¾ÑùÊ½
  */
 enum TEduBoardTextStyle{
-    TEDU_BOARD_TEXT_STYLE_NORMAL		= 0,	///< å¸¸è§„æ ·å¼
-    TEDU_BOARD_TEXT_STYLE_BOLD			= 1,	///< ç²—ä½“æ ·å¼
-    TEDU_BOARD_TEXT_STYLE_ITALIC		= 2,	///< æ–œä½“æ ·å¼
-    TEDU_BOARD_TEXT_STYLE_BOLD_ITALIC	= 3,	///< ç²—æ–œä½“æ ·å¼
+    TEDU_BOARD_TEXT_STYLE_NORMAL		= 0,	///< ³£¹æÑùÊ½
+    TEDU_BOARD_TEXT_STYLE_BOLD			= 1,	///< ´ÖÌåÑùÊ½
+    TEDU_BOARD_TEXT_STYLE_ITALIC		= 2,	///< Ğ±ÌåÑùÊ½
+    TEDU_BOARD_TEXT_STYLE_BOLD_ITALIC	= 3,	///< ´ÖĞ±ÌåÑùÊ½
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿ä¸Šä¼ çŠ¶æ€
+ * @brief °×°åÉÏ´«×´Ì¬
  */
 enum TEduBoardUploadStatus{
-    TEDU_BOARD_UPLOAD_STATUS_SUCCEED	= 1,	///< ä¸Šä¼ æˆåŠŸ
-    TEDU_BOARD_UPLOAD_STATUS_FAILED		= 2,	///< ä¸Šä¼ å¤±è´¥
+    TEDU_BOARD_UPLOAD_STATUS_SUCCEED	= 1,	///< ÉÏ´«³É¹¦
+    TEDU_BOARD_UPLOAD_STATUS_FAILED		= 2,	///< ÉÏ´«Ê§°Ü
 };
 
 /**
  * @ingroup def
- * @brief H5èƒŒæ™¯çŠ¶æ€
+ * @brief H5±³¾°×´Ì¬
  */
 enum TEduBoardBackgroundH5Status{
-    TEDU_BOARD_BACKGROUND_H5_STATUS_LOADING        = 1,    ///< H5èƒŒæ™¯æ­£åœ¨åŠ è½½
-    TEDU_BOARD_BACKGROUND_H5_STATUS_LOAD_FINISH    = 2,    ///< H5èƒŒæ™¯åŠ è½½å®Œæˆ
+    TEDU_BOARD_BACKGROUND_H5_STATUS_LOADING        = 1,    ///< H5±³¾°ÕıÔÚ¼ÓÔØ
+    TEDU_BOARD_BACKGROUND_H5_STATUS_LOAD_FINISH    = 2,    ///< H5±³¾°¼ÓÔØÍê³É
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿å†…å®¹è‡ªé€‚åº”æ¨¡å¼
+ * @brief °×°åÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
  * 
- * å†…å®¹åŒ…æ‹¬å›¾ç‰‡ã€æ–‡ä»¶ã€PPTåŠ¨ç”»
+ * ÄÚÈİ°üÀ¨Í¼Æ¬¡¢ÎÄ¼ş¡¢PPT¶¯»­
  */
 enum TEduBoardContentFitMode {
-    TEDU_BOARD_CONTENT_FIT_MODE_NONE 			= 0,		///< ä¸ä½¿ç”¨å†…å®¹è‡ªé€‚åº”ï¼Œé»˜è®¤æ¨¡å¼ï¼Œä¸è‡ªåŠ¨è°ƒæ•´ç™½æ¿å®½é«˜æ¯”ï¼Œå†…å®¹ç­‰æ¯”ä¾‹ç¼©æ”¾å±…ä¸­æ˜¾ç¤ºï¼Œå†…å®¹å®½é«˜<=ç™½æ¿å®½é«˜
-    TEDU_BOARD_CONTENT_FIT_MODE_CENTER_INSIDE 	= 1,		///< è‡ªåŠ¨è°ƒæ•´ç™½æ¿å®½é«˜æ¯”ä¸å†…å®¹ä¸€è‡´ï¼Œå†…å®¹é“ºæ»¡ç™½æ¿ï¼Œç™½æ¿ç­‰æ¯”ä¾‹ç¼©æ”¾å±…ä¸­æ˜¾ç¤ºï¼Œç™½æ¿å®½é«˜<=å®¹å™¨å®½é«˜
-    TEDU_BOARD_CONTENT_FIT_MODE_CENTER_COVER 	= 2,		///< è‡ªåŠ¨è°ƒæ•´ç™½æ¿å®½é«˜æ¯”ä¸å†…å®¹ä¸€è‡´ï¼Œå†…å®¹é“ºæ»¡ç™½æ¿ï¼Œç™½æ¿ç­‰æ¯”ä¾‹ç¼©æ”¾å±…ä¸­æ˜¾ç¤ºï¼Œç™½æ¿å®½é«˜>=å®¹å™¨å®½é«˜
+    TEDU_BOARD_CONTENT_FIT_MODE_NONE 			= 0,		///< ²»Ê¹ÓÃÄÚÈİ×ÔÊÊÓ¦£¬Ä¬ÈÏÄ£Ê½£¬²»×Ô¶¯µ÷Õû°×°å¿í¸ß±È£¬ÄÚÈİµÈ±ÈÀıËõ·Å¾ÓÖĞÏÔÊ¾£¬ÄÚÈİ¿í¸ß<=°×°å¿í¸ß
+    TEDU_BOARD_CONTENT_FIT_MODE_CENTER_INSIDE 	= 1,		///< ×Ô¶¯µ÷Õû°×°å¿í¸ß±ÈÓëÄÚÈİÒ»ÖÂ£¬ÄÚÈİÆÌÂú°×°å£¬°×°åµÈ±ÈÀıËõ·Å¾ÓÖĞÏÔÊ¾£¬°×°å¿í¸ß<=ÈİÆ÷¿í¸ß
+    TEDU_BOARD_CONTENT_FIT_MODE_CENTER_COVER 	= 2,		///< ×Ô¶¯µ÷Õû°×°å¿í¸ß±ÈÓëÄÚÈİÒ»ÖÂ£¬ÄÚÈİÆÌÂú°×°å£¬°×°åµÈ±ÈÀıËõ·Å¾ÓÖĞÏÔÊ¾£¬°×°å¿í¸ß>=ÈİÆ÷¿í¸ß
 };
 
 /**
  * @ingroup def
- * @brief ç›´çº¿ç±»å‹
+ * @brief Ö±ÏßÀàĞÍ
  */
 enum TEduBoardLineType {
-    TEDU_BOARD_LINE_TYPE_SOLID    = 1,    ///< å®çº¿
-    TEDU_BOARD_LINE_TYPE_DOTTED   = 2,    ///< è™šçº¿
+    TEDU_BOARD_LINE_TYPE_SOLID    = 1,    ///< ÊµÏß
+    TEDU_BOARD_LINE_TYPE_DOTTED   = 2,    ///< ĞéÏß
 };
 
 /**
  * @ingroup def
- * @brief ç®­å¤´ç±»å‹
+ * @brief ¼ıÍ·ÀàĞÍ
  */
 enum TEduBoardArrowType {
-    TEDU_BOARD_ARROW_TYPE_NONE 		= 1,	///< æ— ç®­å¤´
-    TEDU_BOARD_ARROW_TYPE_NORMAL	= 2, 	///< æ™®é€šç®­å¤´
-    TEDU_BOARD_ARROW_TYPE_SOLID 	= 3, 	///< å®å¿ƒç®­å¤´
+    TEDU_BOARD_ARROW_TYPE_NONE 		= 1,	///< ÎŞ¼ıÍ·
+    TEDU_BOARD_ARROW_TYPE_NORMAL	= 2, 	///< ÆÕÍ¨¼ıÍ·
+    TEDU_BOARD_ARROW_TYPE_SOLID 	= 3, 	///< ÊµĞÄ¼ıÍ·
 };
 
 /**
  * @ingroup def
- * @brief æ¤­åœ†ç»˜åˆ¶æ¨¡å¼
+ * @brief ÍÖÔ²»æÖÆÄ£Ê½
  */
 enum TEduBoardOvalDrawMode {
-    TEDU_BOARD_OVAL_DRAW_MODE_FIX_START     = 1,    ///< å›ºå®šèµ·å§‹ç‚¹ï¼Œèµ·å§‹ç‚¹å’Œç»ˆç‚¹çš„ä¸­ç‚¹ä¸ºåœ†å¿ƒ
-    TEDU_BOARD_OVAL_DRAW_MODE_FIX_CENTER    = 2,    ///< å›ºå®šåœ†å¿ƒï¼Œèµ·å§‹ç‚¹ä¸ºåœ†å¿ƒ
+    TEDU_BOARD_OVAL_DRAW_MODE_FIX_START     = 1,    ///< ¹Ì¶¨ÆğÊ¼µã£¬ÆğÊ¼µãºÍÖÕµãµÄÖĞµãÎªÔ²ĞÄ
+    TEDU_BOARD_OVAL_DRAW_MODE_FIX_CENTER    = 2,    ///< ¹Ì¶¨Ô²ĞÄ£¬ÆğÊ¼µãÎªÔ²ĞÄ
 };
 
 /**
  * @ingroup def
- * @brief æ–‡ä»¶è½¬ç çŠ¶æ€
+ * @brief ÎÄ¼ş×ªÂë×´Ì¬
  */
 enum TEduBoardFileTranscodeStatus {
-    TEDU_BOARD_FILE_TRANSCODE_ERROR         = 1,    ///< è½¬ç é”™è¯¯
-    TEDU_BOARD_FILE_TRANSCODE_UPLOADING     = 2,    ///< æ–‡ä»¶ä¸Šä¼ ä¸­
-    TEDU_BOARD_FILE_TRANSCODE_CREATED       = 3,    ///< å‘èµ·è½¬ç ä»»åŠ¡
-    TEDU_BOARD_FILE_TRANSCODE_QUEUED        = 4,    ///< æ’é˜Ÿä¸­
-    TEDU_BOARD_FILE_TRANSCODE_PROCESSING    = 5,    ///< è½¬ç ä¸­
-    TEDU_BOARD_FILE_TRANSCODE_FINISHED      = 6,    ///< è½¬ç å®Œæˆ
+    TEDU_BOARD_FILE_TRANSCODE_ERROR         = 1,    ///< ×ªÂë´íÎó
+    TEDU_BOARD_FILE_TRANSCODE_UPLOADING     = 2,    ///< ÎÄ¼şÉÏ´«ÖĞ
+    TEDU_BOARD_FILE_TRANSCODE_CREATED       = 3,    ///< ·¢Æğ×ªÂëÈÎÎñ
+    TEDU_BOARD_FILE_TRANSCODE_QUEUED        = 4,    ///< ÅÅ¶ÓÖĞ
+    TEDU_BOARD_FILE_TRANSCODE_PROCESSING    = 5,    ///< ×ªÂëÖĞ
+    TEDU_BOARD_FILE_TRANSCODE_FINISHED      = 6,    ///< ×ªÂëÍê³É
 };
 
 /**
  * @ingroup def
- * @brief H5æ–‡ä»¶çŠ¶æ€
+ * @brief H5ÎÄ¼ş×´Ì¬
 */
 enum TEduBoardH5FileStatus {
-    TEDU_BOARD_H5_FILE_STATUS_LOADING       = 1,    ///< åŠ è½½ä¸­
-    TEDU_BOARD_H5_FILE_STATUS_LOADED        = 2,    ///< åŠ è½½å®Œæˆ
+    TEDU_BOARD_H5_FILE_STATUS_LOADING       = 1,    ///< ¼ÓÔØÖĞ
+    TEDU_BOARD_H5_FILE_STATUS_LOADED        = 2,    ///< ¼ÓÔØÍê³É
 };
 
 /**
  * @ingroup def
- * @brief è§†é¢‘æ–‡ä»¶çŠ¶æ€
+ * @brief ÊÓÆµÎÄ¼ş×´Ì¬
 */
 enum TEduBoardVideoStatus {
-    TEDU_BOARD_VIDEO_STATUS_ERROR       = 1,    ///< æ’­æ”¾é”™è¯¯
-    TEDU_BOARD_VIDEO_STATUS_LOADING     = 2,    ///< åŠ è½½ä¸­
-    TEDU_BOARD_VIDEO_STATUS_LOADED      = 3,    ///< åŠ è½½å®Œæˆ
-    TEDU_BOARD_VIDEO_STATUS_PLAYED      = 4,    ///< å¼€å§‹æ’­æ”¾
-    TEDU_BOARD_VIDEO_STATUS_PLAYING     = 5,    ///< æ’­æ”¾ä¸­
-    TEDU_BOARD_VIDEO_STATUS_PAUSED      = 6,    ///< æš‚åœ
-    TEDU_BOARD_VIDEO_STATUS_SEEKED      = 7,    ///< è·³è½¬
-    TEDU_BOARD_VIDEO_STATUS_ENDED       = 8,    ///< ç»“æŸ
+    TEDU_BOARD_VIDEO_STATUS_ERROR       = 1,    ///< ²¥·Å´íÎó
+    TEDU_BOARD_VIDEO_STATUS_LOADING     = 2,    ///< ¼ÓÔØÖĞ
+    TEDU_BOARD_VIDEO_STATUS_LOADED      = 3,    ///< ¼ÓÔØÍê³É
+    TEDU_BOARD_VIDEO_STATUS_PLAYED      = 4,    ///< ¿ªÊ¼²¥·Å
+    TEDU_BOARD_VIDEO_STATUS_PLAYING     = 5,    ///< ²¥·ÅÖĞ
+    TEDU_BOARD_VIDEO_STATUS_PAUSED      = 6,    ///< ÔİÍ£
+    TEDU_BOARD_VIDEO_STATUS_SEEKED      = 7,    ///< Ìø×ª
+    TEDU_BOARD_VIDEO_STATUS_ENDED       = 8,    ///< ½áÊø
 };
 
 /**
  * @ingroup def
- * @brief ç™½æ¿æˆæƒå‚æ•°
+ * @brief °×°åÊÚÈ¨²ÎÊı
  */
 struct TEduBoardAuthParam {
     uint32_t sdkAppId;      ///< SDKAppID
-    const char * userId;    ///< ç”¨æˆ·ID
-    const char * userSig;   ///< ç”¨æˆ·ç­¾å
+    const char * userId;    ///< ÓÃ»§ID
+    const char * userSig;   ///< ÓÃ»§Ç©Ãû
 
     TEduBoardAuthParam()
             : sdkAppId(0)
@@ -369,13 +369,13 @@ struct TEduBoardAuthParam {
 
 /**
  * @ingroup def
- * @brief é¢œè‰²å‚æ•°
+ * @brief ÑÕÉ«²ÎÊı
  */
 struct TEduBoardColor {
-    uint8_t red = 0;        ///< çº¢è‰²åˆ†é‡
-    uint8_t green = 0;      ///< ç»¿è‰²åˆ†é‡
-    uint8_t blue = 0;       ///< è“è‰²åˆ†é‡
-    uint8_t alpha = 0;      ///< é€æ˜åˆ†é‡
+    uint8_t red = 0;        ///< ºìÉ«·ÖÁ¿
+    uint8_t green = 0;      ///< ÂÌÉ«·ÖÁ¿
+    uint8_t blue = 0;       ///< À¶É«·ÖÁ¿
+    uint8_t alpha = 0;      ///< Í¸Ã÷·ÖÁ¿
 
     TEduBoardColor()
             : red(0)
@@ -398,25 +398,25 @@ struct TEduBoardColor {
 
 /**
  * @ingroup def
- * @brief ç™½æ¿åˆå§‹åŒ–å‚æ•°
+ * @brief °×°å³õÊ¼»¯²ÎÊı
  */
 struct TEduBoardInitParam {
-    bool progressEnable;					///< æ˜¯å¦å¯ç”¨SDKå†…ç½®Loadingå›¾æ ‡
-    const char * ratio;                     ///< é»˜è®¤ç™½æ¿å®½é«˜æ¯”ï¼ˆå¯ä¼ æ ¼å¼å¦‚â€œ4:3â€ã€â€œ16:9â€çš„å­—ç¬¦ä¸²ï¼‰
-    bool drawEnable;                        ///< æ˜¯å¦å…è®¸æ¶‚é¸¦
-    TEduBoardColor globalBackgroundColor;   ///< å…¨å±€èƒŒæ™¯è‰²
-    TEduBoardToolType toolType;			    ///< ç™½æ¿å·¥å…·
-    TEduBoardColor brushColor;              ///< ç”»ç¬”é¢œè‰²
-    uint32_t brushThin;						///< ç”»ç¬”ç²—ç»†
-    TEduBoardColor textColor;               ///< æ–‡æœ¬é¢œè‰²
-    uint32_t textSize;                      ///< æ–‡æœ¬ç²—ç»†
-    TEduBoardTextStyle textStyle;           ///< æ–‡æœ¬æ ·å¼
-    bool timSync;                           ///< æ˜¯å¦ä½¿ç”¨è…¾è®¯äº‘IMSDKè¿›è¡Œå®æ—¶æ•°æ®åŒæ­¥
-    bool dataSyncEnable;					///< æ˜¯å¦å¯ç”¨æ•°æ®åŒæ­¥ï¼Œç¦ç”¨åå°†å¯¼è‡´æœ¬åœ°ç™½æ¿æ“ä½œä¸ä¼šè¢«åŒæ­¥ç»™è¿œç«¯
-    uint32_t preloadDepth;					///< å›¾ç‰‡é¢„åŠ è½½æ·±åº¦ï¼Œé»˜è®¤å€¼5ï¼Œè¡¨ç¤ºé¢„åŠ è½½å½“å‰é¡µå‰å5é¡µçš„å›¾ç‰‡
-    double smoothLevel;						///< ç¬”è¿¹å¹³æ»‘ç³»æ•°ï¼Œé»˜è®¤0.1ï¼ŒèŒƒå›´ [0ï¼Œ1]
-    TEduBoardContentFitMode contentFitMode; ///< å†…å®¹è‡ªé€‚åº”æ¨¡å¼
-    const char * experimental;				///< å®éªŒæ€§å‚æ•°é›†ï¼Œå­—å…¸ç±»å‹JSONä¸²
+    bool progressEnable;					///< ÊÇ·ñÆôÓÃSDKÄÚÖÃLoadingÍ¼±ê
+    const char * ratio;                     ///< Ä¬ÈÏ°×°å¿í¸ß±È£¨¿É´«¸ñÊ½Èç¡°4:3¡±¡¢¡°16:9¡±µÄ×Ö·û´®£©
+    bool drawEnable;                        ///< ÊÇ·ñÔÊĞíÍ¿Ñ»
+    TEduBoardColor globalBackgroundColor;   ///< È«¾Ö±³¾°É«
+    TEduBoardToolType toolType;			    ///< °×°å¹¤¾ß
+    TEduBoardColor brushColor;              ///< »­±ÊÑÕÉ«
+    uint32_t brushThin;						///< »­±Ê´ÖÏ¸
+    TEduBoardColor textColor;               ///< ÎÄ±¾ÑÕÉ«
+    uint32_t textSize;                      ///< ÎÄ±¾´ÖÏ¸
+    TEduBoardTextStyle textStyle;           ///< ÎÄ±¾ÑùÊ½
+    bool timSync;                           ///< ÊÇ·ñÊ¹ÓÃÌÚÑ¶ÔÆIMSDK½øĞĞÊµÊ±Êı¾İÍ¬²½
+    bool dataSyncEnable;					///< ÊÇ·ñÆôÓÃÊı¾İÍ¬²½£¬½ûÓÃºó½«µ¼ÖÂ±¾µØ°×°å²Ù×÷²»»á±»Í¬²½¸øÔ¶¶Ë
+    uint32_t preloadDepth;					///< Í¼Æ¬Ô¤¼ÓÔØÉî¶È£¬Ä¬ÈÏÖµ5£¬±íÊ¾Ô¤¼ÓÔØµ±Ç°Ò³Ç°ºó5Ò³µÄÍ¼Æ¬
+    double smoothLevel;						///< ±Ê¼£Æ½»¬ÏµÊı£¬Ä¬ÈÏ0.1£¬·¶Î§ [0£¬1]
+    TEduBoardContentFitMode contentFitMode; ///< ÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
+    const char * experimental;				///< ÊµÑéĞÔ²ÎÊı¼¯£¬×ÖµäÀàĞÍJSON´®
 
     TEduBoardInitParam()
             : progressEnable(false)
@@ -442,12 +442,12 @@ struct TEduBoardInitParam {
 
 /**
  * @ingroup def
- * @brief ç›´çº¿æ ·å¼
+ * @brief Ö±ÏßÑùÊ½
  */
 struct TEduBoardLineStyle {
-    TEduBoardLineType lineType;			///< ç›´çº¿ç±»å‹
-    TEduBoardArrowType startArrowType;	///< èµ·ç‚¹ç®­å¤´ç±»å‹
-    TEduBoardArrowType endArrowType; 	///< ç»ˆç‚¹è‚©å¤´ç±»å‹
+    TEduBoardLineType lineType;			///< Ö±ÏßÀàĞÍ
+    TEduBoardArrowType startArrowType;	///< Æğµã¼ıÍ·ÀàĞÍ
+    TEduBoardArrowType endArrowType; 	///< ÖÕµã¼çÍ·ÀàĞÍ
 
     TEduBoardLineStyle()
             : lineType(TEDU_BOARD_LINE_TYPE_SOLID)
@@ -460,13 +460,13 @@ struct TEduBoardLineStyle {
 
 /**
  * @ingroup def
- * @brief é¼ æ ‡æ ·å¼
+ * @brief Êó±êÑùÊ½
  */
 struct TEduBoardCursorIcon{
-    const char *cursor; ///< æµè§ˆå™¨å†…ç½®é¼ æ ‡æŒ‡é’ˆæ ·å¼ï¼Œå¯å–å€¼å‚è€ƒæ–‡æ¡£ï¼šhttps://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
-    const char *url;    ///< è‡ªå®šä¹‰é¼ æ ‡æŒ‡é’ˆæ ·å¼çš„URLï¼Œæ ¼å¼é™åˆ¶å‚è€ƒæ–‡æ¡£ï¼šhttps://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor/url
-    uint32_t offsetX;   ///< è‡ªå®šä¹‰é¼ æ ‡æŒ‡é’ˆæ ·å¼çš„æ¨ªè¡Œåç§»
-    uint32_t offsetY;   ///< è‡ªå®šä¹‰é¼ æ ‡æŒ‡é’ˆæ ·å¼çš„çºµå‘åç§»
+    const char *cursor; ///< ä¯ÀÀÆ÷ÄÚÖÃÊó±êÖ¸ÕëÑùÊ½£¬¿ÉÈ¡Öµ²Î¿¼ÎÄµµ£ºhttps://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
+    const char *url;    ///< ×Ô¶¨ÒåÊó±êÖ¸ÕëÑùÊ½µÄURL£¬¸ñÊ½ÏŞÖÆ²Î¿¼ÎÄµµ£ºhttps://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor/url
+    uint32_t offsetX;   ///< ×Ô¶¨ÒåÊó±êÖ¸ÕëÑùÊ½µÄºáĞĞÆ«ÒÆ
+    uint32_t offsetY;   ///< ×Ô¶¨ÒåÊó±êÖ¸ÕëÑùÊ½µÄ×İÏòÆ«ÒÆ
 
     TEduBoardCursorIcon()
         : cursor("none")
@@ -480,12 +480,12 @@ struct TEduBoardCursorIcon{
 
 /**
  * @ingroup def
- * @brief æ–‡ä»¶è½¬ç å‚æ•°
+ * @brief ÎÄ¼ş×ªÂë²ÎÊı
  */
 struct TEduBoardTranscodeConfig {
-    const char *minResolution;	        ///< æŒ‡å®šè½¬ç ç»“æœæœ€å°åˆ†è¾¨ç‡ï¼Œå¯ç”¨äºæé«˜è½¬ç ç»“æœæ¸…æ™°åº¦ï¼Œæ ¼å¼å¦‚960x540ï¼Œå®½é«˜ç”¨xåˆ†éš”
-    bool isStaticPPT;                   ///< æŒ‡å®šå¯¹äºPPTæ–‡ä»¶æ˜¯å¦å¯ç”¨é™æ€è½¬ç ï¼ˆè½¬ä¸ºé™æ€å›¾ç‰‡ï¼‰ï¼Œé»˜è®¤è½¬ä¸ºH5åŠ¨ç”»ï¼ˆè½¬ç è€—æ—¶è¾ƒé•¿ï¼‰
-    const char *thumbnailResolution;    ///< æŒ‡å®šä¸ºæ–‡ä»¶ç”Ÿæˆç¼©ç•¥å›¾çš„åˆ†è¾¨ç‡ï¼Œé»˜è®¤ä¸ç”Ÿæˆç¼©ç•¥å›¾ï¼ˆç”Ÿæˆç¼©ç•¥å›¾å¢åŠ é¢å¤–è½¬ç è€—æ—¶ï¼‰ï¼Œæ ¼å¼å¦‚200x200ï¼Œå®½é«˜ç”¨xåˆ†éš”
+    const char *minResolution;	        ///< Ö¸¶¨×ªÂë½á¹û×îĞ¡·Ö±æÂÊ£¬¿ÉÓÃÓÚÌá¸ß×ªÂë½á¹ûÇåÎú¶È£¬¸ñÊ½Èç960x540£¬¿í¸ßÓÃx·Ö¸ô
+    bool isStaticPPT;                   ///< Ö¸¶¨¶ÔÓÚPPTÎÄ¼şÊÇ·ñÆôÓÃ¾²Ì¬×ªÂë£¨×ªÎª¾²Ì¬Í¼Æ¬£©£¬Ä¬ÈÏ×ªÎªH5¶¯»­£¨×ªÂëºÄÊ±½Ï³¤£©
+    const char *thumbnailResolution;    ///< Ö¸¶¨ÎªÎÄ¼şÉú³ÉËõÂÔÍ¼µÄ·Ö±æÂÊ£¬Ä¬ÈÏ²»Éú³ÉËõÂÔÍ¼£¨Éú³ÉËõÂÔÍ¼Ôö¼Ó¶îÍâ×ªÂëºÄÊ±£©£¬¸ñÊ½Èç200x200£¬¿í¸ßÓÃx·Ö¸ô
 
     TEduBoardTranscodeConfig()
             : minResolution(nullptr)
@@ -497,18 +497,18 @@ struct TEduBoardTranscodeConfig {
 
 /**
  * @ingroup def
- * @brief æ–‡ä»¶è½¬ç ç»“æœ
+ * @brief ÎÄ¼ş×ªÂë½á¹û
  */
 struct TEduBoardTranscodeFileResult {
-    char taskId[32];                        ///< ä»»åŠ¡ID
-    TEduBoardFileTranscodeStatus status;    ///< è½¬ç çŠ¶æ€
-    double progress;                        ///< è½¬ç è¿›åº¦ï¼Œå–å€¼èŒƒå›´ [0, 100]
-    char title[256];		                ///< æ–‡ä»¶æ ‡é¢˜
-    char resolution[32];	                ///< æ–‡ä»¶åˆ†è¾¨ç‡
-    uint32_t pages;			                ///< æ–‡ä»¶æ€»é¡µæ•°
-    char url[1024];	                        ///< è½¬ç ç»“æœURL
-    char thumbnailResolution[32];           ///< ä¸ºæ–‡ä»¶ç”Ÿæˆç¼©ç•¥å›¾çš„åˆ†è¾¨ç‡
-    char thumbnailUrl[1024];	            ///< ä¸ºæ–‡ä»¶ç”Ÿæˆç¼©ç•¥å›¾URL
+    char taskId[32];                        ///< ÈÎÎñID
+    TEduBoardFileTranscodeStatus status;    ///< ×ªÂë×´Ì¬
+    double progress;                        ///< ×ªÂë½ø¶È£¬È¡Öµ·¶Î§ [0, 100]
+    char title[256];		                ///< ÎÄ¼ş±êÌâ
+    char resolution[32];	                ///< ÎÄ¼ş·Ö±æÂÊ
+    uint32_t pages;			                ///< ÎÄ¼ş×ÜÒ³Êı
+    char url[1024];	                        ///< ×ªÂë½á¹ûURL
+    char thumbnailResolution[32];           ///< ÎªÎÄ¼şÉú³ÉËõÂÔÍ¼µÄ·Ö±æÂÊ
+    char thumbnailUrl[1024];	            ///< ÎªÎÄ¼şÉú³ÉËõÂÔÍ¼URL
 
     TEduBoardTranscodeFileResult()
             : taskId()
@@ -526,12 +526,12 @@ struct TEduBoardTranscodeFileResult {
 
 /**
  * @ingroup def
- * @brief ç™½æ¿ä¿¡æ¯
+ * @brief °×°åĞÅÏ¢
  */
 struct TEduBoardInfo {
-    const char * boardId;		        ///< ç™½æ¿ID
-    const char * backgroundUrl;		    ///< ç™½æ¿èƒŒæ™¯å›¾æˆ–è€…èƒŒæ™¯H5é¡µé¢çš„URL
-    TEduBoardColor backgroundColor;     ///< ç™½æ¿èƒŒæ™¯è‰²
+    const char * boardId;		        ///< °×°åID
+    const char * backgroundUrl;		    ///< °×°å±³¾°Í¼»òÕß±³¾°H5Ò³ÃæµÄURL
+    TEduBoardColor backgroundColor;     ///< °×°å±³¾°É«
 
     TEduBoardInfo()
             : boardId(nullptr)
@@ -551,7 +551,7 @@ struct TEduBoardInfo {
 
 /**
  * @ingroup def
- * @brief ç™½æ¿ä¿¡æ¯åˆ—è¡¨
+ * @brief °×°åĞÅÏ¢ÁĞ±í
  */
 class TEduBoardInfoList {
 protected:
@@ -559,30 +559,30 @@ protected:
 
 public:
     /**
-     * @brief è·å–ç™½æ¿ä¿¡æ¯ä¸ªæ•°
-     * @return ç™½æ¿ä¿¡æ¯ä¸ªæ•°
+     * @brief »ñÈ¡°×°åĞÅÏ¢¸öÊı
+     * @return °×°åĞÅÏ¢¸öÊı
      */
     virtual uint32_t GetCount() const = 0;
 
     /**
-     * @brief è·å–æŒ‡å®šçš„ç™½æ¿ä¿¡æ¯
-     * @param index ç´¢å¼•ï¼Œå–å€¼èŒƒå›´ [0, ç™½æ¿ä¸ªæ•°)
-     * @return ç™½æ¿ä¿¡æ¯
+     * @brief »ñÈ¡Ö¸¶¨µÄ°×°åĞÅÏ¢
+     * @param index Ë÷Òı£¬È¡Öµ·¶Î§ [0, °×°å¸öÊı)
+     * @return °×°åĞÅÏ¢
      */
     virtual TEduBoardInfo GetBoardInfo(uint32_t index) const = 0;
 };
 
 /**
  * @ingroup def
- * @brief æ–‡ä»¶ä¿¡æ¯
+ * @brief ÎÄ¼şĞÅÏ¢
  */
 struct TEduBoardFileInfo {
-    const char * fileId;						///< æ–‡ä»¶ID
-    const char * title;							///< æ–‡ä»¶å
-    const char * downloadUrl; 					///< æ–‡ä»¶ä¸‹è½½åœ°å€
-    uint32_t pageIndex;							///< æ–‡ä»¶å½“å‰æ˜¾ç¤ºçš„é¡µæ•°
-    uint32_t pageCount;							///< æ–‡ä»¶é¡µæ•°
-    const TEduBoardInfoList *boardInfoList;		///< ç™½æ¿ä¿¡æ¯åˆ—è¡¨
+    const char * fileId;						///< ÎÄ¼şID
+    const char * title;							///< ÎÄ¼şÃû
+    const char * downloadUrl; 					///< ÎÄ¼şÏÂÔØµØÖ·
+    uint32_t pageIndex;							///< ÎÄ¼şµ±Ç°ÏÔÊ¾µÄÒ³Êı
+    uint32_t pageCount;							///< ÎÄ¼şÒ³Êı
+    const TEduBoardInfoList *boardInfoList;		///< °×°åĞÅÏ¢ÁĞ±í
 
     TEduBoardFileInfo()
             : fileId(nullptr)
@@ -609,7 +609,7 @@ struct TEduBoardFileInfo {
 
 /**
  * @ingroup def
- * @brief æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨
+ * @brief ÎÄ¼şĞÅÏ¢ÁĞ±í
  */
 class TEduBoardFileInfoList {
 protected:
@@ -617,28 +617,28 @@ protected:
 
 public:
     /**
-     * @brief è·å–æ–‡ä»¶ä¿¡æ¯ä¸ªæ•°
-     * @return æ–‡ä»¶ä¿¡æ¯ä¸ªæ•°
+     * @brief »ñÈ¡ÎÄ¼şĞÅÏ¢¸öÊı
+     * @return ÎÄ¼şĞÅÏ¢¸öÊı
      */
     virtual uint32_t GetCount() const = 0;
 
     /**
-     * @brief è·å–æŒ‡å®šçš„æ–‡ä»¶ä¿¡æ¯
-     * @param index ç´¢å¼•ï¼Œå–å€¼èŒƒå›´ [0, æ–‡ä»¶ä¸ªæ•°)
-     * @return æ–‡ä»¶ä¿¡æ¯
+     * @brief »ñÈ¡Ö¸¶¨µÄÎÄ¼şĞÅÏ¢
+     * @param index Ë÷Òı£¬È¡Öµ·¶Î§ [0, ÎÄ¼ş¸öÊı)
+     * @return ÎÄ¼şĞÅÏ¢
      */
     virtual TEduBoardFileInfo GetFileInfo(uint32_t index) const = 0;
 
     /**
-     * @brief é‡Šæ”¾æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨
-     * @warning æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨ä½¿ç”¨å®Œä¹‹åï¼ŒåŠ¡å¿…è°ƒç”¨è¯¥æ¥å£ä»¥é‡Šæ”¾å†…å­˜
+     * @brief ÊÍ·ÅÎÄ¼şĞÅÏ¢ÁĞ±í
+     * @warning ÎÄ¼şĞÅÏ¢ÁĞ±íÊ¹ÓÃÍêÖ®ºó£¬Îñ±Øµ÷ÓÃ¸Ã½Ó¿ÚÒÔÊÍ·ÅÄÚ´æ
      */
     virtual void Release() = 0;
 };
 
 /**
  * @ingroup def
- * @brief å­—ç¬¦ä¸²åˆ—è¡¨
+ * @brief ×Ö·û´®ÁĞ±í
  */
 class TEduBoardStringList {
 protected:
@@ -646,22 +646,22 @@ protected:
 
 public:
     /**
-     * @brief è·å–å­—ç¬¦ä¸²ä¸ªæ•°
-     * @return å­—ç¬¦ä¸²ä¸ªæ•°
+     * @brief »ñÈ¡×Ö·û´®¸öÊı
+     * @return ×Ö·û´®¸öÊı
      */
     virtual uint32_t GetCount() const = 0;
 
     /**
-     * @brief è·å–æŒ‡å®šçš„å­—ç¬¦ä¸²
-     * @param index ç´¢å¼•ï¼Œå–å€¼èŒƒå›´ [0, å­—ç¬¦ä¸²ä¸ªæ•°)
-     * @return å­—ç¬¦ä¸²
-     * @warning è¿”å›å€¼å†…å­˜ç”±SDKå†…éƒ¨ç®¡ç†ï¼Œä¸éœ€è¦ç”¨æˆ·è‡ªè¡Œé‡Šæ”¾
+     * @brief »ñÈ¡Ö¸¶¨µÄ×Ö·û´®
+     * @param index Ë÷Òı£¬È¡Öµ·¶Î§ [0, ×Ö·û´®¸öÊı)
+     * @return ×Ö·û´®
+     * @warning ·µ»ØÖµÄÚ´æÓÉSDKÄÚ²¿¹ÜÀí£¬²»ĞèÒªÓÃ»§×ÔĞĞÊÍ·Å
      */
     virtual const char * GetString(uint32_t index) const = 0;
 
     /**
-     * @brief é‡Šæ”¾å­—ç¬¦ä¸²åˆ—è¡¨
-     * @warning å­—ç¬¦ä¸²åˆ—è¡¨ä½¿ç”¨å®Œä¹‹åï¼ŒåŠ¡å¿…è°ƒç”¨è¯¥æ¥å£ä»¥é‡Šæ”¾å†…å­˜
+     * @brief ÊÍ·Å×Ö·û´®ÁĞ±í
+     * @warning ×Ö·û´®ÁĞ±íÊ¹ÓÃÍêÖ®ºó£¬Îñ±Øµ÷ÓÃ¸Ã½Ó¿ÚÒÔÊÍ·ÅÄÚ´æ
      */
     virtual void Release() = 0;
 };
@@ -669,24 +669,24 @@ public:
 
 /**
  * @ingroup callback
- * @brief ç™½æ¿äº‹ä»¶å›è°ƒæ¥å£
+ * @brief °×°åÊÂ¼ş»Øµ÷½Ó¿Ú
  */
 struct TEduBoardCallback {
-     /// @name é€šç”¨äº‹ä»¶å›è°ƒ
+     /// @name Í¨ÓÃÊÂ¼ş»Øµ÷
      /// @{
 
      /**
-      * @brief ç™½æ¿é”™è¯¯å›è°ƒ
-      * @param code				é”™è¯¯ç ï¼Œå‚è§TEduBoardErrorCodeå®šä¹‰
-      * @param msg				é”™è¯¯ä¿¡æ¯ï¼Œç¼–ç æ ¼å¼ä¸ºUTF8
+      * @brief °×°å´íÎó»Øµ÷
+      * @param code				´íÎóÂë£¬²Î¼ûTEduBoardErrorCode¶¨Òå
+      * @param msg				´íÎóĞÅÏ¢£¬±àÂë¸ñÊ½ÎªUTF8
       * @see TEduBoardErrorCode
       */
     virtual void onTEBError(TEduBoardErrorCode code, const char *msg) = 0;
 
     /**
-     * @brief ç™½æ¿è­¦å‘Šå›è°ƒ
-     * @param code				é”™è¯¯ç ï¼Œå‚è§TEduBoardWarningCodeå®šä¹‰
-     * @param msg				é”™è¯¯ä¿¡æ¯ï¼Œç¼–ç æ ¼å¼ä¸ºUTF8
+     * @brief °×°å¾¯¸æ»Øµ÷
+     * @param code				´íÎóÂë£¬²Î¼ûTEduBoardWarningCode¶¨Òå
+     * @param msg				´íÎóĞÅÏ¢£¬±àÂë¸ñÊ½ÎªUTF8
      * @see TEduBoardWarningCode
      */
     virtual void onTEBWarning(TEduBoardWarningCode code, const char *msg) = 0;
@@ -694,184 +694,184 @@ struct TEduBoardCallback {
     /// @}
 
 
-    /// @name åŸºæœ¬æµç¨‹å›è°ƒ
+    /// @name »ù±¾Á÷³Ì»Øµ÷
     /// @{
 
     /**
-     * @brief ç™½æ¿åˆå§‹åŒ–å®Œæˆå›è°ƒ
+     * @brief °×°å³õÊ¼»¯Íê³É»Øµ÷
      *
-     * æ”¶åˆ°è¯¥å›è°ƒåè¡¨ç¤ºç™½æ¿å·²å¤„äºå¯æ­£å¸¸å·¥ä½œçŠ¶æ€ï¼ˆæ­¤æ—¶ç™½æ¿ä¸ºç©ºç™½ç™½æ¿ï¼Œå†å²æ•°æ®å°šæœªæ‹‰å–åˆ°ï¼‰
+     * ÊÕµ½¸Ã»Øµ÷ºó±íÊ¾°×°åÒÑ´¦ÓÚ¿ÉÕı³£¹¤×÷×´Ì¬£¨´ËÊ±°×°åÎª¿Õ°×°×°å£¬ÀúÊ·Êı¾İÉĞÎ´À­È¡µ½£©
      */
     virtual void onTEBInit() = 0;
 
     /**
-     * @brief ç™½æ¿å†å²æ•°æ®åŒæ­¥å®Œæˆå›è°ƒ
+     * @brief °×°åÀúÊ·Êı¾İÍ¬²½Íê³É»Øµ÷
      */
     virtual void onTEBHistroyDataSyncCompleted() {};
 
     /**
-     * @brief ç™½æ¿åŒæ­¥æ•°æ®å›è°ƒ
-     * @param data				ç™½æ¿åŒæ­¥æ•°æ®ï¼ˆJSONæ ¼å¼å­—ç¬¦ä¸²ï¼‰
+     * @brief °×°åÍ¬²½Êı¾İ»Øµ÷
+     * @param data				°×°åÍ¬²½Êı¾İ£¨JSON¸ñÊ½×Ö·û´®£©
      *
-     * æ”¶åˆ°è¯¥å›è°ƒæ—¶éœ€è¦å°†å›è°ƒæ•°æ®é€šè¿‡ä¿¡ä»¤é€šé“å‘é€ç»™æˆ¿é—´å†…å…¶ä»–äººï¼Œæ¥å—è€…æ”¶åˆ°åè°ƒç”¨AddSyncDataæ¥å£å°†æ•°æ®æ·»åŠ åˆ°ç™½æ¿ä»¥å®ç°æ•°æ®åŒæ­¥
-     * è¯¥å›è°ƒç”¨äºå¤šä¸ªç™½æ¿é—´çš„æ•°æ®åŒæ­¥ï¼Œä½¿ç”¨è…¾è®¯äº‘IMSDKè¿›è¡Œå®æ—¶æ•°æ®åŒæ­¥æ—¶ï¼Œä¸ä¼šæ”¶åˆ°è¯¥å›è°ƒ
+     * ÊÕµ½¸Ã»Øµ÷Ê±ĞèÒª½«»Øµ÷Êı¾İÍ¨¹ıĞÅÁîÍ¨µÀ·¢ËÍ¸ø·¿¼äÄÚÆäËûÈË£¬½ÓÊÜÕßÊÕµ½ºóµ÷ÓÃAddSyncData½Ó¿Ú½«Êı¾İÌí¼Óµ½°×°åÒÔÊµÏÖÊı¾İÍ¬²½
+     * ¸Ã»Øµ÷ÓÃÓÚ¶à¸ö°×°å¼äµÄÊı¾İÍ¬²½£¬Ê¹ÓÃÌÚÑ¶ÔÆIMSDK½øĞĞÊµÊ±Êı¾İÍ¬²½Ê±£¬²»»áÊÕµ½¸Ã»Øµ÷
      */
     virtual void onTEBSyncData(const char *data) {};
 
     /**
-     * @brief ç™½æ¿å¯æ’¤é”€çŠ¶æ€æ”¹å˜å›è°ƒ
-     * @param canUndo			ç™½æ¿å½“å‰æ˜¯å¦è¿˜èƒ½æ‰§è¡ŒUndoæ“ä½œ
+     * @brief °×°å¿É³·Ïú×´Ì¬¸Ä±ä»Øµ÷
+     * @param canUndo			°×°åµ±Ç°ÊÇ·ñ»¹ÄÜÖ´ĞĞUndo²Ù×÷
      */
     virtual void onTEBUndoStatusChanged(bool canUndo) {};
 
     /**
-     * @brief ç™½æ¿å¯é‡åšçŠ¶æ€æ”¹å˜å›è°ƒ
-     * @param canRedo			ç™½æ¿å½“å‰æ˜¯å¦è¿˜èƒ½æ‰§è¡ŒRedoæ“ä½œ
+     * @brief °×°å¿ÉÖØ×ö×´Ì¬¸Ä±ä»Øµ÷
+     * @param canRedo			°×°åµ±Ç°ÊÇ·ñ»¹ÄÜÖ´ĞĞRedo²Ù×÷
      */
     virtual void onTEBRedoStatusChanged(bool canRedo) {};
 
     /**
-     * @brief ç™½æ¿ç¦»å±æ¸²æŸ“å›è°ƒ
-     * @param buffer            ç™½æ¿åƒç´ æ•°æ®ï¼Œå¤§å°ä¸ºwidth * height * 4ï¼Œåƒç´ ä»¥ç™½æ¿å·¦ä¸Šæ–¹ä¸ºåŸç‚¹ä»å·¦åˆ°å³ä»ä¸Šåˆ°ä¸‹æŒ‰BGRAæ’åˆ—
-     * @param width             ç™½æ¿åƒç´ æ•°æ®çš„å®½åº¦
-     * @param height            ç™½æ¿åƒç´ æ•°æ®çš„é«˜åº¦
+     * @brief °×°åÀëÆÁäÖÈ¾»Øµ÷
+     * @param buffer            °×°åÏñËØÊı¾İ£¬´óĞ¡Îªwidth * height * 4£¬ÏñËØÒÔ°×°å×óÉÏ·½ÎªÔ­µã´Ó×óµ½ÓÒ´ÓÉÏµ½ÏÂ°´BGRAÅÅÁĞ
+     * @param width             °×°åÏñËØÊı¾İµÄ¿í¶È
+     * @param height            °×°åÏñËØÊı¾İµÄ¸ß¶È
      *
-     * è¯¥å›è°ƒåªæœ‰åœ¨å¯ç”¨ç¦»å±æ¸²æŸ“æ—¶æ‰ä¼šè¢«è§¦å‘
+     * ¸Ã»Øµ÷Ö»ÓĞÔÚÆôÓÃÀëÆÁäÖÈ¾Ê±²Å»á±»´¥·¢
      */
     virtual void onTEBOffscreenPaint(const void* buffer, uint32_t width, uint32_t height) {};
 
     /// @}
 
 
-    /// @name æ¶‚é¸¦åŠŸèƒ½å›è°ƒ
+    /// @name Í¿Ñ»¹¦ÄÜ»Øµ÷
     /// @{
 
      /**
-      * @brief ç™½æ¿å›¾ç‰‡çŠ¶æ€æ”¹å˜å›è°ƒ
-      * @param boardId			ç™½æ¿ID
-      * @param url				ç™½æ¿å›¾ç‰‡URL
-      * @param status			æ–°çš„ç™½æ¿å›¾ç‰‡çŠ¶æ€
+      * @brief °×°åÍ¼Æ¬×´Ì¬¸Ä±ä»Øµ÷
+      * @param boardId			°×°åID
+      * @param url				°×°åÍ¼Æ¬URL
+      * @param status			ĞÂµÄ°×°åÍ¼Æ¬×´Ì¬
       */
     virtual void onTEBImageStatusChanged(const char *boardId, const char *url, TEduBoardImageStatus status) {};
 
     /**
-     * @brief è®¾ç½®ç™½æ¿èƒŒæ™¯å›¾ç‰‡å›è°ƒ
-     * @param url				è°ƒç”¨SetBackgroundImageæ—¶ä¼ å…¥çš„URL
+     * @brief ÉèÖÃ°×°å±³¾°Í¼Æ¬»Øµ÷
+     * @param url				µ÷ÓÃSetBackgroundImageÊ±´«ÈëµÄURL
      *
-     * åªæœ‰æœ¬åœ°è°ƒç”¨SetBackgroundImageæ—¶ä¼šæ”¶åˆ°è¯¥å›è°ƒ
-     * æ”¶åˆ°è¯¥å›è°ƒè¡¨ç¤ºèƒŒæ™¯å›¾ç‰‡å·²ç»ä¸Šä¼ æˆ–ä¸‹è½½æˆåŠŸï¼Œå¹¶ä¸”æ˜¾ç¤ºå‡ºæ¥
+     * Ö»ÓĞ±¾µØµ÷ÓÃSetBackgroundImageÊ±»áÊÕµ½¸Ã»Øµ÷
+     * ÊÕµ½¸Ã»Øµ÷±íÊ¾±³¾°Í¼Æ¬ÒÑ¾­ÉÏ´«»òÏÂÔØ³É¹¦£¬²¢ÇÒÏÔÊ¾³öÀ´
      */
     virtual void onTEBSetBackgroundImage(const char *url) {};
 
     /**
-     * @brief è®¾ç½®ç™½æ¿èƒŒæ™¯H5çŠ¶æ€æ”¹å˜å›è°ƒ
-     * @param boardId           ç™½æ¿ID
-     * @param url               ç™½æ¿å›¾ç‰‡URL
-     * @param status            æ–°çš„ç™½æ¿å›¾ç‰‡çŠ¶æ€
+     * @brief ÉèÖÃ°×°å±³¾°H5×´Ì¬¸Ä±ä»Øµ÷
+     * @param boardId           °×°åID
+     * @param url               °×°åÍ¼Æ¬URL
+     * @param status            ĞÂµÄ°×°åÍ¼Æ¬×´Ì¬
      */
     virtual void onTEBBackgroundH5StatusChanged(const char *boardId, const char *url, TEduBoardBackgroundH5Status status) {};
 
     /// @}
 
 
-    /// @name ç™½æ¿é¡µæ“ä½œå›è°ƒ
+    /// @name °×°åÒ³²Ù×÷»Øµ÷
     /// @{
 
     /**
-     * @brief å¢åŠ ç™½æ¿é¡µå›è°ƒ
-     * @param boardList		å¢åŠ çš„ç™½æ¿é¡µIDåˆ—è¡¨ï¼ˆä½¿ç”¨åä¸éœ€è¦è‡ªè¡Œè°ƒç”¨Releaseæ–¹æ³•é‡Šæ”¾ï¼ŒSDKå†…éƒ¨è‡ªåŠ¨é‡Šæ”¾ï¼‰
-     * @param fileId			å¢åŠ çš„ç™½æ¿é¡µæ‰€å±çš„æ–‡ä»¶IDï¼ˆç›®å‰ç‰ˆæœ¬åªå¯èƒ½ä¸º#DEFAULTï¼‰
+     * @brief Ôö¼Ó°×°åÒ³»Øµ÷
+     * @param boardList		Ôö¼ÓµÄ°×°åÒ³IDÁĞ±í£¨Ê¹ÓÃºó²»ĞèÒª×ÔĞĞµ÷ÓÃRelease·½·¨ÊÍ·Å£¬SDKÄÚ²¿×Ô¶¯ÊÍ·Å£©
+     * @param fileId			Ôö¼ÓµÄ°×°åÒ³ËùÊôµÄÎÄ¼şID£¨Ä¿Ç°°æ±¾Ö»¿ÉÄÜÎª#DEFAULT£©
      */
     virtual void onTEBAddBoard(const TEduBoardStringList *boardList, const char *fileId) {};
 
     /**
-     * @brief åˆ é™¤ç™½æ¿é¡µå›è°ƒ
-     * @param boardList			åˆ é™¤çš„ç™½æ¿é¡µIDï¼ˆä½¿ç”¨åä¸éœ€è¦è‡ªè¡Œè°ƒç”¨Releaseæ–¹æ³•é‡Šæ”¾ï¼ŒSDKå†…éƒ¨è‡ªåŠ¨é‡Šæ”¾ï¼‰
-     * @param fileId			åˆ é™¤çš„ç™½æ¿é¡µæ‰€å±çš„æ–‡ä»¶IDï¼ˆç›®å‰ç‰ˆæœ¬åªå¯èƒ½ä¸º#DEFAULTï¼‰
+     * @brief É¾³ı°×°åÒ³»Øµ÷
+     * @param boardList			É¾³ıµÄ°×°åÒ³ID£¨Ê¹ÓÃºó²»ĞèÒª×ÔĞĞµ÷ÓÃRelease·½·¨ÊÍ·Å£¬SDKÄÚ²¿×Ô¶¯ÊÍ·Å£©
+     * @param fileId			É¾³ıµÄ°×°åÒ³ËùÊôµÄÎÄ¼şID£¨Ä¿Ç°°æ±¾Ö»¿ÉÄÜÎª#DEFAULT£©
      */
     virtual void onTEBDeleteBoard(const TEduBoardStringList *boardList, const char *fileId) {};
 
     /**
-     * @brief è·³è½¬ç™½æ¿é¡µå›è°ƒ
-     * @param boardId			è·³è½¬åˆ°çš„ç™½æ¿é¡µID
-     * @param fileId			è·³è½¬åˆ°çš„ç™½æ¿é¡µæ‰€å±çš„æ–‡ä»¶ID
+     * @brief Ìø×ª°×°åÒ³»Øµ÷
+     * @param boardId			Ìø×ªµ½µÄ°×°åÒ³ID
+     * @param fileId			Ìø×ªµ½µÄ°×°åÒ³ËùÊôµÄÎÄ¼şID
      */
     virtual void onTEBGotoBoard(const char *boardId, const char *fileId) {};
 
     /**
-     * @brief ç™½æ¿é¡µåŠ¨ç”»æ­¥æ•°å›è°ƒ
-     * @param currentStep		å½“å‰ç™½æ¿é¡µåŠ¨ç”»æ­¥æ•°ï¼Œå–å€¼èŒƒå›´ [0, totalStep)
-     * @param totalStep			å½“å‰ç™½æ¿é¡µåŠ¨ç”»æ€»æ­¥æ•°
+     * @brief °×°åÒ³¶¯»­²½Êı»Øµ÷
+     * @param currentStep		µ±Ç°°×°åÒ³¶¯»­²½Êı£¬È¡Öµ·¶Î§ [0, totalStep)
+     * @param totalStep			µ±Ç°°×°åÒ³¶¯»­×Ü²½Êı
      */
     virtual void onTEBGotoStep(uint32_t currentStep, uint32_t totalStep) {};
 
     /// @}
 
 
-    /// @name æ–‡ä»¶æ“ä½œå›è°ƒ
+    /// @name ÎÄ¼ş²Ù×÷»Øµ÷
     /// @{
 
     /**
-     * @brief æ–‡ä»¶è½¬ç è¿›åº¦å›è°ƒ
-     * @param path              æ­£åœ¨è½¬ç çš„æœ¬åœ°æ–‡ä»¶è·¯å¾„
-     * @param errorCode         æ–‡ä»¶è½¬ç é”™è¯¯ç ï¼Œæ— å¼‚å¸¸æ—¶ä¸ºç©ºå­—ç¬¦ä¸² ""
-     * @param errorMsg          æ–‡ä»¶è½¬ç é”™è¯¯ä¿¡æ¯ï¼Œæ— å¼‚å¸¸æ—¶ä¸ºç©ºå­—ç¬¦ä¸² ""
-     * @param result            æ–‡ä»¶è½¬ç ç»“æœ
+     * @brief ÎÄ¼ş×ªÂë½ø¶È»Øµ÷
+     * @param path              ÕıÔÚ×ªÂëµÄ±¾µØÎÄ¼şÂ·¾¶
+     * @param errorCode         ÎÄ¼ş×ªÂë´íÎóÂë£¬ÎŞÒì³£Ê±Îª¿Õ×Ö·û´® ""
+     * @param errorMsg          ÎÄ¼ş×ªÂë´íÎóĞÅÏ¢£¬ÎŞÒì³£Ê±Îª¿Õ×Ö·û´® ""
+     * @param result            ÎÄ¼ş×ªÂë½á¹û
      */
     virtual void onTEBFileTranscodeProgress(const char *path, const char *errorCode, const char *errorMsg, const TEduBoardTranscodeFileResult &result) {};
 
     /**
-     * @brief å¢åŠ è½¬ç æ–‡ä»¶å›è°ƒ
-     * @param fileId			å¢åŠ çš„æ–‡ä»¶ID
+     * @brief Ôö¼Ó×ªÂëÎÄ¼ş»Øµ÷
+     * @param fileId			Ôö¼ÓµÄÎÄ¼şID
      *
-     * æ–‡ä»¶åŠ è½½å®Œæˆåæ‰ä¼šè§¦å‘è¯¥å›è°ƒ
+     * ÎÄ¼ş¼ÓÔØÍê³Éºó²Å»á´¥·¢¸Ã»Øµ÷
      */
     virtual void onTEBAddTranscodeFile(const char *fileId) {};
 
     /**
-     * @brief è§†é¢‘æ–‡ä»¶çŠ¶æ€å›è°ƒ
-     * @param fileId            æ–‡ä»¶ID
-     * @param status            æ–‡ä»¶çŠ¶æ€
-     * @param progress          å½“å‰è¿›åº¦ï¼ˆç§’ï¼‰ï¼ˆä»…æ”¯æŒmp4æ ¼å¼ï¼‰
-     * @param duration          æ€»æ—¶é•¿ï¼ˆç§’ï¼‰ï¼ˆä»…æ”¯æŒmp4æ ¼å¼ï¼‰
+     * @brief ÊÓÆµÎÄ¼ş×´Ì¬»Øµ÷
+     * @param fileId            ÎÄ¼şID
+     * @param status            ÎÄ¼ş×´Ì¬
+     * @param progress          µ±Ç°½ø¶È£¨Ãë£©£¨½öÖ§³Ömp4¸ñÊ½£©
+     * @param duration          ×ÜÊ±³¤£¨Ãë£©£¨½öÖ§³Ömp4¸ñÊ½£©
      */
     virtual void onTEBVideoStatusChanged(const char *fileId, TEduBoardVideoStatus status, double progress, double duration) {};
 
     /**
-     * @brief H5æ–‡ä»¶çŠ¶æ€å›è°ƒ
-     * @param fileId            æ–‡ä»¶ID
-     * @param status            æ–‡ä»¶çŠ¶æ€
+     * @brief H5ÎÄ¼ş×´Ì¬»Øµ÷
+     * @param fileId            ÎÄ¼şID
+     * @param status            ÎÄ¼ş×´Ì¬
      */
     virtual void onTEBH5FileStatusChanged(const char *fileId, TEduBoardH5FileStatus status) {};
 
     /**
-     * @brief åˆ é™¤æ–‡ä»¶å›è°ƒ
-     * @param fileId			åˆ é™¤çš„æ–‡ä»¶ID
+     * @brief É¾³ıÎÄ¼ş»Øµ÷
+     * @param fileId			É¾³ıµÄÎÄ¼şID
      */
     virtual void onTEBDeleteFile(const char *fileId) {};
 
     /**
-     * @brief åˆ‡æ¢æ–‡ä»¶å›è°ƒ
-     * @param fileId			åˆ‡æ¢åˆ°çš„æ–‡ä»¶ID
+     * @brief ÇĞ»»ÎÄ¼ş»Øµ÷
+     * @param fileId			ÇĞ»»µ½µÄÎÄ¼şID
      */
     virtual void onTEBSwitchFile(const char *fileId) {};
 
     /**
-     * @brief æ–‡ä»¶ä¸Šä¼ è¿›åº¦å›è°ƒ
-     * @param fileId            æ­£åœ¨ä¸Šä¼ çš„æ–‡ä»¶ID
-     * @param currentBytes      å½“å‰å·²ä¸Šä¼ å¤§å°ï¼Œå•ä½bytes
-     * @param totalBytes        æ–‡ä»¶æ€»å¤§å°ï¼Œå•ä½bytes
-     * @param uploadSpeed       æ–‡ä»¶ä¸Šä¼ é€Ÿåº¦ï¼Œå•ä½bytes
-     * @param percent			æ–‡ä»¶ä¸Šä¼ è¿›åº¦ï¼Œå–å€¼èŒƒå›´ [0, 1]
+     * @brief ÎÄ¼şÉÏ´«½ø¶È»Øµ÷
+     * @param fileId            ÕıÔÚÉÏ´«µÄÎÄ¼şID
+     * @param currentBytes      µ±Ç°ÒÑÉÏ´«´óĞ¡£¬µ¥Î»bytes
+     * @param totalBytes        ÎÄ¼ş×Ü´óĞ¡£¬µ¥Î»bytes
+     * @param uploadSpeed       ÎÄ¼şÉÏ´«ËÙ¶È£¬µ¥Î»bytes
+     * @param percent			ÎÄ¼şÉÏ´«½ø¶È£¬È¡Öµ·¶Î§ [0, 1]
      */
     virtual void onTEBFileUploadProgress(const char *fileId, int currentBytes, int totalBytes, int uploadSpeed, double percent) {};
 
     /**
-     * @brief æ–‡ä»¶ä¸Šä¼ çŠ¶æ€å›è°ƒ
-     * @param fileId            æ­£åœ¨ä¸Šä¼ çš„æ–‡ä»¶ID
-     * @param status            æ–‡ä»¶ä¸Šä¼ çŠ¶æ€
-     * @param errorCode			æ–‡ä»¶ä¸Šä¼ é”™è¯¯ç 
-     * @param errorMsg			æ–‡ä»¶ä¸Šä¼ é”™è¯¯ä¿¡æ¯
+     * @brief ÎÄ¼şÉÏ´«×´Ì¬»Øµ÷
+     * @param fileId            ÕıÔÚÉÏ´«µÄÎÄ¼şID
+     * @param status            ÎÄ¼şÉÏ´«×´Ì¬
+     * @param errorCode			ÎÄ¼şÉÏ´«´íÎóÂë
+     * @param errorMsg			ÎÄ¼şÉÏ´«´íÎóĞÅÏ¢
      */
     virtual void onTEBFileUploadStatus(const char *fileId, TEduBoardUploadStatus status, int errorCode, const char *errorMsg) {};
 
@@ -882,619 +882,619 @@ struct TEduBoardCallback {
 
 /**
  * @ingroup ctrl
- * @brief ç™½æ¿æ§åˆ¶å™¨
+ * @brief °×°å¿ØÖÆÆ÷
  */
 class TEduBoardController {
 protected:
     virtual ~TEduBoardController() {};
 
 public:
-    /// @name è®¾ç½® TEduBoardCallback å›è°ƒ
+    /// @name ÉèÖÃ TEduBoardCallback »Øµ÷
     /// @{
 
     /**
-     * @brief è®¾ç½®äº‹ä»¶å›è°ƒç›‘å¬
-     * @param callback 			äº‹ä»¶å›è°ƒç›‘å¬
-     * @warning å»ºè®®åœ¨Initä¹‹å‰è°ƒç”¨è¯¥æ–¹æ³•ä»¥æ”¯æŒé”™è¯¯å¤„ç†
+     * @brief ÉèÖÃÊÂ¼ş»Øµ÷¼àÌı
+     * @param callback 			ÊÂ¼ş»Øµ÷¼àÌı
+     * @warning ½¨ÒéÔÚInitÖ®Ç°µ÷ÓÃ¸Ã·½·¨ÒÔÖ§³Ö´íÎó´¦Àí
      */
     virtual void AddCallback(TEduBoardCallback * callback) = 0;
 
     /**
-     * @brief åˆ é™¤äº‹ä»¶å›è°ƒç›‘å¬
-     * @param callback 			äº‹ä»¶å›è°ƒç›‘å¬
+     * @brief É¾³ıÊÂ¼ş»Øµ÷¼àÌı
+     * @param callback 			ÊÂ¼ş»Øµ÷¼àÌı
      */
     virtual void RemoveCallback(TEduBoardCallback *callback) = 0;
 
     /// @}
 
 
-    /// @name åŸºæœ¬æµç¨‹æ¥å£
+    /// @name »ù±¾Á÷³Ì½Ó¿Ú
     /// @{
 
     /**
-     * @brief åˆå§‹åŒ–ç™½æ¿
-     * @param authParam 		æˆæƒå‚æ•°
-     * @param roomId 			è¯¾å ‚ID
-     * @param initParam	 	 	å¯é€‰å‚æ•°ï¼ŒæŒ‡å®šç”¨äºåˆå§‹åŒ–ç™½æ¿çš„ä¸€ç³»åˆ—å±æ€§å€¼
-     * @warning ä½¿ç”¨è…¾è®¯äº‘IMSDKè¿›è¡Œå®æ—¶æ•°æ®åŒæ­¥æ—¶ï¼Œåªæ”¯æŒä¸€ä¸ªç™½æ¿å®ä¾‹ï¼Œåˆ›å»ºå¤šä¸ªç™½æ¿å®ä¾‹å¯èƒ½å¯¼è‡´æ¶‚é¸¦çŠ¶æ€å¼‚å¸¸
+     * @brief ³õÊ¼»¯°×°å
+     * @param authParam 		ÊÚÈ¨²ÎÊı
+     * @param roomId 			¿ÎÌÃID
+     * @param initParam	 	 	¿ÉÑ¡²ÎÊı£¬Ö¸¶¨ÓÃÓÚ³õÊ¼»¯°×°åµÄÒ»ÏµÁĞÊôĞÔÖµ
+     * @warning Ê¹ÓÃÌÚÑ¶ÔÆIMSDK½øĞĞÊµÊ±Êı¾İÍ¬²½Ê±£¬Ö»Ö§³ÖÒ»¸ö°×°åÊµÀı£¬´´½¨¶à¸ö°×°åÊµÀı¿ÉÄÜµ¼ÖÂÍ¿Ñ»×´Ì¬Òì³£
      * 
-     * å¯ç”¨ initParam.timSync æŒ‡å®šæ˜¯å¦ä½¿ç”¨è…¾è®¯äº‘IMSDKè¿›è¡Œå®æ—¶æ•°æ®åŒæ­¥
-     * initParam.timSync == true æ—¶ï¼Œä¼šå°è¯•åå°„è°ƒç”¨è…¾è®¯äº‘IMSDKä½œä¸ºä¿¡ä»¤é€šé“è¿›è¡Œå®æ—¶æ•°æ®æ”¶å‘ï¼ˆåªå®ç°æ¶ˆæ¯æ”¶å‘ï¼Œåˆå§‹åŒ–ã€è¿›æˆ¿ç­‰æ“ä½œéœ€è¦ç”¨æˆ·è‡ªè¡Œå®ç°ï¼‰ï¼Œç›®å‰ä»…æ”¯æŒIMSDK 4.3.118åŠä»¥ä¸Šç‰ˆæœ¬
+     * ¿ÉÓÃ initParam.timSync Ö¸¶¨ÊÇ·ñÊ¹ÓÃÌÚÑ¶ÔÆIMSDK½øĞĞÊµÊ±Êı¾İÍ¬²½
+     * initParam.timSync == true Ê±£¬»á³¢ÊÔ·´Éäµ÷ÓÃÌÚÑ¶ÔÆIMSDK×÷ÎªĞÅÁîÍ¨µÀ½øĞĞÊµÊ±Êı¾İÊÕ·¢£¨Ö»ÊµÏÖÏûÏ¢ÊÕ·¢£¬³õÊ¼»¯¡¢½ø·¿µÈ²Ù×÷ĞèÒªÓÃ»§×ÔĞĞÊµÏÖ£©£¬Ä¿Ç°½öÖ§³ÖIMSDK 4.3.118¼°ÒÔÉÏ°æ±¾
      */
     virtual void Init(const TEduBoardAuthParam & authParam, uint32_t roomId, const TEduBoardInitParam &initParam = TEduBoardInitParam()) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿æ¸²æŸ“View
-     * @return ç™½æ¿æ¸²æŸ“View
+     * @brief »ñÈ¡°×°åäÖÈ¾View
+     * @return °×°åäÖÈ¾View
      */
     virtual WINDOW_HANDLE GetBoardRenderView() = 0;
 
     /**
-     * @brief æ·»åŠ ç™½æ¿åŒæ­¥æ•°æ®
-     * @param data 				æ¥æ”¶åˆ°çš„æˆ¿é—´å†…å…¶ä»–äººå‘é€çš„åŒæ­¥æ•°æ®
+     * @brief Ìí¼Ó°×°åÍ¬²½Êı¾İ
+     * @param data 				½ÓÊÕµ½µÄ·¿¼äÄÚÆäËûÈË·¢ËÍµÄÍ¬²½Êı¾İ
      *
-     * è¯¥æ¥å£ç”¨äºå¤šä¸ªç™½æ¿é—´çš„æ•°æ®åŒæ­¥ï¼Œä½¿ç”¨å†…ç½®IMä½œä¸ºä¿¡ä»¤é€šé“æ—¶ï¼Œä¸éœ€è¦è°ƒç”¨è¯¥æ¥å£
+     * ¸Ã½Ó¿ÚÓÃÓÚ¶à¸ö°×°å¼äµÄÊı¾İÍ¬²½£¬Ê¹ÓÃÄÚÖÃIM×÷ÎªĞÅÁîÍ¨µÀÊ±£¬²»ĞèÒªµ÷ÓÃ¸Ã½Ó¿Ú
      */
     virtual void AddSyncData(const char * data) = 0;
 
     /**
-     * @brief è®¾ç½®ç™½æ¿æ˜¯å¦å¼€å¯æ•°æ®åŒæ­¥
-     * @param enable    æ˜¯å¦å¼€å¯
+     * @brief ÉèÖÃ°×°åÊÇ·ñ¿ªÆôÊı¾İÍ¬²½
+     * @param enable    ÊÇ·ñ¿ªÆô
      *
-     * ç™½æ¿åˆ›å»ºåé»˜è®¤å¼€å¯æ•°æ®åŒæ­¥ï¼Œå…³é—­æ•°æ®åŒæ­¥ï¼Œæœ¬åœ°çš„æ‰€æœ‰ç™½æ¿æ“ä½œä¸ä¼šåŒæ­¥åˆ°è¿œç«¯å’ŒæœåŠ¡å™¨
+     * °×°å´´½¨ºóÄ¬ÈÏ¿ªÆôÊı¾İÍ¬²½£¬¹Ø±ÕÊı¾İÍ¬²½£¬±¾µØµÄËùÓĞ°×°å²Ù×÷²»»áÍ¬²½µ½Ô¶¶ËºÍ·şÎñÆ÷
      */
     virtual void SetDataSyncEnable(bool enable) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿æ˜¯å¦å¼€å¯æ•°æ®åŒæ­¥
-     * @return æ˜¯å¦å¼€å¯æ•°æ®åŒæ­¥ï¼Œtrue è¡¨ç¤ºå¼€å¯ï¼Œfalse è¡¨ç¤ºå…³é—­
+     * @brief »ñÈ¡°×°åÊÇ·ñ¿ªÆôÊı¾İÍ¬²½
+     * @return ÊÇ·ñ¿ªÆôÊı¾İÍ¬²½£¬true ±íÊ¾¿ªÆô£¬false ±íÊ¾¹Ø±Õ
      */
     virtual bool IsDataSyncEnable() = 0;
 
     /**
-     * @brief é‡ç½®ç™½æ¿
+     * @brief ÖØÖÃ°×°å
      * 
-     * è°ƒç”¨è¯¥æ¥å£åå°†ä¼šåˆ é™¤æ‰€æœ‰çš„ç™½æ¿é¡µå’Œæ–‡ä»¶
+     * µ÷ÓÃ¸Ã½Ó¿Úºó½«»áÉ¾³ıËùÓĞµÄ°×°åÒ³ºÍÎÄ¼ş
      */
     virtual void Reset() = 0;
 
     /**
-     * @brief è®¾ç½®ç™½æ¿æ¸²æŸ“Viewçš„ä½ç½®å’Œå¤§å°
-     * @param x                 è¦è®¾ç½®çš„ç™½æ¿æ¸²æŸ“Viewçš„ä½ç½®Xåˆ†é‡
-     * @param y                 è¦è®¾ç½®çš„ç™½æ¿æ¸²æŸ“Viewçš„ä½ç½®Yåˆ†é‡
-     * @param width             è¦è®¾ç½®çš„ç™½æ¿æ¸²æŸ“Viewçš„å®½åº¦
-     * @param height            è¦è®¾ç½®çš„ç™½æ¿æ¸²æŸ“Viewçš„é«˜åº¦
+     * @brief ÉèÖÃ°×°åäÖÈ¾ViewµÄÎ»ÖÃºÍ´óĞ¡
+     * @param x                 ÒªÉèÖÃµÄ°×°åäÖÈ¾ViewµÄÎ»ÖÃX·ÖÁ¿
+     * @param y                 ÒªÉèÖÃµÄ°×°åäÖÈ¾ViewµÄÎ»ÖÃY·ÖÁ¿
+     * @param width             ÒªÉèÖÃµÄ°×°åäÖÈ¾ViewµÄ¿í¶È
+     * @param height            ÒªÉèÖÃµÄ°×°åäÖÈ¾ViewµÄ¸ß¶È
      * 
-     * ç™½æ¿æ¸²æŸ“Viewæœ‰çˆ¶çª—å£æ—¶ï¼Œ(x, y) æŒ‡å®šç›¸å¯¹å…¶çˆ¶çª—å£çš„ä½ç½®
+     * °×°åäÖÈ¾ViewÓĞ¸¸´°¿ÚÊ±£¬(x, y) Ö¸¶¨Ïà¶ÔÆä¸¸´°¿ÚµÄÎ»ÖÃ
      */
     virtual void SetBoardRenderViewPos(int32_t x, int32_t y, uint32_t width, uint32_t height) = 0;
 
     /**
-     * @brief è·å–åŒæ­¥æ—¶é—´æˆ³
-     * @return æ¯«ç§’çº§åŒæ­¥æ—¶é—´æˆ³
+     * @brief »ñÈ¡Í¬²½Ê±¼ä´Á
+     * @return ºÁÃë¼¶Í¬²½Ê±¼ä´Á
      */
     virtual uint64_t GetSyncTime() = 0;
 
     /**
-     * @brief åŒæ­¥è¿œç«¯æ—¶é—´æˆ³
-     * @param userId			è¿œç«¯ç”¨æˆ·ID
-     * @param timestamp			è¿œç«¯ç”¨æˆ·æ¯«ç§’çº§åŒæ­¥æ—¶é—´æˆ³
+     * @brief Í¬²½Ô¶¶ËÊ±¼ä´Á
+     * @param userId			Ô¶¶ËÓÃ»§ID
+     * @param timestamp			Ô¶¶ËÓÃ»§ºÁÃë¼¶Í¬²½Ê±¼ä´Á
      */
     virtual void SyncRemoteTime(const char *userId, uint64_t timestamp) = 0;
 
     /**
-     * @brief è°ƒç”¨ç™½æ¿å®éªŒæ€§æ¥å£
-     * @param apiExp			è¦æ‰§è¡Œçš„ç™½æ¿ç›¸å…³JSä»£ç 
-     * @return JSæ‰§è¡Œåçš„è¿”å›å€¼è½¬æ¢è€Œæ¥çš„å­—ç¬¦ä¸²
+     * @brief µ÷ÓÃ°×°åÊµÑéĞÔ½Ó¿Ú
+     * @param apiExp			ÒªÖ´ĞĞµÄ°×°åÏà¹ØJS´úÂë
+     * @return JSÖ´ĞĞºóµÄ·µ»ØÖµ×ª»»¶øÀ´µÄ×Ö·û´®
      */
     virtual const char * CallExperimentalAPI(const char * apiExp) = 0;
 
     /// @}
 
 
-    /// @name æ¶‚é¸¦ç›¸å…³æ¥å£
+    /// @name Í¿Ñ»Ïà¹Ø½Ó¿Ú
     /// @{
 
     /**
-     * @brief è®¾ç½®ç™½æ¿æ˜¯å¦å…è®¸æ¶‚é¸¦
-     * @param enable 			æ˜¯å¦å…è®¸æ¶‚é¸¦ï¼Œtrue è¡¨ç¤ºç™½æ¿å¯ä»¥æ¶‚é¸¦ï¼Œfalse è¡¨ç¤ºç™½æ¿ä¸èƒ½æ¶‚é¸¦
+     * @brief ÉèÖÃ°×°åÊÇ·ñÔÊĞíÍ¿Ñ»
+     * @param enable 			ÊÇ·ñÔÊĞíÍ¿Ñ»£¬true ±íÊ¾°×°å¿ÉÒÔÍ¿Ñ»£¬false ±íÊ¾°×°å²»ÄÜÍ¿Ñ»
      *
-     * ç™½æ¿åˆ›å»ºåé»˜è®¤ä¸ºå…è®¸æ¶‚é¸¦çŠ¶æ€
+     * °×°å´´½¨ºóÄ¬ÈÏÎªÔÊĞíÍ¿Ñ»×´Ì¬
      */
     virtual void SetDrawEnable(bool enable) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿æ˜¯å¦å…è®¸æ¶‚é¸¦
-     * @return æ˜¯å¦å…è®¸æ¶‚é¸¦ï¼Œtrue è¡¨ç¤ºç™½æ¿å¯ä»¥æ¶‚é¸¦ï¼Œfalse è¡¨ç¤ºç™½æ¿ä¸èƒ½æ¶‚é¸¦
+     * @brief »ñÈ¡°×°åÊÇ·ñÔÊĞíÍ¿Ñ»
+     * @return ÊÇ·ñÔÊĞíÍ¿Ñ»£¬true ±íÊ¾°×°å¿ÉÒÔÍ¿Ñ»£¬false ±íÊ¾°×°å²»ÄÜÍ¿Ñ»
      */
     virtual bool IsDrawEnable() = 0;
 
     /**
-     * @brief è®¾ç½®å…è®¸æ“ä½œå“ªäº›ç”¨æˆ·ç»˜åˆ¶çš„å›¾å½¢
-     * @param users             æŒ‡å®šå…è®¸æ“ä½œçš„ç”¨æˆ·é›†ï¼Œä¸ºnullptrè¡¨ç¤ºä¸åŠ é™åˆ¶
-     * @param userCount         æŒ‡å®šuserså‚æ•°åŒ…å«çš„ç”¨æˆ·ä¸ªæ•°
+     * @brief ÉèÖÃÔÊĞí²Ù×÷ÄÄĞ©ÓÃ»§»æÖÆµÄÍ¼ĞÎ
+     * @param users             Ö¸¶¨ÔÊĞí²Ù×÷µÄÓÃ»§¼¯£¬Îªnullptr±íÊ¾²»¼ÓÏŞÖÆ
+     * @param userCount         Ö¸¶¨users²ÎÊı°üº¬µÄÓÃ»§¸öÊı
      * 
-     * è¯¥æ¥å£ä¼šäº§ç”Ÿä»¥ä¸‹å½±å“ï¼š
-     *    1. ERASER å·¥å…·åªèƒ½æ“¦é™¤userså‚æ•°åˆ—å‡ºçš„ç”¨æˆ·ç»˜åˆ¶çš„æ¶‚é¸¦ï¼Œæ— æ³•æ“¦é™¤å…¶ä»–äººç»˜åˆ¶çš„æ¶‚é¸¦
-     *    2. POINTSELECTã€SELECT å·¥å…·åªèƒ½é€‰ä¸­userså‚æ•°åˆ—å‡ºçš„ç”¨æˆ·ç»˜åˆ¶çš„æ¶‚é¸¦ï¼Œæ— æ³•é€‰ä¸­å…¶ä»–äººç»˜åˆ¶çš„æ¶‚é¸¦
-     *    3. clear æ¥å£åªèƒ½ç”¨äºæ¸…ç©ºé€‰ä¸­æ¶‚é¸¦ä»¥åŠuserså‚æ•°åˆ—å‡ºçš„ç”¨æˆ·ç»˜åˆ¶çš„æ¶‚é¸¦ï¼Œæ— æ³•æ¸…ç©ºèƒŒæ™¯åŠå…¶ä»–äººç»˜åˆ¶çš„æ¶‚é¸¦
-     *    4. ç™½æ¿åŒ…å«çš„å…¶ä»–åŠŸèƒ½æœªåœ¨æœ¬åˆ—è¡¨æ˜ç¡®åˆ—å‡ºè€…éƒ½å¯ä»¥ç¡®å®šä¸å—æœ¬æ¥å£å½±å“
+     * ¸Ã½Ó¿Ú»á²úÉúÒÔÏÂÓ°Ïì£º
+     *    1. ERASER ¹¤¾ßÖ»ÄÜ²Á³ıusers²ÎÊıÁĞ³öµÄÓÃ»§»æÖÆµÄÍ¿Ñ»£¬ÎŞ·¨²Á³ıÆäËûÈË»æÖÆµÄÍ¿Ñ»
+     *    2. POINTSELECT¡¢SELECT ¹¤¾ßÖ»ÄÜÑ¡ÖĞusers²ÎÊıÁĞ³öµÄÓÃ»§»æÖÆµÄÍ¿Ñ»£¬ÎŞ·¨Ñ¡ÖĞÆäËûÈË»æÖÆµÄÍ¿Ñ»
+     *    3. clear ½Ó¿ÚÖ»ÄÜÓÃÓÚÇå¿ÕÑ¡ÖĞÍ¿Ñ»ÒÔ¼°users²ÎÊıÁĞ³öµÄÓÃ»§»æÖÆµÄÍ¿Ñ»£¬ÎŞ·¨Çå¿Õ±³¾°¼°ÆäËûÈË»æÖÆµÄÍ¿Ñ»
+     *    4. °×°å°üº¬µÄÆäËû¹¦ÄÜÎ´ÔÚ±¾ÁĞ±íÃ÷È·ÁĞ³öÕß¶¼¿ÉÒÔÈ·¶¨²»ÊÜ±¾½Ó¿ÚÓ°Ïì
      */
     virtual void SetAccessibleUsers(const char **users, uint32_t userCount) = 0;
 
     /**
-     * @brief è®¾ç½®æ‰€æœ‰ç™½æ¿çš„èƒŒæ™¯è‰²
-     * @param color 			è¦è®¾ç½®çš„å…¨å±€èƒŒæ™¯è‰²
+     * @brief ÉèÖÃËùÓĞ°×°åµÄ±³¾°É«
+     * @param color 			ÒªÉèÖÃµÄÈ«¾Ö±³¾°É«
      * 
-     * è°ƒç”¨è¯¥æ¥å£å°†å¯¼è‡´æ‰€æœ‰ç™½æ¿çš„èƒŒæ™¯è‰²å‘ç”Ÿæ”¹å˜
-     * æ–°åˆ›å»ºç™½æ¿çš„é»˜è®¤èƒŒæ™¯è‰²å–å…¨å±€èƒŒæ™¯è‰²
+     * µ÷ÓÃ¸Ã½Ó¿Ú½«µ¼ÖÂËùÓĞ°×°åµÄ±³¾°É«·¢Éú¸Ä±ä
+     * ĞÂ´´½¨°×°åµÄÄ¬ÈÏ±³¾°É«È¡È«¾Ö±³¾°É«
      */
     virtual void SetGlobalBackgroundColor(const TEduBoardColor &color) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿å…¨å±€èƒŒæ™¯è‰²
-     * @return å…¨å±€èƒŒæ™¯è‰²
+     * @brief »ñÈ¡°×°åÈ«¾Ö±³¾°É«
+     * @return È«¾Ö±³¾°É«
      */
     virtual TEduBoardColor GetGlobalBackgroundColor() = 0;
 
     /**
-     * @brief è®¾ç½®å½“å‰ç™½æ¿é¡µçš„èƒŒæ™¯è‰²
-     * @param color 			è¦è®¾ç½®çš„èƒŒæ™¯è‰²
+     * @brief ÉèÖÃµ±Ç°°×°åÒ³µÄ±³¾°É«
+     * @param color 			ÒªÉèÖÃµÄ±³¾°É«
      *
-     * ç™½æ¿é¡µåˆ›å»ºä»¥åçš„é»˜è®¤èƒŒæ™¯è‰²ç”±SetDefaultBackgroundColoræ¥å£è®¾å®š
+     * °×°åÒ³´´½¨ÒÔºóµÄÄ¬ÈÏ±³¾°É«ÓÉSetDefaultBackgroundColor½Ó¿ÚÉè¶¨
      */
     virtual void SetBackgroundColor(const TEduBoardColor & color) = 0;
 
     /**
-     * @brief è·å–å½“å‰ç™½æ¿é¡µçš„èƒŒæ™¯è‰²
-     * @return å½“å‰ç™½æ¿é¡µçš„èƒŒæ™¯è‰²
+     * @brief »ñÈ¡µ±Ç°°×°åÒ³µÄ±³¾°É«
+     * @return µ±Ç°°×°åÒ³µÄ±³¾°É«
      */
     virtual TEduBoardColor GetBackgroundColor() = 0;
 
     /**
-     * @brief è®¾ç½®è¦ä½¿ç”¨çš„ç™½æ¿å·¥å…·
-     * @param type 				è¦è®¾ç½®çš„ç™½æ¿å·¥å…·
+     * @brief ÉèÖÃÒªÊ¹ÓÃµÄ°×°å¹¤¾ß
+     * @param type 				ÒªÉèÖÃµÄ°×°å¹¤¾ß
      */
     virtual void SetToolType(TEduBoardToolType type) = 0;
 
     /**
-     * @brief è·å–æ­£åœ¨ä½¿ç”¨çš„ç™½æ¿å·¥å…·
-     * @return æ­£åœ¨ä½¿ç”¨çš„ç™½æ¿å·¥å…·
+     * @brief »ñÈ¡ÕıÔÚÊ¹ÓÃµÄ°×°å¹¤¾ß
+     * @return ÕıÔÚÊ¹ÓÃµÄ°×°å¹¤¾ß
      */
     virtual TEduBoardToolType GetToolType() = 0;
 
     /**
-     * @brief è‡ªå®šä¹‰ç™½æ¿å·¥å…·é¼ æ ‡æ ·å¼
-     * @param type              è¦è®¾ç½®é¼ æ ‡æ ·å¼çš„ç™½æ¿å·¥å…·ç±»å‹
-     * @param icon              è¦è®¾ç½®çš„é¼ æ ‡æ ·å¼
+     * @brief ×Ô¶¨Òå°×°å¹¤¾ßÊó±êÑùÊ½
+     * @param type              ÒªÉèÖÃÊó±êÑùÊ½µÄ°×°å¹¤¾ßÀàĞÍ
+     * @param icon              ÒªÉèÖÃµÄÊó±êÑùÊ½
      */
     virtual void SetCursorIcon(TEduBoardToolType type, const TEduBoardCursorIcon &icon) = 0;
 
     /**
-     * @brief è®¾ç½®ç”»ç¬”é¢œè‰²
-     * @param color 			è¦è®¾ç½®çš„ç”»ç¬”é¢œè‰²
+     * @brief ÉèÖÃ»­±ÊÑÕÉ«
+     * @param color 			ÒªÉèÖÃµÄ»­±ÊÑÕÉ«
      *
-     * ç”»ç¬”é¢œè‰²ç”¨äºæ‰€æœ‰æ¶‚é¸¦ç»˜åˆ¶
+     * »­±ÊÑÕÉ«ÓÃÓÚËùÓĞÍ¿Ñ»»æÖÆ
      */
     virtual void SetBrushColor(const TEduBoardColor & color) = 0;
 
     /**
-     * @brief è·å–ç”»ç¬”é¢œè‰²
-     * @return ç”»ç¬”é¢œè‰²
+     * @brief »ñÈ¡»­±ÊÑÕÉ«
+     * @return »­±ÊÑÕÉ«
      */
     virtual TEduBoardColor GetBrushColor() = 0;
 
     /**
-     * @brief è®¾ç½®ç”»ç¬”ç²—ç»†
-     * @param thin 				è¦è®¾ç½®çš„ç”»ç¬”ç²—ç»†
+     * @brief ÉèÖÃ»­±Ê´ÖÏ¸
+     * @param thin 				ÒªÉèÖÃµÄ»­±Ê´ÖÏ¸
      *
-     * ç”»ç¬”ç²—ç»†ç”¨äºæ‰€æœ‰æ¶‚é¸¦ç»˜åˆ¶ï¼Œå®é™…åƒç´ å€¼å–å€¼(thin * ç™½æ¿çš„é«˜åº¦ / 10000)pxï¼Œå¦‚æœç»“æœå°äº1pxï¼Œåˆ™æ¶‚é¸¦çš„çº¿æ¡ä¼šæ¯”è¾ƒè™š
+     * »­±Ê´ÖÏ¸ÓÃÓÚËùÓĞÍ¿Ñ»»æÖÆ£¬Êµ¼ÊÏñËØÖµÈ¡Öµ(thin * °×°åµÄ¸ß¶È / 10000)px£¬Èç¹û½á¹ûĞ¡ÓÚ1px£¬ÔòÍ¿Ñ»µÄÏßÌõ»á±È½ÏĞé
      */
     virtual void SetBrushThin(uint32_t thin) = 0;
 
     /**
-     * @brief è·å–ç”»ç¬”ç²—ç»†
-     * @return ç”»ç¬”ç²—ç»†
+     * @brief »ñÈ¡»­±Ê´ÖÏ¸
+     * @return »­±Ê´ÖÏ¸
      */
     virtual uint32_t GetBrushThin() = 0;
 
     /**
-     * @brief è®¾ç½®æ–‡æœ¬é¢œè‰²
-     * @param color 			è¦è®¾ç½®çš„æ–‡æœ¬é¢œè‰²
+     * @brief ÉèÖÃÎÄ±¾ÑÕÉ«
+     * @param color 			ÒªÉèÖÃµÄÎÄ±¾ÑÕÉ«
      */
     virtual void SetTextColor(const TEduBoardColor & color) = 0;
 
     /**
-     * @brief è·å–æ–‡æœ¬é¢œè‰²
-     * @return æ–‡æœ¬é¢œè‰²
+     * @brief »ñÈ¡ÎÄ±¾ÑÕÉ«
+     * @return ÎÄ±¾ÑÕÉ«
      */
     virtual TEduBoardColor GetTextColor() = 0;
 
     /**
-     * @brief è®¾ç½®æ–‡æœ¬å¤§å°
-     * @param size 				è¦è®¾ç½®çš„æ–‡æœ¬å¤§å°
+     * @brief ÉèÖÃÎÄ±¾´óĞ¡
+     * @param size 				ÒªÉèÖÃµÄÎÄ±¾´óĞ¡
      *
-     * å®é™…åƒç´ å€¼å–å€¼(size * ç™½æ¿çš„é«˜åº¦ / 10000)px
+     * Êµ¼ÊÏñËØÖµÈ¡Öµ(size * °×°åµÄ¸ß¶È / 10000)px
      */
     virtual void SetTextSize(uint32_t size) = 0;
 
     /**
-     * @brief è·å–æ–‡æœ¬å¤§å°
-     * @return æ–‡æœ¬å¤§å°
+     * @brief »ñÈ¡ÎÄ±¾´óĞ¡
+     * @return ÎÄ±¾´óĞ¡
      */
     virtual uint32_t GetTextSize() = 0;
 
     /**
-     * @brief è®¾ç½®æ–‡æœ¬æ ·å¼
-     * @param style 			è¦è®¾ç½®çš„æ–‡æœ¬æ ·å¼
+     * @brief ÉèÖÃÎÄ±¾ÑùÊ½
+     * @param style 			ÒªÉèÖÃµÄÎÄ±¾ÑùÊ½
      */
     virtual void SetTextStyle(TEduBoardTextStyle style) = 0;
 
     /**
-     * @brief è·å–æ–‡æœ¬æ ·å¼
-     * @return æ–‡æœ¬æ ·å¼
+     * @brief »ñÈ¡ÎÄ±¾ÑùÊ½
+     * @return ÎÄ±¾ÑùÊ½
      */
     virtual TEduBoardTextStyle GetTextStyle() = 0;
 
     /**
-     * @brief è®¾ç½®ç›´çº¿æ ·å¼
-     * @param style 			è¦è®¾ç½®çš„ç›´çº¿æ ·å¼
+     * @brief ÉèÖÃÖ±ÏßÑùÊ½
+     * @param style 			ÒªÉèÖÃµÄÖ±ÏßÑùÊ½
      */
     virtual void SetLineStyle(const TEduBoardLineStyle & style) = 0;
 
     /**
-     * @brief è·å–ç›´çº¿æ ·å¼
-     * @return ç›´çº¿æ ·å¼
+     * @brief »ñÈ¡Ö±ÏßÑùÊ½
+     * @return Ö±ÏßÑùÊ½
      */
     virtual TEduBoardLineStyle GetLineStyle() = 0;
 
     /**
-     * @brief è®¾ç½®æ¤­åœ†ç»˜åˆ¶æ¨¡å¼
-     * @param drawMode 			è¦è®¾ç½®çš„æ¤­åœ†ç»˜åˆ¶æ¨¡å¼
+     * @brief ÉèÖÃÍÖÔ²»æÖÆÄ£Ê½
+     * @param drawMode 			ÒªÉèÖÃµÄÍÖÔ²»æÖÆÄ£Ê½
      */
     virtual void SetOvalDrawMode(TEduBoardOvalDrawMode drawMode) = 0;
 
     /**
-     * @brief è·å–æ¤­åœ†ç»˜åˆ¶æ¨¡å¼
-     * @return æ¤­åœ†ç»˜åˆ¶æ¨¡å¼
+     * @brief »ñÈ¡ÍÖÔ²»æÖÆÄ£Ê½
+     * @return ÍÖÔ²»æÖÆÄ£Ê½
      */
     virtual TEduBoardOvalDrawMode GetOvalDrawMode() = 0;
 
     /**
-     * @brief æ¸…ç©ºå½“å‰ç™½æ¿é¡µæ¶‚é¸¦
-     * @param clearBackground 	æ˜¯å¦åŒæ—¶æ¸…ç©ºèƒŒæ™¯è‰²ä»¥åŠèƒŒæ™¯å›¾ç‰‡
-     * @param clearSelectedOnly æ˜¯å¦åªæ¸…é™¤é€‰ä¸­éƒ¨åˆ†æ¶‚é¸¦
-     * @warning ç›®å‰ä¸æ”¯æŒæ¸…é™¤é€‰ä¸­éƒ¨åˆ†çš„åŒæ—¶æ¸…é™¤èƒŒæ™¯
+     * @brief Çå¿Õµ±Ç°°×°åÒ³Í¿Ñ»
+     * @param clearBackground 	ÊÇ·ñÍ¬Ê±Çå¿Õ±³¾°É«ÒÔ¼°±³¾°Í¼Æ¬
+     * @param clearSelectedOnly ÊÇ·ñÖ»Çå³ıÑ¡ÖĞ²¿·ÖÍ¿Ñ»
+     * @warning Ä¿Ç°²»Ö§³ÖÇå³ıÑ¡ÖĞ²¿·ÖµÄÍ¬Ê±Çå³ı±³¾°
      */
     virtual void Clear(bool clearBackground = false, bool clearSelectedOnly = false) = 0;
 
     /**
-     * @brief è®¾ç½®å½“å‰ç™½æ¿é¡µçš„èƒŒæ™¯å›¾ç‰‡
-     * @param url 				è¦è®¾ç½®çš„èƒŒæ™¯å›¾ç‰‡URLï¼Œç¼–ç æ ¼å¼ä¸ºUTF8
-     * @param mode				è¦ä½¿ç”¨çš„å›¾ç‰‡å¡«å……å¯¹é½æ¨¡å¼
+     * @brief ÉèÖÃµ±Ç°°×°åÒ³µÄ±³¾°Í¼Æ¬
+     * @param url 				ÒªÉèÖÃµÄ±³¾°Í¼Æ¬URL£¬±àÂë¸ñÊ½ÎªUTF8
+     * @param mode				ÒªÊ¹ÓÃµÄÍ¼Æ¬Ìî³ä¶ÔÆëÄ£Ê½
      * 
-     * å½“URLæ˜¯ä¸€ä¸ªæœ‰æ•ˆçš„æœ¬åœ°æ–‡ä»¶åœ°å€æ—¶ï¼Œè¯¥æ–‡ä»¶ä¼šè¢«è‡ªåŠ¨ä¸Šä¼ åˆ°COS
+     * µ±URLÊÇÒ»¸öÓĞĞ§µÄ±¾µØÎÄ¼şµØÖ·Ê±£¬¸ÃÎÄ¼ş»á±»×Ô¶¯ÉÏ´«µ½COS
      */
     virtual void SetBackgroundImage(const char * url, TEduBoardImageFitMode mode) = 0;
 
     /**
-     * @brief è®¾ç½®å½“å‰ç™½æ¿é¡µçš„èƒŒæ™¯H5é¡µé¢
-     * @param url				è¦è®¾ç½®çš„èƒŒæ™¯H5é¡µé¢URL
+     * @brief ÉèÖÃµ±Ç°°×°åÒ³µÄ±³¾°H5Ò³Ãæ
+     * @param url				ÒªÉèÖÃµÄ±³¾°H5Ò³ÃæURL
      *
-     * è¯¥æ¥å£ä¸SetBackgroundImageæ¥å£äº’æ–¥
+     * ¸Ã½Ó¿ÚÓëSetBackgroundImage½Ó¿Ú»¥³â
      */
     virtual void SetBackgroundH5(const char * url) = 0;
 
     /**
-     * @brief æ’¤é”€å½“å‰ç™½æ¿é¡µä¸Šä¸€æ¬¡åŠ¨ä½œ
+     * @brief ³·Ïúµ±Ç°°×°åÒ³ÉÏÒ»´Î¶¯×÷
      */
     virtual void Undo() = 0;
 
     /**
-     * @brief é‡åšå½“å‰ç™½æ¿é¡µä¸Šä¸€æ¬¡æ’¤é”€
+     * @brief ÖØ×öµ±Ç°°×°åÒ³ÉÏÒ»´Î³·Ïú
      */
     virtual void Redo() = 0;
 
     /// @}
 
 
-    /// @name ç™½æ¿é¡µæ“ä½œæ¥å£
+    /// @name °×°åÒ³²Ù×÷½Ó¿Ú
     /// @{
 
     /**
-     * @brief å¢åŠ ä¸€é¡µç™½æ¿
-     * @param url				è¦ä½¿ç”¨çš„èƒŒæ™¯å›¾ç‰‡URLï¼Œç¼–ç æ ¼å¼ä¸ºUTF8ï¼Œä¸ºnullptrè¡¨ç¤ºä¸æŒ‡å®šèƒŒæ™¯å›¾ç‰‡
-     * @return ç™½æ¿ID
-     * @warning ç™½æ¿é¡µä¼šè¢«æ·»åŠ åˆ°é»˜è®¤æ–‡ä»¶ï¼ˆæ–‡ä»¶IDä¸º#DEFAULT)ï¼Œè‡ªè¡Œä¸Šä¼ çš„æ–‡ä»¶æ— æ³•æ·»åŠ ç™½æ¿é¡µ
+     * @brief Ôö¼ÓÒ»Ò³°×°å
+     * @param url				ÒªÊ¹ÓÃµÄ±³¾°Í¼Æ¬URL£¬±àÂë¸ñÊ½ÎªUTF8£¬Îªnullptr±íÊ¾²»Ö¸¶¨±³¾°Í¼Æ¬
+     * @return °×°åID
+     * @warning °×°åÒ³»á±»Ìí¼Óµ½Ä¬ÈÏÎÄ¼ş£¨ÎÄ¼şIDÎª#DEFAULT)£¬×ÔĞĞÉÏ´«µÄÎÄ¼şÎŞ·¨Ìí¼Ó°×°åÒ³
      *
-     * è¿”å›å€¼å†…å­˜ç”±SDKå†…éƒ¨ç®¡ç†ï¼Œç”¨æˆ·ä¸éœ€è¦è‡ªå·±é‡Šæ”¾
+     * ·µ»ØÖµÄÚ´æÓÉSDKÄÚ²¿¹ÜÀí£¬ÓÃ»§²»ĞèÒª×Ô¼ºÊÍ·Å
      */
     virtual const char * AddBoard(const char * url = nullptr) = 0;
 
     /**
-     * @brief æ·»åŠ å›¾ç‰‡èµ„æº
-     * @param url               è¦æ·»åŠ çš„å›¾ç‰‡å…ƒç´ URLåœ°å€ï¼Œç¼–ç æ ¼å¼ä¸ºUTF8
+     * @brief Ìí¼ÓÍ¼Æ¬×ÊÔ´
+     * @param url               ÒªÌí¼ÓµÄÍ¼Æ¬ÔªËØURLµØÖ·£¬±àÂë¸ñÊ½ÎªUTF8
      */
     virtual void AddImageElement(const char * url) = 0;
 
     /**
-     * @brief åˆ é™¤ä¸€é¡µç™½æ¿
-     * @param boardId			è¦åˆ é™¤çš„ç™½æ¿IDï¼Œä¸ºnullptrè¡¨ç¤ºåˆ é™¤å½“å‰é¡µ
-     * @warning åªå…è®¸åˆ é™¤é»˜è®¤æ–‡ä»¶ï¼ˆæ–‡ä»¶IDä¸º#DEFAULTï¼‰å†…çš„ç™½æ¿é¡µï¼Œä¸”é»˜è®¤ç™½æ¿é¡µï¼ˆç™½æ¿IDä¸º#DEFAULTï¼‰æ— æ³•åˆ é™¤
+     * @brief É¾³ıÒ»Ò³°×°å
+     * @param boardId			ÒªÉ¾³ıµÄ°×°åID£¬Îªnullptr±íÊ¾É¾³ıµ±Ç°Ò³
+     * @warning Ö»ÔÊĞíÉ¾³ıÄ¬ÈÏÎÄ¼ş£¨ÎÄ¼şIDÎª#DEFAULT£©ÄÚµÄ°×°åÒ³£¬ÇÒÄ¬ÈÏ°×°åÒ³£¨°×°åIDÎª#DEFAULT£©ÎŞ·¨É¾³ı
      */
     virtual void DeleteBoard(const char * boardId = nullptr) = 0;
 
     /**
-     * @brief ä¸Šä¸€æ­¥
-     *  æ¯ä¸ªStepå¯¹åº”PPTçš„ä¸€ä¸ªåŠ¨ç”»æ•ˆæœï¼Œè‹¥å½“å‰æ²¡æœ‰å·²å±•ç¤ºçš„åŠ¨ç”»æ•ˆæœï¼Œåˆ™è¯¥æ¥å£è°ƒç”¨ä¼šå¯¼è‡´å‘å‰ç¿»é¡µ
+     * @brief ÉÏÒ»²½
+     *  Ã¿¸öStep¶ÔÓ¦PPTµÄÒ»¸ö¶¯»­Ğ§¹û£¬Èôµ±Ç°Ã»ÓĞÒÑÕ¹Ê¾µÄ¶¯»­Ğ§¹û£¬Ôò¸Ã½Ó¿Úµ÷ÓÃ»áµ¼ÖÂÏòÇ°·­Ò³
      */
     virtual void PrevStep() = 0;
 
     /**
-     * @brief ä¸‹ä¸€æ­¥
+     * @brief ÏÂÒ»²½
      * 
-     * æ¯ä¸ªStepå¯¹åº”PPTçš„ä¸€ä¸ªåŠ¨ç”»æ•ˆæœï¼Œè‹¥å½“å‰æ²¡æœ‰æœªå±•ç¤ºçš„åŠ¨ç”»æ•ˆæœï¼Œåˆ™è¯¥æ¥å£è°ƒç”¨ä¼šå¯¼è‡´å‘åç¿»é¡µ
+     * Ã¿¸öStep¶ÔÓ¦PPTµÄÒ»¸ö¶¯»­Ğ§¹û£¬Èôµ±Ç°Ã»ÓĞÎ´Õ¹Ê¾µÄ¶¯»­Ğ§¹û£¬Ôò¸Ã½Ó¿Úµ÷ÓÃ»áµ¼ÖÂÏòºó·­Ò³
      */
     virtual void NextStep() = 0;
 
     /**
-     * @brief å‘å‰ç¿»é¡µ
-     * @param resetStep			æŒ‡å®šç¿»åˆ°æŒ‡å®šé¡µä»¥åæ˜¯å¦é‡ç½®PPTåŠ¨ç”»æ­¥æ•°
+     * @brief ÏòÇ°·­Ò³
+     * @param resetStep			Ö¸¶¨·­µ½Ö¸¶¨Ò³ÒÔºóÊÇ·ñÖØÖÃPPT¶¯»­²½Êı
      *
-     * è‹¥å½“å‰ç™½æ¿é¡µä¸ºå½“å‰æ–‡ä»¶çš„ç¬¬ä¸€é¡µï¼Œåˆ™è¯¥æ¥å£è°ƒç”¨æ— æ•ˆ
+     * Èôµ±Ç°°×°åÒ³Îªµ±Ç°ÎÄ¼şµÄµÚÒ»Ò³£¬Ôò¸Ã½Ó¿Úµ÷ÓÃÎŞĞ§
      */
     virtual void PrevBoard(bool resetStep = false) = 0;
 
     /**
-     * @brief å‘åç¿»é¡µ
-     * @param resetStep			æŒ‡å®šç¿»åˆ°æŒ‡å®šé¡µä»¥åæ˜¯å¦é‡ç½®PPTåŠ¨ç”»æ­¥æ•°
+     * @brief Ïòºó·­Ò³
+     * @param resetStep			Ö¸¶¨·­µ½Ö¸¶¨Ò³ÒÔºóÊÇ·ñÖØÖÃPPT¶¯»­²½Êı
      *
-     * è‹¥å½“å‰ç™½æ¿é¡µä¸ºå½“å‰æ–‡ä»¶çš„æœ€åä¸€é¡µï¼Œåˆ™è¯¥æ¥å£è°ƒç”¨æ— æ•ˆ
+     * Èôµ±Ç°°×°åÒ³Îªµ±Ç°ÎÄ¼şµÄ×îºóÒ»Ò³£¬Ôò¸Ã½Ó¿Úµ÷ÓÃÎŞĞ§
      */
     virtual void NextBoard(bool resetStep = false) = 0;
 
     /**
-     * @brief è·³è½¬åˆ°æŒ‡å®šç™½æ¿é¡µ
-     * @param boardId			è¦è·³è½¬åˆ°çš„ç™½æ¿é¡µID
-     * @param resetStep			æŒ‡å®šç¿»åˆ°æŒ‡å®šé¡µä»¥åæ˜¯å¦é‡ç½®PPTåŠ¨ç”»æ­¥æ•°
+     * @brief Ìø×ªµ½Ö¸¶¨°×°åÒ³
+     * @param boardId			ÒªÌø×ªµ½µÄ°×°åÒ³ID
+     * @param resetStep			Ö¸¶¨·­µ½Ö¸¶¨Ò³ÒÔºóÊÇ·ñÖØÖÃPPT¶¯»­²½Êı
      *
-     * å…è®¸è·³è½¬åˆ°ä»»æ„æ–‡ä»¶çš„ç™½æ¿é¡µ
+     * ÔÊĞíÌø×ªµ½ÈÎÒâÎÄ¼şµÄ°×°åÒ³
      */
     virtual void GotoBoard(const char * boardId, bool resetStep = false) = 0;
 
     /**
-     * @brief è·å–å½“å‰ç™½æ¿é¡µID
-     * @return å½“å‰ç™½æ¿é¡µID
+     * @brief »ñÈ¡µ±Ç°°×°åÒ³ID
+     * @return µ±Ç°°×°åÒ³ID
      *
-     * è¿”å›å€¼å†…å­˜ç”±SDKå†…éƒ¨ç®¡ç†ï¼Œç”¨æˆ·ä¸éœ€è¦è‡ªå·±é‡Šæ”¾
+     * ·µ»ØÖµÄÚ´æÓÉSDKÄÚ²¿¹ÜÀí£¬ÓÃ»§²»ĞèÒª×Ô¼ºÊÍ·Å
      */
     virtual const char * GetCurrentBoard() = 0;
 
     /**
-     * @brief è·å–æ‰€æœ‰æ–‡ä»¶çš„ç™½æ¿åˆ—è¡¨
-     * @return æ‰€æœ‰æ–‡ä»¶çš„ç™½æ¿åˆ—è¡¨
-     * @warning è¿”å›å€¼ä¸å†ä½¿ç”¨æ—¶ä¸éœ€è¦è‡ªè¡Œdeleteï¼Œä½†æ˜¯åŠ¡å¿…è°ƒç”¨å…¶releaseæ–¹æ³•ä»¥é‡Šæ”¾å†…å­˜å ç”¨
+     * @brief »ñÈ¡ËùÓĞÎÄ¼şµÄ°×°åÁĞ±í
+     * @return ËùÓĞÎÄ¼şµÄ°×°åÁĞ±í
+     * @warning ·µ»ØÖµ²»ÔÙÊ¹ÓÃÊ±²»ĞèÒª×ÔĞĞdelete£¬µ«ÊÇÎñ±Øµ÷ÓÃÆärelease·½·¨ÒÔÊÍ·ÅÄÚ´æÕ¼ÓÃ
      */
     virtual TEduBoardStringList *GetBoardList() = 0;
 
     /**
-     * @brief è®¾ç½®å½“å‰ç™½æ¿é¡µå®½é«˜æ¯”
-     * @param ratio				è¦è®¾ç½®çš„ç™½æ¿å®½é«˜æ¯”
+     * @brief ÉèÖÃµ±Ç°°×°åÒ³¿í¸ß±È
+     * @param ratio				ÒªÉèÖÃµÄ°×°å¿í¸ß±È
      *
-     * æ ¼å¼å¦‚: "4:3"ã€"16:9"
+     * ¸ñÊ½Èç: "4:3"¡¢"16:9"
      */
     virtual void SetBoardRatio(const char *ratio) = 0;
 
     /**
-     * @brief è·å–å½“å‰ç™½æ¿é¡µå®½é«˜æ¯”
-     * @return ç™½æ¿å®½é«˜æ¯”ï¼Œæ ¼å¼ä¸SetBoardRatioæ¥å£å‚æ•°æ ¼å¼ä¸€è‡´
+     * @brief »ñÈ¡µ±Ç°°×°åÒ³¿í¸ß±È
+     * @return °×°å¿í¸ß±È£¬¸ñÊ½ÓëSetBoardRatio½Ó¿Ú²ÎÊı¸ñÊ½Ò»ÖÂ
      */
     virtual const char * GetBoardRatio() = 0;
 
     /**
-     * @brief è®¾ç½®å½“å‰ç™½æ¿é¡µç¼©æ”¾æ¯”ä¾‹
-     * @param scale				è¦è®¾ç½®çš„ç™½æ¿ç¼©æ”¾æ¯”ä¾‹
+     * @brief ÉèÖÃµ±Ç°°×°åÒ³Ëõ·Å±ÈÀı
+     * @param scale				ÒªÉèÖÃµÄ°×°åËõ·Å±ÈÀı
      *
-     * æ”¯æŒèŒƒå›´: [100ï¼Œ300]ï¼Œå®é™…ç¼©æ”¾æ¯”ä¸º: scale/100
+     * Ö§³Ö·¶Î§: [100£¬300]£¬Êµ¼ÊËõ·Å±ÈÎª: scale/100
      */
     virtual void SetBoardScale(uint32_t scale) = 0;
 
     /**
-     * @brief è·å–å½“å‰ç™½æ¿é¡µç¼©æ”¾æ¯”ä¾‹
-     * @return ç™½æ¿ç¼©æ”¾æ¯”ä¾‹ï¼Œæ ¼å¼ä¸SetBoardScaleæ¥å£å‚æ•°æ ¼å¼ä¸€è‡´
+     * @brief »ñÈ¡µ±Ç°°×°åÒ³Ëõ·Å±ÈÀı
+     * @return °×°åËõ·Å±ÈÀı£¬¸ñÊ½ÓëSetBoardScale½Ó¿Ú²ÎÊı¸ñÊ½Ò»ÖÂ
      */
     virtual uint32_t GetBoardScale() = 0;
 
     /**
-     * @brief è®¾ç½®ç™½æ¿å†…å®¹è‡ªé€‚åº”æ¨¡å¼
-     * @param mode				è¦è®¾ç½®çš„ç™½æ¿å†…å®¹è‡ªé€‚åº”æ¨¡å¼
+     * @brief ÉèÖÃ°×°åÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
+     * @param mode				ÒªÉèÖÃµÄ°×°åÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
      *
-     * è®¾ç½®è‡ªé€‚åº”æ¨¡å¼åä¼šå½±å“æ‰€æœ‰åç»­ç™½æ¿å†…å®¹æ“ä½œ,å—å½±å“æ¥å£åŒ…æ‹¬ï¼šAddTranscodeFile
+     * ÉèÖÃ×ÔÊÊÓ¦Ä£Ê½ºó»áÓ°ÏìËùÓĞºóĞø°×°åÄÚÈİ²Ù×÷,ÊÜÓ°Ïì½Ó¿Ú°üÀ¨£ºAddTranscodeFile
      */
     virtual void SetBoardContentFitMode(TEduBoardContentFitMode mode) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿å†…å®¹è‡ªé€‚åº”æ¨¡å¼
-     * @return ç™½æ¿å†…å®¹è‡ªé€‚åº”æ¨¡å¼
+     * @brief »ñÈ¡°×°åÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
+     * @return °×°åÄÚÈİ×ÔÊÊÓ¦Ä£Ê½
      */
     virtual TEduBoardContentFitMode GetBoardContentFitMode() = 0;
 
     /// @}
 
 
-    /// @name æ–‡ä»¶æ“ä½œæ¥å£
+    /// @name ÎÄ¼ş²Ù×÷½Ó¿Ú
     /// @{
 
     /**
-     * @brief å‘èµ·æ–‡ä»¶è½¬ç è¯·æ±‚
-     * @param path				è¦è½¬ç çš„æ–‡ä»¶è·¯å¾„ï¼Œç¼–ç æ ¼å¼ä¸ºUTF8
-     * @param config            è½¬ç å‚æ•°
-     * @warning æœ¬æ¥å£è®¾è®¡ç”¨äºåœ¨æ¥å…¥é˜¶æ®µå¿«é€Ÿä½“éªŒè½¬ç åŠŸèƒ½ï¼ŒåŸåˆ™ä¸Šä¸å»ºè®®åœ¨ç”Ÿäº§ç¯å¢ƒä¸­ä½¿ç”¨ï¼Œç”Ÿäº§ç¯å¢ƒä¸­çš„è½¬ç è¯·æ±‚å»ºè®®ä½¿ç”¨åå°æœåŠ¡æ¥å£å‘èµ·
+     * @brief ·¢ÆğÎÄ¼ş×ªÂëÇëÇó
+     * @param path				Òª×ªÂëµÄÎÄ¼şÂ·¾¶£¬±àÂë¸ñÊ½ÎªUTF8
+     * @param config            ×ªÂë²ÎÊı
+     * @warning ±¾½Ó¿ÚÉè¼ÆÓÃÓÚÔÚ½ÓÈë½×¶Î¿ìËÙÌåÑé×ªÂë¹¦ÄÜ£¬Ô­ÔòÉÏ²»½¨ÒéÔÚÉú²ú»·¾³ÖĞÊ¹ÓÃ£¬Éú²ú»·¾³ÖĞµÄ×ªÂëÇëÇó½¨ÒéÊ¹ÓÃºóÌ¨·şÎñ½Ó¿Ú·¢Æğ
      * @see TEduBoardCallback::onTEBFileTranscodeProgress
      *
-     * æ”¯æŒ PPTã€PDFã€Wordæ–‡ä»¶è½¬ç 
-     * PPTæ–‡æ¡£é»˜è®¤è½¬ä¸ºH5åŠ¨ç”»ï¼Œèƒ½å¤Ÿè¿˜åŸPPTåŸæœ‰åŠ¨ç”»æ•ˆæœï¼Œå…¶å®ƒæ–‡æ¡£è½¬ç ä¸ºé™æ€å›¾ç‰‡
-     * PPTåŠ¨ç”»è½¬ç è€—æ—¶çº¦1ç§’/é¡µï¼Œæ‰€æœ‰æ–‡æ¡£çš„é™æ€è½¬ç è€—æ—¶çº¦0.5ç§’/é¡µ
-     * è½¬ç è¿›åº¦å’Œç»“æœå°†ä¼šé€šè¿‡onTEBFileTranscodeProgresså›è°ƒè¿”å›ï¼Œè¯¦æƒ…å‚è§è¯¥å›è°ƒè¯´æ˜æ–‡æ¡£
+     * Ö§³Ö PPT¡¢PDF¡¢WordÎÄ¼ş×ªÂë
+     * PPTÎÄµµÄ¬ÈÏ×ªÎªH5¶¯»­£¬ÄÜ¹»»¹Ô­PPTÔ­ÓĞ¶¯»­Ğ§¹û£¬ÆäËüÎÄµµ×ªÂëÎª¾²Ì¬Í¼Æ¬
+     * PPT¶¯»­×ªÂëºÄÊ±Ô¼1Ãë/Ò³£¬ËùÓĞÎÄµµµÄ¾²Ì¬×ªÂëºÄÊ±Ô¼0.5Ãë/Ò³
+     * ×ªÂë½ø¶ÈºÍ½á¹û½«»áÍ¨¹ıonTEBFileTranscodeProgress»Øµ÷·µ»Ø£¬ÏêÇé²Î¼û¸Ã»Øµ÷ËµÃ÷ÎÄµµ
      */
     virtual void ApplyFileTranscode(const char * path, const TEduBoardTranscodeConfig &config = TEduBoardTranscodeConfig()) = 0;
 
     /**
-     * @brief ä¸»åŠ¨æŸ¥è¯¢æ–‡ä»¶è½¬ç è¿›åº¦
-     * @param taskId            é€šè¿‡onTEBFileTranscodeProgresså›è°ƒæ‹¿åˆ°çš„è½¬ç ä»»åŠ¡taskId
-     * @warning è¯¥æ¥å£ä»…ç”¨äºç‰¹æ®Šä¸šåŠ¡åœºæ™¯ä¸‹ä¸»åŠ¨æŸ¥è¯¢æ–‡ä»¶è½¬ç è¿›åº¦ï¼Œè°ƒç”¨ApplyFileTranscodeåï¼ŒSDKå†…éƒ¨å°†ä¼šè‡ªåŠ¨å®šæœŸè§¦å‘onTEBFileTranscodeProgresså›è°ƒï¼Œæ­£å¸¸æƒ…å†µä¸‹æ‚¨ä¸éœ€è¦ä¸»åŠ¨è°ƒç”¨æ­¤æ¥å£
+     * @brief Ö÷¶¯²éÑ¯ÎÄ¼ş×ªÂë½ø¶È
+     * @param taskId            Í¨¹ıonTEBFileTranscodeProgress»Øµ÷ÄÃµ½µÄ×ªÂëÈÎÎñtaskId
+     * @warning ¸Ã½Ó¿Ú½öÓÃÓÚÌØÊâÒµÎñ³¡¾°ÏÂÖ÷¶¯²éÑ¯ÎÄ¼ş×ªÂë½ø¶È£¬µ÷ÓÃApplyFileTranscodeºó£¬SDKÄÚ²¿½«»á×Ô¶¯¶¨ÆÚ´¥·¢onTEBFileTranscodeProgress»Øµ÷£¬Õı³£Çé¿öÏÂÄú²»ĞèÒªÖ÷¶¯µ÷ÓÃ´Ë½Ó¿Ú
      * @see TEduBoardCallback::onTEBFileTranscodeProgress
      * 
-     * è½¬ç è¿›åº¦å’Œç»“æœå°†ä¼šé€šè¿‡onTEBFileTranscodeProgresså›è°ƒè¿”å›ï¼Œè¯¦æƒ…å‚è§è¯¥å›è°ƒè¯´æ˜æ–‡æ¡£
+     * ×ªÂë½ø¶ÈºÍ½á¹û½«»áÍ¨¹ıonTEBFileTranscodeProgress»Øµ÷·µ»Ø£¬ÏêÇé²Î¼û¸Ã»Øµ÷ËµÃ÷ÎÄµµ
      */
     virtual void GetFileTranscodeProgress(const char *taskId) = 0;
 
     /**
-     * @brief æ·»åŠ è½¬ç æ–‡ä»¶
-     * @param  result 			æ–‡ä»¶è½¬ç ç»“æœ
-     * @return æ–‡ä»¶ID
-     * @warning å½“ä¼ å…¥æ–‡ä»¶çš„URLé‡å¤æ—¶ï¼Œæ–‡ä»¶IDè¿”å›ä¸ºç©ºå­—ç¬¦ä¸²
-     * @warning åœ¨æ”¶åˆ°å¯¹åº”çš„onTEBAddTranscodeFileå›è°ƒå‰ï¼Œæ— æ³•ç”¨è¿”å›çš„æ–‡ä»¶IDæŸ¥è¯¢åˆ°æ–‡ä»¶ä¿¡æ¯
+     * @brief Ìí¼Ó×ªÂëÎÄ¼ş
+     * @param  result 			ÎÄ¼ş×ªÂë½á¹û
+     * @return ÎÄ¼şID
+     * @warning µ±´«ÈëÎÄ¼şµÄURLÖØ¸´Ê±£¬ÎÄ¼şID·µ»ØÎª¿Õ×Ö·û´®
+     * @warning ÔÚÊÕµ½¶ÔÓ¦µÄonTEBAddTranscodeFile»Øµ÷Ç°£¬ÎŞ·¨ÓÃ·µ»ØµÄÎÄ¼şID²éÑ¯µ½ÎÄ¼şĞÅÏ¢
      * @see TEduBoardCallback::onTEBAddTranscodeFile
      *
-     * æœ¬æ¥å£åªå¤„ç†ä¼ å…¥å‚æ•°ç»“æ„ä½“çš„titleã€resolutionã€urlã€pageså­—æ®µ
-     * è°ƒç”¨è¯¥æ¥å£åï¼ŒSDKä¼šåœ¨åå°è¿›è¡Œæ–‡ä»¶åŠ è½½ï¼ŒæœŸé—´ç”¨æˆ·å¯æ­£å¸¸è¿›è¡Œå…¶å®ƒæ“ä½œï¼ŒåŠ è½½æˆåŠŸæˆ–å¤±è´¥åä¼šè§¦å‘ç›¸åº”å›è°ƒ
-     * æ–‡ä»¶åŠ è½½æˆåŠŸåï¼Œå°†è‡ªåŠ¨åˆ‡æ¢åˆ°è¯¥æ–‡ä»¶
+     * ±¾½Ó¿ÚÖ»´¦Àí´«Èë²ÎÊı½á¹¹ÌåµÄtitle¡¢resolution¡¢url¡¢pages×Ö¶Î
+     * µ÷ÓÃ¸Ã½Ó¿Úºó£¬SDK»áÔÚºóÌ¨½øĞĞÎÄ¼ş¼ÓÔØ£¬ÆÚ¼äÓÃ»§¿ÉÕı³£½øĞĞÆäËü²Ù×÷£¬¼ÓÔØ³É¹¦»òÊ§°Üºó»á´¥·¢ÏàÓ¦»Øµ÷
+     * ÎÄ¼ş¼ÓÔØ³É¹¦ºó£¬½«×Ô¶¯ÇĞ»»µ½¸ÃÎÄ¼ş
      */
     virtual const char * AddTranscodeFile(const TEduBoardTranscodeFileResult & result) = 0;
 
     /**
-     * @brief æ·»åŠ è§†é¢‘æ–‡ä»¶
-     * @param url               æ–‡ä»¶æ’­æ”¾åœ°å€
-     * @return æ–‡ä»¶ID
+     * @brief Ìí¼ÓÊÓÆµÎÄ¼ş
+     * @param url               ÎÄ¼ş²¥·ÅµØÖ·
+     * @return ÎÄ¼şID
      *
-     * ç§»åŠ¨ç«¯æ”¯æŒmp4/m3u8ï¼Œæ¡Œé¢ç«¯æ”¯æŒmp4/m3u8/flv/rtmpï¼›è§¦å‘çŠ¶æ€æ”¹å˜å›è°ƒ onTEBVideoStatusChange
+     * ÒÆ¶¯¶ËÖ§³Ömp4/m3u8£¬×ÀÃæ¶ËÖ§³Ömp4/m3u8/flv/rtmp£»´¥·¢×´Ì¬¸Ä±ä»Øµ÷ onTEBVideoStatusChange
      */
     virtual const char *AddVideoFile(const char *url) = 0;
 
     /**
-     * @brief æ˜¾ç¤ºæˆ–éšè—è§†é¢‘æ§åˆ¶æ 
-     * @param show        æ˜¯å¦æ˜¾ç¤º
-     * @warning å…¨å±€æ§åˆ¶é¡¹ï¼Œå¯¹æ‰€æœ‰è§†é¢‘æ–‡ä»¶æœ‰æ•ˆ
-     * éšè—å’Œæ˜¾ç¤ºé»˜è®¤è§†é¢‘æ§åˆ¶æ ï¼Œé»˜è®¤æ˜¾ç¤ºç³»ç»Ÿè‡ªå¸¦çš„videoæ§åˆ¶æ ï¼Œä¸åŒå¹³å°ç•Œé¢UIæ ·å¼ä¸åŒ
+     * @brief ÏÔÊ¾»òÒş²ØÊÓÆµ¿ØÖÆÀ¸
+     * @param show        ÊÇ·ñÏÔÊ¾
+     * @warning È«¾Ö¿ØÖÆÏî£¬¶ÔËùÓĞÊÓÆµÎÄ¼şÓĞĞ§
+     * Òş²ØºÍÏÔÊ¾Ä¬ÈÏÊÓÆµ¿ØÖÆÀ¸£¬Ä¬ÈÏÏÔÊ¾ÏµÍ³×Ô´øµÄvideo¿ØÖÆÀ¸£¬²»Í¬Æ½Ì¨½çÃæUIÑùÊ½²»Í¬
      */
     virtual void ShowVideoControl(bool show) = 0;
 
     /**
-     * @brief æ’­æ”¾è§†é¢‘
-     * @warning åªå¯¹å½“å‰æ–‡ä»¶æœ‰æ•ˆ
+     * @brief ²¥·ÅÊÓÆµ
+     * @warning Ö»¶Ôµ±Ç°ÎÄ¼şÓĞĞ§
      *
-     * è§¦å‘çŠ¶æ€æ”¹å˜å›è°ƒ onTEBVideoStatusChangeï¼Œä¸€èˆ¬åœ¨ä½¿ç”¨è‡ªå®šä¹‰è§†é¢‘æ§åˆ¶æ æ—¶ä½¿ç”¨
+     * ´¥·¢×´Ì¬¸Ä±ä»Øµ÷ onTEBVideoStatusChange£¬Ò»°ãÔÚÊ¹ÓÃ×Ô¶¨ÒåÊÓÆµ¿ØÖÆÀ¸Ê±Ê¹ÓÃ
      */
     virtual void PlayVideo() = 0;
 
     /**
-     * @brief æš‚åœè§†é¢‘
-     * @warning åªå¯¹å½“å‰æ–‡ä»¶æœ‰æ•ˆ
+     * @brief ÔİÍ£ÊÓÆµ
+     * @warning Ö»¶Ôµ±Ç°ÎÄ¼şÓĞĞ§
      *
-     * è§¦å‘çŠ¶æ€æ”¹å˜å›è°ƒ onTEBVideoStatusChangeï¼Œä¸€èˆ¬åœ¨ä½¿ç”¨è‡ªå®šä¹‰è§†é¢‘æ§åˆ¶æ æ—¶ä½¿ç”¨
+     * ´¥·¢×´Ì¬¸Ä±ä»Øµ÷ onTEBVideoStatusChange£¬Ò»°ãÔÚÊ¹ÓÃ×Ô¶¨ÒåÊÓÆµ¿ØÖÆÀ¸Ê±Ê¹ÓÃ
      */
     virtual void PauseVideo() = 0;
 
     /**
-     * @brief è·³è½¬ï¼ˆä»…æ”¯æŒç‚¹æ’­è§†é¢‘ï¼‰
-     * @param time              æ’­æ”¾è¿›åº¦ï¼Œå•ä½ç§’
-     * @warning åªå¯¹å½“å‰æ–‡ä»¶æœ‰æ•ˆ
+     * @brief Ìø×ª£¨½öÖ§³Öµã²¥ÊÓÆµ£©
+     * @param time              ²¥·Å½ø¶È£¬µ¥Î»Ãë
+     * @warning Ö»¶Ôµ±Ç°ÎÄ¼şÓĞĞ§
      *
-     * è§¦å‘çŠ¶æ€æ”¹å˜å›è°ƒ onTEBVideoStatusChangeï¼Œä¸€èˆ¬åœ¨ä½¿ç”¨è‡ªå®šä¹‰è§†é¢‘æ§åˆ¶æ æ—¶ä½¿ç”¨
+     * ´¥·¢×´Ì¬¸Ä±ä»Øµ÷ onTEBVideoStatusChange£¬Ò»°ãÔÚÊ¹ÓÃ×Ô¶¨ÒåÊÓÆµ¿ØÖÆÀ¸Ê±Ê¹ÓÃ
      */
     virtual void SeekVideo(double time) = 0;
 
     /**
-     * @brief æ˜¯å¦åŒæ­¥æœ¬åœ°è§†é¢‘æ“ä½œåˆ°è¿œç«¯
-     * @param enable            æ˜¯å¦åŒæ­¥
-     * @warning å…¨å±€æ§åˆ¶é¡¹ï¼Œå¯¹æ‰€æœ‰è§†é¢‘æ–‡ä»¶æœ‰æ•ˆ
+     * @brief ÊÇ·ñÍ¬²½±¾µØÊÓÆµ²Ù×÷µ½Ô¶¶Ë
+     * @param enable            ÊÇ·ñÍ¬²½
+     * @warning È«¾Ö¿ØÖÆÏî£¬¶ÔËùÓĞÊÓÆµÎÄ¼şÓĞĞ§
      *
-     * play/pause/seekæ¥å£ä»¥åŠæ§åˆ¶æ äº‹ä»¶çš„è§¦å‘æ˜¯å¦å½±å“è¿œç«¯ï¼Œé»˜è®¤ä¸ºtrue
-     * ä¸€èˆ¬æƒ…å†µä¸‹å­¦ç”Ÿè®¾ç½®ä¸ºfalseï¼Œè€å¸ˆè®¾ç½®ä¸ºtrue
+     * play/pause/seek½Ó¿ÚÒÔ¼°¿ØÖÆÀ¸ÊÂ¼şµÄ´¥·¢ÊÇ·ñÓ°ÏìÔ¶¶Ë£¬Ä¬ÈÏÎªtrue
+     * Ò»°ãÇé¿öÏÂÑ§ÉúÉèÖÃÎªfalse£¬ÀÏÊ¦ÉèÖÃÎªtrue
      */
     virtual void SetSyncVideoStatusEnable(bool enable) = 0;
 
     /**
-     * @brief å†…éƒ¨å¯åŠ¨å®šæ—¶å™¨ï¼Œå®šæ—¶åŒæ­¥è§†é¢‘çŠ¶æ€åˆ°è¿œç«¯ï¼ˆä»…é™äºmp4ï¼‰
-     * @param interval          åŒæ­¥é—´éš”ï¼Œä¾‹å¦‚è®¾ç½®5ç§’
-     * @warning åªå¯¹å½“å‰æ–‡ä»¶æœ‰æ•ˆ
+     * @brief ÄÚ²¿Æô¶¯¶¨Ê±Æ÷£¬¶¨Ê±Í¬²½ÊÓÆµ×´Ì¬µ½Ô¶¶Ë£¨½öÏŞÓÚmp4£©
+     * @param interval          Í¬²½¼ä¸ô£¬ÀıÈçÉèÖÃ5Ãë
+     * @warning Ö»¶Ôµ±Ç°ÎÄ¼şÓĞĞ§
      *
-     * ä¸€èˆ¬åœ¨è€å¸ˆç«¯è§†é¢‘åŠ è½½å®Œæˆåè°ƒç”¨ï¼Œåˆ‡æ¢æ–‡ä»¶åå†…éƒ¨è‡ªåŠ¨é”€æ¯å®šæ—¶å™¨ï¼Œ
+     * Ò»°ãÔÚÀÏÊ¦¶ËÊÓÆµ¼ÓÔØÍê³Éºóµ÷ÓÃ£¬ÇĞ»»ÎÄ¼şºóÄÚ²¿×Ô¶¯Ïú»Ù¶¨Ê±Æ÷£¬
      */
     virtual void StartSyncVideoStatus(uint32_t interval) = 0;
 
     /**
-     * @brief åœæ­¢åŒæ­¥è§†é¢‘çŠ¶æ€
-     * @warning åªå¯¹å½“å‰æ–‡ä»¶æœ‰æ•ˆ
+     * @brief Í£Ö¹Í¬²½ÊÓÆµ×´Ì¬
+     * @warning Ö»¶Ôµ±Ç°ÎÄ¼şÓĞĞ§
      */
     virtual void StopSyncVideoStatus() = 0;
 
     /**
-     * @brief æ·»åŠ H5é¡µé¢
-     * @note åªæ”¯æŒå±•ç¤ºï¼Œä¸æ”¯æŒäº’åŠ¨
-     * @param url               ç½‘é¡µåœ°å€
-     * @return æ–‡ä»¶ID
+     * @brief Ìí¼ÓH5Ò³Ãæ
+     * @note Ö»Ö§³ÖÕ¹Ê¾£¬²»Ö§³Ö»¥¶¯
+     * @param url               ÍøÒ³µØÖ·
+     * @return ÎÄ¼şID
      */
     virtual const char *AddH5File(const char *url) = 0;
 
     /**
-     * @brief åˆ é™¤æ–‡ä»¶
-     * @param fileId			è¦åˆ é™¤çš„æ–‡ä»¶ID
+     * @brief É¾³ıÎÄ¼ş
+     * @param fileId			ÒªÉ¾³ıµÄÎÄ¼şID
      *
-     * æ–‡ä»¶IDä¸ºnullptræ—¶è¡¨ç¤ºå½“å‰æ–‡ä»¶ï¼Œé»˜è®¤æ–‡ä»¶æ— æ³•åˆ é™¤
+     * ÎÄ¼şIDÎªnullptrÊ±±íÊ¾µ±Ç°ÎÄ¼ş£¬Ä¬ÈÏÎÄ¼şÎŞ·¨É¾³ı
      */
     virtual void DeleteFile(const char * fileId) = 0;
 
     /**
-     * @brief åˆ‡æ¢æ–‡ä»¶
-     * @param fileId			è¦åˆ‡æ¢åˆ°çš„æ–‡ä»¶ID
-     * @param boardId           åˆ‡æ¢æ–‡ä»¶å¹¶è·³è½¬åˆ°è¿™ä¸ªç™½æ¿é¡µ
-     * @param stepIndex         è·³è½¬åˆ°ç™½æ¿é¡µå¹¶åˆ‡æ¢åˆ°è¿™ä¸ªåŠ¨ç”»
-     * @warning è¯¥æ¥å£ä»…å¯ç”¨äºæ–‡ä»¶åˆ‡æ¢ï¼Œå¦‚æœä¼ å…¥çš„fileIdä¸ºå½“å‰æ–‡ä»¶IDï¼ŒSDKä¼šå¿½ç•¥å…¶å®ƒå‚æ•°ï¼Œä¸åšä»»ä½•æ“ä½œ
-     * @note æ–‡ä»¶IDä¸ºå¿…å¡«é¡¹ï¼Œä¸ºnullptræˆ–ç©ºå­—ç¬¦ä¸²å°†å¯¼è‡´æ–‡ä»¶åˆ‡æ¢å¤±è´¥
+     * @brief ÇĞ»»ÎÄ¼ş
+     * @param fileId			ÒªÇĞ»»µ½µÄÎÄ¼şID
+     * @param boardId           ÇĞ»»ÎÄ¼ş²¢Ìø×ªµ½Õâ¸ö°×°åÒ³
+     * @param stepIndex         Ìø×ªµ½°×°åÒ³²¢ÇĞ»»µ½Õâ¸ö¶¯»­
+     * @warning ¸Ã½Ó¿Ú½ö¿ÉÓÃÓÚÎÄ¼şÇĞ»»£¬Èç¹û´«ÈëµÄfileIdÎªµ±Ç°ÎÄ¼şID£¬SDK»áºöÂÔÆäËü²ÎÊı£¬²»×öÈÎºÎ²Ù×÷
+     * @note ÎÄ¼şIDÎª±ØÌîÏî£¬Îªnullptr»ò¿Õ×Ö·û´®½«µ¼ÖÂÎÄ¼şÇĞ»»Ê§°Ü
      */
     virtual void SwitchFile(const char * fileId, const char *boardId = nullptr, int32_t stepIndex = -1) = 0;
 
     /**
-     * @brief è·å–å½“å‰æ–‡ä»¶ID
-     * @return å½“å‰æ–‡ä»¶ID
+     * @brief »ñÈ¡µ±Ç°ÎÄ¼şID
+     * @return µ±Ç°ÎÄ¼şID
      */
     virtual const char * GetCurrentFile() = 0;
 
     /**
-     * @brief è·å–ç™½æ¿ä¸­æŒ‡å®šæ–‡ä»¶çš„æ–‡ä»¶ä¿¡æ¯
-     * @return æ–‡ä»¶ä¿¡æ¯
-     * @warning æ¯æ¬¡è°ƒç”¨è¯¥æ¥å£çš„è¿”å›å€¼å†…å®¹éƒ½æŒ‡å‘åŒä¸€å—å†…å­˜ï¼Œè‹¥éœ€è¦ä¿å­˜è¿”å›ä¿¡æ¯ï¼Œè¯·åœ¨æ‹¿åˆ°è¿”å›å€¼ååŠæ—¶æ‹·è´èµ°
+     * @brief »ñÈ¡°×°åÖĞÖ¸¶¨ÎÄ¼şµÄÎÄ¼şĞÅÏ¢
+     * @return ÎÄ¼şĞÅÏ¢
+     * @warning Ã¿´Îµ÷ÓÃ¸Ã½Ó¿ÚµÄ·µ»ØÖµÄÚÈİ¶¼Ö¸ÏòÍ¬Ò»¿éÄÚ´æ£¬ÈôĞèÒª±£´æ·µ»ØĞÅÏ¢£¬ÇëÔÚÄÃµ½·µ»ØÖµºó¼°Ê±¿½±´×ß
      */
     virtual TEduBoardFileInfo GetFileInfo(const char *fileId) = 0;
 
     /**
-     * @brief è·å–ç™½æ¿ä¸­ä¸Šä¼ çš„æ‰€æœ‰æ–‡ä»¶çš„æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨
-     * @return æ–‡ä»¶ä¿¡æ¯åˆ—è¡¨
-     * @warning è¿”å›å€¼ä¸å†ä½¿ç”¨æ—¶ä¸éœ€è¦è‡ªè¡Œdeleteï¼Œä½†æ˜¯åŠ¡å¿…è°ƒç”¨å…¶releaseæ–¹æ³•ä»¥é‡Šæ”¾å†…å­˜å ç”¨
+     * @brief »ñÈ¡°×°åÖĞÉÏ´«µÄËùÓĞÎÄ¼şµÄÎÄ¼şĞÅÏ¢ÁĞ±í
+     * @return ÎÄ¼şĞÅÏ¢ÁĞ±í
+     * @warning ·µ»ØÖµ²»ÔÙÊ¹ÓÃÊ±²»ĞèÒª×ÔĞĞdelete£¬µ«ÊÇÎñ±Øµ÷ÓÃÆärelease·½·¨ÒÔÊÍ·ÅÄÚ´æÕ¼ÓÃ
      */
     virtual TEduBoardFileInfoList * GetFileInfoList() = 0;
 
     /**
-     * @brief è·å–æŒ‡å®šæ–‡ä»¶çš„ç™½æ¿IDåˆ—è¡¨
-     * @param fileId			æ–‡ä»¶ID
-     * @return ç™½æ¿IDåˆ—è¡¨
-     * @warning è¿”å›å€¼ä¸å†ä½¿ç”¨æ—¶ä¸éœ€è¦è‡ªè¡Œdeleteï¼Œä½†æ˜¯åŠ¡å¿…è°ƒç”¨å…¶releaseæ–¹æ³•ä»¥é‡Šæ”¾å†…å­˜å ç”¨
+     * @brief »ñÈ¡Ö¸¶¨ÎÄ¼şµÄ°×°åIDÁĞ±í
+     * @param fileId			ÎÄ¼şID
+     * @return °×°åIDÁĞ±í
+     * @warning ·µ»ØÖµ²»ÔÙÊ¹ÓÃÊ±²»ĞèÒª×ÔĞĞdelete£¬µ«ÊÇÎñ±Øµ÷ÓÃÆärelease·½·¨ÒÔÊÍ·ÅÄÚ´æÕ¼ÓÃ
      */
     virtual TEduBoardStringList * GetFileBoardList(const char * fileId) = 0;
 
     /**
-     * @brief è·å–æŒ‡å®šæ–‡ä»¶çš„ç¼©ç•¥å›¾ï¼Œä¸æ”¯æŒé»˜è®¤æ–‡ä»¶ï¼ˆfileId=#DEFAULTï¼‰
-     * @param fileId        	æ–‡ä»¶ID
-     * @return ç¼©ç•¥å›¾URLåˆ—è¡¨
-     * @note ç”¨æˆ·åœ¨è°ƒç”¨rest apiè¯·æ±‚è½¬ç æ—¶ï¼Œéœ€è¦å¸¦ä¸Š "thumbnail_resolution" å‚æ•°ï¼Œå¼€å¯ç¼©ç•¥å›¾åŠŸèƒ½ï¼Œå¦åˆ™è¿”å›çš„ç¼©ç•¥å›¾urlæ— æ•ˆ
+     * @brief »ñÈ¡Ö¸¶¨ÎÄ¼şµÄËõÂÔÍ¼£¬²»Ö§³ÖÄ¬ÈÏÎÄ¼ş£¨fileId=#DEFAULT£©
+     * @param fileId        	ÎÄ¼şID
+     * @return ËõÂÔÍ¼URLÁĞ±í
+     * @note ÓÃ»§ÔÚµ÷ÓÃrest apiÇëÇó×ªÂëÊ±£¬ĞèÒª´øÉÏ "thumbnail_resolution" ²ÎÊı£¬¿ªÆôËõÂÔÍ¼¹¦ÄÜ£¬·ñÔò·µ»ØµÄËõÂÔÍ¼urlÎŞĞ§
      */
     virtual TEduBoardStringList * GetThumbnailImages(const char * fileId) = 0;
 
     /**
-     * @brief æ¸…ç©ºæŒ‡å®šæ–‡ä»¶çš„æ‰€æœ‰ç™½æ¿æ¶‚é¸¦
-     * @param fileId			æ–‡ä»¶ID
+     * @brief Çå¿ÕÖ¸¶¨ÎÄ¼şµÄËùÓĞ°×°åÍ¿Ñ»
+     * @param fileId			ÎÄ¼şID
      */
     virtual void ClearFileDraws(const char * fileId) = 0;
 
