@@ -15,7 +15,7 @@
     - 添加H5页面 - (NSString *)addH5File:(NSString *)url;
 - 增加接口支持图片元素功能
     - 添加图片资源 - (void)addImageElement:(NSString *)url;
-    
+
 ## 2.3.7 @ 2019.11.21
 
 - 增加接口
