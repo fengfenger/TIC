@@ -19,6 +19,9 @@
     <Filter Include="TIC\jsoncpp">
       <UniqueIdentifier>{a6816ab2-d96f-4fd5-8266-5f630117b622}</UniqueIdentifier>
     </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{d612d220-53e7-43bd-99cc-530ce602fe7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TICDemo.h">
@@ -119,6 +122,9 @@
   <ItemGroup>
     <None Include="res\TICDemo.rc2">
       <Filter>资源文件</Filter>
+    </None>
+    <None Include="config.json">
+      <Filter>config</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

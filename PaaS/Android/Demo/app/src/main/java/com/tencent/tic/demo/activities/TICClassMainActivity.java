@@ -923,6 +923,16 @@ public class TICClassMainActivity extends BaseActvity
          }
 
          @Override
+         public void onTEBH5FileStatusChanged(String s, int i) {
+
+         }
+
+         @Override
+         public void onTEBVideoStatusChanged(String s, int i, float v, float v1) {
+
+         }
+
+         @Override
         public void onTEBSetBackgroundImage(final String url){}
 
          @Override
