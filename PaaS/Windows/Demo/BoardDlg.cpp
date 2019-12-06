@@ -16,6 +16,7 @@ BEGIN_MESSAGE_MAP(CDrawTabDlg, CDialogEx)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_BRUSH_THIN, &CDrawTabDlg::OnNMCustomdrawSliderBrushThin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_TEXT_SIZE, &CDrawTabDlg::OnNMCustomdrawSliderTextSize)
 	ON_BN_CLICKED(IDC_BTN_SET_BACK_H5, &CDrawTabDlg::OnBnClickedBtnSetBackH5)
+	ON_BN_CLICKED(IDC_BTN_ADD_IMAGE, &CDrawTabDlg::OnBnClickedBtnAddImage)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER_SCALE, &CDrawTabDlg::OnNMCustomdrawSliderScale)
 END_MESSAGE_MAP()
 
@@ -96,6 +97,9 @@ BOOL CDrawTabDlg::OnInitDialog()
 
 	sliderScale_.SetRange(100, 300);
 
+	editBackH5_.SetWindowText(_T("https://cloud.tencent.com/product/tiw"));
+	editAddImage_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/qcloud.jpg"));
+
 	return TRUE;
 }
 
@@ -118,6 +122,7 @@ void CDrawTabDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLIDER_TEXT_SIZE, sliderTextSize_);
 
 	DDX_Control(pDX, IDC_EDIT_BACK_H5, editBackH5_);
+	DDX_Control(pDX, IDC_EDIT_ADD_IMAGE, editAddImage_);
 
 	DDX_Control(pDX, IDC_SLIDER_SCALE, sliderScale_);
 }
@@ -286,6 +291,18 @@ void CDrawTabDlg::OnBnClickedBtnSetBackH5()
 		editBackH5_.GetWindowText(h5Url);
 		std::string url = w2a(h5Url.GetString());
 		boardCtrl->SetBackgroundH5(url.c_str());
+	}
+}
+
+void CDrawTabDlg::OnBnClickedBtnAddImage()
+{
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		CString imageUrl;
+		editAddImage_.GetWindowText(imageUrl);
+		std::string url = w2a(imageUrl.GetString());
+		boardCtrl->AddImageElement(url.c_str());
 	}
 }
 
