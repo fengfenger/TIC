@@ -1,6 +1,6 @@
 # Release Notes - Android
 
-## 2.4.0.285 @ 2019.12.26
+## 2.4.0.286 @ 2019.12.26
 - 增加接口支持视频播放功能
     - 添加视频文件  String AddVideoFile(String url);
     - 显示或隐藏视频控制栏 void ShowVideoControl(boolean show);
