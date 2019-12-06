@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.3.4.45
+ * @version 2.4.0.60
  */
 
 #pragma once
@@ -1210,6 +1210,12 @@ public:
      * 返回值内存由SDK内部管理，用户不需要自己释放
      */
     virtual const char * AddBoard(const char * url = nullptr) = 0;
+
+    /**
+     * @brief 添加图片资源
+     * @param url               要添加的图片元素URL地址，编码格式为UTF8
+     */
+    virtual void AddImageElement(const char * url) = 0;
 
     /**
      * @brief 删除一页白板

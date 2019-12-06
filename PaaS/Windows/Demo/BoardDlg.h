@@ -53,6 +53,8 @@ private:
 
 	afx_msg void OnBnClickedBtnSetBackH5();
 
+	afx_msg void OnBnClickedBtnAddImage();
+
 	afx_msg void OnNMCustomdrawSliderScale(NMHDR *pNMHDR, LRESULT *pResult);
 
 private:
@@ -71,6 +73,7 @@ private:
 	CSliderCtrl sliderTextSize_;
 
 	CEdit editBackH5_;
+	CEdit editAddImage_;
 
 	CSliderCtrl sliderScale_;
 };
