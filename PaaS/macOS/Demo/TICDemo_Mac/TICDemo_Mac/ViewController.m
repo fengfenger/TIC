@@ -70,6 +70,7 @@
 @property (weak) IBOutlet NSTextField *videoTextField;
 @property (weak) IBOutlet NSButton *goBackButton;
 @property (weak) IBOutlet NSButton *goForwardButton;
+@property (weak) IBOutlet NSTextField *imageTextFiled;
 
 //视频tab
 @property (weak) IBOutlet NSButton *cameraButton;
@@ -443,6 +444,12 @@
     if(index >= 0){
         NSArray<NSString *> *boardIds = [[[TICManager sharedInstance] getBoardController] getBoardList];
         [[[TICManager sharedInstance] getBoardController] deleteBoard:boardIds[index]];
+    }
+}
+- (IBAction)onAddImageElement:(id)sender {
+    NSString *url = self.imageTextFiled.stringValue;
+    if(url.length != 0){
+        [[[TICManager sharedInstance] getBoardController] addImageElement:url];
     }
 }
 

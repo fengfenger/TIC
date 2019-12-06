@@ -946,7 +946,7 @@
                                                     <font key="font" metaFont="system"/>
                                                     <tabViewItems>
                                                         <tabViewItem label="涂鸦" identifier="" id="7YQ-nr-NQd">
-                                                            <view key="view" id="aFg-uR-S4S">
+                                                            <view key="view" ambiguous="YES" id="aFg-uR-S4S">
                                                                 <rect key="frame" x="10" y="33" width="247" height="508"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
@@ -1166,7 +1166,7 @@
                                                                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YVX-Dz-eyL">
                                                                                             <rect key="frame" x="20" y="112" width="146" height="30"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
-                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="h5背景 url" drawsBackground="YES" id="XQJ-LL-KF3">
+                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="https://cloud.tencent.com/product/tiw" placeholderString="h5背景 url" drawsBackground="YES" id="XQJ-LL-KF3">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1181,6 +1181,26 @@
                                                                                             </buttonCell>
                                                                                             <connections>
                                                                                                 <action selector="onSetBackgroundH5:" target="oOV-ii-3UA" id="pmz-nx-Hpf"/>
+                                                                                            </connections>
+                                                                                        </button>
+                                                                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZWc-4J-lEp">
+                                                                                            <rect key="frame" x="20" y="74" width="146" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/qcloud.jpg" placeholderString="图源资源url" drawsBackground="YES" id="Lja-kK-wXW">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PLr-nL-zPk">
+                                                                                            <rect key="frame" x="174" y="74" width="64" height="30"/>
+                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <buttonCell key="cell" type="square" title="添加图片" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Wp-vO-06s">
+                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                                            </buttonCell>
+                                                                                            <connections>
+                                                                                                <action selector="onAddImageElement:" target="oOV-ii-3UA" id="5Ug-LW-5qk"/>
                                                                                             </connections>
                                                                                         </button>
                                                                                     </subviews>
@@ -1386,7 +1406,7 @@
                                                             </view>
                                                         </tabViewItem>
                                                         <tabViewItem label="文件" identifier="" id="AC3-jS-5RA">
-                                                            <view key="view" ambiguous="YES" id="srb-eL-SWA">
+                                                            <view key="view" id="srb-eL-SWA">
                                                                 <rect key="frame" x="10" y="33" width="247" height="508"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
@@ -1556,30 +1576,8 @@
                                                                                                 <action selector="onAddH5File:" target="oOV-ii-3UA" id="uGI-X3-vgr"/>
                                                                                             </connections>
                                                                                         </button>
-                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h6l-OA-KMs">
-                                                                                            <rect key="frame" x="20" y="175" width="64" height="30"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                            <buttonCell key="cell" type="square" title="后退" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yna-7p-fg4">
-                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                <font key="font" usesAppearanceFont="YES"/>
-                                                                                            </buttonCell>
-                                                                                            <connections>
-                                                                                                <action selector="onGoBack:" target="oOV-ii-3UA" id="YC0-5g-C2d"/>
-                                                                                            </connections>
-                                                                                        </button>
-                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vsn-1d-PCT">
-                                                                                            <rect key="frame" x="174" y="175" width="64" height="30"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                            <buttonCell key="cell" type="square" title="刷新" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Thz-LB-M2j">
-                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                <font key="font" usesAppearanceFont="YES"/>
-                                                                                            </buttonCell>
-                                                                                            <connections>
-                                                                                                <action selector="onReload:" target="oOV-ii-3UA" id="PFM-7o-fGn"/>
-                                                                                            </connections>
-                                                                                        </button>
                                                                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MQ1-Yc-ugq">
-                                                                                            <rect key="frame" x="20" y="125" width="146" height="30"/>
+                                                                                            <rect key="frame" x="20" y="173" width="146" height="30"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4" placeholderString="mp4/m3u8" drawsBackground="YES" id="j8R-aJ-LON">
                                                                                                 <font key="font" metaFont="system"/>
@@ -1588,7 +1586,7 @@
                                                                                             </textFieldCell>
                                                                                         </textField>
                                                                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P1t-cl-AkI">
-                                                                                            <rect key="frame" x="174" y="127" width="64" height="30"/>
+                                                                                            <rect key="frame" x="174" y="173" width="64" height="30"/>
                                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                             <buttonCell key="cell" type="square" title="添加视频" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vwz-ft-LOL">
                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1607,26 +1605,6 @@
                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                             </textFieldCell>
                                                                                         </textField>
-                                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3hm-3c-fIs">
-                                                                                            <rect key="frame" x="20" y="165" width="218" height="2"/>
-                                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" drawsBackground="YES" id="KOl-YK-VK4">
-                                                                                                <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                                            </textFieldCell>
-                                                                                        </textField>
-                                                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tjH-gq-721">
-                                                                                            <rect key="frame" x="97" y="175" width="64" height="30"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                            <buttonCell key="cell" type="square" title="前进" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="s3y-ye-Vfa">
-                                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                <font key="font" usesAppearanceFont="YES"/>
-                                                                                            </buttonCell>
-                                                                                            <connections>
-                                                                                                <action selector="onGoForward:" target="oOV-ii-3UA" id="Js7-UC-NAb"/>
-                                                                                            </connections>
-                                                                                        </button>
                                                                                     </subviews>
                                                                                 </view>
                                                                             </subviews>
@@ -1896,10 +1874,9 @@
                         <outlet property="chatTextView" destination="vI5-pO-Jr0" id="K1U-Yr-myJ"/>
                         <outlet property="classIdTextField" destination="zJU-BZ-yh0" id="SdJ-Zn-hUK"/>
                         <outlet property="fileTableView" destination="nad-aL-ywR" id="skA-ph-P0Z"/>
-                        <outlet property="goBackButton" destination="h6l-OA-KMs" id="58u-qz-MOB"/>
-                        <outlet property="goForwardButton" destination="tjH-gq-721" id="pUC-Y0-xCZ"/>
                         <outlet property="h5BackTextField" destination="YVX-Dz-eyL" id="idg-Fn-VaF"/>
                         <outlet property="h5FileTextField" destination="exm-sv-eXa" id="WJ6-qr-049"/>
+                        <outlet property="imageTextFiled" destination="ZWc-4J-lEp" id="Bwl-Pf-ko6"/>
                         <outlet property="imsdkVerLabel" destination="dJf-tb-I1K" id="DNn-tI-23l"/>
                         <outlet property="joinRoomButton" destination="dQ3-mH-Dwr" id="CWu-47-ycK"/>
                         <outlet property="localView" destination="ZWn-zw-vNm" id="yFP-4P-jnb"/>
