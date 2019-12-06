@@ -1,5 +1,8 @@
 # Release Notes
 
+## 2019.12.06
+ - addTICEventListener增加onTICTrtcClientCreated事件
+
 ## 2019.10.30
 
 - 重要更新：接入TRTC WEB SDK 4.x版本

@@ -1,5 +1,26 @@
 # Release Notes - Web
 
+## 2.4.0 @ 2019.12.06
+
+- 增加接口
+    - 添加视频文件 addVideoFile
+    - 显示或隐藏视频控制栏 showVideoControl
+    - 播放视频 playVideo
+    - 暂停视频 pauseVideo
+    - 跳转 seekVideo
+    - 是否同步本地视频操作到远端 setSyncVideoStatusEnable
+    - 定时同步视频状态到远端 startSyncVideoStatus
+    - 停止同步视频状态 stopSyncVideoStatus
+    - 添加H5页面 addH5File
+    - 添加图片资源 addImageElement
+
+## 2.3.7 @ 2019.11.21
+
+- 增加接口
+    - setAccessibleUsers 设置允许操作特定用户绘制的图形
+    - clearBackground 删除选中涂鸦
+    - setCursorIcon 自定义鼠标样式
+
 ## 2.3.6 @ 2019.11.12
 
 - 转码资源全部接入CDN，请务必升级。

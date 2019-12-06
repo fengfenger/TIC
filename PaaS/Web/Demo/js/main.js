@@ -57,6 +57,7 @@ window.app = new Vue({
       //board(文件操作)
       currentFileId: null, // 当前文件Id
       fileInfoList: [], // 所有文件信息
+      thumbUrls: [], // 缩略图
 
       //消息
       msgs: [],
@@ -317,7 +318,8 @@ window.app = new Vue({
         id: 'paint_box',
         ratio: '16:9',
         smoothLevel: 0,
-        boardContentFitMode: 1
+        boardContentFitMode: 1,
+        toolType: 1
       }, res => {
         if (res.code) {
           this.showErrorTip('加入课堂失败');
@@ -333,9 +335,6 @@ window.app = new Vue({
           window.teduBoard = this.teduBoard = this.tic.getBoardInstance();
 
           this.initBoardEvent();
-
-          window.trtcClient = this.trtcClient = this.tic.getTrtcClient();
-          this.initTRTCEvent();
         }
       });
     },
@@ -406,6 +405,11 @@ window.app = new Vue({
       teduBoard.on(TEduBoard.EVENT.TEB_HISTROYDATA_SYNCCOMPLETED, () => {
         console.log('======================:  ', 'TEB_HISTROYDATA_SYNCCOMPLETED');
         this.showMessageInBox('TIC', "onTEBHistory Sync Completed finished");
+
+        // setTimeout(() => {
+        //   teduBoard.addImage('https://main.qcloudimg.com/raw/5c11f1a14f74b00988c5c43dddff2d41.png');
+        //   // teduBoard.addImage('https://main.qcloudimg.com/raw/ea3692fd322dbcc7d86c3fc3cc6d3c59.jpg');
+        // }, 2000);
       });
 
       // 白板错误回调
@@ -482,7 +486,7 @@ window.app = new Vue({
         console.log('======================:  ', 'TEB_SWITCHFILE', ' fid:', fid);
         if (fid === '#1573462129974') {
           teduBoard.gotoBoard('web_tic_10_1573462130_8_#1573462129974')
-        } else if(fid === '#1573218991727') {
+        } else if (fid === '#1573218991727') {
           teduBoard.gotoBoard('miniprogram_miniprogram_tic_201_1573218991_3_#1573218991727')
         }
         this.proBoardData();
@@ -506,13 +510,15 @@ window.app = new Vue({
 
       // 转码进度
       teduBoard.on(TEduBoard.EVENT.TEB_TRANSCODEPROGRESS, res => {
-        console.log('=======  TEB_TRANSCODEPROGRESS 转码进度：', res);
+        console.log('=======  TEB_TRANSCODEPROGRESS 转码进度：', JSON.stringify(res));
         if (res.code) {
           this.showErrorTip('转码失败code:' + res.code + ' message:' + res.message);
         } else {
           let status = res.status;
           if (status === 'ERROR') {
             this.showErrorTip('转码失败');
+          } else if (status === 'UPLOADING') {
+            this.showTip('上传中，当前进度:' + parseInt(res.progress) + '%');
           } else if (status === 'CREATED') {
             this.showTip('创建转码任务');
           } else if (status === 'QUEUED') {
@@ -686,6 +692,12 @@ window.app = new Vue({
         onTICClassroomDestroy: () => {
           this.quitClassroom();
           this.showTip(`老师解散了课堂`);
+        },
+
+        onTICTrtcClientCreated: () => {
+          this.showTip(`trtcclient创建成功`);
+          window.trtcClient = this.trtcClient = this.tic.getTrtcClient();
+          this.initTRTCEvent();
         }
       });
     },
@@ -979,6 +991,15 @@ window.app = new Vue({
       this.teduBoard.addH5PPTFile(url);
     },
 
+    onAddVideoFile(url) {
+      this.teduBoard.addVideoFile(url);
+    },
+    
+
+    onAddImageElement(url) {
+      this.teduBoard.addImageElement(url);
+    },
+
     // 动画上一步
     prevStep() {
       this.teduBoard.prevStep();
@@ -1024,6 +1045,7 @@ window.app = new Vue({
     proBoardData(data) {
       this.fileInfoList = this.teduBoard.getFileInfoList();
       this.currentFileId = this.teduBoard.getCurrentFile();
+      this.thumbUrls = this.teduBoard.getThumbnailImages(this.currentFileId);
       var fileInfo = this.teduBoard.getFileInfo(this.currentFileId);
       if (fileInfo) {
         this.boardData = {
@@ -1056,6 +1078,14 @@ window.app = new Vue({
       var fid = targetTab.name;
       this.teduBoard.switchFile(fid);
     },
+
+    onThumbClick(index) {
+      var fileId = this.teduBoard.getCurrentFile();
+      var boardList = this.teduBoard.getFileBoardList(fileId);
+      var boardId = boardList[index];
+      this.teduBoard.gotoBoard(boardId);
+    },
+
 
     onSetToolType(toolType) {
       this.teduBoard.setToolType(toolType);
