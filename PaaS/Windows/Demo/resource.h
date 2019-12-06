@@ -79,7 +79,9 @@
 #define IDC_EDIT_BACK_H5                1067
 #define IDC_BTN_SET_BACK_H5             1068
 #define IDC_COMBO_FIT_MODE              1069
+#define IDC_EDIT_ADD_IMAGE              1069
 #define IDC_COMBO_RATIO                 1070
+#define IDC_BTN_ADD_IMAGE               1070
 #define IDC_SLIDER_SCALE                1071
 #define IDC_VERSION                     1072
 #define IDC_TAB_BOARD                   1073
