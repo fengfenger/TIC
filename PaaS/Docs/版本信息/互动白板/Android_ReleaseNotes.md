@@ -1,5 +1,20 @@
 # Release Notes - Android
 
+## 2.4.0.285 @ 2019.12.26
+- 增加接口支持视频播放功能
+    - 添加视频文件  String AddVideoFile(String url);
+    - 显示或隐藏视频控制栏 void ShowVideoControl(boolean show);
+    - 播放视频 void PlayVideo() ;
+    - 暂停视频 void PauseVideo() ;
+    - 跳转视频 void SeekVideo(double time) ;
+    - 是否同步本地视频操作到远端 void SetSyncVideoStatusEnable(boolean enable) ;
+    - 定时同步视频状态到远端 void StartSyncVideoStatus(int interval);
+    - 停止同步视频状态 void StopSyncVideoStatus() ;
+- 增加接口支持H5页面展示功能
+    - 添加H5页面 String AddH5File(String url) ;
+- 增加接口支持图片元素功能
+    - 添加图片资源 void AddImageElement(String url) ;
+
 ## 2.3.7.255 @ 2019.11.21
 - 增加setAccessibleUsers接口,设置允许操作特定用户绘制的图形
 - 增加clearBackground接口,删除选中涂鸦
