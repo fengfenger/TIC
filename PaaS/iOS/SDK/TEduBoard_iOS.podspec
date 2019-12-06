@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = 'TEduBoard_iOS'
-  spec.version      = '2.3.7'
+  spec.version      = '2.4.0'
   spec.platform     = :ios 
   spec.ios.deployment_target = '8.0'
   spec.license      = { :type => 'Proprietary',
