@@ -1,5 +1,20 @@
 # Release Notes - Windows
 
+## 2.4.0.60 @2019.12.06
+- 增加接口支持视频播放功能
+    - 添加视频文件 virtual const char *AddVideoFile(const char *url) = 0;
+    - 显示或隐藏视频控制栏 virtual void ShowVideoControl(bool show) = 0;
+    - 播放视频 virtual void PlayVideo() = 0;
+    - 暂停视频 virtual void PauseVideo() = 0;
+    - 跳转视频 virtual void SeekVideo(double time) = 0;
+    - 是否同步本地视频操作到远端 virtual void SetSyncVideoStatusEnable(bool enable) = 0;
+    - 定时同步视频状态到远端 virtual void StartSyncVideoStatus(uint32_t interval) = 0;
+    - 停止同步视频状态 virtual void StopSyncVideoStatus() = 0;
+- 增加接口支持H5页面展示功能
+    - 添加H5页面 virtual const char *AddH5File(const char *url) = 0;
+- 增加接口支持图片元素功能
+    - 添加图片资源 virtual void AddImageElement(const char * url) = 0;
+
 ## 2.3.5.27 @2019.10.30
 - IM兼容4.5.x版本
 - 增加动画步数回调

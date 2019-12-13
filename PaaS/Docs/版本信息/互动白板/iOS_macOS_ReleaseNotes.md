@@ -1,5 +1,21 @@
 # Release Notes - iOS & macOS
 
+## 2.4.0 @ 2019.12.06
+
+- 增加接口支持视频播放功能
+    - 添加视频文件 - (NSString *)addVideoFile:(NSString *)url;
+    - 显示或隐藏视频控制栏- (void)showVideoControl:(BOOL)show;
+    - 播放视频 - (void)playVideo;
+    - 暂停视频 - (void)pauseVideo;
+    - 跳转 - (void)seekVideo:(CGFloat)time;
+    - 是否同步本地视频操作到远端 - (void)setSyncVideoStatusEnable:(BOOL)enable;
+    - 定时同步视频状态到远端 - (void)startSyncVideoStatus:(NSInteger)interval;
+    - 停止同步视频状态 - (void)stopSyncVideoStatus;
+- 增加接口支持H5页面展示功能
+    - 添加H5页面 - (NSString *)addH5File:(NSString *)url;
+- 增加接口支持图片元素功能
+    - 添加图片资源 - (void)addImageElement:(NSString *)url;
+
 ## 2.3.7 @ 2019.11.21
 
 - 增加接口
