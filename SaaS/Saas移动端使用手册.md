@@ -6,25 +6,10 @@
 ### 加入课堂
 #### 加入课堂的方式
 1. **通过管理员分享的链接加入课堂**
-界面展示如下：
-![](https://main.qcloudimg.com/raw/c731c52ec6d348dcda829b319d2cd21f.png)
-加入课堂时需要输入【用户名】、【用户密码】两个要素：
-<table>
-<tr>
-<th>要素</th>
-<th>说明</th>
-</tr>
-<tr>
-<td>用户名</td>
-<td>由管理员告知。登录 App 的账号，仅管理员可修改。</td>
-</tr>
-<tr>
-<td>用户密码</td>
-<td>由管理员告知。登录 App 的密码，仅管理员可修改。</td>
-</tr>
-</table>
+管理员通过QQ群或者微信群分享课堂链接时，点击连接后界面展示如下：
+![](https://main.qcloudimg.com/raw/fb00c7e56a0eb106a21e9f151f57156d.jpg)
 
- >? 仅支持 Chrome 浏览器，暂时不支持 IE 或 Safari（近期将支持 IE 和 Safari）。
+点击“打开App”按钮后，跳转至本地App的登陆界面；
 
 2. **通过在线课堂 App 加入课堂**
 界面展示如下：
