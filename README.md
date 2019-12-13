@@ -57,6 +57,7 @@ git clone https://github.com/tencentyun/TIC.git
 ![](https://main.qcloudimg.com/raw/ea3692fd322dbcc7d86c3fc3cc6d3c59.jpg)
 
 **demo体验**
+     
 
 <table>
 <tr>
@@ -71,13 +72,14 @@ git clone https://github.com/tencentyun/TIC.git
 <td style="text-align:center"><a href="https://tedu.qcloudtrtc.com/">立即体验</a></td>
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/4414881785d2ccd82de352b037e98c20.jpg" width="150"/></td>
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/c9619497d26c6d4ed75921ce2a298596.png" width="150"/></td>
-<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/35664baf9512c57ac3c2b5436ab5d567.png" width="150"/></td>
+<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/0594110964a3efd3efa1bf63259a5437.png" width="150"/></td>
 <td style="text-align:center"><a href="http://dldir1.qq.com/hudongzhibo/Saas/TClass_Demo.dmg">立即体验</a></td>
 <td style="text-align:center"><a href="http://dldir1.qq.com/hudongzhibo/Saas/TClass_Setup_Demo.exe">立即体验</a></td>
 </tr>
 </table>
 
-demo 功能可参考下面的桌面端/移动端使用手册。
+> IOS DEMO 下载密码:qcloudtencent
+> demo 功能可参考下面的桌面端/移动端使用手册。
 > Demo中视频为标清，正式Saas版本可在约课时指定分辨率以及码率。
 
 **SaaS 方案接入**
@@ -100,22 +102,30 @@ demo 功能可参考下面的桌面端/移动端使用手册。
 
 <table>
 <tr>
-<th style="text-align:center">Web</th>
-<th style="text-align:center">小程序</th>
 <th style="text-align:center">Android</th>
 <th style="text-align:center">iOS</th>
-<th style="text-align:center">macOS</th>
+<th style="text-align:center">小程序</th>
+<th style="text-align:center">Mac OS</th>
 <th style="text-align:center">Windows</th>
+<th style="text-align:center">Web</th>
 </tr>
 <tr>
-<td style="text-align:center"><a href="https://tic-demo-1259648581.cos.ap-shanghai.myqcloud.com/index.html">立即体验</a></td>
+<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/6cf3b2864c6ad847f380e4877f56ed93.png" width="150"/></td>
+<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/98569a546d085544b5171670e6e60c11.png" width="150"/></td>
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/b660a6c57aecebf6a0c749a1daf8532a.jpg" width="150"/></td>
-<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/cd2145e71c50374ddafae1714ee9f6e8.png" width="150"/></td>
-<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/1e40ee772f79317b14a0a55587343ae7.png" width="150"/></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Mac.zip">立即体验</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Windows.zip">立即体验</a></td>
+<td style="text-align:center">
+<a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Mac.zip">单击下载</a>
+</td>
+<td style="text-align:center">
+<a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Windows.zip">单击下载</a>
+</td>
+<td style="text-align:center">
+<a href="https://tic-demo-1259648581.cos.ap-shanghai.myqcloud.com/index.html">单击体验</a>
+</td>
 </tr>
 </table>
+
+>iOS 和 Android 扫码后，请输入安装密码 `tiw` 后即可安装。
 
 **PaaS 方案接入**
 
