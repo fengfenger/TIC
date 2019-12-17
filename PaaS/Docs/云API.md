@@ -338,6 +338,7 @@
   "admin_sig":"即时通信IM管理员鉴权sig",
   "max_member_limit":6,
   "max_member_num": 0,
+  class_live_type:"window",
   "members": [
     {
       "role": "student",
@@ -1850,7 +1851,7 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | packet_loss_mutation |  string | 丢包突变 |
 | rate_mutation |  string | 码率突变 |
 #### 附录3.10 直播类型-class_live_type
-
+设置该参数，在上课后可看到直播视频
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | close | string | 关闭 |

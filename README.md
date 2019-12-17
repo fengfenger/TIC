@@ -102,22 +102,30 @@ git clone https://github.com/tencentyun/TIC.git
 
 <table>
 <tr>
-<th style="text-align:center">Web</th>
-<th style="text-align:center">小程序</th>
 <th style="text-align:center">Android</th>
 <th style="text-align:center">iOS</th>
-<th style="text-align:center">macOS</th>
+<th style="text-align:center">小程序</th>
+<th style="text-align:center">Mac OS</th>
 <th style="text-align:center">Windows</th>
+<th style="text-align:center">Web</th>
 </tr>
 <tr>
-<td style="text-align:center"><a href="https://tic-demo-1259648581.cos.ap-shanghai.myqcloud.com/index.html">立即体验</a></td>
+<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/6cf3b2864c6ad847f380e4877f56ed93.png" width="150"/></td>
+<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/98569a546d085544b5171670e6e60c11.png" width="150"/></td>
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/b660a6c57aecebf6a0c749a1daf8532a.jpg" width="150"/></td>
-<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/cd2145e71c50374ddafae1714ee9f6e8.png" width="150"/></td>
-<td style="text-align:center"><img src="https://main.qcloudimg.com/raw/1e40ee772f79317b14a0a55587343ae7.png" width="150"/></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Mac.zip">立即体验</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Windows.zip">立即体验</a></td>
+<td style="text-align:center">
+<a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Mac.zip">单击下载</a>
+</td>
+<td style="text-align:center">
+<a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Windows.zip">单击下载</a>
+</td>
+<td style="text-align:center">
+<a href="https://tic-demo-1259648581.cos.ap-shanghai.myqcloud.com/index.html">单击体验</a>
+</td>
 </tr>
 </table>
+
+>iOS 和 Android 扫码后，请输入安装密码 `tiw` 后即可安装。
 
 **PaaS 方案接入**
 
