@@ -15,7 +15,7 @@
   ║ property.  Another process may use this to select, cluster, and combine the various servers'     ║
   ║ data to determine the most accurate and reliable candidates to provide an overall best time.     ║
   ╚══════════════════════════════════════════════════════════════════════════════════════════════════╝*/
-
+#import <Foundation/Foundation.h>
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #else
