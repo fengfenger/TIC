@@ -1190,7 +1190,7 @@ quit_class
 | secret_id | string | 企业腾讯云账号下的密钥 ID（需要 ai 功能时才设置）| 否 | - |
 | secret_key | string | 企业腾讯云账号下的密钥 key（需要 ai 功能时才设置） | 否 | - |
 | ImAdmin | string | 企业腾讯云账号im的管理员账号 | 否 | - |
-| PrivateKey | string | 企业腾讯云账号下的密钥 key | 否 | - |
+| PrivateKey | string | 企业腾讯云账号im的密钥 key | 否 | - |
 
 | call_back_url | string | 接收互动课堂的事件回调地址 | 否 | - |
 
