@@ -1796,15 +1796,8 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | ing | string | 进行中的课堂|
 | will | string | 未开始的课堂|
 
-#### 附录3.5 课堂类型-class_type
 
-| 常量值 | 类型 | 描述 |
-| -- | -- | -- |
-| public | string | 公开课（所有人都可以进入） |
-| 1v1 | string | 1v1课堂（只有指定的预约成员可以进入） |
-| 1vN | string | 1vN小班课（只有指定的预约成员可以进入） |
-
-#### 附录3.6 设备开关
+#### 附录3.5 设备开关
 设备包括：camera、mic、speaker 等。
 
 | 常量值 | 类型 | 描述 |
@@ -1812,21 +1805,21 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | 0 | int | 关闭 |
 | 1 | int | 打开 |
 
-#### 附录3.7 禁言-silence
+#### 附录3.6 禁言-silence
 
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | 0 | int | 畅聊 |
 | 1 | int | 禁言 |
 
-#### 附录3.8 性别-gender
+#### 附录3.7 性别-gender
 
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | male | string | 男 |
 | female | string | 女 |
 
-#### 附录3.9 事件上报-event
+#### 附录3.8 事件上报-event
 
 | 常量值 | 类型 |描述 |
 | :-----  | :--- | :---- |
@@ -1861,13 +1854,7 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | media_close | string | 停止播片 |
 | packet_loss_mutation |  string | 丢包突变 |
 | rate_mutation |  string | 码率突变 |
-#### 附录3.10 直播类型-class_live_type
-设置该参数，在上课后可看到直播视频
-| 常量值 | 类型 | 描述 |
-| -- | -- | -- |
-| close | string | 关闭 |
-| window | string | 窗口分享 |
-| board | string | 白屏分享 |
+
 ### 附录4: 用户头像规则
 如果没有设置用户头像，互动课堂后台会随机设置一个默认的头像
 
