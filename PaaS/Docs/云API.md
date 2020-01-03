@@ -311,7 +311,6 @@
 | user_id | string | 学生 ID。需要设置 members 时此字段必填 | 否 | - |
 | max_member_limit | int |最大上麦人数| 否 | - |
 |max_member_num|int|课堂允许进入的最大人数,0表示无限制|否|false|
-| class_live_type | string | 直播类型,详情参考附录 | 否 | - |
 
 #### 响应参数
 
