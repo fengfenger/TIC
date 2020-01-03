@@ -291,7 +291,6 @@
 | teacher_id | string | 教师 ID | 是 | - |
 | assistant_id | string | 助教ID | 否 | - |
 | class_topic | string | 课堂主题/课堂名字 | 否 | 课堂 ID 的字符串形式 |
-| class_type | string | 课堂类型，详情参考附录 | 否 | `public` |
 | start_time | int64 | 课堂预计开始时间戳 | 否 | 约课时的时间 | 
 | stop_time | int64 | 课堂预计结束时间戳 | 否 | start_time + 2小时 |
 | password | string  | 进房密码 | 否 | |
