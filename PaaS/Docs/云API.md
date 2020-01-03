@@ -288,13 +288,13 @@
 
 | 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
 | :------ | :--- | :---- | :--------: | :-----: |
-| teacher_id | string | 教师 ID | 是 | - |
-| assistant_id | string | 助教ID | 否 | - |
-| class_topic | string | 课堂主题/课堂名字 | 否 | 课堂 ID 的字符串形式 |
+| teacher_id | string | 教师编号 | 是 | - |
+| assistant_id | string | 助教编号 | 否 | - |
+| class_topic | string | 课堂主题/课堂名字 | 否 | 课堂编号 的字符串形式 |
 | start_time | int64 | 课堂预计开始时间戳 | 否 | 约课时的时间 | 
 | stop_time | int64 | 课堂预计结束时间戳 | 否 | start_time + 2小时 |
 | password | string  | 进房密码 | 否 | |
-| admin_id | string | 即时通信 IM 管理员 ID，互动课堂用它来创建 IM 群组 | 否 | - |
+| admin_id | string | 即时通信 IM 管理员 编号，互动课堂用它来创建 IM 群组 | 否 | - |
 | admin_sig | string | 即时通信 IM 管理员 Sig，互动课堂用它来创建 IM 群组 | 否 | - |
 | settings | settings | 课堂配置信息 | 否 |- |
 | resolution | string | 设置课堂的分辨率（320x240/800x600/1024x768)  | 否 | 1024x768 |
@@ -308,7 +308,7 @@
 | layout | int | 课堂的布局风格（具体参见Layout附录）| 否 | 0 |
 | members | Array | 课堂预约成员列表 | 否 |  教师 ID 默认在成员列表中 |
 | role | string | 角色信息，本接口中全部填“student”。需要设置 members 时此字段必填 | 否 | - |
-| user_id | string | 学生 ID。需要设置 members 时此字段必填 | 否 | - |
+| user_id | string | 学生编号。需要设置 members 时此字段必填 | 否 | - |
 | max_member_limit | int |最大上麦人数| 否 | - |
 |max_member_num|int|课堂允许进入的最大人数,0表示无限制|否|false|
 
@@ -1400,11 +1400,14 @@ quit_class
 | error_code | int | 错误码，0-成功/非0-失败 | 是 | - |
 | error_msg | string | 错误信息 | 是 | - |
 | role | string | 成员在本课堂中的角色 | 是 | - |
-|history_camera|int|用户在该课堂上一次摄像头的状态（0：关闭，1：打开，-1：未知）|是|-1
-|history_mic|int|用户在该课堂上一次麦克风的状态（0：关闭，1：打开，-1：未知）|是|-1
-|history_speaker|int|用户在该课堂上一次扬声器的状态（0：关闭，1：打开，-1：未知）|是|-1
+|history_camera|int|用户在该课堂上一次摄像头的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
+|history_mic|int|用户在该课堂上一次麦克风的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
+|history_speaker|int|用户在该课堂上一次扬声器的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
 |history_silence|int|用户在该课堂上一次禁言状态（0：未禁言，1：禁言，-1：未知）|是|-1
-|history_hand_up|int|用户在该课堂上一次举手状态（0：未举手，1：举手，-1：未知）|是|-1
+|history_hand_up|int|用户在该课堂上一次举手状态（0：未举手，1：举手，-1：未知）|是（已废弃）|-1
+|history_enable_draw|int|用户在该课堂上一次授权状态（0：未授权，1：授权，-1：未知）|是（已废弃）|-1
+|member_permission_list|int|摄像头麦克风权限列表|是|
+
 
 #### 举例
 请求：
@@ -1428,7 +1431,14 @@ quit_class
 	"history_mic":0,
 	"history_speaker":0,
 	"history_silence":0,
-	"history_hand_up":0
+	"history_hand_up":0,
+	"member_permission_list": [
+    {
+      "user_id": "xkazer",
+      "camera": 1,
+      "mic": 1
+    }
+  ]
 }
 ```
 
