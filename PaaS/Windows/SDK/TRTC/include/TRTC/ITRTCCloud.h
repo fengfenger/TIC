@@ -28,7 +28,6 @@
 #include "TRTCCloudDef.h"
 #include <windows.h>
 
-/// 腾讯云视频通话功能的主要接口类
 class ITRTCCloud;
 
 extern "C" {
@@ -48,6 +47,7 @@ extern "C" {
     /// @}
 }
 
+/// 腾讯云视频通话功能的主要接口类
 class ITRTCCloud
 {
 protected:
@@ -77,7 +77,7 @@ public:
     */
     virtual void removeCallback(ITRTCCloudCallback* callback) = 0;
     /// @}
-    
+
     /////////////////////////////////////////////////////////////////////////////////
     //
     //                      （一）房间相关接口函数
@@ -89,21 +89,21 @@ public:
     * 1.1 进入房间
     *
     * 如果加入成功，您会收到 onEnterRoom() 回调；如果失败，您会收到 onEnterRoom(result) 回调。
-    * 跟进房失败相关的错误码，请查阅[错误码表](https://cloud.tencent.com/document/product/647/32257)。
+    * 跟进房失败相关的错误码，请参见[错误码](https://cloud.tencent.com/document/product/647/32257)。
     *
     * @param params 进房参数，请参考 TRTCParams
     * @param scene 应用场景，目前支持视频通话（VideoCall）和在线直播（Live）两种场景
-    * @note 不管进房是否成功，都必须与 exitRoom 配对使用，在调用 exitRoom 前再次调用 enterRoom 函数会导致不可预期的错误问题。
+    * @note 不管进房是否成功，enterRoom 都必须与 exitRoom 配对使用，在调用 exitRoom 前再次调用 enterRoom 函数会导致不可预期的错误问题。
     */
     virtual void enterRoom(const TRTCParams& params, TRTCAppScene scene) = 0;
 
     /**
     * 1.2 离开房间
     *
-    * 调用 exitRoom() 接口会执行退出房间的相关逻辑，比如释放音视频设备资源和编解码器资源等。
-    * 待资源释放完毕之后，SDK 会通过 TRTCCloudCallback 中的 onExitRoom() 回调通知到您。
+    * 调用 exitRoom() 接口会执行退出房间的相关逻辑，例如释放音视频设备资源和编解码器资源等。
+    * 待资源释放完毕，SDK 会通过 TRTCCloudCallback 中的 onExitRoom() 回调通知您。
     *
-    * 如果您要再次调用 enterRoom() 或者切换到其他的音视频 SDK，请等待 onExitRoom() 回调到来之后再执行相关操作。
+    * 如果您要再次调用 enterRoom() 或者切换到其他的音视频 SDK，请等待 onExitRoom() 回调到来后再执行相关操作。
     * 否则可能会遇到如摄像头、麦克风设备被强占等各种异常问题。
     */
     virtual void exitRoom() = 0;
@@ -114,15 +114,15 @@ public:
     * 在直播场景下，一个用户可能需要在“观众”和“主播”之间来回切换。
     * 您可以在进房前通过 TRTCParams 中的 role 字段确定角色，也可以通过 switchRole 在进房后切换角色。
     *
-    * @param role 目标角色。
+    * @param role 目标角色，默认为主播
     */
     virtual void switchRole(TRTCRoleType role) = 0;
 
     /**
     * 1.4 请求跨房通话（主播 PK）
     *
-    * TRTC 中两个不同音视频房间中的主播，可以通过“跨房通话”功能拉通连麦通话功能。这样一来，
-    * 两个主播可以不用退出各自原来的直播间就能进行“连麦 PK”。
+    * TRTC 中两个不同音视频房间中的主播，可以通过“跨房通话”功能拉通连麦通话功能。使用此功能时，
+    * 两个主播无需退出各自原来的直播间即可进行“连麦 PK”。
     *
     * 例如：当房间“001”中的主播 A 通过 connectOtherRoom() 跟房间“002”中的主播 B 拉通跨房通话后，
     * 房间“001”中的用户都会收到主播 B 的 onUserEnter(B) 回调和 onUserVideoAvailable(B,true) 回调。
@@ -151,7 +151,7 @@ public:
     * 跨房通话的请求结果会通过 TRTCCloudCallback 中的 onConnectOtherRoom() 回调通知给您。
     *
     * <pre>
-    *   //此处用到 jsoncpp 库来格式化json字符串
+    *   //此处用到 jsoncpp 库来格式化 JSON 字符串
     *   Json::Value jsonObj;
     *   jsonObj["roomId"] = 002;
     *   jsonObj["userId"] = "userB";
@@ -167,10 +167,24 @@ public:
 
     /**
     * 1.5 关闭跨房连麦
-    * 
+    *
     * 跨房通话的退出结果会通过 TRTCCloudCallback 中的 onDisconnectOtherRoom() 回调通知给您。
     */
     virtual void disconnectOtherRoom() = 0;
+
+    /**
+    * 1.6 设置音视频数据接收模式（需要在进房前设置才能生效）
+    *
+    * 为实现进房秒开的绝佳体验，SDK 默认进房后自动接收音视频。即在您进房成功的同时，您将立刻收到远端所有用户的音视频数据。
+    * 若您没有调用 startRemoteView，视频数据将自动超时取消。
+    * 若您主要用于语音聊天等没有自动接收视频数据需求的场景，您可以根据实际需求选择接收模式。
+    *
+    * \param autoRecvAudio true：自动接收音频数据；false：需要调用 muteRemoteAudio 进行请求或取消。默认值：true
+    * \param autoRecvVideo true：自动接收视频数据；false：需要调用 startRemoteView/stopRemoteView 进行请求或取消。默认值：true
+    *
+    * \note 需要在进房前设置才能生效。
+    **/
+    virtual void setDefaultStreamRecvMode(bool autoRecvAudio, bool autoRecvVideo) = 0;
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +213,7 @@ public:
     * 2.3 是否屏蔽自己的视频画面
     *
     * 当屏蔽本地视频后，房间里的其它成员将会收到 onUserVideoAvailable 回调通知
-    * \param mute true：屏蔽；false：开启
+    * \param mute true：屏蔽；false：开启，默认值：false
     */
     virtual void muteLocalVideo(bool mute) = 0;
 
@@ -207,9 +221,9 @@ public:
     * 2.4 开始显示远端视频画面
     *
     * 在收到 SDK 的 onUserVideoAvailable(userId, true) 通知时，可以获知该远程用户开启了视频，
-    * 之后调用 startRemoteView(userId) 接口加载该用户的远程画面，此时可以用 loading 动画优化加载过程中的等待体验。
-    * 待该用户的首帧画面开始显示时，您还会收到 onFirstVideoFrame(userId) 事件回调。
-    * 
+    * 此后调用 startRemoteView(userId) 接口加载该用户的远程画面时，可以用 loading 动画优化加载过程中的等待体验。
+    * 待该用户的首帧画面开始显示时，您会收到 onFirstVideoFrame(userId) 事件回调。
+    *
     * @param userId   对方的用户标识
     * @param rendHwnd 承载预览画面的窗口句柄
     */
@@ -226,7 +240,7 @@ public:
 
     /**
     * 2.6 停止显示所有远端视频画面
-    * 
+    *
     * @note 如果有屏幕分享的画面在显示，则屏幕分享的画面也会一并被关闭。
     */
     virtual void stopAllRemoteView() = 0;
@@ -250,26 +264,26 @@ public:
 
     /**
     * 2.9 设置视频编码器相关参数
-    * 
+    *
     * 该设置决定了远端用户看到的画面质量（同时也是云端录制出的视频文件的画面质量）
     *
     * @param params 视频编码参数，详情请参考 TRTCCloudDef.h 中的 TRTCVideoEncParam 定义
     */
     virtual void setVideoEncoderParam(const TRTCVideoEncParam& params) = 0;
 
-	/**
+    /**
     * 2.10 设置网络流控相关参数
-    * 
-    * 该设置决定了 SDK 在各种网络环境下的调控策略（比如弱网下是“保清晰”还是“保流畅”）
+    *
+    * 该设置决定了 SDK 在各种网络环境下的调控策略（例如弱网下是“保清晰”还是“保流畅”）
     *
     * @param params 网络流控参数，详情请参考 TRTCCloudDef.h 中的 TRTCNetworkQosParam 定义
     */
     virtual void setNetworkQosParam(const TRTCNetworkQosParam& params) = 0;
-	
+
     /**
     * 2.11 设置本地图像的渲染模式
     *
-    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边）
+    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边），默认值：TRTCVideoFillMode_Fit
     */
     virtual void setLocalViewFillMode(TRTCVideoFillMode mode) = 0;
 
@@ -277,14 +291,14 @@ public:
     * 2.12 设置远端图像的渲染模式
     *
     * @param userId 用户 ID
-    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边）
+    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边），默认值：TRTCVideoFillMode_Fit
     */
     virtual void setRemoteViewFillMode(const char* userId, TRTCVideoFillMode mode) = 0;
 
     /**
     * 2.13 设置本地图像的顺时针旋转角度
     *
-    * @param rotation 支持 TRTCVideoRotation90 、 TRTCVideoRotation180 、 TRTCVideoRotation270 旋转角度
+    * @param rotation 支持 TRTCVideoRotation90 、 TRTCVideoRotation180 以及 TRTCVideoRotation270 旋转角度，默认值：TRTCVideoRotation0
     */
     virtual void setLocalViewRotation(TRTCVideoRotation rotation) = 0;
 
@@ -292,45 +306,45 @@ public:
     * 2.14 设置远端图像的顺时针旋转角度
     *
     * @param userId 用户 ID
-    * @param rotation 支持 TRTCVideoRotation90 、 TRTCVideoRotation180 、 TRTCVideoRotation270 旋转角度
+    * @param rotation 支持 TRTCVideoRotation90 、 TRTCVideoRotation180 以及 TRTCVideoRotation270 旋转角度，默认值：TRTCVideoRotation0
     */
     virtual void setRemoteViewRotation(const char* userId, TRTCVideoRotation rotation) = 0;
 
     /**
     * 2.15 设置视频编码输出的（也就是远端用户观看到的，以及服务器录制下来的）画面方向
-	*
-    * @param rotation 目前支持 TRTCVideoRotation0 和 TRTCVideoRotation180 两个旋转角度
+    *
+    * @param rotation 目前支持 TRTCVideoRotation0 和 TRTCVideoRotation180 旋转角度，默认值：TRTCVideoRotation0
     */
     virtual void setVideoEncoderRotation(TRTCVideoRotation rotation) = 0;
-	
-	/**
+
+    /**
     * 2.16 设置本地摄像头预览画面的镜像模式
     *
-    * @param mirror 镜像模式,默认值:false(非镜像模式)
+    * @param mirror 镜像模式，默认值：false（非镜像模式）
     */
     virtual void setLocalViewMirror(bool mirror) = 0;
 
     /**
     * 2.18 设置编码器输出的画面镜像模式
-	*
-	* 该接口不改变本地摄像头的预览画面，但会改变另一端用户看到的（以及服务器录制下来的）画面效果。
     *
-    * @param mirror 是否开启远端镜像, true：远端画面镜像；false：远端画面非镜像。默认值为 false
+    * 该接口不改变本地摄像头的预览画面，但会改变另一端用户看到的（以及服务器录制的）画面效果。
+    *
+    * @param mirror 是否开启远端镜像, true：远端画面镜像；false：远端画面非镜像。默认值：false
     */
     virtual void setVideoEncoderMirror(bool mirror) = 0;
 
     /**
     * 2.19 开启大小画面双路编码模式
     *
-    * 如果当前用户是房间中的主要角色（比如主播、老师、主持人等），并且使用 PC 或者 Mac 环境，可以开启该模式。
+    * 如果当前用户是房间中的主要角色（例如主播、老师、主持人等），并且使用 PC 或者 Mac 环境，可以开启该模式。
     * 开启该模式后，当前用户会同时输出【高清】和【低清】两路视频流（但只有一路音频流）。
     * 对于开启该模式的当前用户，会占用更多的网络带宽，并且会更加消耗 CPU 计算资源。
-    * 
+    *
     * 对于同一房间的远程观众而言：
-    * - 如果有些人的下行网络很好，可以选择观看【高清】画面
-    * - 如果有些人的下行网络不好，可以选择观看【低清】画面
-    * 
-    * @param enable 是否开启小画面编码
+    * - 如果用户的下行网络很好，可以选择观看【高清】画面
+    * - 如果用户的下行网络较差，可以选择观看【低清】画面
+    *
+    * @param enable 是否开启小画面编码，默认值：false
     * @param smallVideoParam 小流的视频参数
     */
     virtual void enableSmallVideoStream(bool enable, const TRTCVideoEncParam& smallVideoParam) = 0;
@@ -340,9 +354,9 @@ public:
     *
     * 此功能需要该 userId 通过 enableEncSmallVideoStream 提前开启双路编码模式。
     * 如果该 userId 没有开启双路编码模式，则此操作无效。
-    * 
+    *
     * @param userId 用户 ID
-    * @param type 视频流类型，即选择看大画面还是小画面
+    * @param type 视频流类型，即选择看大画面还是小画面，默认为 TRTCVideoStreamTypeBig
     */
     virtual void setRemoteVideoStreamType(const char* userId, TRTCVideoStreamType type) = 0;
 
@@ -351,8 +365,8 @@ public:
     *
     * 低端设备推荐优先选择低清晰度的小画面。
     * 如果对方没有开启双路视频模式，则此操作无效。
-    * 
-    * @param type 默认观看大画面还是小画面
+    *
+    * @param type 默认观看大画面还是小画面，默认为 TRTCVideoStreamTypeBig
     */
     virtual void setPriorRemoteVideoStreamType(TRTCVideoStreamType type) = 0;
     /// @}
@@ -364,24 +378,24 @@ public:
     /////////////////////////////////////////////////////////////////////////////////
     /// @name 音频相关接口函数
     /// @{
-		
-	/**
+
+    /**
     * 3.1 开启本地音频的采集和上行
     *
     * 该函数会启动麦克风采集，并将音频数据传输给房间里的其他用户。
     * SDK 并不会默认开启本地的音频上行，也就说，如果您不调用这个函数，房间里的其他用户就听不到您的声音。
-    * 
+    *
     * @note TRTC SDK 并不会默认打开本地的麦克风采集。
     */
     virtual void startLocalAudio() = 0;
 
     /**
     * 3.2 关闭本地音频的采集和上行
-    * 
+    *
     * 当关闭本地音频的采集和上行，房间里的其它成员会收到 onUserAudioAvailable(false) 回调通知。
     */
     virtual void stopLocalAudio() = 0;
-	
+
     /**
     * 3.3 静音本地的音频
     *
@@ -390,7 +404,7 @@ public:
     * 在对录制质量要求很高的场景中，选择 muteLocalAudio 是更好的选择，能录制出兼容性更好的 MP4 文件。
     * 这是由于 MP4 等视频文件格式，对于音频的连续性是要求很高的，简单粗暴地 stopLocalAudio 会导致录制出的 MP4 不易播放。
     *
-    * @param mute true：屏蔽；false：开启
+    * @param mute true：屏蔽；false：开启，默认值：false
     */
     virtual void muteLocalAudio(bool mute) = 0;
 
@@ -416,7 +430,7 @@ public:
     * 我们在 Demo 中有一个音量大小的提示条，就是基于这个接口实现的。
     * 如希望打开此功能，请在 startLocalAudio() 之前调用。
     *
-    * @param interval 设置 onUserVoiceVolume 回调的触发间隔，单位为ms，最小间隔为100ms，如果小于等于0则会关闭回调，建议设置为300ms；
+    * @param interval 设置 onUserVoiceVolume 回调的触发间隔，单位为ms，最小间隔为100ms，如果小于等于0则会关闭回调，建议设置为300ms
     */
     virtual void enableAudioVolumeEvaluation(uint32_t interval) = 0;
 
@@ -516,7 +530,7 @@ public:
 
     /**
     * 5.3 设置要使用的麦克风
-    * 
+    *
     * 选择指定的麦克风作为录音设备，不调用该接口时，默认选择索引为0的麦克风
     *
     * @param micId 从 getMicDevicesList 中得到的设备 ID
@@ -524,14 +538,14 @@ public:
     virtual void setCurrentMicDevice(const char* micId) = 0;
 
     /**
-    * 5.4 获取当前麦克风设备音量
+    * 5.4 获取系统当前麦克风设备音量
     *
     * @return 音量值，范围是0 - 100
     */
     virtual uint32_t getCurrentMicDeviceVolume() = 0;
 
     /**
-    * 5.5 设置麦克风设备的音量
+    * 5.5 设置系统当前麦克风设备的音量
     *
     * @param volume 麦克风音量值，范围0 - 100
     */
@@ -572,8 +586,8 @@ public:
 
     /**
     * 5.9 当前扬声器设备音量
-    * 
-    * @note 查询的不是系统扬声器的音量大小。
+    *
+    * @note 查询的是系统扬声器的音量大小。
     *
     * @return 扬声器音量，范围0 - 100
     */
@@ -581,8 +595,8 @@ public:
 
     /**
     * 5.10 设置当前扬声器音量
-    * 
-    * @note 设置的不是系统扬声器的音量大小
+    *
+    * @note 设置的是系统扬声器的音量大小
     *
     * @param volume 设置的扬声器音量，范围0 - 100
     */
@@ -601,7 +615,7 @@ public:
     *
     * SDK 内部集成了两套风格不同的磨皮算法，一套我们取名叫“光滑”，适用于美女秀场，效果比较明显。
     * 另一套我们取名“自然”，磨皮算法更多地保留了面部细节，主观感受上会更加自然。
-    * 
+    *
     * @param style     美颜风格，光滑或者自然，光滑风格磨皮更加明显，适合娱乐场景。
     * @param beauty    美颜级别，取值范围0 - 9，0表示关闭，1 - 9值越大，效果越明显
     * @param white     美白级别，取值范围0 - 9，0表示关闭，1 - 9值越大，效果越明显
@@ -610,25 +624,25 @@ public:
     virtual void setBeautyStyle(TRTCBeautyStyle style, uint32_t beauty, uint32_t white, uint32_t ruddiness) = 0;
 
     /**
-	* 6.2 设置水印
+    * 6.2 设置水印
     *
     * 水印的位置是通过 xOffset, yOffset, fWidthRatio 来指定的。
     * - xOffset：水印的坐标，取值范围为0 - 1的浮点数。
     * - yOffset：水印的坐标，取值范围为0 - 1的浮点数。
     * - fWidthRatio：水印的大小比例，取值范围为0 - 1的浮点数。
-    * 
+    *
     * @param streamType 要设置水印的流类型(TRTCVideoStreamTypeBig、TRTCVideoStreamTypeSub)
-	* @param srcData    水印图片源数据（传 NULL 表示去掉水印）
+    * @param srcData    水印图片源数据（传 NULL 表示去掉水印）
     * @param srcType    水印图片源数据类型（传 NULL 时忽略该参数）
     * @param nWidth     水印图片像素宽度（源数据为文件路径时忽略该参数）
     * @param nHeight    水印图片像素高度（源数据为文件路径时忽略该参数）
-	* @param xOffset    水印显示的左上角 x 轴偏移
-	* @param yOffset    水印显示的左上角 y 轴偏移
-	* @param fWidthRatio 水印显示的宽度占画面宽度比例（水印按该参数等比例缩放显示）
+    * @param xOffset    水印显示的左上角 x 轴偏移
+    * @param yOffset    水印显示的左上角 y 轴偏移
+    * @param fWidthRatio 水印显示的宽度占画面宽度比例（水印按该参数等比例缩放显示）
     * @note 大小流暂未支持
-	*/
+    */
     virtual void setWaterMark(TRTCVideoStreamType streamType, const char* srcData, TRTCWaterMarkSrcType srcType, uint32_t nWidth, uint32_t nHeight, float xOffset, float yOffset, float fWidthRatio) = 0;
-    
+
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -640,9 +654,9 @@ public:
     /// @{
     /**
     * 7.1 开始渲染远端用户辅流画面
-    * 
+    *
     * 对应于 startRemoteView() 用于显示主画面，该接口只能用于显示辅路（屏幕分享、远程播片）画面。
-    * 
+    *
     * @param userId  对方的用户标识
     * @param rendHwnd 渲染画面的 HWND
     * @note 请在 onUserSubStreamAvailable 回调后再调用这个接口。
@@ -657,24 +671,24 @@ public:
 
     /**
     * 7.3 设置辅流画面的渲染模式
-    * 
+    *
     * 对应于 setRemoteViewFillMode() 于设置远端的主路画面，该接口用于设置远端的辅路（屏幕分享、远程播片）画面。
     *
     * @param userId 用户的 ID
-    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边）
+    * @param mode 填充（画面可能会被拉伸裁剪）或适应（画面可能会有黑边），默认值：TRTCVideoFillMode_Fit
     */
     virtual void setRemoteSubStreamViewFillMode(const char* userId, TRTCVideoFillMode mode) = 0;
-	
-	/**
+
+    /**
     * 7.4 枚举可共享的窗口列表，
-	*
+    *
     * 如果您要给您的 App 增加屏幕分享功能，一般需要先显示一个窗口选择界面，这样用户可以选择希望分享的窗口。
     * 通过如下函数，您可以获得可分享窗口的 ID、类型、窗口名称以及缩略图。
     * 拿到这些信息后，您就可以实现一个窗口选择界面，当然，您也可以使用我们在 Demo 源码中已经实现好的一个界面。
-    * 
+    *
     * @note 返回的列表中包括屏幕和应用窗口，屏幕会在列表的前面几个元素中。
     * @note 如果 delete ITRTCScreenCaptureSourceList*指针会编译错误，SDK 维护 ITRTCScreenCaptureSourceList 对象的生命周期。
-    * 
+    *
     * @param thumbSize 指定要获取的窗口缩略图大小，缩略图可用于绘制在窗口选择界面上
     * @param iconSize  指定要获取的窗口图标大小
     *
@@ -686,14 +700,14 @@ public:
     * 7.5 设置屏幕共享参数，该方法在屏幕共享过程中也可以调用
     *
     * 如果您期望在屏幕分享的过程中，切换想要分享的窗口，可以再次调用这个函数而不需要重新开启屏幕分享。
-    * 
-	* 支持如下四种情况：
-	* - 共享整个屏幕：sourceInfoList 中 type 为 Screen 的 source，captureRect 设为 { 0, 0, 0, 0 }
-    * - 共享指定区域：sourceInfoList 中 type 为 Screen 的 source，captureRect 设为非 NULL，比如 { 100, 100, 300, 300 }
+    *
+    * 支持如下四种情况：
+    * - 共享整个屏幕：sourceInfoList 中 type 为 Screen 的 source，captureRect 设为 { 0, 0, 0, 0 }
+    * - 共享指定区域：sourceInfoList 中 type 为 Screen 的 source，captureRect 设为非 NULL，例如 { 100, 100, 300, 300 }
     * - 共享整个窗口：sourceInfoList 中 type 为 Window 的 source，captureRect 设为 { 0, 0, 0, 0 }
-    * - 共享窗口区域：sourceInfoList 中 type 为 Window 的 source，captureRect 设为非 NULL，比如 { 100, 100, 300, 300 }
-	*
-	*
+    * - 共享窗口区域：sourceInfoList 中 type 为 Window 的 source，captureRect 设为非 NULL，例如 { 100, 100, 300, 300 }
+    *
+    *
     * @param source            指定分享源
     * @param captureRect       指定捕获的区域
     * @param captureMouse      指定是否捕获鼠标指针
@@ -723,11 +737,11 @@ public:
     */
     virtual void stopScreenCapture() = 0;
 
-	/**
+    /**
     * 7.10 设置屏幕分享的编码器参数
     *
-    * 对应于 setVideoEncoderParam() 设置主路画面的编码质量，该函数仅用于设置辅路（屏幕分享、远程播片）的编码参数。 
-	* 该设置决定了远端用户看到的画面质量，同时也是云端录制出的视频文件的画面质量。
+    * 对应于 setVideoEncoderParam() 设置主路画面的编码质量，该函数仅用于设置辅路（屏幕分享、远程播片）的编码参数。
+    * 该设置决定了远端用户看到的画面质量，同时也是云端录制出的视频文件的画面质量。
     *
     * @param params   辅流编码参数，详情请参考 TRTCCloudDef.h 中的 TRTCVideoEncParam 定义
     */
@@ -735,13 +749,13 @@ public:
 
     /**
     * 7.11 设置辅流的混音音量大小
-    * 
+    *
     * 这个数值越高，辅路音量的占比就约高，麦克风音量占比就越小，所以不推荐设置得太大，否则麦克风的声音就被压制了。
     *
     * @param volume 设置的混音音量大小，范围0 - 100
     */
     virtual void setSubStreamMixVolume(uint32_t volume) = 0;
-    
+
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -754,11 +768,11 @@ public:
 
     /**
     * 8.1 启用视频自定义采集模式
-    * 
+    *
     * 开启该模式后，SDK 不在运行原有的视频采集流程，只保留编码和发送能力。
     * 您需要用 sendCustomVideoData() 不断地向 SDK 塞入自己采集的视频画面。
-    * 
-    * @param enable 是否启用
+    *
+    * @param enable 是否启用，默认值：false
     */
     virtual void enableCustomVideoCapture(bool enable) = 0;
 
@@ -786,14 +800,14 @@ public:
     * 8.3 启用音频自定义采集模式
     * 开启该模式后，SDK 停止运行原有的音频采集流程，只保留编码和发送能力。
     * 您需要用 sendCustomAudioData() 不断地向 SDK 塞入自己采集的音频数据。
-    * 
-    * @param enable 是否启用
+    *
+    * @param enable 是否启用，默认值：false
     */
     virtual void enableCustomAudioCapture(bool enable) = 0;
 
     /**
     * 8.4 向 SDK 投送自己采集的音频数据
-	*
+    *
     * TRTCAudioFrame 推荐如下填写方式（其他字段不需要填写）：
     * - audioFormat：仅支持 LiteAVAudioFrameFormatPCM。
     * - data：音频帧 buffer。
@@ -809,7 +823,7 @@ public:
     */
     virtual void sendCustomAudioData(TRTCAudioFrame* frame) = 0;
 
-	 /**
+     /**
     * 8.5 设置本地视频自定义渲染
     *
     * @note              设置此方法，SDK 内部会把采集到的数据回调出来，SDK 跳过 HWND 渲染逻辑
@@ -823,9 +837,9 @@ public:
 
     /**
     * 8.6 设置远端视频自定义渲染
-    * 
+    *
     * 此方法同 setLocalVideoRenderDelegate，区别在于一个是本地画面的渲染回调， 一个是远程画面的渲染回调。
-    * 
+    *
     * @note              设置此方法，SDK 内部会把远端的数据解码后回调出来，SDK 跳过 HWND 渲染逻辑
                          调用 setRemoteVideoRenderCallback(userId, TRTCVideoPixelFormat_Unknown,  TRTCVideoBufferType_Unknown, nullptr) 停止回调。
     * @param userId      用户标识
@@ -835,7 +849,7 @@ public:
     * @return 0：成功；<0：错误
     */
     virtual int setRemoteVideoRenderCallback(const char* userId, TRTCVideoPixelFormat pixelFormat, TRTCVideoBufferType bufferType, ITRTCVideoRenderCallback* callback) = 0;
-	
+
     /**
     * 8.7 设置音频数据回调
     *
@@ -843,12 +857,12 @@ public:
     * - onCapturedAudioFrame：本机麦克风采集到的音频数据
     * - onPlayAudioFrame：混音前的每一路远程用户的音频数据
     * - onMixedPlayAudioFrame：各路音频数据混合后送入扬声器播放的音频数据
-    * 
+    *
     * @param callback  声音帧数据（PCM 格式）的回调，callback = nullptr 则停止回调数据
     * @return 0：成功；<0：错误
     */
     virtual int setAudioFrameCallback(ITRTCAudioFrameCallback* callback) = 0;
-	
+
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -863,14 +877,14 @@ public:
     *
     * 该接口可以借助音视频数据通道向当前房间里的其他用户广播您自定义的数据，但因为复用了音视频数据通道，
     * 请务必严格控制自定义消息的发送频率和消息体的大小，否则会影响音视频数据的质量控制逻辑，造成不确定性的问题。
-    * 
+    *
     * @param cmdId    消息 ID，取值范围为1 - 10
     * @param data     待发送的消息，最大支持1KB（1000字节）的数据大小
     * @param dataSize 待发送的数据大小
     * @param reliable 是否可靠发送，可靠发送的代价是会引入一定的延时，因为接收端要暂存一段时间的数据来等待重传
     * @param ordered  是否要求有序，即是否要求接收端接收的数据顺序和发送端发送的顺序一致，这会带来一定的接收延时，因为在接收端需要暂存并排序这些消息
     * @return true：消息已经发出；false：消息发送失败
-	*
+    *
     * @note 本接口有以下限制：
     *       - 发送消息到房间内所有用户，每秒最多能发送30条消息。
     *       - 每个包最大为1KB，超过则很有可能会被中间路由器或者服务器丢弃。
@@ -879,9 +893,9 @@ public:
     *       - 强烈建议不同类型的消息使用不同的 cmdID，这样可以在要求有序的情况下减小消息时延。
     */
     virtual bool sendCustomCmdMsg(uint32_t cmdId, const uint8_t* data, uint32_t dataSize, bool reliable, bool ordered) = 0;
-    
+
     /**
-	* 9.2 将小数据量的自定义数据嵌入视频帧中
+    * 9.2 将小数据量的自定义数据嵌入视频帧中
     *
     * 跟 sendCustomCmdMsg 的原理不同，sendSEIMsg 是将数据直接塞入视频数据头中。因此，即使视频帧被旁路到了直播 CDN 上，
     * 这些数据也会一直存在。但是由于要把数据嵌入视频帧中，所以数据本身不能太大，推荐几个字节就好。
@@ -983,7 +997,7 @@ public:
 
     /**
     * 10.11 设置系统声音采集的音量。
-	*
+    *
     * @param volume 音量大小，取值范围为0 - 100。
     */
     virtual void setSystemAudioLoopbackVolume(uint32_t volume) = 0;
@@ -1000,27 +1014,27 @@ public:
     /**
     * 11.1 播放音效
     *
-    * 每个音效都需要您指定具体的 id，您可以通过该 id 对音效的开始、停止、音量等进行设置。
-    * 若您想同时播放多个音效，请分配不同的 id 进行播放。因为使用同一个 id 播放不同音效，SDK 将会停止上一个 id 对应的音效播放，再启动新的音效播放。
+    * 每个音效都需要您指定具体的 ID，您可以通过该 ID 对音效的开始、停止、音量等进行设置。
+    * 若您想同时播放多个音效，请分配不同的 ID 进行播放。因为使用同一个 ID 播放不同音效，SDK 将会停止上一个 ID 对应的音效播放，再启动新的音效播放。
     *
-    * @param effect
+    * @param effect 音效
     */
     virtual void playAudioEffect(TRTCAudioEffectParam* effect) = 0;
 
     /**
-    * 11.2 设置单个音效音量
+    * 11.2 设置音效音量
     *
-    * @note 会覆盖通过 setAllAudioEffectsVolume 指定的整体音效音量
+    * @note 会覆盖通过 setAllAudioEffectsVolume 指定的整体音效音量。
     *
-    * @param effectId 音效 Id
-    * @param volume   取值范围：[0.0, 100.0]
+    * @param effectId 音效 ID
+    * @param volume   音量大小，取值范围为0 - 100；默认值：100
     */
     virtual void setAudioEffectVolume(int effectId, int volume) = 0;
 
     /**
     * 11.3 停止音效
     *
-    * @param effectId 音效 Id
+    * @param effectId 音效 ID
     */
     virtual void stopAudioEffect(int effectId) = 0;
 
@@ -1030,11 +1044,11 @@ public:
     virtual void stopAllAudioEffects() = 0;
 
     /**
-    * 11.5 设置所有音效音量
+    * 11.5 设置所有音效的音量
     *
-    * @note 会覆盖通过 setAudioEffectVolume 指定的单独音效音量
+    * @note 该操作会覆盖通过 setAudioEffectVolume 指定的单独音效音量。
     *
-    * @param volume 取值范围：[0.0, 100.0]
+    * @param volume 音量大小，取值范围为0 - 100；默认值：100
     */
     virtual void setAllAudioEffectsVolume(int volume) = 0;
     /// @}
@@ -1051,7 +1065,7 @@ public:
     *
     * 测速结果将会用于优化 SDK 接下来的服务器选择策略，因此推荐您在用户首次通话前先进行一次测速，这将有助于我们选择最佳的服务器。
     * 同时，如果测试结果非常不理想，您可以通过醒目的 UI 提示用户选择更好的网络。
-    * 
+    *
     * @note 测速本身会消耗一定的流量，所以也会产生少量额外的流量费用。
     *
     * @param sdkAppId 应用标识
@@ -1067,9 +1081,9 @@ public:
 
     /**
     * 12.3 开始进行摄像头测试
-    * 
+    *
     * 会触发 onFirstVideoFrame 回调接口
-    * 
+    *
     * @note 在测试过程中可以使用 setCurrentCameraDevice 接口切换摄像头。
     * @param rendHwnd 承载预览画面的 HWND
     */
@@ -1082,7 +1096,7 @@ public:
 
     /**
     * 12.5 开启麦克风测试
-    * 
+    *
     * 回调接口 onTestMicVolume 获取测试数据
     *
     * 该方法测试麦克风是否能正常工作，volume 的取值范围为0 - 100。
@@ -1098,11 +1112,11 @@ public:
 
     /**
     * 12.7 开启扬声器测试
-    * 
+    *
     * 回调接口 onTestSpeakerVolume 获取测试数据
     *
     * 该方法播放指定的音频文件测试播放设备是否能正常工作。如果能听到声音，说明播放设备能正常工作。
-    * 
+    *
     * @param testAudioFilePath 音频文件的绝对路径，路径字符串使用 UTF-8 编码格式，支持文件格式：WAV、MP3
     */
     virtual void startSpeakerDeviceTest(const char* testAudioFilePath) = 0;
@@ -1120,18 +1134,18 @@ public:
     /////////////////////////////////////////////////////////////////////////////////
     /// @name 混流转码以及 CDN 旁路推流
     /// @{
-    
+
     /**
     * 13.1 启动(更新)云端的混流转码：通过腾讯云的转码服务，将房间里的多路画面叠加到一路画面上
     *
     * 该接口会向腾讯云的转码服务器发送一条指令，目的是将房间里的多路画面叠加到一路画面上。
-    * 
+    *
     * 如果您在实时音视频 [控制台](https://console.cloud.tencent.com/rav/) 中的功能配置页开启了“启动自动旁路直播”功能，
     * 房间里的每一路画面都会有一个对应的直播 [CDN 地址](https://cloud.tencent.com/document/product/647/16826)，
     * 此时您可以通过云端混流，将多路直播地址的画面混合成一路，这样直播 CDN 上就可以看到混合后的画面。
     *
     * 您可以通过转码参数来调整每一路画面的位置以及最终输出的画面质量。
-    * 
+    *
     * 参考文档：[云端混流转码](https://cloud.tencent.com/document/product/647/16827)。
     * 示例代码：我们在 Demo 中增加了该功能的体验入口，您可以在“更多功能”面板中看到“云端画面混合”和“分享播放地址”体验到该功能。
     *
@@ -1149,8 +1163,8 @@ public:
     *       - 调用该函数的用户，会将多路画面混合到自己这一路的 [CDN 地址](https://cloud.tencent.com/document/product/647/16826) 上。
     */
     virtual void setMixTranscodingConfig(TRTCTranscodingConfig* config) = 0;
-	
-	/**
+
+    /**
     * 13.2 旁路转推到指定的推流地址
     *
     * 该接口会向腾讯云的转推服务器发送一条指令，腾讯云会将当前一路的音视频画面转推到您指定的 rtmp 推流地址上。
@@ -1173,8 +1187,8 @@ public:
     * 13.3 停止旁路推流
     */
     virtual void stopPublishCDNStream() = 0;
-	
-	
+
+
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -1194,14 +1208,14 @@ public:
     /**
     * 14.2 设置 Log 输出级别
     *
-    * @param level 参见 TRTCLogLevel
+    * @param level 参见 TRTCLogLevel，默认值：TRTCLogLevelNone
     */
     virtual void setLogLevel(TRTCLogLevel level) = 0;
 
     /**
     * 14.3 启用或禁用控制台日志打印
     *
-    * @param enabled 指定是否启用
+    * @param enabled 指定是否启用，默认为禁止状态
     */
     virtual void setConsoleEnabled(bool enabled) = 0;
 
@@ -1211,7 +1225,7 @@ public:
     *  开启压缩后，Log 存储体积明显减小，但需要腾讯云提供的 Python 脚本解压后才能阅读。
     *  禁用压缩后，Log 采用明文存储，可以直接用记事本打开阅读，但占用空间较大。
     *
-    * @param enabled 指定是否启用
+    * @param enabled 指定是否启用，默认为禁止状态
     */
     virtual void setLogCompressEnabled(bool enabled) = 0;
 
@@ -1232,14 +1246,14 @@ public:
 
     /**
     * 14.7 显示仪表盘
-    * 
+    *
     * 仪表盘是状态统计和事件消息浮层 view，方便调试。
     *
-    * @param showType 0：不显示；1：显示精简版；2：显示全量版
+    * @param showType 0：不显示；1：显示精简版；2：显示全量版，默认为不显示
     */
     virtual void showDebugView(int showType) = 0;
-	
-	/**
+
+    /**
     * 14.8 调用实验性 API 接口
     *
     * @note 该接口用于调用一些实验性功能
@@ -1248,4 +1262,4 @@ public:
     virtual void callExperimentalAPI(const char *jsonStr) = 0;
     /// @}
 };
-#endif //__ITRTCCLOUD_H__
+#endif //__ITRTCCLOUD_H__
