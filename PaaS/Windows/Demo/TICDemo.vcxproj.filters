@@ -22,6 +22,9 @@
     <Filter Include="config">
       <UniqueIdentifier>{d612d220-53e7-43bd-99cc-530ce602fe7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TIC\localrecord">
+      <UniqueIdentifier>{fcc3df41-d083-48c2-a50d-12c96f4084c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TICDemo.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="..\SDK\TIC\TICRecorder.h">
       <Filter>TIC</Filter>
     </ClInclude>
+    <ClInclude Include="..\SDK\TIC\localRecord\TICLocalRecord.h">
+      <Filter>TIC\localrecord</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDK\TIC\localRecord\TICLocalRecordImpl.h">
+      <Filter>TIC\localrecord</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TICDemo.cpp">
@@ -112,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\TICRecorder.cpp">
       <Filter>TIC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDK\TIC\localRecord\TICLocalRecord.cpp">
+      <Filter>TIC\localrecord</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDK\TIC\localRecord\TICLocalRecordImpl.cpp">
+      <Filter>TIC\localrecord</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
