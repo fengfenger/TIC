@@ -329,7 +329,6 @@
   "teacher_id":"user_00",
   "assistant_id":"user_01",
   "class_topic": "课堂主题",
-  "class_type":"public",
   "start_time": 1558350988,
   "stop_time": 1558350988,
   "admin_id":"即时通信IM管理员ID",
@@ -556,7 +555,6 @@
 | user_id | string | 如果设置了 user_id 参数，则只查询 user_id 所在的课堂列表 | 否 | 空字符串|
 | create_time_desc | bool | 是否按创建课堂时间倒序拉取 true-倒序/false-升序| 是 | true |
 | class_status | Array  | 课堂的状态，默认拉取所有课堂；不传此字段或字段是空数组，也是拉取所有课堂 | 否 | ["will","ing","end"] |
-| class_type | Array  | 课堂的类型，默认拉取所有课堂；不传此字段或字段是空数组，也是拉取所有课堂 | 否 | ["public","1v1","1vN"] |
 
 
 #### 响应参数
@@ -577,8 +575,7 @@
   "size":20,
   "user_id":"",
   "create_time_desc":true,
-  "class_status": ["will","ing","end"],
-  "class_type":["1vN"]
+  "class_status": ["will","ing","end"]
 }
 ```
 响应：
