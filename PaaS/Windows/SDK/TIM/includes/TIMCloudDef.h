@@ -40,7 +40,7 @@ enum TIMErrCode {
 
     ERR_SDK_NOT_LOGGED_IN                       = 6014,    ///< IM SDK Î´µÇÂ¼£¬ÇëÏÈµÇÂ¼£¬³É¹¦»Øµ÷Ö®ºóÖØÊÔ£¬»òÕßÒÑ±»ÌßÏÂÏß£¬¿ÉÊ¹ÓÃ TIMManager getLoginUser ¼ì²éµ±Ç°ÊÇ·ñÔÚÏß¡£
     ERR_NO_PREVIOUS_LOGIN                       = 6026,    ///< ×Ô¶¯µÇÂ¼Ê±£¬²¢Ã»ÓÐµÇÂ¼¹ý¸ÃÓÃ»§£¬ÕâÊ±ºòÇëµ÷ÓÃ login ½Ó¿ÚÖØÐÂµÇÂ¼¡£
-    ERR_USER_SIG_EXPIRED                        = 6206,    ///< UserSig ¹ýÆÚ£¬ÐèÒª¼àÌý UserStatusListener£¬onUserSigExpired ºóÖØÐÂ»ñÈ¡ UserSig µÇÂ¼¡£
+    ERR_USER_SIG_EXPIRED                        = 6206,    ///< UserSig ¹ýÆÚ£¬ÇëÖØÐÂ»ñÈ¡ÓÐÐ§µÄ UserSig ºóÔÙÖØÐÂµÇÂ¼¡£
     ERR_LOGIN_KICKED_OFF_BY_OTHER               = 6208,    ///< ÆäËûÖÕ¶ËµÇÂ¼Í¬Ò»¸öÕÊºÅ£¬ÒýÆðÒÑµÇÂ¼µÄÕÊºÅ±»Ìß£¬ÐèÖØÐÂµÇÂ¼¡£
     ERR_SDK_ACCOUNT_LOGIN_IN_PROCESS            = 7501,    ///< µÇÂ¼ÕýÔÚÖ´ÐÐÖÐ£¬ÀýÈç£¬µÚÒ»´Î login »ò autoLogin ²Ù×÷ÔÚ»Øµ÷Ç°£¬ºóÐøµÄ login »ò autoLogin ²Ù×÷»á·µ»Ø¸Ã´íÎóÂë¡£
     ERR_SDK_ACCOUNT_LOGOUT_IN_PROCESS           = 7502,    ///< µÇ³öÕýÔÚÖ´ÐÐÖÐ£¬ÀýÈç£¬µÚÒ»´Î logout ²Ù×÷ÔÚ»Øµ÷Ç°£¬ºóÐøµÄ logout ²Ù×÷»á·µ»Ø¸Ã´íÎóÂë¡£
@@ -466,7 +466,7 @@ enum TIMConvType {
 // Struct SdKConfig JsonKey
 static const char* kTIMSdkConfigConfigFilePath     = "sdk_config_config_file_path";// string, Ö»Ð´(Ñ¡Ìî), ÅäÖÃÎÄ¼þÂ·¾¶,Ä¬ÈÏÂ·¾¶Îª"/"
 static const char* kTIMSdkConfigLogFilePath        = "sdk_config_log_file_path";   // string, Ö»Ð´(Ñ¡Ìî), ÈÕÖ¾ÎÄ¼þÂ·¾¶,Ä¬ÈÏÂ·¾¶Îª"/"
-static const char* kTIMSdkConfigJavaVM             = "sdk_config_java_vm";         // uint64, Ö»Ð´(Ñ¡Ìî), AndroidÆ½Ì¨ÖÖµÄJavaÐéÄâ»úÖ¸Õë
+static const char* kTIMSdkConfigJavaVM             = "sdk_config_java_vm";         // uint64, Ö»Ð´(Ñ¡Ìî), ÅäÖÃAndroidÆ½Ì¨µÄJavaÐéÄâ»úÖ¸Õë
 // EndStruct
 
 
@@ -593,6 +593,56 @@ static const char* kTIMSetConfigSocks5ProxyInfo    = "set_config_socks5_proxy_in
 /// @brief ÏûÏ¢Ïà¹Øºê¶¨Òå£¬ÒÔ¼°Ïà¹Ø½á¹¹³ÉÔ±´æÈ¡Json Key¶¨Òå
 /// @{
 /**
+* @brief ÏûÏ¢ÔÚiOSÏµÍ³ÉÏµÄÀëÏßÍÆËÍÅäÖÃ
+*/
+// Struct IOSOfflinePushConfig JsonKey
+static const char* kTIMIOSOfflinePushConfigTitle       = "ios_offline_push_config_title";         //string, ¶ÁÐ´, Í¨Öª±êÌâ
+static const char* kTIMIOSOfflinePushConfigSound       = "ios_offline_push_config_sound";         //string, ¶ÁÐ´, µ±Ç°ÏûÏ¢ÔÚiOSÉè±¸ÉÏµÄÀëÏßÍÆËÍÌáÊ¾ÉùÒôURL¡£µ±ÉèÖÃÎªpush.no_soundÊ±±íÊ¾ÎÞÌáÊ¾ÒôÎÞÕñ¶¯
+static const char* kTIMIOSOfflinePushConfigIgnoreBadge = "ios_offline_push_config_ignore_badge";  //bool, ¶ÁÐ´, ÊÇ·ñºöÂÔbadge¼ÆÊý¡£ÈôÎªtrue£¬ÔÚiOS½ÓÊÕ¶Ë£¬ÕâÌõÏûÏ¢²»»áÊ¹APPµÄÓ¦ÓÃÍ¼±êÎ´¶Á¼ÆÊýÔö¼Ó
+// EndStruct
+
+/**
+* @brief AndroidÀëÏßÍÆËÍÄ£Ê½
+*/
+enum TIMAndroidOfflinePushNotifyMode {
+    kTIMAndroidOfflinePushNotifyMode_Normal,   // ÆÕÍ¨Í¨ÖªÀ¸ÏûÏ¢Ä£Ê½£¬ÀëÏßÏûÏ¢ÏÂ·¢ºó£¬µã»÷Í¨ÖªÀ¸ÏûÏ¢Ö±½ÓÆô¶¯Ó¦ÓÃ£¬²»»á¸øÓ¦ÓÃ½øÐÐ»Øµ÷
+    kTIMAndroidOfflinePushNotifyMode_Custom,   // ×Ô¶¨ÒåÏûÏ¢Ä£Ê½£¬ÀëÏßÏûÏ¢ÏÂ·¢ºó£¬µã»÷Í¨ÖªÀ¸ÏûÏ¢»á¸øÓ¦ÓÃ½øÐÐ»Øµ÷
+};
+
+/**
+* @brief ÏûÏ¢ÔÚAndroidÏµÍ³ÉÏµÄÀëÏßÍÆËÍÅäÖÃ
+*
+* @note ChannelIDµÄËµÃ÷
+* Android8.0ÏµÍ³ÒÔÉÏÍ¨ÖªÀ¸ÏûÏ¢Ôö¼ÓÁËchannelidµÄÉèÖÃ£¬Ä¿Ç°oppoÒªÇó±ØÐëÌîÐ´£¬·ñÔòÔÚ8.0¼°ÒÔÉÏµÄOPPOÊÖ»úÉÏ»áÊÕ²»µ½ÀëÏßÍÆËÍÏûÏ¢¡£
+* ºóÐø¿ÉÄÜ»áÔö¼Óxiaomi_channel_id_£¬huawei_channel_idµÈ¡£
+*/
+// Struct AndroidOfflinePushConfig JsonKey
+static const char* kTIMAndroidOfflinePushConfigTitle         = "android_offline_push_config_title";            //string, ¶ÁÐ´, Í¨Öª±êÌâ
+static const char* kTIMAndroidOfflinePushConfigSound         = "android_offline_push_config_sound";            //string, ¶ÁÐ´, µ±Ç°ÏûÏ¢ÔÚAndroidÉè±¸ÉÏµÄÀëÏßÍÆËÍÌáÊ¾ÉùÒôURL
+static const char* kTIMAndroidOfflinePushConfigNotifyMode    = "android_offline_push_config_notify_mode";      //uint [TIMAndroidOfflinePushNotifyMode](), ¶ÁÐ´, µ±Ç°ÏûÏ¢µÄÍ¨ÖªÄ£Ê½
+static const char* kTIMAndroidOfflinePushConfigOPPOChannelID = "android_offline_push_config_oppo_channel_id";  //string, ¶ÁÐ´, OPPOµÄChannelID
+// EndStruct
+
+/**
+* @brief ÍÆËÍ¹æÔò
+*/
+enum TIMOfflinePushFlag {
+    kTIMOfflinePushFlag_Default,   // °´ÕÕÄ¬ÈÏ¹æÔò½øÐÐÍÆËÍ
+    kTIMOfflinePushFlag_NoPush,    // ²»½øÐÐÍÆËÍ
+};
+
+/**
+* @brief ÏûÏ¢ÀëÏßÍÆËÍÅäÖÃ
+*/
+// Struct OfflinePushConfig JsonKey
+static const char* kTIMOfflinePushConfigDesc          = "offline_push_config_desc";            //string, ¶ÁÐ´, µ±Ç°ÏûÏ¢ÔÚ¶Ô·½ÊÕµ½ÀëÏßÍÆËÍÊ±ºòÕ¹Ê¾ÄÚÈÝ
+static const char* kTIMOfflinePushConfigExt           = "offline_push_config_ext";             //string, ¶ÁÐ´, µ±Ç°ÏûÏ¢ÀëÏßÍÆËÍÊ±µÄÀ©Õ¹×Ö¶Î
+static const char* kTIMOfflinePushConfigFlag          = "offline_push_config_flag";            //uint [TIMOfflinePushFlag](), ¶ÁÐ´, µ±Ç°ÏûÏ¢ÊÇ·ñÔÊÐíÍÆËÍ£¬Ä¬ÈÏÔÊÐíÍÆËÍ kTIMOfflinePushFlag_Default
+static const char* kTIMOfflinePushConfigIOSConfig     = "offline_push_config_ios_config";      //object [IOSOfflinePushConfig](), ¶ÁÐ´, iOSÀëÏßÍÆËÍÅäÖÃ
+static const char* kTIMOfflinePushConfigAndroidConfig = "offline_push_config_android_config";  //object [AndroidOfflinePushConfig](), ¶ÁÐ´, AndroidÀëÏßÍÆËÍÅäÖÃ
+// EndStruct
+
+/**
 * @brief ÏûÏ¢µ±Ç°×´Ì¬¶¨Òå
 */
 enum TIMMsgStatus {
@@ -650,6 +700,9 @@ static const char* kTIMMsgRand        = "message_rand";          //uint64,      
 static const char* kTIMMsgSeq         = "message_seq";           //uint64,         Ö»¶Á,       ÏûÏ¢ÐòÁÐ
 static const char* kTIMMsgCustomInt   = "message_custom_int";    //uint32_t,       ¶ÁÐ´(Ñ¡Ìî), ×Ô¶¨ÒåÕûÊýÖµ×Ö¶Î
 static const char* kTIMMsgCustomStr   = "message_custom_str";    //string,         ¶ÁÐ´(Ñ¡Ìî), ×Ô¶¨ÒåÊý¾Ý×Ö¶Î
+static const char* kTIMMsgSenderProfile         = "message_sender_profile";            //object [UserProfile](), ¶ÁÐ´(Ñ¡Ìî), ÏûÏ¢µÄ·¢ËÍÕßµÄÓÃ»§×ÊÁÏ
+static const char* kTIMMsgSenderGroupMemberInfo = "message_sender_group_member_info";  //object [GroupMemberInfo](), ¶ÁÐ´(Ñ¡Ìî), ÏûÏ¢·¢ËÍÕßÔÚÈºÀïÃæµÄÐÅÏ¢£¬Ö»ÓÐÔÚÈº»á»°ÓÐÐ§¡£Ä¿Ç°½öÄÜ»ñÈ¡×Ö¶Î kTIMGroupMemberInfoIdentifier¡¢kTIMGroupMemberInfoNameCard ÆäËûµÄ×Ö¶Î½¨ÒéÍ¨¹ý TIMGroupGetMemberInfoList ½Ó¿Ú»ñÈ¡
+static const char* kTIMMsgOfflinePushConfig     = "message_offlie_push_config";        //object [OfflinePushConfig](), ¶ÁÐ´(Ñ¡Ìî), ÏûÏ¢µÄÀëÏßÍÆËÍÉèÖÃ
 // EndStruct
 
 /**
@@ -911,7 +964,7 @@ enum TIMGroupReportType {
     kTIMGroupReport_InviteReq,    // ÑûÇë¼ÓÈº(Ö»ÓÐ±»ÑûÇëÕß»á½ÓÊÕµ½)
     kTIMGroupReport_InviteAccept, // ÑûÇë¼ÓÈº±»Í¬Òâ(Ö»ÓÐ·¢³öÑûÇëÕß»á½ÓÊÕµ½)
     kTIMGroupReport_InviteRefuse, // ÑûÇë¼ÓÈº±»¾Ü¾ø(Ö»ÓÐ·¢³öÑûÇëÕß»á½ÓÊÕµ½)
-    kTIMGroupReport_ReadedSync,   // ÒÑ¶ÁÉÏ±¨¶àÖÕ¶ËÍ¬²½Í¨Öª(Ö»ÓÐÉÏ±¨ÈË×Ô¼ºÊÕµ½)
+    kTIMGroupReport_ReadReport,   // ÒÑ¶ÁÉÏ±¨¶àÖÕ¶ËÍ¬²½Í¨Öª(Ö»ÓÐÉÏ±¨ÈË×Ô¼ºÊÕµ½)
     kTIMGroupReport_UserDefine,   // ÓÃ»§×Ô¶¨ÒåÍ¨Öª(Ä¬ÈÏÈ«Ô±½ÓÊÕ)
 };
 
@@ -1089,7 +1142,7 @@ static const char* kTIMDraftEditTime         = "draft_edit_time";   // uint, Ö»¶
 // EndStruct
 
 /**
-* @brief ²Ý¸åÐÅÏ¢
+* @brief »á»°ÐÅÏ¢
 */
 // Struct ConvInfo JsonKey
 static const char* kTIMConvId           = "conv_id";             // string, Ö»¶Á, »á»°ID
@@ -1173,7 +1226,7 @@ static const char* kTIMGroupInfoCustemStringInfoValue = "group_info_custom_strin
 // Struct CreateGroupParam JsonKey
 static const char* kTIMCreateGroupParamGroupName        = "create_group_param_group_name";          // string, Ö»Ð´(±ØÌî), Èº×éÃû³Æ
 static const char* kTIMCreateGroupParamGroupId          = "create_group_param_group_id";            // string, Ö»Ð´(Ñ¡Ìî), Èº×éID,²»ÌîÊ±´´½¨³É¹¦»Øµ÷»á·µ»ØÒ»¸öºóÌ¨·ÖÅäµÄÈºID
-static const char* kTIMCreateGroupParamGroupType        = "create_group_param_group_type";          // uint[TIMGroupType](), Ö»Ð´(Ñ¡Ìî), Èº×éÀàÐÍ,Ä¬ÈÏÎªPublic
+static const char* kTIMCreateGroupParamGroupType        = "create_group_param_group_type";          // uint [TIMGroupType](), Ö»Ð´(Ñ¡Ìî), Èº×éÀàÐÍ,Ä¬ÈÏÎªPublic
 static const char* kTIMCreateGroupParamGroupMemberArray = "create_group_param_group_member_array";  // array [GroupMemberInfo](), Ö»Ð´(Ñ¡Ìî), Èº×é³õÊ¼³ÉÔ±Êý×é
 static const char* kTIMCreateGroupParamNotification     = "create_group_param_notification";        // string, Ö»Ð´(Ñ¡Ìî), Èº×é¹«¸æ,
 static const char* kTIMCreateGroupParamIntroduction     = "create_group_param_introduction";        // string, Ö»Ð´(Ñ¡Ìî), Èº×é¼ò½é,
@@ -1262,7 +1315,7 @@ static const char* kTIMGroupSelfInfoMsgFlag    = "group_self_info_msg_flag";    
 // Struct GroupBaseInfo JsonKey
 static const char* kTIMGroupBaseInfoGroupId      = "group_base_info_group_id";       // string, Ö»¶Á, Èº×éID
 static const char* kTIMGroupBaseInfoGroupName    = "group_base_info_group_name";     // string, Ö»¶Á, Èº×éÃû³Æ
-static const char* kTIMGroupBaseInfoGroupType    = "group_base_info_group_type";     // string [TIMGroupType](), Ö»¶Á, Èº×éÀàÐÍ
+static const char* kTIMGroupBaseInfoGroupType    = "group_base_info_group_type";     // uint [TIMGroupType](), Ö»¶Á, Èº×éÀàÐÍ
 static const char* kTIMGroupBaseInfoFaceUrl      = "group_base_info_face_url";       // string, Ö»¶Á, Èº×éÍ·ÏñURL
 static const char* kTIMGroupBaseInfoInfoSeq      = "group_base_info_info_seq";       // uint,   Ö»¶Á, Èº×ÊÁÏµÄSeq£¬Èº×ÊÁÏµÄÃ¿´Î±ä¸ü¶¼»áÔö¼ÓÕâ¸ö×Ö¶ÎµÄÖµ
 static const char* kTIMGroupBaseInfoLastestSeq   = "group_base_info_lastest_seq";    // uint,   Ö»¶Á, Èº×îÐÂÏûÏ¢µÄSeq¡£Èº×éÄÚÃ¿Ò»ÌõÏûÏ¢¶¼ÓÐÒ»ÌõÎ¨Ò»µÄÏûÏ¢Seq£¬ÇÒ¸ÃSeqÊÇ°´ÕÕ·¢ÏûÏ¢Ë³Ðò¶øÁ¬ÐøµÄ¡£´Ó1¿ªÊ¼£¬ÈºÄÚÃ¿Ôö¼ÓÒ»ÌõÏûÏ¢£¬LastestSeq¾Í»áÔö¼Ó1
@@ -1304,7 +1357,7 @@ static const char* kTIMGroupDetialInfoCustomInfo       = "group_detial_info_cust
 // Struct GetGroupInfoResult JsonKey
 static const char* kTIMGetGroupInfoResultCode  = "get_groups_info_result_code";    // int [´íÎóÂë](https://cloud.tencent.com/document/product/269/1671),   Ö»¶Á, »ñÈ¡Èº×éÏêÏ¸ÐÅÏ¢µÄ½á¹û
 static const char* kTIMGetGroupInfoResultDesc  = "get_groups_info_result_desc";    // string, Ö»¶Á, »ñÈ¡Èº×éÏêÏ¸Ê§°ÜµÄÃèÊöÐÅÏ¢
-static const char* kTIMGetGroupInfoResultInfo  = "get_groups_info_result_info";    // json object [GroupDetailInfo](), Ö»¶Á, Èº×éÏêÏ¸ÐÅÏ¢
+static const char* kTIMGetGroupInfoResultInfo  = "get_groups_info_result_info";    // object [GroupDetailInfo](), Ö»¶Á, Èº×éÏêÏ¸ÐÅÏ¢
 // EndStruct
 
 /**
@@ -1321,7 +1374,9 @@ enum TIMGroupModifyInfoFlag {
     kTIMGroupModifyInfoFlag_Visible      = 0x01 << 6,  // ÐÞ¸ÄÈºÊÇ·ñ¿É¼û,    
     kTIMGroupModifyInfoFlag_Searchable   = 0x01 << 7,  // ÐÞ¸ÄÈºÊÇ·ñ±»ËÑË÷,  
     kTIMGroupModifyInfoFlag_ShutupAll    = 0x01 << 8,  // ÐÞ¸ÄÈºÊÇ·ñÈ«Ìå½ûÑÔ,
+    kTIMGroupModifyInfoFlag_Custom       = 0x01 << 9,  // ÐÞ¸ÄÈº×Ô¶¨ÒåÐÅÏ¢
     kTIMGroupModifyInfoFlag_Owner        = 0x01 << 31, // ÐÞ¸ÄÈºÖ÷
+
 };
 
 /**
@@ -1371,6 +1426,7 @@ enum TIMGroupMemberModifyInfoFlag {
     kTIMGroupMemberModifyFlag_MemberRole = 0x01 << 1, // ÐÞ¸Ä³ÉÔ±½ÇÉ«
     kTIMGroupMemberModifyFlag_ShutupTime = 0x01 << 2, // ÐÞ¸Ä½ûÑÔÊ±¼ä
     kTIMGroupMemberModifyFlag_NameCard   = 0x01 << 3, // ÐÞ¸ÄÈºÃûÆ¬
+    kTIMGroupMemberModifyFlag_Custom     = 0x01 << 4, // ÐÞ¸ÄÈº³ÉÔ±×Ô¶¨ÒåÐÅÏ¢
 };
 
 
@@ -1556,7 +1612,7 @@ static const char* kTIMFriendProfileRemark              = "friend_profile_remark
 static const char* kTIMFriendProfileAddWording          = "friend_profile_add_wording";         // string,       Ö»¶Á, ºÃÓÑÉêÇëÊ±µÄÌí¼ÓÀíÓÉ
 static const char* kTIMFriendProfileAddSource           = "friend_profile_add_source";          // string,       Ö»¶Á, ºÃÓÑÉêÇëÊ±µÄÌí¼ÓÀ´Ô´
 static const char* kTIMFriendProfileAddTime             = "friend_profile_add_time";            // uint64,       Ö»¶Á, ºÃÓÑÌí¼ÓÊ±¼ä
-static const char* kTIMFriendProfileUserProfile         = "friend_profile_user_profile";        // object [UserProfile], Ö»¶Á, ºÃÓÑµÄ¸öÈË×ÊÁÏ
+static const char* kTIMFriendProfileUserProfile         = "friend_profile_user_profile";        // object [UserProfile](), Ö»¶Á, ºÃÓÑµÄ¸öÈË×ÊÁÏ
 static const char* kTIMFriendProfileCustomStringArray   = "friend_profile_custom_string_array"; // array [FriendProfileCustemStringInfo](), Ö»¶Á, [×Ô¶¨ÒåºÃÓÑ×Ö¶Î](https://cloud.tencent.com/document/product/269/1501#.E8.87.AA.E5.AE.9A.E4.B9.89.E5.A5.BD.E5.8F.8B.E5.AD.97.E6.AE.B5)
 // EndStruct
 
