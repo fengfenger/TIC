@@ -52,22 +52,20 @@ int TICLocalRecorderImpl::startService() {
 	return ret;
 }
 
-
-int TICLocalRecorderImpl::init(TEduRecordAuthParam authParam, TICCallback callback) {
+int TICLocalRecorderImpl::init(const TEduRecordAuthParam& authParam, TICCallback callback) {
+	mAuth = authParam;
 
 	startService();
-
 
 	Json::Value value;
 	value["SdkAppId"] = authParam.appId;
 	value["UserId"] = authParam.userId;
 	value["UserSig"] = authParam.userSig;
 
-
 	Json::FastWriter writer;
 	std::string msg = writer.write(value);
 
-	send("Init", msg, callback);
+	sendCmd("Init", msg, callback);
 	return 0;
 }
 
@@ -82,68 +80,80 @@ int TICLocalRecorderImpl::startLocalRecord(const TEduRecordParam& para, const ch
 		value["y"] = para.y;
 		value["Width"] = para.width;
 		value["Height"] = para.Height;
-		value["VideoResolution"] = para.videoResolution;
 		value["VideoFps"] = para.videoFps;
 		value["VideoBps"] = para.videoBps;
 		value["EnableAudio"] = para.enableAudio;
 		value["DstPath"] = szRecordPath;
+		value["ClassId"] = para.classId;
 
 		Json::FastWriter writer;
 		std::string msg = writer.write(value);
 
-		send("StartRecord", msg, callback);
+		sendCmd("StartRecord", msg, callback);
 		return 0;
 	}
 
 	return -1;
-
 }
 
 int TICLocalRecorderImpl::stopLocalRecord(TICCallback callback) {
-	send("StopRecord", std::string(), callback);
+	sendCmd("StopRecord", std::string(), callback);
 	return 0;
 }
 
-int TICLocalRecorderImpl::startPush(const TEduRecordParam& para, const char * url, TICCallback callback) {
-	if (url != NULL && strlen(url) > 0) {
-		Json::Value value;
-		value["AppProc"] = para.AppProc;
-		value["Wnd"] = para.Wnd;
-		value["x"] = para.x;
-		value["y"] = para.y;
-		value["Width"] = para.width;
-		value["Height"] = para.Height;
-		value["VideoResolution"] = para.videoResolution;
-		value["VideoFps"] = para.videoFps;
-		value["VideoBps"] = para.videoBps;
-		value["EnableAudio"] = para.enableAudio;
-		value["DstURL"] = url;
-
-
-		Json::FastWriter writer;
-		std::string msg = writer.write(value);
-
-		send("StartPush", msg, callback);
-		return 0;
-	}
-	return -1;
+int TICLocalRecorderImpl::pauseLocalRecord(TICCallback callback) {
+	sendCmd("PauseRecord", std::string(), callback);
+	return 0;
 }
 
-int TICLocalRecorderImpl::stopPush(TICCallback callback) {
-	send("StopPush", std::string(), callback);
+int TICLocalRecorderImpl::resumeLocalRecord(TICCallback callback) {
+	sendCmd("ResumeRecord", std::string(), callback);
 	return 0;
 }
 
 int TICLocalRecorderImpl::exit(TICCallback callback) {
-	send("Exit", std::string(), callback);
+	sendCmd("Exit", std::string(), callback);
 	return 0;
 }
 
+int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback callback) {
+	if (mAuth.appId == 0 || mAuth.userId.empty() || mAuth.userSig.empty()) {
+		printf("user info error");
+		return -1;
+	}
 
-void TICLocalRecorderImpl::send(const std::string& cmd, const std::string& reqBody, const TICCallback callback) {
-	if (!cmd.empty()) {
+	const char* URL = "https://yun.tim.qq.com/v4/ilvb_edusaas/v1/localrecord/query?sdkappid=%d&user_id=%s&token=%s&random=%d";
+	char httpsUrl[1024] = { 0 };
+	int random = std::rand();
+	sprintf(httpsUrl, URL, mAuth.appId, mAuth.userId.c_str(), mAuth.userSig.c_str(), random);
+
+	Json::Value value;
+	if (key.class_id != 0) {
+		value["class_id"] = key.class_id;
+	}
+	if (!key.user_id.empty()) {
+		value["user_id"] = key.user_id;
+	}
+	if (!key.task_id.empty()) {
+		value["task_id"] = key.task_id;
+	}
+	
+	Json::FastWriter writer;
+	std::string msg = writer.write(value);
+
+	sendRequest(HttpClient::a2w(httpsUrl), msg, callback);
+
+	return 0;
+}
+
+void TICLocalRecorderImpl::sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback) {
+	sendRequest(HttpClient::a2w(URL + cmd), content, callback);
+}
+
+void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::string& reqBody, const TICCallback callback) {
+	if (!url.empty()) {
 		//std::weak_ptr<TICLocalRecorderImpl> weakThis = this->shared_from_this();
-		http.asynPost(HttpClient::a2w(URL + cmd), reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBody) {
+		http.asynPost(url, reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBody) {
 			//auto _this = weakThis.lock();
 			//if (!_this) return;
 

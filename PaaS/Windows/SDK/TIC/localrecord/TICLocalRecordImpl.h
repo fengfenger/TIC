@@ -13,18 +13,21 @@ public:
 	TICLocalRecorderImpl();
 	TICLocalRecorderImpl(std::weak_ptr<TEduRecordCallback>  callback);
 	virtual ~TICLocalRecorderImpl();
-	virtual int init(TEduRecordAuthParam authParam, TICCallback callback) override;
+	virtual int init(const TEduRecordAuthParam& authParam, TICCallback callback) override;
 	virtual int startLocalRecord(const TEduRecordParam& para, const char * szRecordPath, TICCallback callback) override;
 	virtual int stopLocalRecord(TICCallback callback) override;
-	virtual int startPush(const TEduRecordParam& para, const char * url, TICCallback callback) override;
-	virtual int stopPush(TICCallback callback) override;
+	virtual int pauseLocalRecord(TICCallback callback) override;
+	virtual int resumeLocalRecord(TICCallback callback) override;
 	virtual int exit(TICCallback callback) override;
+	virtual int getRecordResult(const RecordKey& key, TICCallback callback) override;
 
 protected:
-	void send(const std::string& cmd, const std::string& content, const TICCallback callback);
+	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
+	void sendRequest(const std::wstring& cmd, const std::string& reqBody, const TICCallback callback);
 	int startService();
 
 protected:
+	TEduRecordAuthParam mAuth;
 	HttpClient http;
 	std::weak_ptr<TEduRecordCallback> mCallback;
 };
