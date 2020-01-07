@@ -237,6 +237,40 @@ void TICLocalRecorderImpl::onTimer() {
 
 		if (code == 0) {
 			printf(" getState: %s",  desc);
+
+			Json::Value Val;
+			Json::Reader reader;
+			if (!reader.parse(desc, strlen(desc) + desc, Val)) { //从ifs中读取数据到jsonRoot
+				return;
+			}
+			if (Val.isMember("Response")) {
+				auto Response = Val["Response"];
+
+				if (Response.isMember("Upload")) {
+					auto uploads = Response["Upload"];
+					if (uploads.isArray()) {
+						int size = uploads.size();
+						for (int i = 0; i < size; ++i) {
+							auto up = uploads[i];
+							std::string id;
+							int total = 0, duration = 0;
+							if (up.isMember("Id")) {
+								id = up["Id"].asString();
+							}
+
+							if (up.isMember("Total")) {
+								total = up["Total"].asInt();
+							}
+
+							if (up.isMember("Duration")) {
+								duration = up["Duration"].asInt();
+							}
+
+						}
+					}
+				}
+			}
+			
 		}
 	});
 }
