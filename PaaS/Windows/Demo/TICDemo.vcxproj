@@ -299,4 +299,9 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="TICDemo.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
