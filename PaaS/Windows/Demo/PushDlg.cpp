@@ -122,6 +122,22 @@ void CPushDlg::initRecord() {
 	});
 }
 
+void CPushDlg::exitRecord() {
+	std::weak_ptr< CPushDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->exit([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CPushDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("Í£Ö¹Â¼ÖÆÊ§°Ü"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("Í£Ö¹Â¼ÖÆ"), MB_OK);
+		}
+	});
+}
+
 void CPushDlg::startRecord() {
 	std::weak_ptr< CPushDlg> weakSelf = this->shared_from_this();
 

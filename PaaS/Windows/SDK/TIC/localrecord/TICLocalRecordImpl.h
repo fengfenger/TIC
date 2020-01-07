@@ -22,11 +22,16 @@ public:
 	virtual int getRecordResult(const RecordKey& key, TICCallback callback) override;
 
 protected:
+	int getState(TICCallback callback);
 	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
 	void sendRequest(const std::wstring& cmd, const std::string& reqBody, const TICCallback callback);
 	int startService();
+	void StartTimer();
+	void StopTimer();
+	void onTimer();
 
 protected:
+	UINT_PTR syncTimer_ = 0;
 	TEduRecordAuthParam mAuth;
 	HttpClient http;
 	std::weak_ptr<TEduRecordCallback> mCallback;

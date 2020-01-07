@@ -90,6 +90,8 @@ int TICLocalRecorderImpl::startLocalRecord(const TEduRecordParam& para, const ch
 		std::string msg = writer.write(value);
 
 		sendCmd("StartRecord", msg, callback);
+		StartTimer();
+
 		return 0;
 	}
 
@@ -98,6 +100,7 @@ int TICLocalRecorderImpl::startLocalRecord(const TEduRecordParam& para, const ch
 
 int TICLocalRecorderImpl::stopLocalRecord(TICCallback callback) {
 	sendCmd("StopRecord", std::string(), callback);
+	StopTimer();
 	return 0;
 }
 
@@ -113,6 +116,11 @@ int TICLocalRecorderImpl::resumeLocalRecord(TICCallback callback) {
 
 int TICLocalRecorderImpl::exit(TICCallback callback) {
 	sendCmd("Exit", std::string(), callback);
+	return 0;
+}
+
+int TICLocalRecorderImpl::getState(TICCallback callback) {
+	sendCmd("GetState", std::string(), callback);
 	return 0;
 }
 
@@ -188,6 +196,9 @@ void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::strin
 							msg = error["Message"].asString();
 						}
 					}
+					else {
+						msg = rspBuf;
+					}
 				}
 			}
 
@@ -197,4 +208,35 @@ void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::strin
 			}
 		});
 	}
+}
+
+void TICLocalRecorderImpl::StartTimer()
+{
+	StopTimer();
+	syncTimer_ = ::SetTimer(NULL, 0, 5000, [](HWND hwnd, UINT msg, UINT_PTR timerid, DWORD dwTime) {
+		TICLocalRecorderImpl* pThis = static_cast<TICLocalRecorderImpl*>(TICLocalRecorder::GetInstance());
+		if (pThis) pThis->onTimer();
+	});
+}
+
+void TICLocalRecorderImpl::StopTimer()
+{
+	if (syncTimer_ != 0)
+	{
+		::KillTimer(0, syncTimer_);
+		syncTimer_ = 0;
+	}
+}
+
+void TICLocalRecorderImpl::onTimer() {
+	//std::weak_ptr< TICLocalRecorderImpl> weakSelf = this->shared_from_this();
+	getState([this](TICModule module, int code, const char *desc) {
+		//std::shared_ptr<TICLocalRecorderImpl> self = weakSelf.lock();
+		//if (!self)
+		//	return;
+
+		if (code == 0) {
+			printf(" getState: %s",  desc);
+		}
+	});
 }

@@ -31,6 +31,7 @@ private:
 	void pauseRecord();
 	void resumeRecord();
 	void getRecord();
+	void exitRecord();
 
 public:
 	ITXLivePlayer* mLivePlayer;
