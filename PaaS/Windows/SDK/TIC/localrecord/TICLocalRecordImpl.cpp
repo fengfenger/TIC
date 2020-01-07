@@ -153,16 +153,48 @@ void TICLocalRecorderImpl::sendCmd(const std::string& cmd, const std::string& co
 void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::string& reqBody, const TICCallback callback) {
 	if (!url.empty()) {
 		//std::weak_ptr<TICLocalRecorderImpl> weakThis = this->shared_from_this();
-		http.asynPost(url, reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBody) {
+		http.asynPost(url, reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBuf) {
 			//auto _this = weakThis.lock();
 			//if (!_this) return;
 
-			int result = code;
-			std::string desc = rspBody;
+			int result = 0;
+			std::string msg = "succ";
+
+			if (code != 0) {
+				result = code;
+				msg = std::string("http request error :") ;
+				goto myEXIT;
+			}
+
+
+			{//解析回包
+				Json::Value Val;
+				Json::Reader reader;
+				if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
+					msg = std::string("parse json error :");
+					result = -1;
+					goto myEXIT;
+				}
+
+				if (Val.isMember("Response")) {
+					auto Response = Val["Response"];
+
+					if (Response.isMember("Error")) { //失败，错误返回
+						auto error = Response["Error"];
+						if (error.isMember("Code")) {
+							result = error["Code"].asInt();
+						}
+						if (error.isMember("Message")) {
+							msg = error["Message"].asString();
+						}
+					}
+				}
+			}
+
+		myEXIT:
 			if (callback) {
-				callback(TICMODULE_RECORD, result, desc.c_str());
+				callback(TICMODULE_RECORD, result, msg.c_str());
 			}
 		});
 	}
-
 }
