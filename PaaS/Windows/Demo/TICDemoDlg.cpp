@@ -7,6 +7,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+extern CTICDemoApp theApp;
 
 BEGIN_MESSAGE_MAP(CTICDemoDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
@@ -260,6 +261,9 @@ void CTICDemoDlg::OnBtnLogin()
 	int nSelectIndex = cbUser_.GetCurSel();
 	const std::vector<UserInfo>& userInfoList = Config::GetInstance().UserInfoList();
 
+	theApp.setUserId(userInfoList[nSelectIndex].userid);
+	theApp.setUserSig(userInfoList[nSelectIndex].usersig);
+
 	std::weak_ptr< CTICDemoDlg> weakSelf = this->shared_from_this();
 	TICManager::GetInstance().Login(userInfoList[nSelectIndex].userid, userInfoList[nSelectIndex].usersig, [this, weakSelf](TICModule module, int code, const char *desc){
 		std::shared_ptr<CTICDemoDlg> self = weakSelf.lock();
@@ -405,6 +409,8 @@ void CTICDemoDlg::OnBtnJoinRoom()
 	TICClassroomOption option;
 	option.classId = classId;
 	option.boardCallback = boardDlg_.get();
+
+	theApp.setClassId(classId);
 
 	std::weak_ptr< CTICDemoDlg> weakSelf = this->shared_from_this();
 	TICManager::GetInstance().JoinClassroom(option, [this, weakSelf](TICModule module, int code, const char *desc) {
