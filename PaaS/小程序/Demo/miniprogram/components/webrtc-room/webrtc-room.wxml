@@ -1,6 +1,0 @@
-<import src='./template/1v1/layout.wxml' />
-<view class='conponent-box'>
-  <view style="width:100%;height:100%;" wx:if="{{template=='1v1'}}">
-    <template is='1v1' data="{{videoWidth, roomID, pushURL, aspect, minBitrate, maxBitrate, beauty, whiteness, muted, debug, members, enableCamera, startPlay, playerBackgroundImg, waitingImg, loadingImg, pusherBackgroundImg, showMsgBox, msgBoxScrollTop, msgs, showTextArea, inputFocus, chatMsg, hideImTooIs}}" />
-  </view>
-</view>

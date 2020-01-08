@@ -1704,6 +1704,73 @@ quit_class
     "total":20
 }
 ```
+
+## 录制模块
+
+### 获取本地录制列表
+#### 接口
+- 接口名称：`/localrecord/query`
+- 接口方法：`POST`
+- Content-Type：`application/json`
+- 接口 URL：`https://iclass.api.qcloud.com/paas/v1/localrecord/query?公共参数`
+
+#### 请求参数
+
+| 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
+| :------ | :--- | :---- | :--------: | :-----: |
+| class_id | int | 课堂 ID | 是 | 0
+| user_id | string | 录制用户id | 否 | 0
+| task_id | string | 录制任务id，本地录制拼接成功返回给客户端的id | 否 | 0
+| Index | int | 分页拉取时，页面起始数据位置 | 是 | 0
+| size | int | 分页拉取时，页面数据个数 | 是 | 0
+
+
+#### 响应参数
+
+| 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
+| :------ | :--- | :---- | :--------: | :-----: |
+| error_code | int | 错误码，0-成功/非0-失败 | 是 | - |
+| error_msg | string | 错误信息 | 是 | - |
+| finish | bool | 是否拉取完 | 是 | - |
+| total | string | 录制文件总数 | 是 | - |
+| record_info_list | array | 录制文件列表 | 是 | - |
+
+
+#### 举例
+请求：
+```json
+{
+	"class_id":1212,
+	"user_id":"",
+	"task_id":"",
+	"Index":0,
+	"size":2
+}
+```
+响应：
+```
+{
+    "error_code": 0,
+    "error_msg": "",
+    "finish": true,
+    "total": 1,
+    "record_info_list": [
+        {
+            "RoomId": 1212,
+            "UserId": "eric",
+            "TaskId": "1257307760-EditMedia-fbd05676116bb6297f8c5162ec54ef93t0",
+            "StartTime": 0,
+            "SplicTime": 1574408606,
+            "VideoOutputType": "mp4",
+            "VideoOutputId": "5285890796076789146",
+            "VideoOutputUrl": "http://1257307760.vod2.myqcloud.com/5f5371a5vodgzp1257307760/2d508f205285890796076789146/playlist.f9.mp4",
+            "VideoOutputSize": 0,
+            "VideoOutputDuration": 0
+        }
+    ]
+}
+```
+
 ## 附录
 
 ### 附录1：API 公共参数
@@ -1733,9 +1800,10 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 1. 当前时间戳是`1548247717`。
 2. 签名有效时间是120秒，则过期时间戳是`1548247717+120=1548247837`。
 3. `tic_key` 是 `DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU`。
-4. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
-5. 在请求体中，带上 expire_time 字段，值为`1548247837`。
-6. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
+4. 将过期时间拼在tic_key后面DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837
+5. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
+6. 在请求体中，带上 expire_time 字段，值为`1548247837`。
+7. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
 
 ### 附录3：常量类型枚举值
 #### 附录3.1 角色-role

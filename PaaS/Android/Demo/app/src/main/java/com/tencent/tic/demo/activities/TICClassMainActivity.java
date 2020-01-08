@@ -908,13 +908,13 @@ public class TICClassMainActivity extends BaseActvity
         }
 
         @Override
-        public void onTEBFileUploadProgress(final String fid, int currentBytes, int totalBytes, int uploadSpeed, float percent) {
-            TXLog.i(TAG, "onTEBFileUploadProgress:" + fid + " percent:" + percent);
+        public void onTEBFileUploadProgress(final String path, int currentBytes, int totalBytes, int uploadSpeed, float percent) {
+            TXLog.i(TAG, "onTEBFileUploadProgress:" + path + " percent:" + percent);
         }
 
          @Override
-         public void onTEBFileUploadStatus(final String fid, int status, int code, String statusMsg) {
-             TXLog.i(TAG, "onTEBFileUploadStatus:" + fid + " status:" + status);
+         public void onTEBFileUploadStatus(final String path, int status, int code, String statusMsg) {
+             TXLog.i(TAG, "onTEBFileUploadStatus:" + path + " status:" + status);
          }
 
          @Override
@@ -923,17 +923,24 @@ public class TICClassMainActivity extends BaseActvity
          }
 
          @Override
-         public void onTEBH5FileStatusChanged(String s, int i) {
+         public void onTEBH5FileStatusChanged(String fileId, int status) {
 
          }
 
          @Override
-         public void onTEBVideoStatusChanged(String s, int i, float v, float v1) {
+         public void onTEBVideoStatusChanged(String fileId, int status, float progress, float duration) {
 
          }
 
          @Override
-        public void onTEBSetBackgroundImage(final String url){}
+         public void onTEBSetBackgroundImage(final String url){
+             TXLog.i(TAG, "onTEBSetBackgroundImage:" + url);
+         }
+
+         @Override
+         public void onTEBAddImageElement(final String url){
+             TXLog.i(TAG, "onTEBAddImageElement:" + url);
+         }
 
          @Override
          public void onTEBBackgroundH5StatusChanged(String boardId, String url, int status) {

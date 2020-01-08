@@ -1,5 +1,15 @@
 # Release Notes - Windows
 
+## 2.4.1.64 @ 2020.01.08
+
+- 回调变更
+    - onTEBFileUploadProgress回调参数fileId变更为path
+    - onTEBFileUploadStatus回调参数fileId变更为path
+- 接口变更
+    - addImageElement支持添加本地图片
+- 增加接口
+    - 增加添加图片元素回调onTEBAddImageElement
+    
 ## 2.4.0.60 @2019.12.06
 - 增加接口支持视频播放功能
     - 添加视频文件 virtual const char *AddVideoFile(const char *url) = 0;
