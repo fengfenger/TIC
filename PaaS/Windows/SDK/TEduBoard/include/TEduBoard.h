@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.0.60
+ * @version 2.4.1.64
  */
 
 #pragma once
@@ -126,8 +126,8 @@ extern "C" {
      * @return 设置白板日志文件路径是否成功
      * @warning 该接口必须要在第一次调用CreateTEduBoardController之前调用才有效，否则将会失败
      *
-     * - 默认路径，Windows下为："%AppData%\\..\\Local\TIC\\teduboard.log"
-     * - 默认路径，Linux下为："~/TIC/teduboard.log"
+     * - 默认路径，Windows下为："%AppData%/../Local/TEduBoard/teduboard.log"
+     * - 默认路径，Linux下为："~/TEduBoard/teduboard.log"
      */
     EDUSDK_API bool SetTEduBoardLogFilePath(const char *logFilePath);
 
@@ -145,6 +145,14 @@ extern "C" {
      * 启用离屏渲染时，SDK不再创建白板VIEW，而是通过onTEBOffscreenPaint回调接口将白板离屏渲染的像素数据抛出
      */
     EDUSDK_API bool EnableTEduBoardOffscreenRender();
+
+    /**
+     * @ingroup ctrl
+     * @brief 禁用白板Crash上报
+     * @return 禁用白板Crash上报是否成功
+     * @warning 该接口必须要在第一次调用CreateTEduBoardController之前调用才有效，否则将会失败
+     */
+    EDUSDK_API bool DisableTEduBoardCrashReport();
 
     /**
      * @ingroup ctrl
@@ -764,6 +772,15 @@ struct TEduBoardCallback {
     virtual void onTEBSetBackgroundImage(const char *url) {};
 
     /**
+     * @brief 添加白板图片元素回调
+     * @param url				调用AddImageElement时传入的URL
+     *
+     * 只有本地调用AddImageElement时会收到该回调
+     * 收到该回调表示图片已经上传或下载成功，并且显示出来
+     */
+    virtual void onTEBAddImageElement(const char *url) {};
+
+    /**
      * @brief 设置白板背景H5状态改变回调
      * @param boardId           白板ID
      * @param url               白板图片URL
@@ -858,22 +875,22 @@ struct TEduBoardCallback {
 
     /**
      * @brief 文件上传进度回调
-     * @param fileId            正在上传的文件ID
+     * @param path              正在上传的文件路径
      * @param currentBytes      当前已上传大小，单位bytes
      * @param totalBytes        文件总大小，单位bytes
      * @param uploadSpeed       文件上传速度，单位bytes
      * @param percent			文件上传进度，取值范围 [0, 1]
      */
-    virtual void onTEBFileUploadProgress(const char *fileId, int currentBytes, int totalBytes, int uploadSpeed, double percent) {};
+    virtual void onTEBFileUploadProgress(const char *path, int currentBytes, int totalBytes, int uploadSpeed, double percent) {};
 
     /**
      * @brief 文件上传状态回调
-     * @param fileId            正在上传的文件ID
+     * @param path              正在上传的文件路径
      * @param status            文件上传状态
      * @param errorCode			文件上传错误码
      * @param errorMsg			文件上传错误信息
      */
-    virtual void onTEBFileUploadStatus(const char *fileId, TEduBoardUploadStatus status, int errorCode, const char *errorMsg) {};
+    virtual void onTEBFileUploadStatus(const char *path, TEduBoardUploadStatus status, int errorCode, const char *errorMsg) {};
 
     /// @}
 
