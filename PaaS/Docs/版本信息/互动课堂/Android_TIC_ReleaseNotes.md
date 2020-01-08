@@ -1,5 +1,11 @@
 # Release Notes - Android
 
+## 2020.01.08
+
+| TRTC版本 | TIM版本 | TEduBoard版本 |
+| :-: | :-: | :-: |
+|6.8.7959|4.6.54|2.4.1.1
+
 ## 2019.09.25
 
 - 进房参数TICClassroomOption增加compatSaas字段，兼容SaaS方案
