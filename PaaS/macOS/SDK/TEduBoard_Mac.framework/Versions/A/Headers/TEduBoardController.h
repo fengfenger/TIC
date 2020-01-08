@@ -488,7 +488,7 @@
 /**
  * @brief 添加图片资源
  * @param url            【必填】图片地址
- * 目前仅支持网络图片
+ * 支持png/jpg/gif/svg格式的本地和网络图片，当URL是一个有效的本地文件地址时，该文件会被自动上传到COS。上传进度回调onTEBFileUploadProgress，上传结果回调onTEBFileUploadStatus
 */
 - (void)addImageElement:(NSString *)url;
 
@@ -613,7 +613,7 @@
  * @param url         文件播放地址
  * @return 文件ID
  *
- * 移动端支持mp4/m3u8，桌面端支持mp4/m3u8/flv/rtmp；触发状态改变回调 onTEBVideoStatusChange
+ * 移动端支持mp4/m3u8，桌面端支持mp4/m3u8/flv/rtmp；触发状态改变回调 onTEBVideoStatusChanged
  */
 - (NSString *)addVideoFile:(NSString *)url;
 
@@ -638,7 +638,7 @@
  * @brief 暂停视频
  * @warning 只对当前文件有效
  *
- * 触发状态改变回调 onTEBVideoStatusChange，一般在使用自定义视频控制栏时使用
+ * 触发状态改变回调 onTEBVideoStatusChanged，一般在使用自定义视频控制栏时使用
  * 移动端退后台调用pause（WebView默认行为）
 */
 - (void)pauseVideo;
@@ -648,7 +648,7 @@
  * @param time 播放进度，单位秒
  * @warning 只对当前文件有效
  *
- * 触发状态改变回调 onTEBVideoStatusChange，一般在使用自定义视频控制栏时使用
+ * 触发状态改变回调 onTEBVideoStatusChanged，一般在使用自定义视频控制栏时使用
  */
 - (void)seekVideo:(CGFloat)time;
 
