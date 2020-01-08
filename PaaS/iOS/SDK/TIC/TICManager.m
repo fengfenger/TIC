@@ -73,7 +73,6 @@ id makeWeakRef (id object) {
 
 - (void)init:(int)sdkAppId callback:(TICCallback)callback;
 {
-    
     _sdkAppId = sdkAppId;
     TIMSdkConfig *config = [[TIMSdkConfig alloc] init];
     config.sdkAppId = sdkAppId;
