@@ -79,13 +79,11 @@ https://tedu.qcloudtrtc.com/component.html#/1000713668/zhangsan
 
 #### 快速集成 SDK
 TICSaaS 组件已经发布到 jcenter，您可以通过配置 gradle 自动下载更新。只需要用 Android Studio 打开需要集成 SDK 的工程，然后通过简单的三个步骤修改 app/build.gradle 文件，就可以完成 SDK 集成。
-
 1. 添加 SDK 依赖。在`dependencies`中添加 TICSaaS 以及其它模块的依赖。
-
 ```groovy
  dependencies {
-    // TICSaaS 组件
-    implementation "com.tencent.ticsaas:core:1.2.0"
+    // TIC SaaS 组件
+    implementation "com.tencent.ticsaas:core:1.2.0.1"
     // 实时音视频
     implementation "com.tencent.liteav:LiteAVSDK_TRTC:6.8.8003"
     // 即时通信 IM SDK
@@ -95,12 +93,14 @@ TICSaaS 组件已经发布到 jcenter，您可以通过配置 gradle 自动下�
 }
 ```
 
-如果您需要集成的是 TRTC 专业版，TICSaaS 组件为此提供了对应的版本，SDK 依赖须改为以下内容：
+TICSaaS 组件默认引用的是普通版的 TRTC，如果您需要集成的是 TRTC 专业版，那需要先把 TICSaaS 组件依赖的 TRTC 剔除掉，TRTC 则改为引用专业版本。可参考以下内容：
 
 ```groovy
  dependencies {
     // TIC SaaS 组件
-    implementation "com.tencent.ticsaas:core_pro:1.2.0"
+    implementation("com.tencent.ticsaas:core:1.2.0.1") {
+        exclude group: 'com.tencent.liteav', module: 'LiteAVSDK_TRTC'
+    }
     // 实时音视频
     implementation "com.tencent.liteav:LiteAVSDK_Professional:6.8.8003"
     // 即时通信 IM SDK
@@ -111,7 +111,6 @@ TICSaaS 组件已经发布到 jcenter，您可以通过配置 gradle 自动下�
 ```
 
 2. 指定 App 使用架构。在`defaultConfig`中，指定 App 使用的 CPU 架构（目前 TICSaaS 支持`armeabi`和`armeabi-v7a`）。
-
 ```groovy
   defaultConfig {
       ndk {
@@ -119,51 +118,41 @@ TICSaaS 组件已经发布到 jcenter，您可以通过配置 gradle 自动下�
       }
   }
 ```
-
 3. 使用 JDK 1.8 编译。
-
 ```groovy
 compileOptions {
     sourceCompatibility 1.8
     targetCompatibility 1.8
 }
 ```
-
 4. 同步 SDK。单击【Sync Now】，如果您的网络连接 jcenter 正常，SDK 就会自动下载集成到工程中。
 
 #### 使用方法
-
 1. 在 Application 的 onCreate() 中初始化。
-
 ```java
-// 主进程初始化
-if (SessionWrapper.isMainProcess(this)) {
-	ClassroomManager.getInstance().init(this);
-}
+        // 主进程初始化
+        if (SessionWrapper.isMainProcess(this)) {
+            ClassroomManager.getInstance().init(this);
+        }
 ```
-
 2. 在 onTerminate() 中反初始化。
-
 ```java
-// 主进程反初始化
-if (SessionWrapper.isMainProcess(this)) {
-	ClassroomManager.getInstance().unInit();
-}
+        // 主进程反初始化
+        if (SessionWrapper.isMainProcess(this)) {
+            ClassroomManager.getInstance().unInit();
+        }
 ```
 
 #### 申请必要权限（Android 6.0 以上）
 Android 6.0 以上系统，拉起组件前，需动态申请麦克风录音、摄像头和写存储器权限。
-
 ```java
 Manifest.permission.RECORD_AUDIO
 Manifest.permission.CAMERA
 Manifest.permission.WRITE_EXTERNAL_STORAGE
 ```
 
-更多详情请参见 [请求应用权限](https://developer.android.com/training/permissions/requesting?hl=zh-cn)。
 #### 调起 SaaS 组件
-只需传递5个参数，即可调起 SaaS 组件主页面，分别为机构编码、课堂编码、用户 ID 、用户 Token 和用户 Sig。
-
+只需传递5个参数，即可调起 SaaS 组件主页面，分别为机构 ID、课堂 ID、用户 ID、用户 Token 和用户 Sig。
 ```java
     private void launchInActivity(int companyID, int classID, String userID, String userToken, String userSig) {
         Intent intent = new Intent(this, InClassActivity.class);
@@ -182,7 +171,6 @@ Manifest.permission.WRITE_EXTERNAL_STORAGE
 
 #### 全屏显示
 为了达到更好的视觉效果，推荐 App 使用全屏模式，如使用 NoActionBar 类主题：
-
 ```xml
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

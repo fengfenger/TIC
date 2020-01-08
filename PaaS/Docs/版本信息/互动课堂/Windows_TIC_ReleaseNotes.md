@@ -1,5 +1,10 @@
 # TIC Release Notes - Windows
 
+## 2020.01.08
+- 更新IMSDK 4.6.51
+- 更新TRTC 6.8.0.7998
+- 更新TEduBoard 2.4.1.64
+
 ## 2019.10.30
 - 更新白板SDK 2.3.5.27
 

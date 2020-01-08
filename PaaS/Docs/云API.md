@@ -289,30 +289,28 @@
 | 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
 | :------ | :--- | :---- | :--------: | :-----: |
 | teacher_id | string | 教师 ID | 是 | - |
-| assistant_id | string | 助教ID | 否 | - |
+| assistant_id | string | 助教 ID | 否 | - |
 | class_topic | string | 课堂主题/课堂名字 | 否 | 课堂 ID 的字符串形式 |
-| class_type | string | 课堂类型，详情参考附录 | 否 | `public` |
 | start_time | int64 | 课堂预计开始时间戳 | 否 | 约课时的时间 | 
 | stop_time | int64 | 课堂预计结束时间戳 | 否 | start_time + 2小时 |
 | password | string  | 进房密码 | 否 | |
 | admin_id | string | 即时通信 IM 管理员 ID，互动课堂用它来创建 IM 群组 | 否 | - |
 | admin_sig | string | 即时通信 IM 管理员 Sig，互动课堂用它来创建 IM 群组 | 否 | - |
 | settings | settings | 课堂配置信息 | 否 |- |
-| resolution | string | 设置课堂的分辨率（320x240/800x600/1024x768)  | 否 | 1024x768 |
+| resolution | string | 设置课堂的分辨率（320x240/800x600/1024x768）  | 否 | 1024x768 |
 | fps | int | 设置课堂的帧率| 否 | 15 |
-| auto_create_im | int | 是否由后台创建并管理 IM 群组，并记录 IM 历史消息（0- 不创建/1- 创建） 若要开启服务端录制则改字段必填为1| 否 | 1 |
-| record_types | Array | 字符串数组，选定录制类型，如果填写了`remote`，<br> 在开始上课时，会自动开启服务端录制 | 否 | local | 
+| auto_create_im | int | 是否由后台创建并管理 IM 群组，并记录 IM 历史消息（0-不创建/1-创建），若要开启服务端录制则改字段必填为1| 否 | 1 |
+| record_types | Array | 字符串数组，选定录制类型，如果填写了`remote`，<br>在开始上课时，会自动开启服务端录制 | 否 | local | 
 | auto_open_mic  | int | 是否自动打开麦克风（0-不打开/1-打开）| 否 | 0 |
 | auto_open_camera  | int | 是否自动打开摄像头（0-不打开/1-打开）| 否 | 0 |
-| enable_all_silence  | int | 是否开启了全员禁言(0-否/1-是)| 否 | 0 |
+| enable_all_silence  | int | 是否开启了全员禁言（0-否/1-是）| 否 | 0 |
 | bitrate | int | 设置课堂的码率| 否 | 850 |
-| layout | int | 课堂的布局风格（具体参见Layout附录）| 否 | 0 |
+| layout | int | 课堂的布局风格（具体参见 Layout 附录）| 否 | 0 |
 | members | Array | 课堂预约成员列表 | 否 |  教师 ID 默认在成员列表中 |
 | role | string | 角色信息，本接口中全部填“student”。需要设置 members 时此字段必填 | 否 | - |
 | user_id | string | 学生 ID。需要设置 members 时此字段必填 | 否 | - |
 | max_member_limit | int |最大上麦人数| 否 | - |
-|max_member_num|int|课堂允许进入的最大人数,0表示无限制|否|false|
-| class_live_type | string | 直播类型,详情参考附录 | 否 | - |
+|max_member_num|int|课堂允许进入的最大人数，0表示无限制|否|false|
 
 #### 响应参数
 
@@ -331,7 +329,6 @@
   "teacher_id":"user_00",
   "assistant_id":"user_01",
   "class_topic": "课堂主题",
-  "class_type":"public",
   "start_time": 1558350988,
   "stop_time": 1558350988,
   "admin_id":"即时通信IM管理员ID",
@@ -485,7 +482,7 @@
 | record_types | Array | 字符串数组，选定录制类型，如果填写了`remote`，在开始上课时，会自动开启云端录制 | 是 | - | 
 | auto_open_mic  | int | 是否自动打开麦克风（0-不打开/1-打开）| 否 | 0 |
 | auto_open_camera  | int | 是否自动打开摄像头（0-不打开/1-打开）| 否 | 0 |
-| enable_all_silence  | int | 是否开启了全员禁言(0-否/1-是)| 否 | 0 |
+| enable_all_silence  | int | 是否开启了全员禁言（0-否/1-是）| 否 | 0 |
 | bitrate | int | 设置课堂的码率| 否 | 850 |
 | layout | int | 课堂的布局风格（具体参见附录）| 否 | 0 |
 | members | Array | 课堂预约成员列表 | 是 | - |
@@ -558,7 +555,6 @@
 | user_id | string | 如果设置了 user_id 参数，则只查询 user_id 所在的课堂列表 | 否 | 空字符串|
 | create_time_desc | bool | 是否按创建课堂时间倒序拉取 true-倒序/false-升序| 是 | true |
 | class_status | Array  | 课堂的状态，默认拉取所有课堂；不传此字段或字段是空数组，也是拉取所有课堂 | 否 | ["will","ing","end"] |
-| class_type | Array  | 课堂的类型，默认拉取所有课堂；不传此字段或字段是空数组，也是拉取所有课堂 | 否 | ["public","1v1","1vN"] |
 
 
 #### 响应参数
@@ -579,8 +575,7 @@
   "size":20,
   "user_id":"",
   "create_time_desc":true,
-  "class_status": ["will","ing","end"],
-  "class_type":["1vN"]
+  "class_status": ["will","ing","end"]
 }
 ```
 响应：
@@ -700,7 +695,7 @@
 | doc_url | string  | 原课件文档上传到腾讯云 COS 后，生成下载 URL | 是 | - |
 | doc_name | string | 文档名（不包含扩展） | 否 | 空字符串 |
 | doc_ext | string  | 文档的扩展名，如 ppt | 否 | 空字符串 |
-| doc_size | int | 文档大小，单位：Byte ，需填文件的真实大小，不填则认为是0| 否 | 0 |
+| doc_size | int | 文档大小，单位：Byte，需填文件的真实大小，不填则认为是0| 否 | 0 |
 | doc_md5 | int | 文档的 md5 | 否 | 空字符串 |
 | permission | string | 文档权限 public-公开（所有人可以查看）/private-私有（只有自己可以查看）| 否 | private |
 | is_transcode | bool | 是否需要 H5 转码（true-转码/false-不转码），如果需要此功能，需联系我们开通白名单，凡是需要在白板区域展示的文件都需要转码 | 否 | false|
@@ -919,7 +914,7 @@
 | 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
 | :------ | :--- | :---- | :--------: | :-----: |
 | event | string | 事件名称 | 是 | - |
-| data | Object | 具体回调事件对应的的数据 | 是 | - |
+| data | Object | 具体回调事件对应的数据 | 是 | - |
 
 #### 响应参数
 用户业务后台返回的响应包体。
@@ -1189,6 +1184,9 @@ quit_class
 | project_id | int | 企业腾讯云账号下的项目 ID（需要 ai 功能时才设置） | 否 | - |
 | secret_id | string | 企业腾讯云账号下的密钥 ID（需要 ai 功能时才设置）| 否 | - |
 | secret_key | string | 企业腾讯云账号下的密钥 key（需要 ai 功能时才设置） | 否 | - |
+| im_admin | string | 企业腾讯云账号im的管理员账号 | 否 | - |
+| private_key | string | 企业腾讯云账号im的密钥 key | 否 | - |
+
 | call_back_url | string | 接收互动课堂的事件回调地址 | 否 | - |
 
 #### 响应参数
@@ -1399,11 +1397,14 @@ quit_class
 | error_code | int | 错误码，0-成功/非0-失败 | 是 | - |
 | error_msg | string | 错误信息 | 是 | - |
 | role | string | 成员在本课堂中的角色 | 是 | - |
-|history_camera|int|用户在该课堂上一次摄像头的状态（0：关闭，1：打开，-1：未知）|是|-1
-|history_mic|int|用户在该课堂上一次麦克风的状态（0：关闭，1：打开，-1：未知）|是|-1
-|history_speaker|int|用户在该课堂上一次扬声器的状态（0：关闭，1：打开，-1：未知）|是|-1
+|history_camera|int|用户在该课堂上一次摄像头的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
+|history_mic|int|用户在该课堂上一次麦克风的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
+|history_speaker|int|用户在该课堂上一次扬声器的状态（0：关闭，1：打开，-1：未知）|是（已废弃）|-1
 |history_silence|int|用户在该课堂上一次禁言状态（0：未禁言，1：禁言，-1：未知）|是|-1
-|history_hand_up|int|用户在该课堂上一次举手状态（0：未举手，1：举手，-1：未知）|是|-1
+|history_hand_up|int|用户在该课堂上一次举手状态（0：未举手，1：举手，-1：未知）|是（已废弃）|-1
+|history_enable_draw|int|用户在该课堂上一次授权状态（0：未授权，1：授权，-1：未知）|是（已废弃）|-1
+|member_permission_list|int|摄像头麦克风权限列表|是|
+
 
 #### 举例
 请求：
@@ -1427,7 +1428,14 @@ quit_class
 	"history_mic":0,
 	"history_speaker":0,
 	"history_silence":0,
-	"history_hand_up":0
+	"history_hand_up":0,
+	"member_permission_list": [
+    {
+      "user_id": "xkazer",
+      "camera": 1,
+      "mic": 1
+    }
+  ]
 }
 ```
 
@@ -1621,7 +1629,7 @@ quit_class
 |history_speaker|int|用户在该课堂上一次扬声器的状态（0：关闭，1：打开，-1：未知）|是|-1
 |history_silence|int|用户在该课堂上一次禁言状态（0：未禁言，1：禁言，-1：未知）|是|-1
 |history_hand_up|int|用户在该课堂上一次举手状态（0：未举手，1：举手，-1：未知）|是|-1
-|history_enable_draw|int|用户在该课堂上一次交互授权状态 (0:未授权 1:授权 -1:未知)|是|-1
+|history_enable_draw|int|用户在该课堂上一次交互授权状态（0：未授权，1：授权，-1：未知）|是|-1
 
 #### 举例
 请求：
@@ -1696,6 +1704,73 @@ quit_class
     "total":20
 }
 ```
+
+## 录制模块
+
+### 获取本地录制列表
+#### 接口
+- 接口名称：`/localrecord/query`
+- 接口方法：`POST`
+- Content-Type：`application/json`
+- 接口 URL：`https://iclass.api.qcloud.com/paas/v1/localrecord/query?公共参数`
+
+#### 请求参数
+
+| 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
+| :------ | :--- | :---- | :--------: | :-----: |
+| class_id | int | 课堂 ID | 是 | 0
+| user_id | string | 录制用户id | 否 | 0
+| task_id | string | 录制任务id，本地录制拼接成功返回给客户端的id | 否 | 0
+| Index | int | 分页拉取时，页面起始数据位置 | 是 | 0
+| size | int | 分页拉取时，页面数据个数 | 是 | 0
+
+
+#### 响应参数
+
+| 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
+| :------ | :--- | :---- | :--------: | :-----: |
+| error_code | int | 错误码，0-成功/非0-失败 | 是 | - |
+| error_msg | string | 错误信息 | 是 | - |
+| finish | bool | 是否拉取完 | 是 | - |
+| total | string | 录制文件总数 | 是 | - |
+| record_info_list | array | 录制文件列表 | 是 | - |
+
+
+#### 举例
+请求：
+```json
+{
+	"class_id":1212,
+	"user_id":"",
+	"task_id":"",
+	"Index":0,
+	"size":2
+}
+```
+响应：
+```
+{
+    "error_code": 0,
+    "error_msg": "",
+    "finish": true,
+    "total": 1,
+    "record_info_list": [
+        {
+            "RoomId": 1212,
+            "UserId": "eric",
+            "TaskId": "1257307760-EditMedia-fbd05676116bb6297f8c5162ec54ef93t0",
+            "StartTime": 0,
+            "SplicTime": 1574408606,
+            "VideoOutputType": "mp4",
+            "VideoOutputId": "5285890796076789146",
+            "VideoOutputUrl": "http://1257307760.vod2.myqcloud.com/5f5371a5vodgzp1257307760/2d508f205285890796076789146/playlist.f9.mp4",
+            "VideoOutputSize": 0,
+            "VideoOutputDuration": 0
+        }
+    ]
+}
+```
+
 ## 附录
 
 ### 附录1：API 公共参数
@@ -1725,9 +1800,10 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 1. 当前时间戳是`1548247717`。
 2. 签名有效时间是120秒，则过期时间戳是`1548247717+120=1548247837`。
 3. `tic_key` 是 `DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU`。
-4. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
-5. 在请求体中，带上 expire_time 字段，值为`1548247837`。
-6. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
+4. 将过期时间拼在tic_key后面DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837
+5. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
+6. 在请求体中，带上 expire_time 字段，值为`1548247837`。
+7. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
 
 ### 附录3：常量类型枚举值
 #### 附录3.1 角色-role
@@ -1785,15 +1861,8 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | ing | string | 进行中的课堂|
 | will | string | 未开始的课堂|
 
-#### 附录3.5 课堂类型-class_type
 
-| 常量值 | 类型 | 描述 |
-| -- | -- | -- |
-| public | string | 公开课（所有人都可以进入） |
-| 1v1 | string | 1v1课堂（只有指定的预约成员可以进入） |
-| 1vN | string | 1vN小班课（只有指定的预约成员可以进入） |
-
-#### 附录3.6 设备开关
+#### 附录3.5 设备开关
 设备包括：camera、mic、speaker 等。
 
 | 常量值 | 类型 | 描述 |
@@ -1801,21 +1870,21 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | 0 | int | 关闭 |
 | 1 | int | 打开 |
 
-#### 附录3.7 禁言-silence
+#### 附录3.6 禁言-silence
 
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | 0 | int | 畅聊 |
 | 1 | int | 禁言 |
 
-#### 附录3.8 性别-gender
+#### 附录3.7 性别-gender
 
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | male | string | 男 |
 | female | string | 女 |
 
-#### 附录3.9 事件上报-event
+#### 附录3.8 事件上报-event
 
 | 常量值 | 类型 |描述 |
 | :-----  | :--- | :---- |
@@ -1850,43 +1919,38 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | media_close | string | 停止播片 |
 | packet_loss_mutation |  string | 丢包突变 |
 | rate_mutation |  string | 码率突变 |
-#### 附录3.10 直播类型-class_live_type
-设置该参数，在上课后可看到直播视频
-| 常量值 | 类型 | 描述 |
-| -- | -- | -- |
-| close | string | 关闭 |
-| window | string | 窗口分享 |
-| board | string | 白屏分享 |
+
 ### 附录4: 用户头像规则
 如果没有设置用户头像，互动课堂后台会随机设置一个默认的头像
 
 | 格式 | 大小 |
 | :-----  | :--- |
 | jpg、png | 小于100KB，400x400 |
-### 附录5: 错误码
 
-#### 5.1 公共错误码
+### 附录5：错误码
+
+#### 附录5.1 公共错误码
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 0 | 处理成功 |
 | -1 | 通用错误码 |
-| 10000 | 解析失败(解析url/解析body字段) |
+| 10000 | 解析失败（解析 url/解析 body 字段） |
 | 10001 | 序列化失败 |
 | 10002 | 反序列化失败 |
 | 10003 | 参数无效 |
 | 10005 | 读取请求包体失败 |
 
 
-#### 5.2 SaaS后台通用
+#### 附录5.2 SaaS 后台通用
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10200 | 加密失败 |
 | 10201 | 解密失败 |
-| 10202 | 操作DB失败 |
+| 10202 | 操作 DB 失败 |
 | 10203 | 权限不足（普通用户操作了管理员的接口等） |
 
 
-#### 5.3 用户
+#### 附录5.3 用户
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10210 | 注册失败 |
@@ -1895,55 +1959,55 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 | 10213 | 游客账号获取失败 |
 | 10214 | 用户重复 |
 | 10215 | 用户不存在 |
-| 10216 | Token过期 |
-| 10217 | Sign鉴权失败 |
-| 10218 | 登陆密码错误 |
+| 10216 | Token 过期 |
+| 10217 | Sign 鉴权失败 |
+| 10218 | 登录密码错误 |
 
 
-#### 5.4 课堂
+#### 附录5.4 课堂
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10220 | 获取课程表失败 |
 | 10221 | 没有任何课程 |
-| 10222 | 生成课堂id失败 |
+| 10222 | 生成课堂 ID 失败 |
 | 10223 | 更新/删除课堂信息失败，课堂正在进行 |
 | 10224 | 由于课堂已结束导致无法加入课堂 |
 | 10225 | 课堂密码错误 |
 
 
-#### 5.5 成员
+#### 附录5.5 成员
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10230 | 课堂不存在 |
 
 
-#### 5.6 课件
+#### 附录5.6 课件
 | 错误码 | 含义说明 |
 | :--- | :--- |
-| 10240 | 生成课件id失败 |
+| 10240 | 生成课件 ID 失败 |
 
 
-#### 5.7  转码
+#### 附录5.7 转码
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10250 | 创建转码任务失败 |
 
 
-#### 5.8  企业
+#### 附录5.8 企业
 | 错误码 | 含义说明 |
 | :--- | :--- |
 | 10270 | 企业不存在 |
 
 
-#### 5.9  IM后台
+#### 附录5.9 IM 后台
 | 错误码 | 含义说明 |
 | :--- | :--- |
-| 10280| 创建IM群组失败 |
+| 10280| 创建 IM 群组失败 |
 
-#### 附录6 布局类型-Layout
+### 附录6：布局类型-Layout
 
 | 常量值 | 类型 | 描述 |
 | -- | -- | -- |
 | 0 | int | 未设置布局|
-| 1 | int | 1-2路视频布局|
-| 2 | int | 6路视频布局 |
+| 1 | int | 竖屏|
+| 2 | int | 横屏 |
