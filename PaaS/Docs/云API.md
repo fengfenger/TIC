@@ -1800,9 +1800,10 @@ https://iclass.api.qcloud.com/paas/v1/class/create?sdkappid=1400127140&random=37
 1. 当前时间戳是`1548247717`。
 2. 签名有效时间是120秒，则过期时间戳是`1548247717+120=1548247837`。
 3. `tic_key` 是 `DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU`。
-4. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
-5. 在请求体中，带上 expire_time 字段，值为`1548247837`。
-6. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
+4. 将过期时间拼在tic_key后面DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837
+5. `sign=md5(DzXpbluRsmo1JkoFxzKMNg5ifrA4GRlU1548247837)=28374bd8cff400ac4906414780fbe387`。
+6. 在请求体中，带上 expire_time 字段，值为`1548247837`。
+7. 在请求 url 的参数中，带上`sign=28374bd8cff400ac4906414780fbe387`。
 
 ### 附录3：常量类型枚举值
 #### 附录3.1 角色-role
