@@ -27,7 +27,7 @@ Intel i5-3330级别 鲁大师cpu跑分42000以上 6路视频时分辨率推荐32
 #### 加入课堂的方式
 1. **通过管理员分享的链接加入课堂**
 界面展示如下：
-![](https://main.qcloudimg.com/raw/81d91935156c36a5475bab2df46b7546.png)
+![](https://main.qcloudimg.com/raw/5dbdc1aedc3b91b412acc76559a0a5c1.png)
 加入课堂时需要输入【用户名】、【密码】两个要素：
 <table>
 <tr>
