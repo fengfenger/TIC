@@ -18,6 +18,7 @@ BEGIN_MESSAGE_MAP(CPushDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_EXIT, &CPushDlg::OnBnClickedBtnExit)
 	ON_BN_CLICKED(IDC_BTN_PAUSE_RESUME2, &CPushDlg::OnBnClickedBtnPauseResume2)
 	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CPushDlg::OnBnClickedCheckEnablePause)
+	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CPushDlg::OnBnClickedBtnRefresshResult)
 END_MESSAGE_MAP()
 
 CPushDlg::CPushDlg(CWnd* pParent)
@@ -34,8 +35,6 @@ BOOL CPushDlg::OnInitDialog()
 	mListRecord.InsertColumn(0, _T("课堂号"), LVCFMT_LEFT, 80);
 	mListRecord.InsertColumn(1, _T("文件名"), LVCFMT_LEFT, 100);
 	mListRecord.InsertColumn(2, _T("时长"), LVCFMT_LEFT, 72);
-
-	getRecord();
 
 	return TRUE;
 }
@@ -220,8 +219,9 @@ void CPushDlg::resumeRecord() {
 }
 
 void  CPushDlg::getRecord() {
+	int appid = Config::GetInstance().SdkAppId();
 	std::string userid = theApp.getUserId();
-	const RecordKey key = RecordKey(0, userid, std::string(""));
+	const RecordKey key = RecordKey(appid, 0, std::string(""), std::string(""));
 	std::weak_ptr< CPushDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->getRecordResult(key, [this, weakSelf](TICModule module, int code, const char *desc) {
 		std::shared_ptr<CPushDlg> self = weakSelf.lock();
@@ -286,4 +286,10 @@ void CPushDlg::OnBnClickedCheckEnablePause()
 	else {
 		resumeRecord();
 	}
+}
+
+
+void CPushDlg::OnBnClickedBtnRefresshResult()
+{
+	getRecord();
 }

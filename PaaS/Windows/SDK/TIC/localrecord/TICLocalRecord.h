@@ -24,11 +24,13 @@ struct TEduRecordAuthParam {
 
 struct RecordKey {
 	RecordKey() {}
-	RecordKey(int classid, std::string& userid, std::string& taskid) {
+	RecordKey(int appid, int classid, std::string& userid, std::string& taskid) {
+		this->appid = appid;
 		this->class_id = classid;
 		this->user_id = userid;
 		this->task_id = taskid;
 	}
+	int appid = 0;
 	int class_id = 0;	  //不填写，表示全部
 	std::string user_id;  //不填写，表示全部
 	std::string task_id; //不填写，表示全部

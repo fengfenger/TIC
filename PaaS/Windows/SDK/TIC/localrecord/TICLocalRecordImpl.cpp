@@ -3,9 +3,47 @@
 #include<stdio.h>
 #include "TICLocalRecordImpl.h"
 #include "../jsoncpp/json.h"
+#include "md5.h"
+#include <strstream>
+#include <iomanip>
+#include <algorithm>
+#include <chrono>
+#include <time.h>
+
 
 const std::string RecordExe = "TXCloudRecord.exe";
 const std::string URL = "http://127.0.0.1:37604/localrecord/v1/";
+
+
+std::string getMD5(std::string src)
+{
+	unsigned char fingerPrintStableMD5[MD5_RESULT_LEN] = { 0 };
+	char* stableStr = const_cast<char*>(src.c_str());
+	TenMd5(reinterpret_cast<unsigned char*>(stableStr), src.size(), fingerPrintStableMD5);
+
+	std::strstream sstream;
+	for (int i = 0; i < MD5_RESULT_LEN; ++i)
+	{
+		sstream << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << static_cast<int>(fingerPrintStableMD5[i]);
+	}
+
+	std::string result;
+	sstream >> result;
+
+	std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+	return result;
+}
+
+/**
+*单位：毫秒
+*/
+uint64_t txf_getutctick() {
+#if defined(_WIN32)
+	return (uint64_t)std::chrono::system_clock::now().time_since_epoch().count() / 10000;  // Windows要求除10000（神奇）
+#else
+	return (uint64_t)std::chrono::system_clock::now().time_since_epoch().count() / 1000;
+#endif
+}
 
 TICLocalRecorderImpl::TICLocalRecorderImpl() {
 }
@@ -17,18 +55,9 @@ TICLocalRecorderImpl::~TICLocalRecorderImpl() {
 }
 
 
-int TICLocalRecorderImpl::startService() {
+bool TICLocalRecorderImpl::startService(const std::string& path) {
 	BOOL ret = FALSE;
-
 	std::string cmd = "";
-
-	char szFilePath[MAX_PATH + 1] = { 0 };
-	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
-	(strrchr(szFilePath, '\\'))[0] = 0;
-	std::string path = szFilePath;
-	path.append("\\..\\..\\SDK\\TIC\\localrecord\\lib\\");
-	path.append(RecordExe);
-	//path.append("../");
 
 	SHELLEXECUTEINFOA sei = { 0 };
 	sei.cbSize = sizeof(SHELLEXECUTEINFOA);
@@ -55,7 +84,14 @@ int TICLocalRecorderImpl::startService() {
 int TICLocalRecorderImpl::init(const TEduRecordAuthParam& authParam, TICCallback callback) {
 	mAuth = authParam;
 
-	startService();
+	char szFilePath[MAX_PATH + 1] = { 0 };
+	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
+	(strrchr(szFilePath, '\\'))[0] = 0;
+	std::string path = szFilePath;
+	path.append("\\..\\..\\SDK\\TIC\\localrecord\\lib\\");
+	path.append(RecordExe);
+
+	startService(path);
 
 	Json::Value value;
 	value["SdkAppId"] = authParam.appId;
@@ -125,27 +161,34 @@ int TICLocalRecorderImpl::getState(TICCallback callback) {
 }
 
 int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback callback) {
-	if (mAuth.appId == 0 || mAuth.userId.empty() || mAuth.userSig.empty()) {
+	if (key.appid == 0) {
 		printf("user info error");
 		return -1;
 	}
 
-	const char* URL = "https://yun.tim.qq.com/v4/ilvb_edusaas/v1/localrecord/query?sdkappid=%d&user_id=%s&token=%s&random=%d";
+	const char* URL = "https://iclass.api.qcloud.com/paas/v1/localrecord/query?sdkappid=%d&sign=%s&expire_time=%d&random=%d";
 	char httpsUrl[1024] = { 0 };
 	int random = std::rand();
-	sprintf(httpsUrl, URL, mAuth.appId, mAuth.userId.c_str(), mAuth.userSig.c_str(), random);
+	uint64_t expire_time = txf_getutctick() / 1000 + 60 * 5; //
+	std::string sign = getMD5("pStYbp1uoC60rSuGhT364AKP4sbJ0Pax" + std::to_string(expire_time));
+
+	sprintf(httpsUrl, URL, key.appid, sign.c_str(), expire_time, random);
 
 	Json::Value value;
-	if (key.class_id != 0) {
-		value["class_id"] = key.class_id;
-	}
-	if (!key.user_id.empty()) {
+	//if (key.class_id != 0) {
+		value["class_id"] =13582;
+//	}
+//	if (!key.user_id.empty()) {
 		value["user_id"] = key.user_id;
-	}
-	if (!key.task_id.empty()) {
+//	}
+//	if (!key.task_id.empty()) {
 		value["task_id"] = key.task_id;
-	}
+//	}
+
+		value["Index"] = 0;
 	
+		value["size"] = 10;
+
 	Json::FastWriter writer;
 	std::string msg = writer.write(value);
 

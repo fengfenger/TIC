@@ -25,7 +25,7 @@ protected:
 	int getState(TICCallback callback);
 	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
 	void sendRequest(const std::wstring& cmd, const std::string& reqBody, const TICCallback callback);
-	int startService();
+	bool startService(const std::string& path);
 	void StartTimer();
 	void StopTimer();
 	void onTimer();

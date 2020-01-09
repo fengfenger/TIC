@@ -52,4 +52,5 @@ public:
 	afx_msg void OnBnClickedBtnPauseResume2();
 	afx_msg void OnBnClickedCheckEnablePause();
 
+	afx_msg void OnBnClickedBtnRefresshResult();
 };
