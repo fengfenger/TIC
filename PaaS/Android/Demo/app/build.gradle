@@ -1,26 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.3"
-
-    defaultConfig {
-        applicationId "com.tencent.tic.demo"
-        minSdkVersion 17
-        targetSdkVersion 26
-        versionCode 1
-        versionName "$System.env.MajorVersion-$System.env.MinorVersion-$System.env.FixVersion-$System.env.BuildNo"
-        multiDexEnabled false
-        ndk {
-            abiFilters 'armeabi', 'armeabi-v7a'
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     signingConfigs {
         release {
@@ -34,37 +16,54 @@ android {
     packagingOptions {
         exclude '*.apk'
     }
-    //使用aar
-    repositories {
-        flatDir {
-            dirs 'libs'
+
+    defaultConfig {
+        applicationId "com.tencent.tic.demo"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 2
+        versionName "2.4.1"
+        multiDexEnabled false
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a'
         }
     }
-
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
+        }
+    }
+/*
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //这里修改apk文件名
+                def fileName = "TIC_Android.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+*/
     lintOptions {
         abortOnError false
     }
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26+'
-    compile 'com.android.support:support-compat:26+'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
-    // 教育白板
-//    compile(name: 'TEduBoardSdk-release', ext: 'aar')
-    compile ('com.tencent.teduboard:TEduBoardSdk:2.4.0.286')
-        //如果自已应用同时存在tbs库，请打开下面的注释，免重复
-//       {
-//           exclude group: 'com.tencent.smtt'
-//       }
-
-    //Trtc 音视频库，如果使用腾讯的云视频Trtc，则需要加上
-    compile 'com.tencent.liteav:LiteAVSDK_TRTC:6.7.7754'
-
-    //imsdk 消息通信库，如果使用腾讯的云通信Tim，则需要加上
-    //如果imsdk使用4.5以上版本，请搭配TEduBoardSdk:2.3.5.227及以上版本
-    compile 'com.tencent.imsdk:imsdk:4.6.1'
-
-    //http，board sdk 不依赖，根据项目自身需要使用
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    //TRTC
+    implementation 'com.tencent.liteav:LiteAVSDK_TRTC:6.8.7959'
+    //IMSDK
+    implementation 'com.tencent.imsdk:imsdk:4.6.54'
+    //TEduBoard
+    implementation 'com.tencent.teduboard:TEduBoardSdk:2.4.1.1'
+    //implementation project(':TEduBoardSdk')
 }
+
+

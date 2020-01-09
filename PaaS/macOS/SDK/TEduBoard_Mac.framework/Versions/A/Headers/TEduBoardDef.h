@@ -416,6 +416,15 @@ typedef NS_ENUM(NSInteger, TEduBoardH5FileStatus)
 - (void)onTEBSetBackgroundImage:(NSString *)url;
 
 /**
+ * @brief 添加图片元素回调
+ * @param url                调用SetBackgroundImage时传入的URL
+ *
+ * 只有本地调用addImageElement时会收到该回调
+ * 收到该回调表示背景图片已经上传或下载成功，并且显示出来
+*/
+- (void)onTEBAddImageElement:(NSString *)url;
+
+/**
  * @brief 设置白板背景H5状态改变回调
  * @param boardId      白板ID
  * @param url               白板图片URL
@@ -494,13 +503,13 @@ typedef NS_ENUM(NSInteger, TEduBoardH5FileStatus)
 
 /**
  * @brief 文件上传进度回调
- * @param fileId            正在上传的文件ID
- * @param currentBytes      当前已上传大小，单位bytes
- * @param totalBytes        文件总大小，单位bytes
+ * @param path                      正在上传的文件路径
+ * @param currentBytes     当前已上传大小，单位bytes
+ * @param totalBytes          文件总大小，单位bytes
  * @param uploadSpeed       文件上传速度，单位bytes
  * @param percent            文件上传进度，取值范围 [0, 1]
 */
-- (void)onTEBFileUploadProgress:(NSString *)fileId
+- (void)onTEBFileUploadProgress:(NSString *)path
                 currentBytes:(int)currentBytes
                   totalBytes:(int)totalBytes
                  uploadSpeed:(int)uploadSpeed
@@ -508,12 +517,12 @@ typedef NS_ENUM(NSInteger, TEduBoardH5FileStatus)
 
 /**
  * @brief 文件上传状态回调
- * @param fileId            正在上传的文件ID
- * @param status            文件上传状态
- * @param errorCode            文件上传错误码
+ * @param path                      正在上传的文件路径
+ * @param status                 文件上传状态
+ * @param errorCode         文件上传错误码
  * @param errorMsg            文件上传错误信息
 */
-- (void)onTEBFileUploadStatus:(NSString *)fileId
+- (void)onTEBFileUploadStatus:(NSString *)path
                    status:(TEduBoardUploadStatus)status
                        errorCode:(int)errorCode
                     errorMsg:(NSString *)errorMsg;
