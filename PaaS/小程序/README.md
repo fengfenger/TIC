@@ -5,6 +5,7 @@
 > 受限于小程序的技术方案，webrtc-room + canvas方式能力欠缺，目前主推webrtc-room + webview方式
 
 两种方式能力对比：
+
 |      白板功能点         |     【webrtcroom + canvas方式】支持  | 【webrtcroom + webview方式】支持 | 说明 |
 | ------------------ | -------- |------|------|
 | 画笔 | ✔ |  ✔ | |
@@ -38,8 +39,8 @@
 ### 目录说明
 
 | 目录 | 说明  |
-| -------- | ------ | -------------- |
-| webrtc-room + canvas| webrtc-room + canvas的方式源码 | |
-| webrtc-room + webview  | webrtc-room + webview的方式源码 | |
-| - 小程序源码 | 小程序源码 | |
-| - webview链接页面源码 | webview链接页面源码 | |
+| -------- | ------ |
+| webrtc-room + canvas| webrtc-room + canvas的方式源码 |
+| webrtc-room + webview  | webrtc-room + webview的方式源码 |
+| - 小程序源码 | 小程序源码 |
+| - webview链接页面源码 | webview链接页面源码 |

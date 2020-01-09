@@ -1,6 +1,6 @@
 # Release Notes - Web
 
-## 2.4.1.1 @ 2020.01.08
+## 2.4.1 @ 2020.01.08
 
 - 接口变更
     - addImageElement支持添加本地图片
