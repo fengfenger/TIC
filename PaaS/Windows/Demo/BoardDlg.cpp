@@ -569,6 +569,10 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
 	DDX_Control(pDX, IDC_EDIT_ADD_H5, editAddH5_);
 	DDX_Control(pDX, IDC_EDIT_ADD_VIDEO, editAddVideo_);
+
+	DDX_Control(pDX, IDC_CHECK_ENABLE_PUSH, chkPushEnable_);
+	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
+	DDX_Control(pDX, IDC_CHECK_ENABLE_PAUSE, checkPaused_);
 }
 
 void CFileTabDlg::OnBnClickedBtnAddFile()
