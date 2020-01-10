@@ -20,7 +20,7 @@ public:
 #endif
 
 private:
-	void StartPlay();
+	void StartPlay(const std::string& url);
 	void StopPlay();
 	virtual BOOL OnInitDialog() override;
 	virtual void DoDataExchange(CDataExchange* pDX) override;

@@ -66,10 +66,10 @@ void CPushDlg::OnBnClickedCheckEnablePush()
 	}
 }
 
-void CPushDlg::StartPlay() {
+void CPushDlg::StartPlay(const std::string& url) {
 	HWND playView = GetDlgItem(IDC_PLAYER_RENDER)->m_hWnd;
 	mLivePlayer->setRenderFrame(playView);
-	mLivePlayer->startPlay("http://29734.liveplay.myqcloud.com/live/seventest.flv", PLAY_TYPE_LIVE_FLV);
+	mLivePlayer->startPlay(url.c_str(), PLAY_TYPE_LIVE_FLV);
 }
 
 void CPushDlg::StopPlay() {
@@ -210,73 +210,6 @@ void  CPushDlg::getRecord() {
 	});
 }
 
-void CPushDlg::parseRecordInfos(const char *desc) {
-	std::string rspBuf = desc;
-	Json::Value Val;
-	Json::Reader reader;
-	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
-		return;
-	}
-	mInfos.clear();
-	if (Val.isMember("record_info_list")) {
-		auto record_info_list = Val["record_info_list"];
-		if (record_info_list.isArray()) {
-
-			int size = record_info_list.size();
-
-			for (int i = 0; i < size; i++) {
-				RecordInfo info;
-				auto record = record_info_list[i];
-				if (record.isMember("RoomId")) {
-					info.RoomId = record["RoomId"].asLargestUInt();
-				}
-
-				if (record.isMember("StartTime")) {
-					info.StartTime = record["StartTime"].asLargestUInt();
-				}
-
-				if (record.isMember("UserId")) {
-					info.UserId = record["UserId"].asString();
-				}
-
-				if (record.isMember("VideoOutputDuration")) {
-					info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
-				}
-
-				if (record.isMember("VideoOutputUrl")) {
-					info.VideoOutputUrl = record["VideoOutputUrl"].asString();
-				}
-
-				if (record.isMember("VideoOutputSize")) {
-					info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
-				}
-
-				mInfos.push_back(info);
-			}
-		}
-	}
-}
-
-void CPushDlg::refreshRecordInfo() {
-	mListRecord.SetRedraw(FALSE);
-	mListRecord.DeleteAllItems();
-	
-	int size = mInfos.size();
-	for (uint32_t i = 0; i < size; ++i)
-	{
-		RecordInfo fileInfo = mInfos[i];
-		mListRecord.InsertItem(i, _T(""));
-		mListRecord.SetItemText(i, 0, a2w(fileInfo.VideoOutputUrl.c_str(), CP_UTF8).c_str());
-		mListRecord.SetItemText(i, 1, a2w(fileInfo.UserId.c_str(), CP_UTF8).c_str());
-		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration/60).c_str(), CP_UTF8).c_str());
-	}
-	if (size > 0) // 选中当前文件
-	{
-		mListRecord.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-		mListRecord.SetFocus();
-	}
-	mListRecord.SetRedraw(TRUE);
-}
 
 void CPushDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -337,4 +270,73 @@ void CPushDlg::OnBnClickedCheckEnablePause()
 void CPushDlg::OnBnClickedBtnRefresshResult()
 {
 	getRecord();
+}
+
+
+void CPushDlg::parseRecordInfos(const char *desc) {
+	std::string rspBuf = desc;
+	Json::Value Val;
+	Json::Reader reader;
+	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
+		return;
+	}
+	mInfos.clear();
+	if (Val.isMember("record_info_list")) {
+		auto record_info_list = Val["record_info_list"];
+		if (record_info_list.isArray()) {
+
+			int size = record_info_list.size();
+
+			for (int i = 0; i < size; i++) {
+				RecordInfo info;
+				auto record = record_info_list[i];
+				if (record.isMember("RoomId")) {
+					info.RoomId = record["RoomId"].asLargestUInt();
+				}
+
+				if (record.isMember("StartTime")) {
+					info.StartTime = record["StartTime"].asLargestUInt();
+				}
+
+				if (record.isMember("UserId")) {
+					info.UserId = record["UserId"].asString();
+				}
+
+				if (record.isMember("VideoOutputDuration")) {
+					info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
+				}
+
+				if (record.isMember("VideoOutputUrl")) {
+					info.VideoOutputUrl = record["VideoOutputUrl"].asString();
+				}
+
+				if (record.isMember("VideoOutputSize")) {
+					info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
+				}
+
+				mInfos.push_back(info);
+			}
+		}
+	}
+}
+
+void CPushDlg::refreshRecordInfo() {
+	mListRecord.SetRedraw(FALSE);
+	mListRecord.DeleteAllItems();
+	
+	int size = mInfos.size();
+	for (uint32_t i = 0; i < size; ++i)
+	{
+		RecordInfo fileInfo = mInfos[i];
+		mListRecord.InsertItem(i, _T(""));
+		mListRecord.SetItemText(i, 0, a2w(fileInfo.VideoOutputUrl.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 1, a2w(fileInfo.UserId.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration / 60).c_str(), CP_UTF8).c_str());
+	}
+	if (size > 0) // 选中当前文件
+	{
+		mListRecord.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		mListRecord.SetFocus();
+	}
+	mListRecord.SetRedraw(TRUE);
 }
