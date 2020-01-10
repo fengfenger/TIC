@@ -512,7 +512,7 @@ END_MESSAGE_MAP()
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
 	: CDialogEx(IDD_BOARD_TAB_FILE, pParent)
 {
-
+	mLocalRecorder = TICLocalRecorder::GetInstance();
 }
 
 void CFileTabDlg::UpdateFileList()
@@ -653,7 +653,7 @@ CBoardDlg::CBoardDlg(CWnd* pParent)
 	: CDialogEx(IDD_BOARD_DIALOG, pParent)
 	, histroySync_(false)
 {
-
+	fileTabDlg_ = std::make_shared<CFileTabDlg>();
 }
 
 void CBoardDlg::Init()
@@ -725,7 +725,7 @@ BOOL CBoardDlg::OnInitDialog()
 
 	drawTabDlg_.Create(IDD_BOARD_TAB_DRAW, &tabBoardCtrl_);
 	boardTabDlg_.Create(IDD_BOARD_TAB_BOARD, &tabBoardCtrl_);
-	fileTabDlg_.Create(IDD_BOARD_TAB_FILE, &tabBoardCtrl_);
+	fileTabDlg_->Create(IDD_BOARD_TAB_FILE, &tabBoardCtrl_);
 
 	//获取标签高度
 	CRect itemRect;
@@ -745,8 +745,8 @@ BOOL CBoardDlg::OnInitDialog()
 	boardTabDlg_.MoveWindow(&clientRect);
 	boardTabDlg_.ShowWindow(SW_HIDE);
 
-	fileTabDlg_.MoveWindow(&clientRect);
-	fileTabDlg_.ShowWindow(SW_HIDE);
+	fileTabDlg_->MoveWindow(&clientRect);
+	fileTabDlg_->ShowWindow(SW_HIDE);
 
 	UpdateUI();
 
@@ -832,7 +832,7 @@ void CBoardDlg::OnSize(UINT nType, int cx, int cy)
 
 		drawTabDlg_.MoveWindow(&clientRect);
 		boardTabDlg_.MoveWindow(&clientRect);
-		fileTabDlg_.MoveWindow(&clientRect);
+		fileTabDlg_->MoveWindow(&clientRect);
 	}
 
 	CDialogEx::OnSize(nType, cx, cy);
@@ -861,17 +861,17 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		drawTabDlg_.ShowWindow(SW_SHOW);
 		boardTabDlg_.ShowWindow(SW_HIDE);
-		fileTabDlg_.ShowWindow(SW_HIDE);
+		fileTabDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_SHOW);
-		fileTabDlg_.ShowWindow(SW_HIDE);
+		fileTabDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_HIDE);
-		fileTabDlg_.ShowWindow(SW_SHOW);
+		fileTabDlg_->ShowWindow(SW_SHOW);
 		break;
 	default:
 		break;
@@ -963,7 +963,7 @@ void CBoardDlg::onTEBInit()
 void CBoardDlg::onTEBHistroyDataSyncCompleted()
 {
 	histroySync_ = true;
-	fileTabDlg_.UpdateFileList();
+	fileTabDlg_->UpdateFileList();
 	boardTabDlg_.UpdateBoardList();
 	UpdateThumbnailImages();
 }
@@ -1005,7 +1005,7 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 		drawTabDlg_.UpdateBackgroundColor();
 		drawTabDlg_.UpdateBoardScale();
 
-		fileTabDlg_.UpdateFileList();
+		fileTabDlg_->UpdateFileList();
 
 		boardTabDlg_.UpdateBoardList();
 	}
@@ -1034,19 +1034,19 @@ void CBoardDlg::onTEBFileTranscodeProgress(const char *path, const char *errorCo
 
 void CBoardDlg::onTEBAddTranscodeFile(const char *fileId)
 {
-	if (histroySync_) fileTabDlg_.UpdateFileList();
+	if (histroySync_) fileTabDlg_->UpdateFileList();
 }
 
 void CBoardDlg::onTEBDeleteFile(const char * fileId)
 {
-	if (histroySync_) fileTabDlg_.UpdateFileList();
+	if (histroySync_) fileTabDlg_->UpdateFileList();
 }
 
 void CBoardDlg::onTEBSwitchFile(const char * fileId)
 {
 	if (histroySync_)
 	{
-		fileTabDlg_.UpdateFileList();
+		fileTabDlg_->UpdateFileList();
 		boardTabDlg_.UpdateBoardList();
 		UpdateThumbnailImages();
 	}
@@ -1259,7 +1259,7 @@ void CFileTabDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
 		CString text = mListRecord.GetItemText(index, 0);
 
 		std::string url = w2a(text.GetString()).c_str();
-		boardCtrl->SwitchFile(url.c_str());
+		boardCtrl->AddVideoFile(url.c_str());
 	}
 
 	*pResult = 0;

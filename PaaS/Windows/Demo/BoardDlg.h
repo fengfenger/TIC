@@ -273,5 +273,5 @@ private:
 	CTabCtrl tabBoardCtrl_;
 	CDrawTabDlg		drawTabDlg_;
 	CBoardTabDlg	boardTabDlg_;
-	CFileTabDlg		fileTabDlg_;
+	std::shared_ptr<CFileTabDlg>		fileTabDlg_;
 };
