@@ -14,6 +14,58 @@
 const std::string RecordExe = "TXCloudRecord.exe";
 const std::string URL = "http://127.0.0.1:37604/localrecord/v1/";
 
+struct BaseCallback{
+	BaseCallback(const TICCallback callback) { this->callback = callback; }
+	virtual void parse(const std::string& response, TICLocalRecorderImpl::Result& result) const {};
+	TICCallback callback;
+};
+
+class CmdCallback : public BaseCallback {
+public:
+	CmdCallback(const TICCallback callback) : BaseCallback(callback){ }
+	virtual void parse(const std::string& response, TICLocalRecorderImpl::Result& result) const override {
+		std::string rspBuf = response;
+		Json::Value Val;
+		Json::Reader reader;
+		if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
+			result.msg = std::string("parse json error :");
+			result.code = -1;
+			return;
+		}
+
+		if (Val.isMember("Response")) {
+			auto Response = Val["Response"];
+
+			if (Response.isMember("Error")) { //失败，错误返回
+				auto error = Response["Error"];
+				if (error.isMember("Code")) {
+					result.code = error["Code"].asInt();
+				}
+				if (error.isMember("Message")) {
+					result.msg = error["Message"].asString();
+				}
+			}
+			else {
+				result.code = 0;
+				result.msg = response;
+			}
+		}
+		else {
+			result.msg = std::string("invalid response");
+			result.code = -1;
+		}
+	}
+};
+
+class ServerCallback : public BaseCallback {
+public:
+	ServerCallback(const TICCallback callback) : BaseCallback(callback) { }
+
+	virtual void parse(const std::string& response, TICLocalRecorderImpl::Result& result) const override {
+		result.code = 0;
+		result.msg = response;
+	}
+};
 
 std::string getMD5(std::string src)
 {
@@ -166,13 +218,22 @@ int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback call
 		return -1;
 	}
 
-	const char* URL = "https://iclass.api.qcloud.com/paas/v1/localrecord/query?sdkappid=%d&sign=%s&expire_time=%d&random=%d";
+
 	char httpsUrl[1024] = { 0 };
+	
+	/* 
+	//服务器端正式的使用方式，如下
+	const char* URL = "https://iclass.api.qcloud.com/paas/v1/localrecord/query?sdkappid=%d&sign=%s&expire_time=%d&random=%d";
 	int random = std::rand();
 	uint64_t expire_time = txf_getutctick() / 1000 + 60 * 5; //
-	std::string sign = getMD5("pStYbp1uoC60rSuGhT364AKP4sbJ0Pax" + std::to_string(expire_time));
-
+	const std::string TICKey = "XXXXXXXXXXXXXXXXXXXX";
+	std::string sign = getMD5("TICKey" + std::to_string(expire_time));
 	sprintf(httpsUrl, URL, key.appid, sign.c_str(), expire_time, random);
+	*/
+
+	//为了对TIC KEY的保护，我们在客户端采取临时方式
+	const char* URL = "https://service-cmgleh9m-1257307760.gz.apigw.tencentcs.com/release/board_forward?sdkappid=%d";
+	sprintf(httpsUrl, URL, key.appid);
 
 	Json::Value value;
 	//if (key.class_id != 0) {
@@ -192,62 +253,41 @@ int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback call
 	Json::FastWriter writer;
 	std::string msg = writer.write(value);
 
-	sendRequest(HttpClient::a2w(httpsUrl), msg, callback);
+	ServerCallback* servercallback = new ServerCallback(callback);
+	sendRequest(HttpClient::a2w(httpsUrl), msg, servercallback);
 
 	return 0;
 }
 
 void TICLocalRecorderImpl::sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback) {
-	sendRequest(HttpClient::a2w(URL + cmd), content, callback);
+	CmdCallback* cmdcallbck = new CmdCallback(callback);
+	sendRequest(HttpClient::a2w(URL + cmd), content, cmdcallbck);
 }
 
-void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::string& reqBody, const TICCallback callback) {
-	if (!url.empty()) {
-		//std::weak_ptr<TICLocalRecorderImpl> weakThis = this->shared_from_this();
-		http.asynPost(url, reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBuf) {
-			//auto _this = weakThis.lock();
-			//if (!_this) return;
 
-			int result = 0;
-			std::string msg = "succ";
+
+void TICLocalRecorderImpl::sendRequest(const std::wstring& url, const std::string& reqBody, BaseCallback* mycallback) {
+	if (!url.empty()) {
+
+		http.asynPost(url, reqBody, [=](int code, const HttpHeaders& rspHeaders, const std::string& rspBuf) {
+			Result res(0, "succ");
 
 			if (code != 0) {
-				result = code;
-				msg = std::string("http request error :") ;
+				res.code = code;
+				res.msg = std::string("http request error ") ;
 				goto myEXIT;
 			}
 
-
-			{//解析回包
-				Json::Value Val;
-				Json::Reader reader;
-				if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
-					msg = std::string("parse json error :");
-					result = -1;
-					goto myEXIT;
-				}
-
-				if (Val.isMember("Response")) {
-					auto Response = Val["Response"];
-
-					if (Response.isMember("Error")) { //失败，错误返回
-						auto error = Response["Error"];
-						if (error.isMember("Code")) {
-							result = error["Code"].asInt();
-						}
-						if (error.isMember("Message")) {
-							msg = error["Message"].asString();
-						}
-					}
-					else {
-						msg = rspBuf;
-					}
-				}
+			if (mycallback) {
+				mycallback->parse(std::string(rspBuf), res);
 			}
 
 		myEXIT:
-			if (callback) {
-				callback(TICMODULE_RECORD, result, msg.c_str());
+			if (mycallback) {
+				if (mycallback->callback) {
+					mycallback->callback(TICMODULE_RECORD, res.code, res.msg.c_str());
+				}
+				delete mycallback;
 			}
 		});
 	}

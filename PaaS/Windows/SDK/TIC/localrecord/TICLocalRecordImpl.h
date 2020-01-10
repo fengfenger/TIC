@@ -8,6 +8,8 @@
 #include "TICLocalRecord.h"
 #include "../HttpClient.h"
 
+struct BaseCallback;
+
 class TICLocalRecorderImpl : public TICLocalRecorder, public std::enable_shared_from_this<TICLocalRecorderImpl> {
 public:
 	TICLocalRecorderImpl();
@@ -21,10 +23,21 @@ public:
 	virtual int exit(TICCallback callback) override;
 	virtual int getRecordResult(const RecordKey& key, TICCallback callback) override;
 
+	struct Result {
+		Result() {}
+		Result(int code, const std::string& msg) {
+			this->code = code;
+			this->msg = msg;
+		}
+		int code = 0;
+		std::string msg;
+	};
+
 protected:
 	int getState(TICCallback callback);
 	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
-	void sendRequest(const std::wstring& cmd, const std::string& reqBody, const TICCallback callback);
+	void sendRequest(const std::wstring& cmd, const std::string& reqBody, BaseCallback* mycallback);
+	void parseCmdResponse(const std::string& response, Result &result);
 	bool startService(const std::string& path);
 	void StartTimer();
 	void StopTimer();

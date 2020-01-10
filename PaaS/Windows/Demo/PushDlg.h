@@ -34,6 +34,24 @@ private:
 	void getRecord();
 	void exitRecord();
 
+	void parseRecordInfos(const char *desc);
+	void refreshRecordInfo();
+
+
+	struct RecordInfo {
+		uint32_t RoomId = 0;
+		uint64_t SplicTime = 0;
+		uint64_t StartTime = 0;
+		uint64_t VideoOutputDuration = 0;
+		uint64_t VideoOutputSize = 0;
+
+		std::string TaskId;
+		std::string UserId;
+		std::string VideoOutputId;
+		std::string VideoOutputType;
+		std::string VideoOutputUrl;
+	};
+
 protected:
 	ITXLivePlayer* mLivePlayer;
 	CButton chkPushEnable_;
@@ -41,6 +59,8 @@ protected:
 	TICLocalRecorder* mLocalRecorder;
 	bool mIsAuth = false;
 	CButton checkPaused_;
+	std::vector<RecordInfo> mInfos;
+
 public:
 	afx_msg void OnBnClickedChkEnableDraw();
 	afx_msg void OnBnClickedCheckEnablePush();
@@ -53,4 +73,7 @@ public:
 	afx_msg void OnBnClickedCheckEnablePause();
 
 	afx_msg void OnBnClickedBtnRefresshResult();
+
+
+
 };

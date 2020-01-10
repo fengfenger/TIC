@@ -32,8 +32,8 @@ BOOL CPushDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	mListRecord.InsertColumn(0, _T("课堂号"), LVCFMT_LEFT, 80);
-	mListRecord.InsertColumn(1, _T("文件名"), LVCFMT_LEFT, 100);
+	mListRecord.InsertColumn(0, _T("文件名"), LVCFMT_LEFT, 100);
+	mListRecord.InsertColumn(1, _T("录制人"), LVCFMT_LEFT, 80);
 	mListRecord.InsertColumn(2, _T("时长"), LVCFMT_LEFT, 72);
 
 	return TRUE;
@@ -80,31 +80,6 @@ void CPushDlg::StopPlay() {
 
 void CPushDlg::UpdateFileList()
 {
-	mListRecord.SetRedraw(FALSE);
-	mListRecord.DeleteAllItems();
-
-
-			/*
-			auto* fileList = boardCtrl->GetFileInfoList();
-
-			if (!fileList) return;
-			std::string curFileId = boardCtrl->GetCurrentFile();
-			for (uint32_t i = 0; i < fileList->GetCount(); ++i)
-			{
-				TEduBoardFileInfo fileInfo = fileList->GetFileInfo(i);
-				listFile_.InsertItem(i, _T(""));
-				listFile_.SetItemText(i, 0, a2w(fileInfo.fileId, CP_UTF8).c_str());
-				listFile_.SetItemText(i, 1, a2w(fileInfo.title, CP_UTF8).c_str());
-				listFile_.SetItemText(i, 2, (std::to_wstring(fileInfo.pageIndex + 1) + _T("/") + std::to_wstring(fileInfo.pageCount)).c_str());
-				if (curFileId == fileInfo.fileId) // 选中当前文件
-				{
-					listFile_.SetItemState(i, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
-					listFile_.SetFocus();
-				}
-			}
-			fileList->Release();
-			listFile_.SetRedraw(TRUE);
-			*/
 
 
 
@@ -229,8 +204,78 @@ void  CPushDlg::getRecord() {
 			return;
 
 		if (code == 0) {
+			self->parseRecordInfos(desc);
+			self->refreshRecordInfo();
 		}
 	});
+}
+
+void CPushDlg::parseRecordInfos(const char *desc) {
+	std::string rspBuf = desc;
+	Json::Value Val;
+	Json::Reader reader;
+	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
+		return;
+	}
+	mInfos.clear();
+	if (Val.isMember("record_info_list")) {
+		auto record_info_list = Val["record_info_list"];
+		if (record_info_list.isArray()) {
+
+			int size = record_info_list.size();
+
+			for (int i = 0; i < size; i++) {
+				RecordInfo info;
+				auto record = record_info_list[i];
+				if (record.isMember("RoomId")) {
+					info.RoomId = record["RoomId"].asLargestUInt();
+				}
+
+				if (record.isMember("StartTime")) {
+					info.StartTime = record["StartTime"].asLargestUInt();
+				}
+
+				if (record.isMember("UserId")) {
+					info.UserId = record["UserId"].asString();
+				}
+
+				if (record.isMember("VideoOutputDuration")) {
+					info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
+				}
+
+				if (record.isMember("VideoOutputUrl")) {
+					info.VideoOutputUrl = record["VideoOutputUrl"].asString();
+				}
+
+				if (record.isMember("VideoOutputSize")) {
+					info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
+				}
+
+				mInfos.push_back(info);
+			}
+		}
+	}
+}
+
+void CPushDlg::refreshRecordInfo() {
+	mListRecord.SetRedraw(FALSE);
+	mListRecord.DeleteAllItems();
+	
+	int size = mInfos.size();
+	for (uint32_t i = 0; i < size; ++i)
+	{
+		RecordInfo fileInfo = mInfos[i];
+		mListRecord.InsertItem(i, _T(""));
+		mListRecord.SetItemText(i, 0, a2w(fileInfo.VideoOutputUrl.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 1, a2w(fileInfo.UserId.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration/60).c_str(), CP_UTF8).c_str());
+	}
+	if (size > 0) // 选中当前文件
+	{
+		mListRecord.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		mListRecord.SetFocus();
+	}
+	mListRecord.SetRedraw(TRUE);
 }
 
 void CPushDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
