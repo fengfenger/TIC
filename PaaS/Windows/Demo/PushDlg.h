@@ -24,7 +24,6 @@ private:
 	void StopPlay();
 	virtual BOOL OnInitDialog() override;
 	virtual void DoDataExchange(CDataExchange* pDX) override;
-	void UpdateFileList();
 
 	void initRecord(int appid, const std::string& user, const std::string& sig);
 	void startRecord();
@@ -73,6 +72,7 @@ public:
 	afx_msg void OnBnClickedCheckEnablePause();
 
 	afx_msg void OnBnClickedBtnRefresshResult();
+	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
 
 
 

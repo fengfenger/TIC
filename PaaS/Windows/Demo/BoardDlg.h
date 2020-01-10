@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "..\SDK\TIC\localrecord\TICLocalRecord.h"
 
 enum class BoardState
 {
@@ -120,7 +121,7 @@ private:
 };
 
 //文件操作标签页
-class CFileTabDlg : public CDialogEx
+class CFileTabDlg : public CDialogEx, public std::enable_shared_from_this<CFileTabDlg>
 {
 	DECLARE_MESSAGE_MAP()
 public:
@@ -144,6 +145,53 @@ private:
 	afx_msg void OnBnClickedBtnAddH5();
 	afx_msg void OnBnClickedBtnAddVideo();
 
+	///
+
+	afx_msg void OnBnClickedCheckEnablePush();
+	afx_msg void OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedBtnInit();
+	afx_msg void OnBnClickedBtnExit();
+	afx_msg void OnBnClickedBtnPauseResume2();
+	afx_msg void OnBnClickedCheckEnablePause();
+
+	afx_msg void OnBnClickedBtnRefresshResult();
+	afx_msg void OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult);
+
+	void initRecord(int appid, const std::string& user, const std::string& sig);
+	void startRecord();
+	void stopRecord();
+	void pauseRecord();
+	void resumeRecord();
+	void getRecord();
+	void exitRecord();
+
+	void parseRecordInfos(const char *desc);
+	void refreshRecordInfo();
+
+
+	struct RecordInfo {
+		uint32_t RoomId = 0;
+		uint64_t SplicTime = 0;
+		uint64_t StartTime = 0;
+		uint64_t VideoOutputDuration = 0;
+		uint64_t VideoOutputSize = 0;
+
+		std::string TaskId;
+		std::string UserId;
+		std::string VideoOutputId;
+		std::string VideoOutputType;
+		std::string VideoOutputUrl;
+	};
+
+protected:
+	CButton chkPushEnable_;
+	CListCtrl mListRecord;
+	TICLocalRecorder* mLocalRecorder;
+	bool mIsAuth = false;
+	CButton checkPaused_;
+	std::vector<RecordInfo> mInfos;
 private:
 	CListCtrl listFile_;
 	CEdit	editAddH5_;

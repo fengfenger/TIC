@@ -19,6 +19,7 @@ BEGIN_MESSAGE_MAP(CPushDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_PAUSE_RESUME2, &CPushDlg::OnBnClickedBtnPauseResume2)
 	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CPushDlg::OnBnClickedCheckEnablePause)
 	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CPushDlg::OnBnClickedBtnRefresshResult)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CPushDlg::OnNMDbClkListFile)
 END_MESSAGE_MAP()
 
 CPushDlg::CPushDlg(CWnd* pParent)
@@ -78,12 +79,6 @@ void CPushDlg::StopPlay() {
 }
 
 
-void CPushDlg::UpdateFileList()
-{
-
-
-
-}
 
 void CPushDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
 	if (appid == 0 || user.empty() || sig.empty()) {
@@ -264,6 +259,25 @@ void CPushDlg::OnBnClickedCheckEnablePause()
 	else {
 		resumeRecord();
 	}
+}
+
+
+void CPushDlg::OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		POSITION pos = mListRecord.GetFirstSelectedItemPosition();
+		int index = mListRecord.GetNextSelectedItem(pos);
+		CString text = mListRecord.GetItemText(index, 0);
+
+		std::string url = w2a(text.GetString()).c_str();
+		boardCtrl->SwitchFile(url.c_str());
+	}
+
+	*pResult = 0;
 }
 
 
