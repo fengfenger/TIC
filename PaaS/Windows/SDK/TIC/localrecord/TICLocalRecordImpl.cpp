@@ -147,6 +147,9 @@ int TICLocalRecorderImpl::init(const TEduRecordAuthParam& authParam, TICCallback
 	std::string msg = writer.write(value);
 
 	sendCmd("Init", msg, callback);
+
+	StartTimer();
+
 	return 0;
 }
 
@@ -171,7 +174,6 @@ int TICLocalRecorderImpl::startLocalRecord(const TEduRecordParam& para, const ch
 		std::string msg = writer.write(value);
 
 		sendCmd("StartRecord", msg, callback);
-		StartTimer();
 
 		return 0;
 	}
@@ -181,7 +183,7 @@ int TICLocalRecorderImpl::startLocalRecord(const TEduRecordParam& para, const ch
 
 int TICLocalRecorderImpl::stopLocalRecord(TICCallback callback) {
 	sendCmd("StopRecord", std::string(), callback);
-	StopTimer();
+
 	return 0;
 }
 
@@ -196,7 +198,10 @@ int TICLocalRecorderImpl::resumeLocalRecord(TICCallback callback) {
 }
 
 int TICLocalRecorderImpl::exit(TICCallback callback) {
+	StopTimer();
+
 	sendCmd("Exit", std::string(), callback);
+
 	return 0;
 }
 
@@ -230,7 +235,7 @@ int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback call
 
 	Json::Value value;
 	//if (key.class_id != 0) {
-		value["class_id"] =13582;
+		value["class_id"] = key.class_id;
 //	}
 //	if (!key.user_id.empty()) {
 		value["user_id"] = key.user_id;
@@ -239,9 +244,9 @@ int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback call
 		value["task_id"] = key.task_id;
 //	}
 
-		value["Index"] = 0;
+		value["Index"] = key.index;
 	
-		value["size"] = 10;
+		value["size"] = key.size;
 
 	Json::FastWriter writer;
 	std::string msg = writer.write(value);
