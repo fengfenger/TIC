@@ -1194,8 +1194,13 @@ void  CFileTabDlg::getRecord() {
 			return;
 
 		if (code == 0) {
-			self->parseRecordInfos(desc);
-			self->refreshRecordInfo();
+			bool isFinished = false;
+			if (self->parseRecordInfos(desc, isFinished)) {
+				self->refreshRecordInfo();
+			}
+			else {
+				printf("获取列表失败.\n");
+			}			
 		}
 	});
 }
@@ -1281,13 +1286,19 @@ void CFileTabDlg::OnBnClickedBtnRefresshResult()
 }
 
 
-void CFileTabDlg::parseRecordInfos(const char *desc) {
+bool CFileTabDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
 	std::string rspBuf = desc;
 	Json::Value Val;
 	Json::Reader reader;
 	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
-		return;
+		return false;
 	}
+	if (Val.isMember("error_code")) {
+		int error_code = Val["error_code"].asInt();
+		if (error_code != 0)
+			return false;
+	}
+
 	mInfos.clear();
 	if (Val.isMember("record_info_list")) {
 		auto record_info_list = Val["record_info_list"];
@@ -1324,6 +1335,11 @@ void CFileTabDlg::parseRecordInfos(const char *desc) {
 
 				mInfos.push_back(info);
 			}
+		}
+
+		//标记列表是否拉取结束，如果结束后则不需要再拉取。
+		if (Val.isMember("finish")) {
+			listIsFinished = Val["finish"].asBool();
 		}
 	}
 }

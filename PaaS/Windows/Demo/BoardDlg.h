@@ -167,7 +167,7 @@ private:
 	void getRecord();
 	void exitRecord();
 
-	void parseRecordInfos(const char *desc);
+	bool parseRecordInfos(const char *desc, bool& listIsFinished);
 	void refreshRecordInfo();
 
 
