@@ -11,7 +11,7 @@
 #include <time.h>
 
 
-const std::string RecordExe = "TXCloudRecord.exe";
+
 const std::string URL = "http://127.0.0.1:37604/localrecord/v1/";
 
 struct BaseCallback{
@@ -136,14 +136,7 @@ bool TICLocalRecorderImpl::startService(const std::string& path) {
 int TICLocalRecorderImpl::init(const TEduRecordAuthParam& authParam, TICCallback callback) {
 	mAuth = authParam;
 
-	char szFilePath[MAX_PATH + 1] = { 0 };
-	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
-	(strrchr(szFilePath, '\\'))[0] = 0;
-	std::string path = szFilePath;
-	path.append("\\..\\..\\SDK\\TIC\\localrecord\\lib\\");
-	path.append(RecordExe);
 
-	startService(path);
 
 	Json::Value value;
 	value["SdkAppId"] = authParam.appId;

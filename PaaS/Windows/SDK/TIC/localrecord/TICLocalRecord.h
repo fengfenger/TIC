@@ -87,13 +87,19 @@ public:
 class TICLocalRecorder {
 public:
 	virtual ~TICLocalRecorder() {};
-
+	const std::string RecordExe = "TXCloudRecord.exe";
 public:
 
 	/**
 	* 获取TICLocalRecord单例对象
 	*/
 	static TICLocalRecorder* GetInstance();
+
+	/**
+	* 启动本地录制服务
+	* @param path 		录制服务的可执行文件exe路径
+	*/
+	virtual bool startService(const std::string& path) = 0;
 
 	/**
 	* 初始化

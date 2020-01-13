@@ -175,7 +175,7 @@ private:
 		uint32_t RoomId = 0;
 		uint64_t SplicTime = 0;
 		uint64_t StartTime = 0;
-		uint64_t VideoOutputDuration = 0;
+		uint64_t VideoOutputDuration = 0; //µ¥Î»ÊÇms
 		uint64_t VideoOutputSize = 0;
 
 		std::string TaskId;

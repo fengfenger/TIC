@@ -15,6 +15,7 @@ public:
 	TICLocalRecorderImpl();
 	TICLocalRecorderImpl(std::weak_ptr<TEduRecordCallback>  callback);
 	virtual ~TICLocalRecorderImpl();
+	bool startService(const std::string& path)override;
 	virtual int init(const TEduRecordAuthParam& authParam, TICCallback callback) override;
 	virtual int startLocalRecord(const TEduRecordParam& para, const char * szRecordPath, TICCallback callback) override;
 	virtual int stopLocalRecord(TICCallback callback) override;
@@ -37,8 +38,7 @@ protected:
 	int getState(TICCallback callback);
 	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
 	void sendRequest(const std::wstring& cmd, const std::string& reqBody, BaseCallback* mycallback);
-	void parseCmdResponse(const std::string& response, Result &result);
-	bool startService(const std::string& path);
+
 	void StartTimer();
 	void StopTimer();
 	void onTimer();

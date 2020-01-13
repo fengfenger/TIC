@@ -1072,6 +1072,15 @@ void CFileTabDlg::initRecord(int appid, const std::string& user, const std::stri
 		return;
 	}
 
+   //拉起服务和鉴权.
+	char szFilePath[MAX_PATH + 1] = { 0 };
+	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
+	(strrchr(szFilePath, '\\'))[0] = 0;
+	std::string path = szFilePath;
+	path.append("\\..\\..\\SDK\\TIC\\localrecord\\lib\\");
+	path.append(mLocalRecorder->RecordExe);
+	mLocalRecorder->startService(path);
+
 	TEduRecordAuthParam auth(appid, user, sig);
 
 	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
@@ -1330,7 +1339,7 @@ void CFileTabDlg::refreshRecordInfo() {
 		mListRecord.InsertItem(i, _T(""));
 		mListRecord.SetItemText(i, 0, a2w(fileInfo.VideoOutputUrl.c_str(), CP_UTF8).c_str());
 		mListRecord.SetItemText(i, 1, a2w(fileInfo.UserId.c_str(), CP_UTF8).c_str());
-		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration / 60).c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration / 1000).c_str(), CP_UTF8).c_str());
 	}
 	if (size > 0) // 选中当前文件
 	{
