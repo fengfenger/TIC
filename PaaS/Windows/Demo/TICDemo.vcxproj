@@ -226,7 +226,6 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
     <ClInclude Include="..\SDK\TIC\HttpClient.h" />
     <ClInclude Include="..\SDK\TIC\jsoncpp\json-forwards.h" />
     <ClInclude Include="..\SDK\TIC\jsoncpp\json.h" />
-    <ClInclude Include="..\SDK\TIC\localrecord\md5.h" />
     <ClInclude Include="..\SDK\TIC\localRecord\TICLocalRecord.h" />
     <ClInclude Include="..\SDK\TIC\localRecord\TICLocalRecordImpl.h" />
     <ClInclude Include="..\SDK\TIC\NTP.h" />
@@ -251,9 +250,6 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
     <ClCompile Include="..\SDK\TIC\jsoncpp\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\SDK\TIC\localrecord\md5.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\localRecord\TICLocalRecord.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

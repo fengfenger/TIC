@@ -22,7 +22,7 @@ public:
 	virtual int pauseLocalRecord(TICCallback callback) override;
 	virtual int resumeLocalRecord(TICCallback callback) override;
 	virtual int exit(TICCallback callback) override;
-	virtual int getRecordResult(const RecordKey& key, TICCallback callback) override;
+	virtual int getRecordResult(const TEduRecordAuthParam& authParam, const RecordKey& key, TICCallback callback) override;
 
 	struct Result {
 		Result() {}

@@ -1187,8 +1187,11 @@ void  CFileTabDlg::getRecord() {
 	int appid = Config::GetInstance().SdkAppId();
 	std::string userid = theApp.getUserId();
 	const RecordKey key = RecordKey(appid, theApp.getClassId(), std::string(""), std::string(""),  0, 40);
+
+	TEduRecordAuthParam auth(appid, userid, theApp.getUserSig());
+
 	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
-	mLocalRecorder->getRecordResult(key, [this, weakSelf](TICModule module, int code, const char *desc) {
+	mLocalRecorder->getRecordResult(auth, key, [this, weakSelf](TICModule module, int code, const char *desc) {
 		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
 		if (!self)
 			return;

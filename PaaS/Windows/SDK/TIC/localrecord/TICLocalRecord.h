@@ -152,7 +152,7 @@ public:
 	/**
 	* 获取录制的结果
 	*/
-	virtual int getRecordResult(const RecordKey& key, TICCallback callback) = 0;
+	virtual int getRecordResult(const TEduRecordAuthParam& authParam, const RecordKey& key, TICCallback callback) = 0;
 
 };
 

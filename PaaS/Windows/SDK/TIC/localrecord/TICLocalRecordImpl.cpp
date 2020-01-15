@@ -3,7 +3,6 @@
 #include<stdio.h>
 #include "TICLocalRecordImpl.h"
 #include "../jsoncpp/json.h"
-#include "md5.h"
 #include <strstream>
 #include <iomanip>
 #include <algorithm>
@@ -66,25 +65,6 @@ public:
 		result.msg = response;
 	}
 };
-
-std::string getMD5(std::string src)
-{
-	unsigned char fingerPrintStableMD5[MD5_RESULT_LEN] = { 0 };
-	char* stableStr = const_cast<char*>(src.c_str());
-	TenMd5(reinterpret_cast<unsigned char*>(stableStr), src.size(), fingerPrintStableMD5);
-
-	std::strstream sstream;
-	for (int i = 0; i < MD5_RESULT_LEN; ++i)
-	{
-		sstream << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << static_cast<int>(fingerPrintStableMD5[i]);
-	}
-
-	std::string result;
-	sstream >> result;
-
-	std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-	return result;
-}
 
 /**
 *单位：毫秒
@@ -210,7 +190,7 @@ int TICLocalRecorderImpl::getState(TICCallback callback) {
 	return 0;
 }
 
-int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback callback) {
+int TICLocalRecorderImpl::getRecordResult(const TEduRecordAuthParam& auth, const RecordKey& key, TICCallback callback) {
 	if (key.appid == 0) {
 		printf("user info error");
 		return -1;
@@ -218,22 +198,12 @@ int TICLocalRecorderImpl::getRecordResult(const RecordKey& key, TICCallback call
 
 
 	char httpsUrl[1024] = { 0 };
-	
-	/* 
-	//服务器端正式的使用方式，如下
-	const char* URL = "https://iclass.api.qcloud.com/paas/v1/localrecord/query?sdkappid=%d&sign=%s&expire_time=%d&random=%d";
-	int random = std::rand();
-	uint64_t expire_time = txf_getutctick() / 1000 + 60 * 5; //
-	const std::string TICKey = "XXXXXXXXXXXXXXXXXXXX";
-	std::string sign = getMD5("TICKey" + std::to_string(expire_time));
-	sprintf(httpsUrl, URL, key.appid, sign.c_str(), expire_time, random);
-	*/
-
-	//为了对TIC KEY的保护，我们在客户端采取临时方式
-	const char* URL = "https://service-cmgleh9m-1257307760.gz.apigw.tencentcs.com/release/board_forward?sdkappid=%d";
-	sprintf(httpsUrl, URL, key.appid);
+	int rand = std::rand();
+	const char* URL = "https://yun.tim.qq.com/v4/ilvb_edu/local_record?sdkappid=%d&identifier=%s&usersig=%s&random=%d&contenttype=json";
+	sprintf(httpsUrl, URL, auth.appId, auth.userId.c_str(), auth.userSig.c_str(), rand);
 
 	Json::Value value;
+	value["Action"] = "QueryRecordInfo";
 	//if (key.class_id != 0) {
 		value["class_id"] = key.class_id;
 //	}
