@@ -205,18 +205,19 @@ int TICLocalRecorderImpl::getRecordResult(const TEduRecordAuthParam& auth, const
 	Json::Value value;
 	value["Action"] = "QueryRecordInfo";
 	//if (key.class_id != 0) {
-		value["class_id"] = key.class_id;
+		value["RoomId"] = key.class_id;
 //	}
 //	if (!key.user_id.empty()) {
-		value["user_id"] = key.user_id;
+		value["UserId"] = key.user_id;
 //	}
 //	if (!key.task_id.empty()) {
-		value["task_id"] = key.task_id;
+		value["TaskId"] = key.task_id;
 //	}
+		value["SpliceTimeDesc"] = true;
 
 		value["Index"] = key.index;
 	
-		value["size"] = key.size;
+		value["Size"] = key.size;
 
 	Json::FastWriter writer;
 	std::string msg = writer.write(value);

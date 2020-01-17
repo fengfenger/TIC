@@ -1076,7 +1076,7 @@ BOOL CRecordDlg::OnInitDialog()
 
 	mListRecord.InsertColumn(0, _T("文件名"), LVCFMT_LEFT, 100);
 	mListRecord.InsertColumn(1, _T("录制人"), LVCFMT_LEFT, 80);
-	mListRecord.InsertColumn(2, _T("时长"), LVCFMT_LEFT, 72);
+	mListRecord.InsertColumn(2, _T("时长(秒)"), LVCFMT_LEFT, 72);
 
 	return TRUE;
 }
@@ -1327,55 +1327,58 @@ bool CRecordDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
 	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
 		return false;
 	}
-	if (Val.isMember("error_code")) {
-		int error_code = Val["error_code"].asInt();
-		if (error_code != 0)
-			return false;
-	}
 
 	mInfos.clear();
-	if (Val.isMember("record_info_list")) {
-		auto record_info_list = Val["record_info_list"];
-		if (record_info_list.isArray()) {
 
-			int size = record_info_list.size();
+	if (Val.isMember("Response")) {
+		auto Response = Val["Response"];
 
-			for (int i = 0; i < size; i++) {
-				RecordInfo info;
-				auto record = record_info_list[i];
-				if (record.isMember("RoomId")) {
-					info.RoomId = record["RoomId"].asLargestUInt();
+		if (Response.isMember("RecordInfoList")) { //失败，错误返回
+			auto record_info_list = Response["RecordInfoList"];
+			if (record_info_list.isArray()) {
+
+				int size = record_info_list.size();
+
+				for (int i = 0; i < size; i++) {
+					RecordInfo info;
+					auto record = record_info_list[i];
+					if (record.isMember("RoomId")) {
+						info.RoomId = record["RoomId"].asLargestUInt();
+					}
+
+					if (record.isMember("StartTime")) {
+						info.StartTime = record["StartTime"].asLargestUInt();
+					}
+
+					if (record.isMember("UserId")) {
+						info.UserId = record["UserId"].asString();
+					}
+
+					if (record.isMember("VideoOutputDuration")) {
+						info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
+					}
+
+					if (record.isMember("VideoOutputUrl")) {
+						info.VideoOutputUrl = record["VideoOutputUrl"].asString();
+					}
+
+					if (record.isMember("VideoOutputSize")) {
+						info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
+					}
+
+					mInfos.push_back(info);
 				}
+			}
 
-				if (record.isMember("StartTime")) {
-					info.StartTime = record["StartTime"].asLargestUInt();
-				}
-
-				if (record.isMember("UserId")) {
-					info.UserId = record["UserId"].asString();
-				}
-
-				if (record.isMember("VideoOutputDuration")) {
-					info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
-				}
-
-				if (record.isMember("VideoOutputUrl")) {
-					info.VideoOutputUrl = record["VideoOutputUrl"].asString();
-				}
-
-				if (record.isMember("VideoOutputSize")) {
-					info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
-				}
-
-				mInfos.push_back(info);
+			//标记列表是否拉取结束，如果结束后则不需要再拉取。
+			if (Response.isMember("finish")) {
+				listIsFinished = Val["finish"].asBool();
 			}
 		}
-
-		//标记列表是否拉取结束，如果结束后则不需要再拉取。
-		if (Val.isMember("finish")) {
-			listIsFinished = Val["finish"].asBool();
-		}
 	}
+
+
+
 }
 
 void CRecordDlg::refreshRecordInfo() {
