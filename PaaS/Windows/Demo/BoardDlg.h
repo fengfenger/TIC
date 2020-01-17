@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "..\SDK\TIC\localrecord\TICLocalRecord.h"
+#include "afxwin.h"
 
 enum class BoardState
 {
@@ -154,7 +155,7 @@ private:
 
 
 //文件操作标签页
-class CRecordDlg : public CDialogEx, public std::enable_shared_from_this<CRecordDlg>
+class CRecordDlg : public CDialogEx, public TEduRecordCallback, public std::enable_shared_from_this<CRecordDlg>
 {
 	DECLARE_MESSAGE_MAP()
 public:
@@ -190,7 +191,10 @@ private:
 
 	bool parseRecordInfos(const char *desc, bool& listIsFinished);
 	void refreshRecordInfo();
+	void getRecordState();
 
+	//From TEduRecordCallback
+	virtual void onGotStatus(const RecordState& state);
 
 	struct RecordInfo {
 		uint32_t RoomId = 0;
@@ -220,6 +224,9 @@ public:
 	afx_msg void OnBnClickedBtnStopRecord();
 	afx_msg void OnBnClickedBtnPauseRecord();
 	afx_msg void OnBnClickedBtnResumeRecord();
+	CStatic mStaticAuth;
+	CStatic mStaticRecord;
+	CStatic mStaticUploadState;
 };
 
 class CBoardDlg 

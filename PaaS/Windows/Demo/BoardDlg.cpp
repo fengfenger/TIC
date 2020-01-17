@@ -1089,14 +1089,34 @@ void CRecordDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
+	DDX_Control(pDX, IDC_STATIC_AUTH_STATE, mStaticAuth);
+	DDX_Control(pDX, IDC_STATIC_RECORD_STATE, mStaticRecord);
+	DDX_Control(pDX, IDC_STATIC_UPLOAD_STATE, mStaticUploadState);
 }
 
+void CRecordDlg::onGotStatus(const RecordState& state) {
+	std::wstring authState = a2w(state.auth.State);
+	std::wstring recordingState = a2w(state.recording.State);
+
+	mStaticAuth.SetWindowText((LPCTSTR)authState.c_str());
+	mStaticRecord.SetWindowText((LPCTSTR)recordingState.c_str());
+
+	std::wstring uploadState;
+	for (int i = 0; i < state.upload.size(); i++) {
+		if (state.upload[i].IsCurrentRecoding) {
+			uploadState = a2w(state.upload[i].State);
+		}
+	}
+	mStaticUploadState.SetWindowText((LPCTSTR)(uploadState.c_str()));
+}
 
 void CRecordDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
 	if (appid == 0 || user.empty() || sig.empty()) {
 		AfxMessageBox(_T("初始参数有误!"), MB_OK);
 		return;
 	}
+
+	mLocalRecorder->setListener(this->shared_from_this());
 
    //拉起服务和鉴权.
 	char szFilePath[MAX_PATH + 1] = { 0 };
@@ -1196,6 +1216,22 @@ void CRecordDlg::pauseRecord() {
 void CRecordDlg::resumeRecord() {
 	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->resumeLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("暂停录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("暂停录制"), MB_OK);
+		}
+	});
+}
+
+void CRecordDlg::getRecordState() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->getState([this, weakSelf](TICModule module, int code, const char *desc) {
 		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
