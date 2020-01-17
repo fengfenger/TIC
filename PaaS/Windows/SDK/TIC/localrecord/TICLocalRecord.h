@@ -131,6 +131,8 @@ public:
 	*/
 	static TICLocalRecorder* GetInstance();
 
+	void setListener(std::weak_ptr<TEduRecordCallback> listen);
+
 	/**
 	* 启动本地录制服务
 	* @param path 		录制服务的可执行文件exe路径
@@ -186,7 +188,8 @@ public:
 	* 获取录制的结果
 	*/
 	virtual int getRecordResult(const TEduRecordAuthParam& authParam, const RecordKey& key, TICCallback callback) = 0;
-
+protected:
+	std::weak_ptr<TEduRecordCallback> mCallback;
 };
 
 #endif //_TIC_LOCAL_RECORD_H_

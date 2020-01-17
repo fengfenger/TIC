@@ -13,7 +13,6 @@ struct BaseCallback;
 class TICLocalRecorderImpl : public TICLocalRecorder, public std::enable_shared_from_this<TICLocalRecorderImpl> {
 public:
 	TICLocalRecorderImpl();
-	TICLocalRecorderImpl(std::weak_ptr<TEduRecordCallback>  callback);
 	virtual ~TICLocalRecorderImpl();
 	bool startService(const std::string& path)override;
 	virtual int init(const TEduRecordAuthParam& authParam, TICCallback callback) override;
@@ -48,7 +47,7 @@ protected:
 	UINT_PTR syncTimer_ = 0;
 	TEduRecordAuthParam mAuth;
 	HttpClient http;
-	std::weak_ptr<TEduRecordCallback> mCallback;
+
 };
 
 #endif // !_TIC_LOCAL_RECORD_IMPL_H_

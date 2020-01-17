@@ -80,8 +80,7 @@ uint64_t txf_getutctick() {
 TICLocalRecorderImpl::TICLocalRecorderImpl() {
 }
 
-TICLocalRecorderImpl::TICLocalRecorderImpl(std::weak_ptr<TEduRecordCallback>  callback) : mCallback(callback) {
-}
+
 
 TICLocalRecorderImpl::~TICLocalRecorderImpl() {
 }
@@ -115,8 +114,6 @@ bool TICLocalRecorderImpl::startService(const std::string& path) {
 
 int TICLocalRecorderImpl::init(const TEduRecordAuthParam& authParam, TICCallback callback) {
 	mAuth = authParam;
-
-
 
 	Json::Value value;
 	value["SdkAppId"] = authParam.appId;
@@ -207,12 +204,12 @@ int TICLocalRecorderImpl::getRecordResult(const TEduRecordAuthParam& auth, const
 	//if (key.class_id != 0) {
 		value["RoomId"] = key.class_id;
 //	}
-//	if (!key.user_id.empty()) {
+	if (!key.user_id.empty()) {
 		value["UserId"] = key.user_id;
-//	}
-//	if (!key.task_id.empty()) {
+	}
+	if (!key.task_id.empty()) {
 		value["TaskId"] = key.task_id;
-//	}
+	}
 		value["SpliceTimeDesc"] = true;
 
 		value["Index"] = key.index;
@@ -356,6 +353,12 @@ void TICLocalRecorderImpl::onTimer() {
 				}
 			}
 			
+			//Callback
+			auto callback = mCallback.lock();
+			if (callback) {
+				callback->onGotStatus(state);
+			}
+
 		}
 	});
 }

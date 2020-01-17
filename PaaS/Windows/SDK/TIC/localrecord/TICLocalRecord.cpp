@@ -19,3 +19,7 @@ TICLocalRecorder* TICLocalRecorder::GetInstance()
 	return (TICLocalRecorder*)g_pTICRecorder;
 
 }
+
+void TICLocalRecorder::setListener(std::weak_ptr<TEduRecordCallback> listen) {
+	mCallback = listen;
+}
