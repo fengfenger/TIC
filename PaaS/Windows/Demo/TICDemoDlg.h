@@ -2,7 +2,6 @@
 
 #include "VideoDlg.h"
 #include "BoardDlg.h"
-#include "PushDlg.h"
 #include <memory>
 
 class CTICDemoDlg
@@ -64,7 +63,6 @@ private:
 	CTabCtrl tabCtrl_;
 	std::shared_ptr<CVideoDlg> videoDlg_ = nullptr;
 	std::shared_ptr<CBoardDlg> boardDlg_ = nullptr;
-	std::shared_ptr<CPushDlg> pushDlg_ = nullptr;
 
 	UserState state_ = UserState::NotInit;
 };
