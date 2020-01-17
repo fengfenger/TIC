@@ -498,21 +498,11 @@ BEGIN_MESSAGE_MAP(CFileTabDlg, CDialogEx)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FILE, &CFileTabDlg::OnNMDbClkListFile)
 	ON_BN_CLICKED(IDC_BTN_ADD_H5_PPT, &CFileTabDlg::OnBnClickedBtnAddH5)
 	ON_BN_CLICKED(IDC_BTN_ADD_VIDEO, &CFileTabDlg::OnBnClickedBtnAddVideo)
-
-	ON_BN_CLICKED(IDC_CHECK_ENABLE_PUSH, &CFileTabDlg::OnBnClickedCheckEnablePush)
-	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_LOCAL_RECORD, &CFileTabDlg::OnLvnItemchangedListLocalRecord)
-	ON_BN_CLICKED(IDC_BTN_INIT, &CFileTabDlg::OnBnClickedBtnInit)
-	ON_BN_CLICKED(IDC_BTN_EXIT, &CFileTabDlg::OnBnClickedBtnExit)
-	ON_BN_CLICKED(IDC_BTN_PAUSE_RESUME2, &CFileTabDlg::OnBnClickedBtnPauseResume2)
-	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CFileTabDlg::OnBnClickedCheckEnablePause)
-	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CFileTabDlg::OnBnClickedBtnRefresshResult)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CFileTabDlg::OnNMDbClkListRecordFile)
 END_MESSAGE_MAP()
 
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
 	: CDialogEx(IDD_BOARD_TAB_FILE, pParent)
 {
-	mLocalRecorder = TICLocalRecorder::GetInstance();
 }
 
 void CFileTabDlg::UpdateFileList()
@@ -551,10 +541,6 @@ BOOL CFileTabDlg::OnInitDialog()
 	listFile_.InsertColumn(1, _T("文件名"), LVCFMT_LEFT, 100);
 	listFile_.InsertColumn(2, _T("页码"), LVCFMT_LEFT, 72);
 
-	mListRecord.InsertColumn(0, _T("文件名"), LVCFMT_LEFT, 100);
-	mListRecord.InsertColumn(1, _T("录制人"), LVCFMT_LEFT, 80);
-	mListRecord.InsertColumn(2, _T("时长"), LVCFMT_LEFT, 72);
-
 	editAddH5_.SetWindowText(_T("https://cloud.tencent.com/solution/tic"));
 
 	editAddVideo_.SetWindowText(_T("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4"));
@@ -569,10 +555,6 @@ void CFileTabDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_FILE, listFile_);
 	DDX_Control(pDX, IDC_EDIT_ADD_H5, editAddH5_);
 	DDX_Control(pDX, IDC_EDIT_ADD_VIDEO, editAddVideo_);
-
-	DDX_Control(pDX, IDC_CHECK_ENABLE_PUSH, chkPushEnable_);
-	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
-	DDX_Control(pDX, IDC_CHECK_ENABLE_PAUSE, checkPaused_);
 }
 
 void CFileTabDlg::OnBnClickedBtnAddFile()
@@ -653,7 +635,7 @@ CBoardDlg::CBoardDlg(CWnd* pParent)
 	: CDialogEx(IDD_BOARD_DIALOG, pParent)
 	, histroySync_(false)
 {
-	fileTabDlg_ = std::make_shared<CFileTabDlg>();
+	recordDlg_ = std::make_shared<CRecordDlg>();
 }
 
 void CBoardDlg::Init()
@@ -722,10 +704,12 @@ BOOL CBoardDlg::OnInitDialog()
 	tabBoardCtrl_.InsertItem(0, _T("涂鸦"));
 	tabBoardCtrl_.InsertItem(1, _T("白板"));
 	tabBoardCtrl_.InsertItem(2, _T("文件"));
+	tabBoardCtrl_.InsertItem(3, _T("录制"));
 
 	drawTabDlg_.Create(IDD_BOARD_TAB_DRAW, &tabBoardCtrl_);
 	boardTabDlg_.Create(IDD_BOARD_TAB_BOARD, &tabBoardCtrl_);
-	fileTabDlg_->Create(IDD_BOARD_TAB_FILE, &tabBoardCtrl_);
+	fileTabDlg_.Create(IDD_BOARD_TAB_FILE, &tabBoardCtrl_);
+	bool result = recordDlg_->Create(IDD_BOARD_TAB_RECORD, &tabBoardCtrl_);
 
 	//获取标签高度
 	CRect itemRect;
@@ -745,8 +729,11 @@ BOOL CBoardDlg::OnInitDialog()
 	boardTabDlg_.MoveWindow(&clientRect);
 	boardTabDlg_.ShowWindow(SW_HIDE);
 
-	fileTabDlg_->MoveWindow(&clientRect);
-	fileTabDlg_->ShowWindow(SW_HIDE);
+	fileTabDlg_.MoveWindow(&clientRect);
+	fileTabDlg_.ShowWindow(SW_HIDE);
+
+	recordDlg_->MoveWindow(&clientRect);
+	recordDlg_->ShowWindow(SW_HIDE);
 
 	UpdateUI();
 
@@ -832,7 +819,8 @@ void CBoardDlg::OnSize(UINT nType, int cx, int cy)
 
 		drawTabDlg_.MoveWindow(&clientRect);
 		boardTabDlg_.MoveWindow(&clientRect);
-		fileTabDlg_->MoveWindow(&clientRect);
+		fileTabDlg_.MoveWindow(&clientRect);
+		recordDlg_->MoveWindow(&clientRect);
 	}
 
 	CDialogEx::OnSize(nType, cx, cy);
@@ -861,18 +849,28 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		drawTabDlg_.ShowWindow(SW_SHOW);
 		boardTabDlg_.ShowWindow(SW_HIDE);
-		fileTabDlg_->ShowWindow(SW_HIDE);
+		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_SHOW);
-		fileTabDlg_->ShowWindow(SW_HIDE);
+		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_HIDE);
-		fileTabDlg_->ShowWindow(SW_SHOW);
+		fileTabDlg_.ShowWindow(SW_SHOW);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
+	case 3:
+		drawTabDlg_.ShowWindow(SW_HIDE);
+		boardTabDlg_.ShowWindow(SW_HIDE);
+		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_SHOW);
+		break;
+
 	default:
 		break;
 	}
@@ -963,7 +961,7 @@ void CBoardDlg::onTEBInit()
 void CBoardDlg::onTEBHistroyDataSyncCompleted()
 {
 	histroySync_ = true;
-	fileTabDlg_->UpdateFileList();
+	fileTabDlg_.UpdateFileList();
 	boardTabDlg_.UpdateBoardList();
 	UpdateThumbnailImages();
 }
@@ -1005,7 +1003,7 @@ void CBoardDlg::onTEBGotoBoard(const char * boardId, const char * fileId)
 		drawTabDlg_.UpdateBackgroundColor();
 		drawTabDlg_.UpdateBoardScale();
 
-		fileTabDlg_->UpdateFileList();
+		fileTabDlg_.UpdateFileList();
 
 		boardTabDlg_.UpdateBoardList();
 	}
@@ -1034,19 +1032,19 @@ void CBoardDlg::onTEBFileTranscodeProgress(const char *path, const char *errorCo
 
 void CBoardDlg::onTEBAddTranscodeFile(const char *fileId)
 {
-	if (histroySync_) fileTabDlg_->UpdateFileList();
+	if (histroySync_) fileTabDlg_.UpdateFileList();
 }
 
 void CBoardDlg::onTEBDeleteFile(const char * fileId)
 {
-	if (histroySync_) fileTabDlg_->UpdateFileList();
+	if (histroySync_) fileTabDlg_.UpdateFileList();
 }
 
 void CBoardDlg::onTEBSwitchFile(const char * fileId)
 {
 	if (histroySync_)
 	{
-		fileTabDlg_->UpdateFileList();
+		fileTabDlg_.UpdateFileList();
 		boardTabDlg_.UpdateBoardList();
 		UpdateThumbnailImages();
 	}
@@ -1054,7 +1052,46 @@ void CBoardDlg::onTEBSwitchFile(const char * fileId)
 
 
 
-void CFileTabDlg::OnBnClickedCheckEnablePush()
+BEGIN_MESSAGE_MAP(CRecordDlg, CDialogEx)
+
+	ON_BN_CLICKED(IDC_CHECK_ENABLE_PUSH, &CRecordDlg::OnBnClickedCheckEnablePush)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnLvnItemchangedListLocalRecord)
+	ON_BN_CLICKED(IDC_BTN_INIT, &CRecordDlg::OnBnClickedBtnInit)
+	ON_BN_CLICKED(IDC_BTN_EXIT, &CRecordDlg::OnBnClickedBtnExit)
+	ON_BN_CLICKED(IDC_BTN_PAUSE_RESUME2, &CRecordDlg::OnBnClickedBtnPauseResume2)
+	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CRecordDlg::OnBnClickedCheckEnablePause)
+	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CRecordDlg::OnBnClickedBtnRefresshResult)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnNMDbClkListRecordFile)
+END_MESSAGE_MAP()
+
+CRecordDlg::CRecordDlg(CWnd* pParent /*= nullptr*/)
+	: CDialogEx(IDD_BOARD_TAB_RECORD, pParent)
+{
+	mLocalRecorder = TICLocalRecorder::GetInstance();
+}
+
+
+BOOL CRecordDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	mListRecord.InsertColumn(0, _T("文件名"), LVCFMT_LEFT, 100);
+	mListRecord.InsertColumn(1, _T("录制人"), LVCFMT_LEFT, 80);
+	mListRecord.InsertColumn(2, _T("时长"), LVCFMT_LEFT, 72);
+
+	return TRUE;
+}
+
+void CRecordDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+
+	DDX_Control(pDX, IDC_CHECK_ENABLE_PUSH, chkPushEnable_);
+	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
+	DDX_Control(pDX, IDC_CHECK_ENABLE_PAUSE, checkPaused_);
+}
+
+void CRecordDlg::OnBnClickedCheckEnablePush()
 {
 	bool selected = (chkPushEnable_.GetCheck() == BST_CHECKED);
 
@@ -1066,7 +1103,7 @@ void CFileTabDlg::OnBnClickedCheckEnablePush()
 	}
 }
 
-void CFileTabDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
+void CRecordDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
 	if (appid == 0 || user.empty() || sig.empty()) {
 		AfxMessageBox(_T("初始参数有误!"), MB_OK);
 		return;
@@ -1083,9 +1120,9 @@ void CFileTabDlg::initRecord(int appid, const std::string& user, const std::stri
 
 	TEduRecordAuthParam auth(appid, user, sig);
 
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->init(auth, [this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1098,10 +1135,10 @@ void CFileTabDlg::initRecord(int appid, const std::string& user, const std::stri
 	});
 }
 
-void CFileTabDlg::exitRecord() {
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+void CRecordDlg::exitRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->exit([this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1114,14 +1151,14 @@ void CFileTabDlg::exitRecord() {
 	});
 }
 
-void CFileTabDlg::startRecord() {
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+void CRecordDlg::startRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 
 	TEduRecordParam para;
 	para.classId = theApp.getClassId();
 	para.AppProc = "TICDemo.exe";
 	mLocalRecorder->startLocalRecord(para, "E:\\test\\test.flv", [this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1134,10 +1171,10 @@ void CFileTabDlg::startRecord() {
 	});
 }
 
-void CFileTabDlg::stopRecord() {
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+void CRecordDlg::stopRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->stopLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1151,10 +1188,10 @@ void CFileTabDlg::stopRecord() {
 }
 
 
-void CFileTabDlg::pauseRecord() {
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+void CRecordDlg::pauseRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->pauseLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1167,10 +1204,10 @@ void CFileTabDlg::pauseRecord() {
 	});
 }
 
-void CFileTabDlg::resumeRecord() {
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+void CRecordDlg::resumeRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->resumeLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1183,16 +1220,16 @@ void CFileTabDlg::resumeRecord() {
 	});
 }
 
-void  CFileTabDlg::getRecord() {
+void  CRecordDlg::getRecord() {
 	int appid = Config::GetInstance().SdkAppId();
 	std::string userid = theApp.getUserId();
 	const RecordKey key = RecordKey(appid, theApp.getClassId(), std::string(""), std::string(""),  0, 40);
 
 	TEduRecordAuthParam auth(appid, userid, theApp.getUserSig());
 
-	std::weak_ptr< CFileTabDlg> weakSelf = this->shared_from_this();
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
 	mLocalRecorder->getRecordResult(auth, key, [this, weakSelf](TICModule module, int code, const char *desc) {
-		std::shared_ptr<CFileTabDlg> self = weakSelf.lock();
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
 		if (!self)
 			return;
 
@@ -1209,7 +1246,7 @@ void  CFileTabDlg::getRecord() {
 }
 
 
-void CFileTabDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+void CRecordDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
@@ -1217,7 +1254,7 @@ void CFileTabDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void CFileTabDlg::OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+void CRecordDlg::OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
@@ -1225,14 +1262,14 @@ void CFileTabDlg::OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void CFileTabDlg::OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+void CRecordDlg::OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	*pResult = 0;
 }
 
-void CFileTabDlg::OnBnClickedBtnInit()
+void CRecordDlg::OnBnClickedBtnInit()
 {
 	int appid = Config::GetInstance().SdkAppId();
 	const std::string uid = theApp.getUserId();
@@ -1240,18 +1277,18 @@ void CFileTabDlg::OnBnClickedBtnInit()
 	initRecord(appid, uid, sig);
 }
 
-void CFileTabDlg::OnBnClickedBtnExit()
+void CRecordDlg::OnBnClickedBtnExit()
 {
 	exitRecord();
 }
 
-void CFileTabDlg::OnBnClickedBtnPauseResume2()
+void CRecordDlg::OnBnClickedBtnPauseResume2()
 {
 
 }
 
 
-void CFileTabDlg::OnBnClickedCheckEnablePause()
+void CRecordDlg::OnBnClickedCheckEnablePause()
 {
 	bool selected = (checkPaused_.GetCheck() == BST_CHECKED);
 
@@ -1264,7 +1301,7 @@ void CFileTabDlg::OnBnClickedCheckEnablePause()
 }
 
 
-void CFileTabDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
+void CRecordDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
@@ -1283,13 +1320,13 @@ void CFileTabDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void CFileTabDlg::OnBnClickedBtnRefresshResult()
+void CRecordDlg::OnBnClickedBtnRefresshResult()
 {
 	getRecord();
 }
 
 
-bool CFileTabDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
+bool CRecordDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
 	std::string rspBuf = desc;
 	Json::Value Val;
 	Json::Reader reader;
@@ -1347,7 +1384,7 @@ bool CFileTabDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
 	}
 }
 
-void CFileTabDlg::refreshRecordInfo() {
+void CRecordDlg::refreshRecordInfo() {
 	mListRecord.SetRedraw(FALSE);
 	mListRecord.DeleteAllItems();
 

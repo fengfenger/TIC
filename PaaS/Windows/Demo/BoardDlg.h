@@ -121,7 +121,7 @@ private:
 };
 
 //文件操作标签页
-class CFileTabDlg : public CDialogEx, public std::enable_shared_from_this<CFileTabDlg>
+class CFileTabDlg : public CDialogEx
 {
 	DECLARE_MESSAGE_MAP()
 public:
@@ -144,6 +144,30 @@ private:
 	afx_msg void OnNMDbClkListFile(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedBtnAddH5();
 	afx_msg void OnBnClickedBtnAddVideo();
+
+
+private:
+	CListCtrl listFile_;
+	CEdit	editAddH5_;
+	CEdit	editAddVideo_;
+};
+
+
+//文件操作标签页
+class CRecordDlg : public CDialogEx, public std::enable_shared_from_this<CRecordDlg>
+{
+	DECLARE_MESSAGE_MAP()
+public:
+	CRecordDlg(CWnd* pParent = nullptr);
+
+	// 对话框数据
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_BOARD_TAB_RECORD };
+#endif
+
+private:
+	virtual BOOL OnInitDialog() override;
+	virtual void DoDataExchange(CDataExchange* pDX) override;
 
 	///
 
@@ -193,7 +217,7 @@ protected:
 	CButton checkPaused_;
 	std::vector<RecordInfo> mInfos;
 private:
-	CListCtrl listFile_;
+
 	CEdit	editAddH5_;
 	CEdit	editAddVideo_;
 };
@@ -273,5 +297,6 @@ private:
 	CTabCtrl tabBoardCtrl_;
 	CDrawTabDlg		drawTabDlg_;
 	CBoardTabDlg	boardTabDlg_;
-	std::shared_ptr<CFileTabDlg>		fileTabDlg_;
+	CFileTabDlg fileTabDlg_;
+	std::shared_ptr<CRecordDlg>		recordDlg_;
 };
