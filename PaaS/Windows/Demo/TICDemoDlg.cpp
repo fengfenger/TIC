@@ -32,7 +32,6 @@ CTICDemoDlg::CTICDemoDlg(CWnd* pParent /*=nullptr*/)
 
 	videoDlg_ = std::make_shared<CVideoDlg>();
 	boardDlg_ = std::make_shared<CBoardDlg>();
-	pushDlg_ = std::make_shared<CPushDlg>();
 }
 
 CTICDemoDlg::~CTICDemoDlg()
@@ -72,7 +71,6 @@ BOOL CTICDemoDlg::OnInitDialog()
 
 	videoDlg_->Create(IDD_VIDEO_DIALOG, &tabCtrl_);
 	boardDlg_->Create(IDD_BOARD_DIALOG, &tabCtrl_);
-	pushDlg_->Create(IDD_PUSH_DIALOG, &tabCtrl_);
 
 	//获取标签高度
 	CRect itemRect;
@@ -90,8 +88,6 @@ BOOL CTICDemoDlg::OnInitDialog()
 	videoDlg_->ShowWindow(SW_SHOW);
 	boardDlg_->MoveWindow(&clientRect);
 	boardDlg_->ShowWindow(SW_HIDE);
-	pushDlg_->MoveWindow(&clientRect);
-	pushDlg_->ShowWindow(SW_HIDE);
 
 	//用户列表
 	const std::vector<UserInfo>& userInfoList = Config::GetInstance().UserInfoList();
@@ -169,7 +165,6 @@ void CTICDemoDlg::OnSize(UINT nType, int cx, int cy)
 
 		videoDlg_->MoveWindow(&clientRect);
 		boardDlg_->MoveWindow(&clientRect);
-		pushDlg_->MoveWindow(&clientRect);
 	}
 }
 
@@ -237,17 +232,14 @@ void CTICDemoDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		videoDlg_->ShowWindow(SW_SHOW);
 		boardDlg_->ShowWindow(SW_HIDE);
-		pushDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		videoDlg_->ShowWindow(SW_HIDE);
 		boardDlg_->ShowWindow(SW_SHOW);
-		pushDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		videoDlg_->ShowWindow(SW_HIDE);
 		boardDlg_->ShowWindow(SW_HIDE);
-		pushDlg_->ShowWindow(SW_SHOW);
 		break;
 	default:
 		break;

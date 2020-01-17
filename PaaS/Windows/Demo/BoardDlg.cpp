@@ -1058,7 +1058,6 @@ BEGIN_MESSAGE_MAP(CRecordDlg, CDialogEx)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnLvnItemchangedListLocalRecord)
 	ON_BN_CLICKED(IDC_BTN_INIT, &CRecordDlg::OnBnClickedBtnInit)
 	ON_BN_CLICKED(IDC_BTN_EXIT, &CRecordDlg::OnBnClickedBtnExit)
-	ON_BN_CLICKED(IDC_BTN_PAUSE_RESUME2, &CRecordDlg::OnBnClickedBtnPauseResume2)
 	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CRecordDlg::OnBnClickedCheckEnablePause)
 	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CRecordDlg::OnBnClickedBtnRefresshResult)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnNMDbClkListRecordFile)
@@ -1280,11 +1279,6 @@ void CRecordDlg::OnBnClickedBtnInit()
 void CRecordDlg::OnBnClickedBtnExit()
 {
 	exitRecord();
-}
-
-void CRecordDlg::OnBnClickedBtnPauseResume2()
-{
-
 }
 
 
