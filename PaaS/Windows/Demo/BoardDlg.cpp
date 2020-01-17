@@ -1054,13 +1054,16 @@ void CBoardDlg::onTEBSwitchFile(const char * fileId)
 
 BEGIN_MESSAGE_MAP(CRecordDlg, CDialogEx)
 
-	ON_BN_CLICKED(IDC_CHECK_ENABLE_PUSH, &CRecordDlg::OnBnClickedCheckEnablePush)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnLvnItemchangedListLocalRecord)
 	ON_BN_CLICKED(IDC_BTN_INIT, &CRecordDlg::OnBnClickedBtnInit)
 	ON_BN_CLICKED(IDC_BTN_EXIT, &CRecordDlg::OnBnClickedBtnExit)
-	ON_BN_CLICKED(IDC_CHECK_ENABLE_PAUSE, &CRecordDlg::OnBnClickedCheckEnablePause)
 	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CRecordDlg::OnBnClickedBtnRefresshResult)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnNMDbClkListRecordFile)
+	ON_BN_CLICKED(IDC_BTN_START_RECORD, &CRecordDlg::OnBnClickedBtnStartRecord)
+	ON_BN_CLICKED(IDC_BTN_STOP_RECORD, &CRecordDlg::OnBnClickedBtnStopRecord)
+
+	ON_BN_CLICKED(IDC_BTN_PAUSE_RECORD, &CRecordDlg::OnBnClickedBtnPauseRecord)
+	ON_BN_CLICKED(IDC_BTN_RESUME_RECORD, &CRecordDlg::OnBnClickedBtnResumeRecord)
 END_MESSAGE_MAP()
 
 CRecordDlg::CRecordDlg(CWnd* pParent /*= nullptr*/)
@@ -1085,22 +1088,9 @@ void CRecordDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 
-	DDX_Control(pDX, IDC_CHECK_ENABLE_PUSH, chkPushEnable_);
 	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
-	DDX_Control(pDX, IDC_CHECK_ENABLE_PAUSE, checkPaused_);
 }
 
-void CRecordDlg::OnBnClickedCheckEnablePush()
-{
-	bool selected = (chkPushEnable_.GetCheck() == BST_CHECKED);
-
-	if (selected) {
-		startRecord();
-	}
-	else {
-		stopRecord();
-	}
-}
 
 void CRecordDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
 	if (appid == 0 || user.empty() || sig.empty()) {
@@ -1282,19 +1272,6 @@ void CRecordDlg::OnBnClickedBtnExit()
 }
 
 
-void CRecordDlg::OnBnClickedCheckEnablePause()
-{
-	bool selected = (checkPaused_.GetCheck() == BST_CHECKED);
-
-	if (selected) {
-		pauseRecord();
-	}
-	else {
-		resumeRecord();
-	}
-}
-
-
 void CRecordDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -1377,8 +1354,6 @@ bool CRecordDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
 		}
 	}
 
-
-
 }
 
 void CRecordDlg::refreshRecordInfo() {
@@ -1400,4 +1375,25 @@ void CRecordDlg::refreshRecordInfo() {
 		mListRecord.SetFocus();
 	}
 	mListRecord.SetRedraw(TRUE);
+}
+
+
+void CRecordDlg::OnBnClickedBtnStartRecord()
+{
+	startRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnStopRecord()
+{
+	stopRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnPauseRecord()
+{
+	pauseRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnResumeRecord()
+{
+	resumeRecord();
 }

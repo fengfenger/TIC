@@ -171,14 +171,11 @@ private:
 
 	///
 
-	afx_msg void OnBnClickedCheckEnablePush();
 	afx_msg void OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedBtnInit();
 	afx_msg void OnBnClickedBtnExit();
-	afx_msg void OnBnClickedBtnPauseResume2();
-	afx_msg void OnBnClickedCheckEnablePause();
 
 	afx_msg void OnBnClickedBtnRefresshResult();
 	afx_msg void OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult);
@@ -210,16 +207,19 @@ private:
 	};
 
 protected:
-	CButton chkPushEnable_;
 	CListCtrl mListRecord;
 	TICLocalRecorder* mLocalRecorder;
 	bool mIsAuth = false;
-	CButton checkPaused_;
 	std::vector<RecordInfo> mInfos;
 private:
 
 	CEdit	editAddH5_;
 	CEdit	editAddVideo_;
+public:
+	afx_msg void OnBnClickedBtnStartRecord();
+	afx_msg void OnBnClickedBtnStopRecord();
+	afx_msg void OnBnClickedBtnPauseRecord();
+	afx_msg void OnBnClickedBtnResumeRecord();
 };
 
 class CBoardDlg 
