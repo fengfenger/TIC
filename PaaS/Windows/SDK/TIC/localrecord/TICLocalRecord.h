@@ -83,13 +83,41 @@ struct TEduRecordParam {
 	int classId = 0;
 };
 
+class AuthState {
+public:
+	std::string UserId;
+	std::string State;
+};
+
+class RecordingState {
+public:
+	std::string RecordId;
+	std::string State;
+	int Duration = 0;
+};
+
+class UploadState {
+public:
+	std::string RecordId;
+	std::string State;
+	int Duration = 0;  //已上传时长
+	int Total = 0;    //录制总时长
+	bool IsCurrentRecoding = false;
+};
+
+class RecordState {
+public:
+	AuthState auth;
+	RecordingState recording;
+	std::vector<UploadState> upload;
+};
+
 /**
 * 录制事件回调接口
 */
 class TEduRecordCallback {
 public:
-	virtual void onGotStatus(int code, const char* msg) = 0;
-	virtual void onUploadProgress(int total, int current) = 0;
+	virtual void onGotStatus(const RecordState& state) = 0;
 };
 
 class TICLocalRecorder {
@@ -148,6 +176,11 @@ public:
 	* 停止所有录制和推流并退出进程
 	*/
 	virtual int exit(TICCallback callback) = 0;
+
+	/**
+	* 获取录制的状态
+	*/
+	virtual int getState(TICCallback callback) = 0;
 
 	/**
 	* 获取录制的结果

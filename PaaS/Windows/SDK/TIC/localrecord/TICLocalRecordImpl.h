@@ -22,6 +22,7 @@ public:
 	virtual int pauseLocalRecord(TICCallback callback) override;
 	virtual int resumeLocalRecord(TICCallback callback) override;
 	virtual int exit(TICCallback callback) override;
+	virtual int getState(TICCallback callback)override;
 	virtual int getRecordResult(const TEduRecordAuthParam& authParam, const RecordKey& key, TICCallback callback) override;
 
 	struct Result {
@@ -35,7 +36,7 @@ public:
 	};
 
 protected:
-	int getState(TICCallback callback);
+
 	void sendCmd(const std::string& cmd, const std::string& content, const TICCallback callback);
 	void sendRequest(const std::wstring& cmd, const std::string& reqBody, BaseCallback* mycallback);
 

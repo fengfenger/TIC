@@ -295,29 +295,62 @@ void TICLocalRecorderImpl::onTimer() {
 			if (!reader.parse(desc, strlen(desc) + desc, Val)) { //从ifs中读取数据到jsonRoot
 				return;
 			}
+
+			RecordState state;
+
 			if (Val.isMember("Response")) {
 				auto Response = Val["Response"];
 
+				//登录状态
+				if (Response.isMember("Auth")) {
+					auto auth = Response["Auth"];
+					if (auth.isMember("UserId")) {
+						state.auth.UserId = auth["UserId"].asString();
+					}
+					if (auth.isMember("State")) {
+						state.auth.State = auth["State"].asString();
+					}
+				}
+
+				//登录状态
+				if (Response.isMember("Record")) {
+					auto record = Response["Record"];
+					if (record.isMember("Id")) {
+						state.recording.RecordId = record["Id"].asString();
+					}
+					if (record.isMember("State")) {
+						state.recording.State = record["State"].asString();
+					}
+					if (record.isMember("Duration")) {
+						state.recording.Duration = record["Duration"].asInt();
+					}
+				}
+
+				//上传状态
 				if (Response.isMember("Upload")) {
 					auto uploads = Response["Upload"];
 					if (uploads.isArray()) {
 						int size = uploads.size();
 						for (int i = 0; i < size; ++i) {
 							auto up = uploads[i];
-							std::string id;
-							int total = 0, duration = 0;
+							UploadState uploadState;
+
 							if (up.isMember("Id")) {
-								id = up["Id"].asString();
+								uploadState.RecordId = up["Id"].asString();
 							}
-
+							if (up.isMember("State")) {
+								uploadState.State = up["State"].asString();
+							}
 							if (up.isMember("Total")) {
-								total = up["Total"].asInt();
+								uploadState.Total = up["Total"].asInt();
 							}
-
 							if (up.isMember("Duration")) {
-								duration = up["Duration"].asInt();
+								uploadState.Duration = up["Duration"].asInt();
 							}
-
+							if (up.isMember("IsCurrentRecoding")) {
+								uploadState.IsCurrentRecoding = up["IsCurrentRecoding"].asBool();
+							}
+							state.upload.push_back(uploadState);
 						}
 					}
 				}
