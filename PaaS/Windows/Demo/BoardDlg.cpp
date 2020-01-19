@@ -1123,7 +1123,7 @@ void CRecordDlg::initRecord(int appid, const std::string& user, const std::strin
 	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
 	(strrchr(szFilePath, '\\'))[0] = 0;
 	std::string path = szFilePath;
-	path.append("\\..\\..\\SDK\\TIC\\localrecord\\lib\\");
+	path.append("\\record\\");
 	path.append(mLocalRecorder->RecordExe);
 	mLocalRecorder->startService(path);
 

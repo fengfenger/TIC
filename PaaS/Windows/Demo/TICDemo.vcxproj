@@ -120,7 +120,8 @@
     <PreBuildEvent>
       <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
 COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
+COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) 
+XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>DEL /F /Q $(OutDir)*.lib</Command>
