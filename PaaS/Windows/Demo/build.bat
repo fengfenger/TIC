@@ -18,6 +18,7 @@ ping -n 1 127.1 >nul
 
 ::拷贝文件
 xcopy /y /e ..\SDK\TEduBoard\lib .\bin\
+xcopy /y /e ..\SDK\TIC\localrecord\lib .\bin\
 copy /y ..\SDK\TIM\lib\Release .\bin\
 copy /y ..\SDK\TRTC\lib .\bin\
 copy /y .\Release\TICDemo.exe .\bin\

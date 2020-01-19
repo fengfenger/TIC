@@ -36,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
@@ -186,7 +186,8 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
     <PreBuildEvent>
       <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
 COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
+COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) 
+XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>DEL /F /Q $(OutDir)*.lib</Command>
