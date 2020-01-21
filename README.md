@@ -36,7 +36,7 @@ git clone https://github.com/tencentyun/TIC.git
 
 |能力|SaaS |  PaaS |
 | :-- | :-- |  :-- |
-| 课程管理 | 控制台/云 API | 云 API |
+| 课程管理 | 控制台/云 API | - |
 | 客户端 | 互动课堂 App/集成课堂 UI 组件 | 集成 SDK |
 | 数据统计和回调 | 支持 | 不支持 |
 
@@ -92,7 +92,7 @@ git clone https://github.com/tencentyun/TIC.git
 6. 需要自行开发 App 的客户，具体请参考[SaaS客户端组件方式接入指南](./SaaS/Saas%e5%ae%a2%e6%88%b7%e7%ab%af%e7%bb%84%e4%bb%b6%e6%96%b9%e5%bc%8f%e6%8e%a5%e5%85%a5%e6%8c%87%e5%8d%97.md)
 7. 可以使用云API完成控制台所有功能，具体请参考[云 API 接入指南](./SaaS/%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/%E4%BA%91API.md)
 
-正式接入前，请阅读[购买指南](./%E8%B4%AD%E4%B9%B0%E6%8C%87%E5%8D%97.md)后，发送邮件申请开通服务。
+正式接入前，请阅读[开通指南](./SaaS/开通指南.md)申请开通服务。
 
 ### PaaS 方案
 
@@ -132,13 +132,10 @@ git clone https://github.com/tencentyun/TIC.git
 1. 通过调用 REST API，实现课件转码和录制等功能。
 2. 客户按自身的业务逻辑，集成互动白板、实时音视频和即时通信 IM，完成上课流程的闭环。
 3. 客户也可以集成 TIC 源码，该源码集成了互动白板、实时音视频和即时通信 IM，可快速完成上课流程的闭环。
-4. 通过集成云API，托管课堂数据到腾讯云，实现课堂管理功能。
- - [TIC 快速接入](./PaaS/README.md)
- - [互动白板](./PaaS/Docs/SDK文档/互动白板功能说明.md)
- - [实时音视频](https://github.com/tencentyun/TRTCSDK)
- - [即时通信 IM](https://github.com/tencentyun/TIMSDK)
- - [文档转码服务](./PaaS/Docs/%E6%96%87%E6%A1%A3%E8%BD%AC%E7%A0%81.md)
- - [后台实时录制服务](./PaaS/Docs/%E5%AE%9E%E6%97%B6%E5%BD%95%E5%88%B6.md)
- - [云API](./PaaS/Docs/云API.md)
 
-正式接入前，请阅读[购买指南](./%E8%B4%AD%E4%B9%B0%E6%8C%87%E5%8D%97.md)后，发送邮件申请开通服务。
+ - [TIC 快速接入](./PaaS/README.md)
+ - [互动白板](https://cloud.tencent.com/document/product/1137)
+ - [实时音视频](https://cloud.tencent.com/document/product/647)
+ - [即时通信 IM](https://cloud.tencent.com/document/product/269)
+
+正式接入前，请阅读[开通指南](./PaaS/开通指南.md)开通所需服务。
