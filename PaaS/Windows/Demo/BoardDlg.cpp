@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "BoardDlg.h"
 #include "Resource.h"
+#include "Config.h"
+#include "TICDemo.h"
 
+extern CTICDemoApp theApp;
 BEGIN_MESSAGE_MAP(CDrawTabDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHK_ENABLE_DRAW, &CDrawTabDlg::OnBnClickedChkEnableDraw)
 	ON_BN_CLICKED(IDC_BTN_UNDO, &CDrawTabDlg::OnBnClickedBtnUndo)
@@ -500,7 +503,6 @@ END_MESSAGE_MAP()
 CFileTabDlg::CFileTabDlg(CWnd* pParent /*= nullptr*/)
 	: CDialogEx(IDD_BOARD_TAB_FILE, pParent)
 {
-
 }
 
 void CFileTabDlg::UpdateFileList()
@@ -633,7 +635,7 @@ CBoardDlg::CBoardDlg(CWnd* pParent)
 	: CDialogEx(IDD_BOARD_DIALOG, pParent)
 	, histroySync_(false)
 {
-
+	recordDlg_ = std::make_shared<CRecordDlg>();
 }
 
 void CBoardDlg::Init()
@@ -702,10 +704,12 @@ BOOL CBoardDlg::OnInitDialog()
 	tabBoardCtrl_.InsertItem(0, _T("涂鸦"));
 	tabBoardCtrl_.InsertItem(1, _T("白板"));
 	tabBoardCtrl_.InsertItem(2, _T("文件"));
+	tabBoardCtrl_.InsertItem(3, _T("录制"));
 
 	drawTabDlg_.Create(IDD_BOARD_TAB_DRAW, &tabBoardCtrl_);
 	boardTabDlg_.Create(IDD_BOARD_TAB_BOARD, &tabBoardCtrl_);
 	fileTabDlg_.Create(IDD_BOARD_TAB_FILE, &tabBoardCtrl_);
+	bool result = recordDlg_->Create(IDD_BOARD_TAB_RECORD, &tabBoardCtrl_);
 
 	//获取标签高度
 	CRect itemRect;
@@ -727,6 +731,9 @@ BOOL CBoardDlg::OnInitDialog()
 
 	fileTabDlg_.MoveWindow(&clientRect);
 	fileTabDlg_.ShowWindow(SW_HIDE);
+
+	recordDlg_->MoveWindow(&clientRect);
+	recordDlg_->ShowWindow(SW_HIDE);
 
 	UpdateUI();
 
@@ -813,6 +820,7 @@ void CBoardDlg::OnSize(UINT nType, int cx, int cy)
 		drawTabDlg_.MoveWindow(&clientRect);
 		boardTabDlg_.MoveWindow(&clientRect);
 		fileTabDlg_.MoveWindow(&clientRect);
+		recordDlg_->MoveWindow(&clientRect);
 	}
 
 	CDialogEx::OnSize(nType, cx, cy);
@@ -842,17 +850,27 @@ void CBoardDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 		drawTabDlg_.ShowWindow(SW_SHOW);
 		boardTabDlg_.ShowWindow(SW_HIDE);
 		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_SHOW);
 		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		drawTabDlg_.ShowWindow(SW_HIDE);
 		boardTabDlg_.ShowWindow(SW_HIDE);
 		fileTabDlg_.ShowWindow(SW_SHOW);
+		recordDlg_->ShowWindow(SW_HIDE);
 		break;
+	case 3:
+		drawTabDlg_.ShowWindow(SW_HIDE);
+		boardTabDlg_.ShowWindow(SW_HIDE);
+		fileTabDlg_.ShowWindow(SW_HIDE);
+		recordDlg_->ShowWindow(SW_SHOW);
+		break;
+
 	default:
 		break;
 	}
@@ -1030,4 +1048,388 @@ void CBoardDlg::onTEBSwitchFile(const char * fileId)
 		boardTabDlg_.UpdateBoardList();
 		UpdateThumbnailImages();
 	}
+}
+
+
+
+BEGIN_MESSAGE_MAP(CRecordDlg, CDialogEx)
+
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnLvnItemchangedListLocalRecord)
+	ON_BN_CLICKED(IDC_BTN_INIT, &CRecordDlg::OnBnClickedBtnInit)
+	ON_BN_CLICKED(IDC_BTN_EXIT, &CRecordDlg::OnBnClickedBtnExit)
+	ON_BN_CLICKED(IDC_BTN_REFRESSH_RESULT, &CRecordDlg::OnBnClickedBtnRefresshResult)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_LOCAL_RECORD, &CRecordDlg::OnNMDbClkListRecordFile)
+	ON_BN_CLICKED(IDC_BTN_START_RECORD, &CRecordDlg::OnBnClickedBtnStartRecord)
+	ON_BN_CLICKED(IDC_BTN_STOP_RECORD, &CRecordDlg::OnBnClickedBtnStopRecord)
+
+	ON_BN_CLICKED(IDC_BTN_PAUSE_RECORD, &CRecordDlg::OnBnClickedBtnPauseRecord)
+	ON_BN_CLICKED(IDC_BTN_RESUME_RECORD, &CRecordDlg::OnBnClickedBtnResumeRecord)
+END_MESSAGE_MAP()
+
+CRecordDlg::CRecordDlg(CWnd* pParent /*= nullptr*/)
+	: CDialogEx(IDD_BOARD_TAB_RECORD, pParent)
+{
+	mLocalRecorder = TICLocalRecorder::GetInstance();
+}
+
+
+BOOL CRecordDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	mListRecord.InsertColumn(0, _T("文件名"), LVCFMT_LEFT, 100);
+	mListRecord.InsertColumn(1, _T("录制人"), LVCFMT_LEFT, 80);
+	mListRecord.InsertColumn(2, _T("时长(秒)"), LVCFMT_LEFT, 72);
+
+	return TRUE;
+}
+
+void CRecordDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+
+	DDX_Control(pDX, IDC_LIST_LOCAL_RECORD, mListRecord);
+	DDX_Control(pDX, IDC_STATIC_AUTH_STATE, mStaticAuth);
+	DDX_Control(pDX, IDC_STATIC_RECORD_STATE, mStaticRecord);
+	DDX_Control(pDX, IDC_STATIC_UPLOAD_STATE, mStaticUploadState);
+}
+
+void CRecordDlg::onGotStatus(const RecordState& state) {
+	std::wstring authState = a2w(state.auth.State);
+	std::wstring recordingState = a2w(state.recording.State);
+
+	mStaticAuth.SetWindowText((LPCTSTR)authState.c_str());
+	mStaticRecord.SetWindowText((LPCTSTR)recordingState.c_str());
+
+	std::wstring uploadState;
+	for (int i = 0; i < state.upload.size(); i++) {
+		if (state.upload[i].IsCurrentRecoding) {
+			uploadState = a2w(state.upload[i].State);
+		}
+	}
+	mStaticUploadState.SetWindowText((LPCTSTR)(uploadState.c_str()));
+}
+
+void CRecordDlg::initRecord(int appid, const std::string& user, const std::string& sig) {
+	if (appid == 0 || user.empty() || sig.empty()) {
+		AfxMessageBox(_T("初始参数有误!"), MB_OK);
+		return;
+	}
+
+	mLocalRecorder->setListener(this->shared_from_this());
+
+   //拉起服务和鉴权.
+	char szFilePath[MAX_PATH + 1] = { 0 };
+	GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
+	(strrchr(szFilePath, '\\'))[0] = 0;
+	std::string path = szFilePath;
+	path.append("\\record\\");
+	path.append(mLocalRecorder->RecordExe);
+	mLocalRecorder->startService(path);
+
+	TEduRecordAuthParam auth(appid, user, sig);
+
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->init(auth, [this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			AfxMessageBox(_T("认证失败!"), MB_OK);
+		}
+		else {
+			self->mIsAuth = true;
+		}
+	});
+}
+
+void CRecordDlg::exitRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->exit([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("停止录制失败"), MB_OK);
+		}
+		else {
+			self->mIsAuth = false;
+		}
+	});
+}
+
+void CRecordDlg::startRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+
+	TEduRecordParam para;
+	para.classId = theApp.getClassId();
+	para.AppProc = "TICDemo.exe";
+	mLocalRecorder->startLocalRecord(para, "E:\\test\\test.flv", [this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("开始录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("开始录制"), MB_OK);
+		}
+	});
+}
+
+void CRecordDlg::stopRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->stopLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("停止录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("停止录制"), MB_OK);
+		}
+	});
+}
+
+
+void CRecordDlg::pauseRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->pauseLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("暂停录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("暂停录制"), MB_OK);
+		}
+	});
+}
+
+void CRecordDlg::resumeRecord() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->resumeLocalRecord([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("暂停录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("暂停录制"), MB_OK);
+		}
+	});
+}
+
+void CRecordDlg::getRecordState() {
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->getState([this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code != 0) {
+			//AfxMessageBox(_T("暂停录制失败"), MB_OK);
+		}
+		else {
+			//AfxMessageBox(_T("暂停录制"), MB_OK);
+		}
+	});
+}
+
+void  CRecordDlg::getRecord() {
+	int appid = Config::GetInstance().SdkAppId();
+	std::string userid = theApp.getUserId();
+	const RecordKey key = RecordKey(appid, theApp.getClassId(), std::string(""), std::string(""),  0, 40);
+
+	TEduRecordAuthParam auth(appid, userid, theApp.getUserSig());
+
+	std::weak_ptr< CRecordDlg> weakSelf = this->shared_from_this();
+	mLocalRecorder->getRecordResult(auth, key, [this, weakSelf](TICModule module, int code, const char *desc) {
+		std::shared_ptr<CRecordDlg> self = weakSelf.lock();
+		if (!self)
+			return;
+
+		if (code == 0) {
+			bool isFinished = false;
+			if (self->parseRecordInfos(desc, isFinished)) {
+				self->refreshRecordInfo();
+			}
+			else {
+				printf("获取列表失败.\n");
+			}			
+		}
+	});
+}
+
+
+void CRecordDlg::OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+
+	*pResult = 0;
+}
+
+
+void CRecordDlg::OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	*pResult = 0;
+}
+
+
+void CRecordDlg::OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}
+
+void CRecordDlg::OnBnClickedBtnInit()
+{
+	int appid = Config::GetInstance().SdkAppId();
+	const std::string uid = theApp.getUserId();
+	const std::string sig = theApp.getUserSig();
+	initRecord(appid, uid, sig);
+}
+
+void CRecordDlg::OnBnClickedBtnExit()
+{
+	exitRecord();
+}
+
+
+void CRecordDlg::OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	auto *boardCtrl = TICManager::GetInstance().GetBoardController();
+	if (boardCtrl)
+	{
+		POSITION pos = mListRecord.GetFirstSelectedItemPosition();
+		int index = mListRecord.GetNextSelectedItem(pos);
+		CString text = mListRecord.GetItemText(index, 0);
+
+		std::string url = w2a(text.GetString()).c_str();
+		boardCtrl->AddVideoFile(url.c_str());
+	}
+
+	*pResult = 0;
+}
+
+
+void CRecordDlg::OnBnClickedBtnRefresshResult()
+{
+	getRecord();
+}
+
+
+bool CRecordDlg::parseRecordInfos(const char *desc, bool& listIsFinished) {
+	std::string rspBuf = desc;
+	Json::Value Val;
+	Json::Reader reader;
+	if (!reader.parse(rspBuf.c_str(), rspBuf.c_str() + rspBuf.size(), Val)) { //从ifs中读取数据到jsonRoot
+		return false;
+	}
+
+	mInfos.clear();
+
+	if (Val.isMember("Response")) {
+		auto Response = Val["Response"];
+
+		if (Response.isMember("RecordInfoList")) { //失败，错误返回
+			auto record_info_list = Response["RecordInfoList"];
+			if (record_info_list.isArray()) {
+
+				int size = record_info_list.size();
+
+				for (int i = 0; i < size; i++) {
+					RecordInfo info;
+					auto record = record_info_list[i];
+					if (record.isMember("RoomId")) {
+						info.RoomId = record["RoomId"].asLargestUInt();
+					}
+
+					if (record.isMember("StartTime")) {
+						info.StartTime = record["StartTime"].asLargestUInt();
+					}
+
+					if (record.isMember("UserId")) {
+						info.UserId = record["UserId"].asString();
+					}
+
+					if (record.isMember("VideoOutputDuration")) {
+						info.VideoOutputDuration = record["VideoOutputDuration"].asLargestUInt();
+					}
+
+					if (record.isMember("VideoOutputUrl")) {
+						info.VideoOutputUrl = record["VideoOutputUrl"].asString();
+					}
+
+					if (record.isMember("VideoOutputSize")) {
+						info.VideoOutputSize = record["VideoOutputSize"].asLargestUInt();
+					}
+
+					mInfos.push_back(info);
+				}
+			}
+
+			//标记列表是否拉取结束，如果结束后则不需要再拉取。
+			if (Response.isMember("finish")) {
+				listIsFinished = Val["finish"].asBool();
+			}
+		}
+	}
+
+}
+
+void CRecordDlg::refreshRecordInfo() {
+	mListRecord.SetRedraw(FALSE);
+	mListRecord.DeleteAllItems();
+
+	int size = mInfos.size();
+	for (uint32_t i = 0; i < size; ++i)
+	{
+		RecordInfo fileInfo = mInfos[i];
+		mListRecord.InsertItem(i, _T(""));
+		mListRecord.SetItemText(i, 0, a2w(fileInfo.VideoOutputUrl.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 1, a2w(fileInfo.UserId.c_str(), CP_UTF8).c_str());
+		mListRecord.SetItemText(i, 2, a2w(std::to_string(fileInfo.VideoOutputDuration / 1000).c_str(), CP_UTF8).c_str());
+	}
+	if (size > 0) // 选中当前文件
+	{
+		mListRecord.SetItemState(0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
+		mListRecord.SetFocus();
+	}
+	mListRecord.SetRedraw(TRUE);
+}
+
+
+void CRecordDlg::OnBnClickedBtnStartRecord()
+{
+	startRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnStopRecord()
+{
+	stopRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnPauseRecord()
+{
+	pauseRecord();
+}
+
+void CRecordDlg::OnBnClickedBtnResumeRecord()
+{
+	resumeRecord();
 }

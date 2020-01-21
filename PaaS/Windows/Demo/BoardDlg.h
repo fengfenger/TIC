@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include "..\SDK\TIC\localrecord\TICLocalRecord.h"
+#include "afxwin.h"
 
 enum class BoardState
 {
@@ -144,10 +146,87 @@ private:
 	afx_msg void OnBnClickedBtnAddH5();
 	afx_msg void OnBnClickedBtnAddVideo();
 
+
 private:
 	CListCtrl listFile_;
 	CEdit	editAddH5_;
 	CEdit	editAddVideo_;
+};
+
+
+//文件操作标签页
+class CRecordDlg : public CDialogEx, public TEduRecordCallback, public std::enable_shared_from_this<CRecordDlg>
+{
+	DECLARE_MESSAGE_MAP()
+public:
+	CRecordDlg(CWnd* pParent = nullptr);
+
+	// 对话框数据
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_BOARD_TAB_RECORD };
+#endif
+
+private:
+	virtual BOOL OnInitDialog() override;
+	virtual void DoDataExchange(CDataExchange* pDX) override;
+
+	///
+
+	afx_msg void OnLvnItemchangedLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnNMDblclkLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLvnItemchangedListLocalRecord(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedBtnInit();
+	afx_msg void OnBnClickedBtnExit();
+
+	afx_msg void OnBnClickedBtnRefresshResult();
+	afx_msg void OnNMDbClkListRecordFile(NMHDR *pNMHDR, LRESULT *pResult);
+
+	void initRecord(int appid, const std::string& user, const std::string& sig);
+	void startRecord();
+	void stopRecord();
+	void pauseRecord();
+	void resumeRecord();
+	void getRecord();
+	void exitRecord();
+
+	bool parseRecordInfos(const char *desc, bool& listIsFinished);
+	void refreshRecordInfo();
+	void getRecordState();
+
+	//From TEduRecordCallback
+	virtual void onGotStatus(const RecordState& state);
+
+	struct RecordInfo {
+		uint32_t RoomId = 0;
+		uint64_t SplicTime = 0;
+		uint64_t StartTime = 0;
+		uint64_t VideoOutputDuration = 0; //单位是ms
+		uint64_t VideoOutputSize = 0;
+
+		std::string TaskId;
+		std::string UserId;
+		std::string VideoOutputId;
+		std::string VideoOutputType;
+		std::string VideoOutputUrl;
+	};
+
+protected:
+	CListCtrl mListRecord;
+	TICLocalRecorder* mLocalRecorder;
+	bool mIsAuth = false;
+	std::vector<RecordInfo> mInfos;
+private:
+
+	CEdit	editAddH5_;
+	CEdit	editAddVideo_;
+public:
+	afx_msg void OnBnClickedBtnStartRecord();
+	afx_msg void OnBnClickedBtnStopRecord();
+	afx_msg void OnBnClickedBtnPauseRecord();
+	afx_msg void OnBnClickedBtnResumeRecord();
+	CStatic mStaticAuth;
+	CStatic mStaticRecord;
+	CStatic mStaticUploadState;
 };
 
 class CBoardDlg 
@@ -225,5 +304,6 @@ private:
 	CTabCtrl tabBoardCtrl_;
 	CDrawTabDlg		drawTabDlg_;
 	CBoardTabDlg	boardTabDlg_;
-	CFileTabDlg		fileTabDlg_;
+	CFileTabDlg fileTabDlg_;
+	std::shared_ptr<CRecordDlg>		recordDlg_;
 };

@@ -7,6 +7,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+extern CTICDemoApp theApp;
 
 BEGIN_MESSAGE_MAP(CTICDemoDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
@@ -31,7 +32,6 @@ CTICDemoDlg::CTICDemoDlg(CWnd* pParent /*=nullptr*/)
 
 	videoDlg_ = std::make_shared<CVideoDlg>();
 	boardDlg_ = std::make_shared<CBoardDlg>();
-	pushDlg_ = std::make_shared<CPushDlg>();
 }
 
 CTICDemoDlg::~CTICDemoDlg()
@@ -67,11 +67,9 @@ BOOL CTICDemoDlg::OnInitDialog()
 	//插入TAB页
 	tabCtrl_.InsertItem(0, _T("视频"));
 	tabCtrl_.InsertItem(1, _T("白板"));
-	//tabCtrl_.InsertItem(2, _T("推流"));
 
 	videoDlg_->Create(IDD_VIDEO_DIALOG, &tabCtrl_);
 	boardDlg_->Create(IDD_BOARD_DIALOG, &tabCtrl_);
-	pushDlg_->Create(IDD_PUSH_DIALOG, &tabCtrl_);
 
 	//获取标签高度
 	CRect itemRect;
@@ -89,8 +87,6 @@ BOOL CTICDemoDlg::OnInitDialog()
 	videoDlg_->ShowWindow(SW_SHOW);
 	boardDlg_->MoveWindow(&clientRect);
 	boardDlg_->ShowWindow(SW_HIDE);
-	pushDlg_->MoveWindow(&clientRect);
-	pushDlg_->ShowWindow(SW_HIDE);
 
 	//用户列表
 	const std::vector<UserInfo>& userInfoList = Config::GetInstance().UserInfoList();
@@ -168,7 +164,6 @@ void CTICDemoDlg::OnSize(UINT nType, int cx, int cy)
 
 		videoDlg_->MoveWindow(&clientRect);
 		boardDlg_->MoveWindow(&clientRect);
-		pushDlg_->MoveWindow(&clientRect);
 	}
 }
 
@@ -236,17 +231,14 @@ void CTICDemoDlg::OnTabSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		videoDlg_->ShowWindow(SW_SHOW);
 		boardDlg_->ShowWindow(SW_HIDE);
-		pushDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		videoDlg_->ShowWindow(SW_HIDE);
 		boardDlg_->ShowWindow(SW_SHOW);
-		pushDlg_->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		videoDlg_->ShowWindow(SW_HIDE);
 		boardDlg_->ShowWindow(SW_HIDE);
-		pushDlg_->ShowWindow(SW_SHOW);
 		break;
 	default:
 		break;
@@ -259,6 +251,9 @@ void CTICDemoDlg::OnBtnLogin()
 
 	int nSelectIndex = cbUser_.GetCurSel();
 	const std::vector<UserInfo>& userInfoList = Config::GetInstance().UserInfoList();
+
+	theApp.setUserId(userInfoList[nSelectIndex].userid);
+	theApp.setUserSig(userInfoList[nSelectIndex].usersig);
 
 	std::weak_ptr< CTICDemoDlg> weakSelf = this->shared_from_this();
 	TICManager::GetInstance().Login(userInfoList[nSelectIndex].userid, userInfoList[nSelectIndex].usersig, [this, weakSelf](TICModule module, int code, const char *desc){
@@ -405,6 +400,8 @@ void CTICDemoDlg::OnBtnJoinRoom()
 	TICClassroomOption option;
 	option.classId = classId;
 	option.boardCallback = boardDlg_.get();
+
+	theApp.setClassId(classId);
 
 	std::weak_ptr< CTICDemoDlg> weakSelf = this->shared_from_this();
 	TICManager::GetInstance().JoinClassroom(option, [this, weakSelf](TICModule module, int code, const char *desc) {

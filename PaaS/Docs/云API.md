@@ -1162,6 +1162,59 @@ quit_class
 "role":student,
 }
 ```
+### 本地录制结果回调
+
+
+
+**event**
+
+```
+local_record_callback
+```
+
+**data**
+
+| 参数名 | 类型 | 描述 | 是否必填 | 默认值 |
+| :------ | :--- | :---- | :--------: | :-----: |
+| class_id | int | 课堂ID | 是 | - |
+| class_topic | string | 课堂主题/课堂名字 | 否 | 课堂 ID 的字符串形式 |
+| teacher_id | string | 教师 ID | 是 | - |
+| assistant_id | string | 助教 ID | 是 | - |
+| start_time | int | 视频开始时间 | 是 | - |
+| stop_time | int | 视频结束时间 | 是 | - |
+| class_start_time | int | 课堂开始时间 | 是 | - |
+| class_stop_time | int | 课堂结束时间 | 是 | - |
+| user_id | int | 录制者id | 是 | - |
+| record_type | string | 录制类型（online_record:在线录制，local_record:本地录制） | 是 | - |
+| file_id | int | 视频文件id | 是 | - |
+| file_format | int | 视频文件格式 | 是 | - |
+| file_size | int | 视频文件大小 | 是 | - |
+| file_url | int | 视频文件地址 | 是 | - |
+| duration | int | 视频文件时长 | 是 | - |
+
+
+```
+{
+    "record_info":{
+        "sdkappid":14000000,
+        "class_id":1123123,
+        "class_topic":"课堂",
+        "teacher_id":"老师id",
+        "assistant_id":"助教id",
+        "start_time":12121212,
+        "stop_time":13131313,
+        "class_start_time":121212,
+        "class_stop_time":13131313,
+        "user_id":"录制者id",
+        "record_type":"local_record",
+        "file_id":"video id",
+        "file_format":"MP4",
+        "file_size":"文件大小",
+        "file_url":"文件播放地址",
+        "duration":123
+    }
+}
+```
 ## 企业模块
 
 ### 修改企业信息
