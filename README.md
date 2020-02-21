@@ -31,8 +31,7 @@ git clone https://github.com/tencentyun/TIC.git
 
 腾讯云在线教育互动课堂（Tencent Interact Class，TIC）是集实时音视频、交互式白板涂鸦、IM 聊天室、PPT 课件共享、屏幕分享和录制回放等功能于一体的一站式在线教育互动课堂解决方案。
 
-为了适应不同客户的需求，我们把互动课堂的接入方案分成了 SaaS 和 PaaS 两种。下面的表中列举了这两种方案的主要区别。
-客户可以根据自身情况灵活选择。我们也支持这两种方案的无缝切换。
+为了适应不同客户的需求，我们把互动课堂的接入方案分成了 SaaS 和 PaaS 两种。下表中列举了这两种方案的主要区别，客户可以根据自身情况灵活选择。同时，我们也支持这两种方案的无缝切换。
 
 |能力|SaaS |  PaaS |
 | :-- | :-- |  :-- |
@@ -40,7 +39,7 @@ git clone https://github.com/tencentyun/TIC.git
 | 客户端 | 互动课堂 App/集成课堂 UI 组件 | 集成 SDK |
 | 数据统计和回调 | 支持 | 不支持 |
 
-功能模块列表：
+**功能模块列表：**
 
 | 功能 | pc/mac | 桌面 Chrome | Android/iOS | 小程序 |
 | --- | --- | --- | --- | --- |
@@ -49,16 +48,14 @@ git clone https://github.com/tencentyun/TIC.git
 | 点播 | 支持 | 支持 | 支持 | 支持 |
 | 本地录制 | 支持 | - | - | - |
 | 互动白板 | 支持 | 支持 | 支持 | 支持 |
-| IM聊天 | 支持 | 支持 | 支持 | 支持 |
+| IM 聊天 | 支持 | 支持 | 支持 | 支持 |
 
 
 ### SaaS 方案
 
 ![](https://main.qcloudimg.com/raw/ea3692fd322dbcc7d86c3fc3cc6d3c59.jpg)
 
-**demo体验**
-     
-
+**DEMO 体验**
 <table>
 <tr>
 <th style="text-align:center">Web</th>
@@ -78,9 +75,9 @@ git clone https://github.com/tencentyun/TIC.git
 </tr>
 </table>
 
-> IOS DEMO 下载密码:qcloudtencent
-> demo 功能可参考下面的桌面端/移动端使用手册。
-> Demo中视频为标清，正式Saas版本可在约课时指定分辨率以及码率。
+- iOS DEMO 下载密码：qcloudtencent。
+- DEMO 功能可参考下面的桌面端/移动端使用手册。
+- Demo 中视频为标清，正式 SaaS 版本可在约课时指定分辨率以及码率。
 
 **SaaS 方案接入**
 
@@ -98,7 +95,7 @@ git clone https://github.com/tencentyun/TIC.git
 
 ![](https://main.qcloudimg.com/raw/4fd896e4a8f70e417d004645f6276927.png)
 
-**demo 体验**
+**DEMO 体验**
 
 <table>
 <tr>
@@ -125,7 +122,7 @@ git clone https://github.com/tencentyun/TIC.git
 </tr>
 </table>
 
->iOS 和 Android 扫码后，请输入安装密码 `tiw` 后即可安装。
+iOS 和 Android 扫码后，输入安装密码`tiw`即可安装。
 
 **PaaS 方案接入**
 
