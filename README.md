@@ -90,7 +90,7 @@ git clone https://github.com/tencentyun/TIC.git
 4. 下载移动端 App，体验完整功能。具体请参考 [SaaS 移动端使用手册](./SaaS/Saas%e7%a7%bb%e5%8a%a8%e7%ab%af%e4%bd%bf%e7%94%a8%e6%89%8b%e5%86%8c.md)
 5. 直接使用腾讯云互动课堂 App 的客户，具体请参考[SaaS 客户端纯应用方式接入指南](./SaaS/Saas%e5%ae%a2%e6%88%b7%e7%ab%af%e7%ba%af%e5%ba%94%e7%94%a8%e6%96%b9%e5%bc%8f%e6%8e%a5%e5%85%a5%e6%8c%87%e5%8d%97.md)
 6. 需要自行开发 App 的客户，具体请参考[SaaS客户端组件方式接入指南](./SaaS/Saas%e5%ae%a2%e6%88%b7%e7%ab%af%e7%bb%84%e4%bb%b6%e6%96%b9%e5%bc%8f%e6%8e%a5%e5%85%a5%e6%8c%87%e5%8d%97.md)
-7. 可以使用云API完成控制台所有功能，具体请参考[云 API 接入指南](./SaaS/%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/%E4%BA%91API.md)
+7. 可以使用云API完成控制台所有功能，具体请参考[云 API 接入指南](./SaaS/云API.md)
 
 正式接入前，请阅读[开通指南](./SaaS/开通指南.md)申请开通服务。
 
