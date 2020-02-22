@@ -83,11 +83,11 @@ TICSaaS 组件已经发布到 jcenter，您可以通过配置 gradle 自动下�
 ```groovy
  dependencies {
     // TIC SaaS 组件
-    implementation "com.tencent.ticsaas:core:1.2.1.5"
+    implementation "com.tencent.ticsaas:core:1.2.1.6"
     // 实时音视频
     implementation "com.tencent.liteav:LiteAVSDK_TRTC:6.8.8003"
     // 即时通信 IM SDK
-    implementation "com.tencent.imsdk:imsdk:4.6.56"
+    implementation "com.tencent.imsdk:imsdk:latest.release"
     // 腾讯云互动白板
     implementation "com.tencent.teduboard:TEduBoardSdk:2.4.0.292"
 }
@@ -98,13 +98,13 @@ TICSaaS 组件默认引用的是普通版的 TRTC，如果您需要集成的是 
 ```groovy
  dependencies {
     // TIC SaaS 组件
-    implementation("com.tencent.ticsaas:core:1.2.0.1") {
+    implementation("com.tencent.ticsaas:core:1.2.1.6") {
         exclude group: 'com.tencent.liteav', module: 'LiteAVSDK_TRTC'
     }
     // 实时音视频
     implementation "com.tencent.liteav:LiteAVSDK_Professional:6.8.8003"
     // 即时通信 IM SDK
-    implementation "com.tencent.imsdk:imsdk:4.6.51"
+    implementation "com.tencent.imsdk:imsdk:latest.release"
     // 腾讯云互动白板
     implementation "com.tencent.teduboard:TEduBoardSdk:2.4.0.292"
 }
