@@ -99,6 +99,7 @@ public class TICClassMainActivity extends BaseActvity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mTicManager.quitClassroom(false, null);
 
         unInitTrtc();
         removeBoardView();
@@ -429,6 +430,16 @@ public class TICClassMainActivity extends BaseActvity
         @Override
         public void onGotoFile(String fid) {
             mBoard.switchFile(fid);
+        }
+
+        @Override
+        public void onPlayVideoFile(String url) {
+            mBoard.addVideoFile(url);
+        }
+
+        @Override
+        public void onShowVideoCtrl(boolean value) {
+            mBoard.showVideoControl(value);
         }
     }
 
@@ -825,12 +836,12 @@ public class TICClassMainActivity extends BaseActvity
 
         @Override
         public void onTEBError(int code, String msg) {
-
+            TXLog.i(TAG, "onTEBError:" + code + "|" + msg);
         }
 
         @Override
         public void onTEBWarning(int code, String msg) {
-
+            TXLog.i(TAG, "onTEBWarning:" + code + "|" + msg);
         }
 
         @Override
@@ -854,10 +865,6 @@ public class TICClassMainActivity extends BaseActvity
 
         }
 
-        @Override
-        public void onTEBImageStatusChanged(String boardId, String url, int status) {
-
-        }
 
         @Override
         public void onTEBAddBoard(List<String> boardId, final String fileId) {
@@ -866,12 +873,12 @@ public class TICClassMainActivity extends BaseActvity
 
         @Override
         public void onTEBDeleteBoard(List<String> boardId, final String fileId) {
-
+            TXLog.i(TAG, "onTEBDeleteBoard:" + fileId);
         }
 
         @Override
         public void onTEBGotoBoard(String boardId, final String fileId) {
-
+            TXLog.i(TAG, "onTEBGotoBoard:" + fileId);
         }
 
          @Override
@@ -889,6 +896,7 @@ public class TICClassMainActivity extends BaseActvity
 
          @Override
          public void onTEBAddTranscodeFile(String s) {
+             TXLog.i(TAG, "onTEBAddTranscodeFile:" + s);
          }
 
          @Override
@@ -929,22 +937,27 @@ public class TICClassMainActivity extends BaseActvity
 
          @Override
          public void onTEBVideoStatusChanged(String fileId, int status, float progress, float duration) {
+             Log.i(TAG, "onTEBVideoStatusChanged:" + fileId + " | " + status + "|" + progress);
+         }
 
+         @Override
+         public void onTEBImageStatusChanged(String boardId, String url, int status) {
+             TXLog.i(TAG, "onTEBImageStatusChanged:" + boardId + "|" + url + "|" + status);
          }
 
          @Override
          public void onTEBSetBackgroundImage(final String url){
-             TXLog.i(TAG, "onTEBSetBackgroundImage:" + url);
+             Log.i(TAG, "onTEBSetBackgroundImage:" + url);
          }
 
          @Override
          public void onTEBAddImageElement(final String url){
-             TXLog.i(TAG, "onTEBAddImageElement:" + url);
+             Log.i(TAG, "onTEBAddImageElement:" + url);
          }
 
          @Override
          public void onTEBBackgroundH5StatusChanged(String boardId, String url, int status) {
-             TXLog.i(TAG, "onTEBBackgroundH5StatusChanged:" + boardId  + " url:" + boardId + " status:" + status);
+             Log.i(TAG, "onTEBBackgroundH5StatusChanged:" + boardId  + " url:" + boardId + " status:" + status);
          }
      }
 

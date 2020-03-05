@@ -629,6 +629,9 @@ public class TICManagerImpl  extends TICManager{
             if (clearBoard) {
                 mBoard.reset();
             }
+
+            TICReporter.report(TICReporter.EventId.unInitBoard);
+            mBoard.uninit();
         }
     }
 

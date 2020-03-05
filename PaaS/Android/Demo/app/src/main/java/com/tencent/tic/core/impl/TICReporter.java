@@ -27,6 +27,7 @@ public class TICReporter {
         public static final String joinGroup_end = "joinGroup_end";
         public static final String initBoard_start = "initBoard_start";
         public static final String initBoard_end = "initBoard_end";
+        public static final String unInitBoard = "unInitBoard";
         public static final String syncBoardHistory_end = "syncBoardHistory_end";
         public static final String enterRoom_start = "enterRoom_start";
         public static final String enterRoom_end = "enterRoom_end";

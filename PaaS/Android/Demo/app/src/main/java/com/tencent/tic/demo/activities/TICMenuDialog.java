@@ -63,6 +63,11 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
             new KValue("http://b.hiphotos.baidu.com/image/h%3D300/sign=92afee66fd36afc3110c39658318eb85/908fa0ec08fa513db777cf78376d55fbb3fbd9b3.jpg", "美图"),
     };
 
+    //Video
+    private final static KValue [] VideoRes_URL = {
+            new KValue("https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4", "腾讯教育")
+    };
+
 
     final ToolType [] mToolMap = {
             new ToolType("鼠标", TEduBoardController.TEduBoardToolType.TEDU_BOARD_TOOL_TYPE_MOUSE),
@@ -149,6 +154,10 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         void onDeleteFile(String boardId);
         void onGotoFile(String boardId);
 
+
+        //Video()
+        void onPlayVideoFile(String url);
+        void onShowVideoCtrl(boolean value);
     }
 
     //显示时的值
@@ -509,6 +518,20 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         Spinner switchfile = (Spinner)findViewById(R.id.sp_switchFile);
         switchfile.setAdapter(filesArray);
         switchfile.setSelection(pos_file >=0 ? pos_file : 0, false);
+
+
+        //---------视频(video)---------
+        findViewById(R.id.btn_addVideoFile).setOnClickListener(this);
+        findViewById(R.id.btn_video_ctrl_enalbe).setOnClickListener(this);
+
+        ArrayAdapter<String> videoArray =new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, android.R.id.text1);
+        for (int i = 0; i < VideoRes_URL.length; i++) {
+            videoArray.add(VideoRes_URL[i].value);
+        }
+        Spinner videoSp = (Spinner)findViewById(R.id.sp_addVideoFile);
+        videoSp.setAdapter(videoArray);
+        videoSp.setSelection(0, false);
+
     }
 
     @Override
@@ -761,6 +784,21 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
                     Toast.makeText(getContext(), "file is not exist.", Toast.LENGTH_LONG);
                 }
                 break;
+
+            case R.id.btn_addVideoFile:
+                int pos8 = ((Spinner)findViewById(R.id.sp_addVideoFile)).getSelectedItemPosition();
+                if (pos8>=0 && pos8 < VideoRes_URL.length) {
+                    final String path = VideoRes_URL[pos8].key;
+                    listener.onPlayVideoFile(path);
+                }
+                break;
+
+
+            case R.id.btn_video_ctrl_enalbe:
+                boolean video_ctrl_enalbe = ((CheckBox)v).isChecked();
+                listener.onShowVideoCtrl(video_ctrl_enalbe);
+                break;
+
         }
     }
 
