@@ -1208,6 +1208,11 @@ public class TICManagerImpl  extends TICManager{
         }
 
         @Override
+        public void onTEBAddImagesFile(String fileId) {
+
+        }
+
+        @Override
         public void onTEBVideoStatusChanged(String fileId, int status, float progress, float duration) {
 
         }

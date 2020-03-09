@@ -33,6 +33,7 @@ import com.tencent.trtc.TRTCCloudDef;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TICClassMainActivity extends BaseActvity
@@ -67,7 +68,7 @@ public class TICClassMainActivity extends BaseActvity
 
     // 消息输入
     EditText etMessageInput;
-
+    String mImgsFid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,6 +297,11 @@ public class TICClassMainActivity extends BaseActvity
         }
 
         @Override
+        public void onSetHandwritingEnable(boolean writingEnable) {
+            mBoard.setHandwritingEnable(writingEnable);
+        }
+
+        @Override
         public void onSetToolType(int type) {
             mBoard.setToolType(type);
         }
@@ -433,6 +439,11 @@ public class TICClassMainActivity extends BaseActvity
         }
 
         @Override
+        public void onAddImagesFile(List<String> urls) {
+            mImgsFid = mBoard.addImagesFile(urls);
+        }
+
+        @Override
         public void onPlayVideoFile(String url) {
             mBoard.addVideoFile(url);
         }
@@ -501,6 +512,7 @@ public class TICClassMainActivity extends BaseActvity
                 //board
                 settingCacheData.isDrawEnable = mBoard.isDrawEnable();
                 settingCacheData.isSynDrawEnable = mBoard.isDataSyncEnable();
+                settingCacheData.isHandwritingEnable = mBoard.isHandwritingEnable();
                 settingCacheData.ToolType = mBoard.getToolType();
                 settingCacheData.BrushThin = mBoard.getBrushThin();
                 settingCacheData.BrushColor = mBoard.getBrushColor().toInt();
@@ -933,6 +945,13 @@ public class TICClassMainActivity extends BaseActvity
          @Override
          public void onTEBH5FileStatusChanged(String fileId, int status) {
 
+         }
+
+         @Override
+         public void onTEBAddImagesFile(String fileId) {
+             Log.i(TAG, "onTEBAddImagesFile:" + fileId);
+             TICClassMainActivity activityEx = mActivityRef.get();
+             TEduBoardController.TEduBoardFileInfo fileInfo = activityEx.mBoard.getFileInfo(fileId);
          }
 
          @Override

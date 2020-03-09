@@ -21,6 +21,8 @@ import com.tencent.tic.demo.R;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,6 +50,13 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         String key;
         String value;
     }
+
+    private final static String [] Images_URL = {
+        "https://main.qcloudimg.com/raw/a3a3eda87602bd3a346261a9be95b78d.jpg",
+         "https://main.qcloudimg.com/raw/9cea6ec724ac3ca034a0424ec0afe8f5.jpg",
+         "https://main.qcloudimg.com/raw/0e8988b172633f3381a9135494207f3a.jpg",
+          "https://main.qcloudimg.com/raw/e8798f7bd522ab3ffe0a43d8b9d346cd.jpg"
+    };
 
     //PPT转码后的H5文件，
     private final static String [] H5FILE_URL = {
@@ -119,6 +128,8 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         //Board(涂鸭操作)
         void onSetDrawEnable(boolean SetDrawEnable);
         void onSyncDrawEnable(boolean syncDrawEnable);
+        void onSetHandwritingEnable(boolean syncDrawEnable);
+
         void onSetToolType(int type);
         void onBrushThin(int size);
         void onSetTextSize(int size);
@@ -153,6 +164,7 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         void onTransCodeFile(String id);
         void onDeleteFile(String boardId);
         void onGotoFile(String boardId);
+        void onAddImagesFile(List<String> urls);
 
 
         //Video()
@@ -171,6 +183,7 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         //board(涂鸭)
         boolean isDrawEnable;       //是否可以涂鸭
         boolean isSynDrawEnable; //是否将你画的涂鸭同步给其他人
+        boolean isHandwritingEnable;
         int ToolType;
         int BrushThin;
         int BrushColor;
@@ -267,6 +280,10 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         CheckBox board_isSycDrawEnable = findViewById(R.id.board_SynDrawEnable);
         board_isSycDrawEnable.setOnClickListener(this);
         board_isSycDrawEnable.setChecked(settingData.isSynDrawEnable);
+
+        CheckBox HandwritingEnable = findViewById(R.id.board_setHandwritingEnable);
+        HandwritingEnable.setOnClickListener(this);
+        HandwritingEnable.setChecked(settingData.isHandwritingEnable);
 
         int posToolType = 0;
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -477,6 +494,7 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.btn_addFile).setOnClickListener(this);
         findViewById(R.id.btn_deleteFile).setOnClickListener(this);
         findViewById(R.id.btn_switchFile).setOnClickListener(this);
+        findViewById(R.id.btn_addImagesFile).setOnClickListener(this);
 
         ArrayAdapter<String> pptArray =new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, android.R.id.text1);
 
@@ -589,6 +607,10 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
                 listener.onSyncDrawEnable(syncDrawEnable);
                 break;
 
+            case R.id.board_setHandwritingEnable:
+                boolean setHandwritingEnable = ((CheckBox)v).isChecked();
+                listener.onSetHandwritingEnable(setHandwritingEnable);
+                break;
 
             case R.id.btn_SetToolType:
                 int pos = ((Spinner)findViewById(R.id.sp_SetToolType)).getSelectedItemPosition();
@@ -754,6 +776,14 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
                         listener.onTransCodeFile(path);
                     }
                 }
+                break;
+
+            case R.id.btn_addImagesFile:
+            {
+                List<String> urls = Arrays.asList(Images_URL);
+                listener.onAddImagesFile(urls);
+            }
+
                 break;
 
             case R.id.btn_deleteFile:
