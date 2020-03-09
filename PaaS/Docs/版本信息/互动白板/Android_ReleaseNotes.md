@@ -10,8 +10,12 @@
     - unInit 反初始化白板
 - 新增回调
     - onTEBAddImagesFile 增加批量图片文件回调
+- 参数变更
+   - TEduBoardInitParam 的 smoothLevel 默认值变更为0
 - 枚举变更
+    - TEduBoardErrorCode 新增 TEDU_BOARD_ERROR_AUTH_TIMEOUT 服务鉴权超时，请务必处理此错误
     - TEduBoardWarningCode 新增 TEDU_BOARD_WARNING_IMAGESFILE_ALREADY_EXISTS
+    - TEDU_BOARD_VIDEO_STATUS_PLAYING 变更为 TEDU_BOARD_VIDEO_STATUS_TIMEUPDATE
 
 ## 2.4.1.1 @ 2020.01.08
 
