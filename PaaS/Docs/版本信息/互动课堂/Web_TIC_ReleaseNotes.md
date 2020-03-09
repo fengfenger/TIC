@@ -1,6 +1,13 @@
 # Release Notes
 
-## 2019.12.06
+## 1.4.3 @ 2020.03.09
+  - 修复已知bug
+
+| TIC版本| TRTC版本 | TIM版本 | TEduBoard版本 | Cos版本 |
+|:-:| :-: | :-: | :-: | :-: |
+|1.4.3| 4.x | 1.7.3 | 2.4.4 | 5.1.0 |
+
+## 1.4.2 @ 2019.12.06
  - addTICEventListener增加onTICTrtcClientCreated事件
 
 ## 2019.10.30

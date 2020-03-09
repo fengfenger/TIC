@@ -7,6 +7,7 @@ const MessageListener = require('../event/MessageListener');
 const EventListener = require('../event/EventListener');
 const BoardListener = require('../event/BoardListener');
 const StatusListener = require('../event/StatusListener');
+const logReport = require('../elk-component/ELKReport');
 
 const Constant = {
   TICModule: {
@@ -38,17 +39,34 @@ Component({
    */
   methods: {
     init(sdkAppId, callback) {
+      let startTime = Date.now();
+      logReport.setSdkAppId(sdkAppId);
+      logReport.report(logReport.EVENT_NAME.INITSDK_START);
       if (sdkAppId) {
         this.data.sdkAppId = sdkAppId;
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
         });
+        logReport.report(logReport.EVENT_NAME.INITSDK_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       } else {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: -7,
           desc: 'sdkAppId is illegal'
+        });
+        logReport.report(logReport.EVENT_NAME.INITSDK_END, {
+          errorCode: -7,
+          errorDesc: 'sdkAppId is illegal',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       }
     },
@@ -68,6 +86,10 @@ Component({
       this.data.userId = loginConfig.userId;
       this.data.userSig = loginConfig.userSig;
 
+      let startTime = Date.now();
+      logReport.setUserId(this.data.userId);
+      logReport.report(logReport.EVENT_NAME.LOGIN_START);
+
       webimComponent.initData({
         sdkAppID: this.data.sdkAppId,
         userId: loginConfig.userId,
@@ -80,11 +102,25 @@ Component({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
         })
+        logReport.report(logReport.EVENT_NAME.LOGIN_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       }, function (error) {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: error.ErrorCode,
           desc: error.ErrorInfo
+        });
+        logReport.report(logReport.EVENT_NAME.LOGIN_END, {
+          errorCode: error.ErrorCode,
+          errorDesc: error.ErrorInfo,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       });
     },
@@ -94,16 +130,33 @@ Component({
      * @param callback			回调
      */
     logout(callback) {
+      let startTime = Date.now();
+      logReport.report(logReport.EVENT_NAME.LOGOUT_START);
+
       webimComponent.logout(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
         })
+        logReport.report(logReport.EVENT_NAME.LOGOUT_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: error.ErrorCode,
           desc: error.ErrorInfo
+        });
+        logReport.report(logReport.EVENT_NAME.LOGOUT_END, {
+          errorCode: error.ErrorCode,
+          errorDesc: error.ErrorInfo,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       });
     },
@@ -114,17 +167,35 @@ Component({
      * @param callback			回调
      */
     createClassroom(classId, callback) {
+      let startTime = Date.now();
+      logReport.setRoomId(classId);
+      logReport.report(logReport.EVENT_NAME.CREATEGROUP_START);
+
       // WebIM加入聊天房间
       webimComponent.createRoom(this.data.userId, classId).then(res => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
         });
+        logReport.report(logReport.EVENT_NAME.CREATEGROUP_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: error.ErrorCode,
           desc: error.ErrorInfo
+        });
+        logReport.report(logReport.EVENT_NAME.CREATEGROUP_END, {
+          errorCode: error.ErrorCode,
+          errorDesc: error.ErrorInfo,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       });
     },
@@ -136,6 +207,9 @@ Component({
      * @param {*} fail 进入失败的回调
      */
     joinClassroom(classId, boardOption, callback) {
+      let startTime = Date.now();
+      logReport.report(logReport.EVENT_NAME.JOINGROUP_START);
+
       this.data.classId = classId * 1;
       // 加入群组
       webimComponent.joinGroup(classId + '', () => {
@@ -147,7 +221,6 @@ Component({
               })
             }
           },
-
           // 接收到文件数据
           RECEIVE_BOARD_FILE_DATA: msg => {
 
@@ -160,11 +233,26 @@ Component({
             code: 0
           });
         })
+
+        logReport.report(logReport.EVENT_NAME.JOINGROUP_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       }, (error) => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: error.ErrorCode,
           desc: error.ErrorInfo
+        });
+        logReport.report(logReport.EVENT_NAME.JOINGROUP_END, {
+          errorCode: error.ErrorCode,
+          errorDesc: error.ErrorInfo,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       });
     },
@@ -175,11 +263,20 @@ Component({
      * @param {*} fail 退出失败
      */
     quitClassroom(callback) {
+      let startTime = Date.now();
+      logReport.report(logReport.EVENT_NAME.QUITGROUP_START);
       webimComponent.quitGroup(this.data.classId, () => {
         // 退出成功
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
+        });
+        logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       }, (error) => {
         // 群不存在 或者 不在群里了 或者 群id不合法（一般这种情况是课堂销毁了groupId被重置后发生）(都认为成功)
@@ -188,12 +285,26 @@ Component({
             module: Constant.TICModule.TICMODULE_IMSDK,
             code: 0
           });
+          logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
+            errorCode: 0,
+            errorDesc: '',
+            timeCost: Date.now() - startTime,
+            data: '',
+            ext: ''
+          });
         } else {
           // 退出失败
           callback && callback({
             module: Constant.TICModule.TICMODULE_IMSDK,
             code: error.ErrorCode,
             desc: error.ErrorInfo
+          });
+          logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
+            errorCode: error.ErrorCode,
+            errorDesc: error.ErrorInfo,
+            timeCost: Date.now() - startTime,
+            data: '',
+            ext: ''
           });
         }
       });
@@ -205,11 +316,20 @@ Component({
      * @param callback			回调
      */
     destroyClassroom(classId, callback) {
+      let startTime = Date.now();
+      logReport.report(logReport.EVENT_NAME.DELETEGROUP_START);
       webimComponent.destroyGroup(classId, () => {
         // 销毁成功
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
+        });
+        logReport.report(logReport.EVENT_NAME.DELETEGROUP_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       }, (error) => {
         // 销毁失败
@@ -217,6 +337,13 @@ Component({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: error.ErrorCode,
           desc: error.ErrorInfo
+        });
+        logReport.report(logReport.EVENT_NAME.DELETEGROUP_END, {
+          errorCode: error.ErrorCode,
+          errorDesc: error.ErrorInfo,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
         });
       });
     },

@@ -395,6 +395,7 @@ TIC.prototype = {
         this.webRTCOptionModel.setData(webRTCOption);
         this.ticWebRTC = new WebRTC(this.accountModel, this.webRTCOptionModel);
         this.ticWebRTC.setLog(this.log);
+        this.ticWebRTC.setEventListener(this.eventListener);
 
         this.ticWebRTC.joinAvRoom(() => {
           // 加入AV房间-end
@@ -420,26 +421,41 @@ TIC.prototype = {
           this.boardOptionModel.setData(boardOption);
           this.ticBoard = new WebBoard(this.accountModel, this.boardOptionModel);
           this.ticBoard.setLog(this.log);
-          this.ticBoard.render();
+          try {
+            this.ticBoard.render();
+            // 白板初始化
+            this.log.report(LogReport.EVENT_NAME.INITBOARD_END, {
+              errorCode: 0,
+              errorDesc: '',
+              timeCost: Date.now() - startTime,
+              data: '',
+              ext: '',
+            });
 
-          // 白板初始化
-          this.log.report(LogReport.EVENT_NAME.INITBOARD_END, {
-            errorCode: 0,
-            errorDesc: '',
-            timeCost: Date.now() - startTime,
-            data: '',
-            ext: '',
-          });
+            // 设置白板的监听回调
+            this.ticBoard.addSyncDataEventCallback((data) => {
+              this.ticWebIm.sendBoardGroupCustomMessage(data);
+            });
 
-          // 设置白板的监听回调
-          this.ticBoard.addSyncDataEventCallback((data) => {
-            this.ticWebIm.sendBoardGroupCustomMessage(data);
-          });
+            callback && callback({
+              module: Constant.TICModule.TICMODULE_IMSDK,
+              code: 0
+            });
+          } catch (error) {
+            this.log.report(LogReport.EVENT_NAME.ENTERROOM_END, {
+              errorCode: -9999,
+              errorDesc: JSON.stringify(error),
+              timeCost: Date.now() - startTime,
+              data: '',
+              ext: '',
+            });
 
-          callback && callback({
-            module: Constant.TICModule.TICMODULE_IMSDK,
-            code: 0
-          });
+            callback && callback({
+              module: Constant.TICModule.TICMODULE_BOARD,
+              code: -9999,
+              desc: JSON.stringify(error)
+            });
+          }
         }, (error) => {
           // 加入AV房间-end
           this.log.report(LogReport.EVENT_NAME.ENTERROOM_END, {

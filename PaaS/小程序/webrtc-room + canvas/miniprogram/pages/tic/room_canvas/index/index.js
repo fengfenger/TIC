@@ -4,9 +4,9 @@ Page({
   data: {
     sdkAppId: TEST_ACCOUNT.sdkappid,
     array: TEST_ACCOUNT.users,
-    roomID: null,
+    roomID: '',
     role: 0, // 0 学生， 1： 老师
-    index: 0
+    index: Math.floor((Math.random() * TEST_ACCOUNT.users.length))
   },
 
   bindPickerChange: function (e) {

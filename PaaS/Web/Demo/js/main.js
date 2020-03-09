@@ -39,7 +39,7 @@ window.app = new Vue({
       textColor: "#ff0000",
       textStyle: "#ff0000",
       textFamily: "sans-serif,serif,monospace",
-      textSize: 100,
+      textSize: 320,
       scaleSize: 100,
       fitMode: 1,
       ration: "16:9",
@@ -127,7 +127,7 @@ window.app = new Vue({
       this.textColor = "#ff0000";
       this.textStyle = "#ff0000";
       this.textFamily = "sans-serif,serif,monospace";
-      this.textSize = 100;
+      this.textSize = 320;
       this.scaleSize = 100;
       this.fitMode = 1;
       this.ration = "16:9";
@@ -319,7 +319,7 @@ window.app = new Vue({
         ratio: '16:9',
         smoothLevel: 0,
         boardContentFitMode: 1,
-        toolType: 1
+        toolType: 1,
       }, res => {
         if (res.code) {
           this.showErrorTip('加入课堂失败');
@@ -463,6 +463,11 @@ window.app = new Vue({
         console.log('======================:  ', 'TEB_ADDTRANSCODEFILE', ' fid:', fid);
         this.proBoardData();
       });
+      // 增加Images文件回调
+      teduBoard.on(TEduBoard.EVENT.TEB_ADDIMAGESFILE, (fid) => {
+        console.log('======================:  ', 'TEB_ADDIMAGESFILE', ' fid:', fid);
+        this.proBoardData();
+      });
 
       // 删除文件回调
       teduBoard.on(TEduBoard.EVENT.TEB_DELETEFILE, (fid) => {
@@ -484,17 +489,17 @@ window.app = new Vue({
       // 切换文件回调
       teduBoard.on(TEduBoard.EVENT.TEB_SWITCHFILE, (fid) => {
         console.log('======================:  ', 'TEB_SWITCHFILE', ' fid:', fid);
-        if (fid === '#1573462129974') {
-          teduBoard.gotoBoard('web_tic_10_1573462130_8_#1573462129974')
-        } else if (fid === '#1573218991727') {
-          teduBoard.gotoBoard('miniprogram_miniprogram_tic_201_1573218991_3_#1573218991727')
-        }
         this.proBoardData();
       });
 
       // 上传背景图片的回调
       teduBoard.on(TEduBoard.EVENT.TEB_SETBACKGROUNDIMAGE, (fileName, fileUrl, userData) => {
         console.log('======================:  ', 'TEB_SETBACKGROUNDIMAGE', '  fileName:', fileName, '  fileUrl:', fileUrl, ' userData:', userData);
+      });
+
+      // 增加图片元素
+      teduBoard.on(TEduBoard.EVENT.TEB_ADDIMAGEELEMENT, (fileName, fileUrl, userData) => {
+        console.log('======================:  ', 'TEB_ADDIMAGEELEMENT', '  fileName:', fileName, '  fileUrl:', fileUrl, ' userData:', userData);
       });
 
       // 文件上传进度
@@ -566,7 +571,8 @@ window.app = new Vue({
 
       // 监听‘stream-subscribed’事件
       this.trtcClient.on('stream-subscribed', event => {
-        const remoteStream = event.stream;
+
+        const remoteStream = window.remoteStream = event.stream;
         // 远端流订阅成功，在HTML页面中创建一个<video>标签，假设该标签ID为‘remote-video-view’
         // 播放该远端流
         let remoteVideoWrapEl = document.createElement('div');
@@ -706,8 +712,7 @@ window.app = new Vue({
     addTICStatusListener() {
       this.tic.addTICStatusListener({
         onTICForceOffline: () => {
-          // eslint-disable-next-line no-alert
-          alert(`其他地方登录，被T了`);
+          this.showErrorTip(`帐号其他地方登录，被T了`);
           this.status = this.STATUS_UNLOGIN;
           this.clearClassInfo();
           this.showMessageInBox('TIC', "onTICForceOffline " + this.roomID);
@@ -971,7 +976,11 @@ window.app = new Vue({
     uploadFile() {
       var file = document.getElementById('file_input').files[0];
       if (/\.(bmp|jpg|jpeg|png|gif|webp|svg|psd|ai)/i.test(file.name)) {
-        this.teduBoard.setBackgroundImage({
+        // this.teduBoard.setBackgroundImage({
+        //   data: file,
+        //   userData: 'image'
+        // });
+        this.teduBoard.addImageElement({
           data: file,
           userData: 'image'
         });
@@ -994,7 +1003,7 @@ window.app = new Vue({
     onAddVideoFile(url) {
       this.teduBoard.addVideoFile(url);
     },
-    
+
 
     onAddImageElement(url) {
       this.teduBoard.addImageElement(url);
@@ -1164,6 +1173,10 @@ window.app = new Vue({
         var msgbox = document.querySelector("#msg_box");
         msgbox.scrollTop = msgbox.scrollHeight;
       });
+    },
+
+    testFontColor(e) {
+      // e.preventDefault();
     }
   },
 

@@ -31,6 +31,8 @@ TICWebRTC.prototype.joinAvRoom = function (succ = function () {}, fail = functio
     pureAudioPushMod: this.webRTCOptionModel.pureAudioPushMod
   });
 
+  this.eventListener.fireEvent('onTICTrtcClientCreated');
+
   this.initEvent();
 
   let joinOption = {
@@ -113,6 +115,10 @@ TICWebRTC.prototype.initEvent = function () {
 
 TICWebRTC.prototype.setStatusListener = function (listener) {
   this.statusListener = listener;
+}
+
+TICWebRTC.prototype.setEventListener = function (eventListener) {
+  this.eventListener = eventListener;
 }
 
 TICWebRTC.prototype._reportTRTCEvent = function (eventName, object) {

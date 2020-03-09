@@ -61,6 +61,7 @@ window.app = new Vue({
 
   mounted() {
     this.isShow = true;
+    // this.setOrientation();
     this.start();
   },
 
@@ -142,8 +143,7 @@ window.app = new Vue({
         this.initData();
         this.tic = null;
         this.tic = new TIC({});
-        // 禁用trtc模块
-        this.tic.init(this.sdkAppId, TIC.CONSTANT.TICDisableModule.TIC_DISABLE_MODULE_TRTC, res => {
+        this.tic.init(this.sdkAppId, res => {
 
           if (res.code) {
             this.showErrorTip('初始化失败，code:' + res.code + ' msg:' + res.desc);
@@ -288,9 +288,10 @@ window.app = new Vue({
         return;
       }
 
-      this.tic.joinClassroom(this.classId, {}, {
+      this.tic.joinClassroom(this.classId, false, {
         id: 'sketchpad',
         ratio: '16:9',
+        smoothLevel: 0,
         boardContentFitMode: 1
       }, res => {
         if (res.code) {
@@ -677,21 +678,10 @@ window.app = new Vue({
      */
     uploadFile() {
       var file = document.getElementById('file_input').files[0];
-      if (/\.(bmp|jpg|jpeg|png|gif|webp|svg|psd|ai)/i.test(file.name)) {
-        this.teduBoard.setBackgroundImage({
-          data: file,
-          userData: 'image'
-        });
-      } else {
-        this.teduBoard.applyFileTranscode({
-          data: file,
-          userData: 'hello'
-        }, {
-          minResolution: '960x540',
-          isStaticPPT: false,
-          thumbnailResolution: '200x200'
-        });
-      }
+      this.teduBoard.addFile({
+        data: file,
+        userData: 'hello'
+      });
     },
 
     onAddH5File(url) {
@@ -848,6 +838,71 @@ window.app = new Vue({
         var msgbox = document.getElementById("msg_box");
         msgbox.scrollTop = msgbox.scrollHeight;
       });
+    },
+
+    setOrientation() {
+      var originHeight = document.body.clientHeight;
+      var originWidth = document.body.clientWidth;
+      var isPortrait = false;
+
+      var setMsgBox = () => {
+        var msgbox = document.getElementById("msg_box");
+        msgbox.scrollTop = msgbox.scrollHeight;
+      };
+
+      var setPortrait = () => {
+        if (document.getElementById("emptyBlock").classList.contains("emptyBlock-orientation-landscape")) {
+          document.getElementById("emptyBlock").classList.remove("emptyBlock-orientation-landscape")
+        }
+        if (document.getElementById("app").classList.contains("app-orientation-landscape")) {
+          document.getElementById("app").classList.remove("app-orientation-landscape")
+        }
+        isPortrait = true;
+        document.getElementById("emptyBlock").classList.add("emptyBlock-orientation-portrait");
+        document.getElementById("app").classList.add("app-orientation-portrait");
+        setMsgBox();
+      };
+
+      var setLandscape = () => {
+        if (document.getElementById("emptyBlock").classList.contains("emptyBlock-orientation-portrait")) {
+          document.getElementById("emptyBlock").classList.remove("emptyBlock-orientation-portrait")
+        }
+        if (document.getElementById("app").classList.contains("app-orientation-portrait")) {
+          document.getElementById("app").classList.remove("app-orientation-portrait")
+        }
+        isPortrait = false;
+        document.getElementById("emptyBlock").classList.add("emptyBlock-orientation-landscape");
+        document.getElementById("app").classList.add("app-orientation-landscape");
+        setMsgBox();
+      };
+
+      if (originHeight > originWidth) {
+        setPortrait();
+      } else {
+        setLandscape();
+      }
+
+      window.addEventListener("resize", () => {
+        var resizeHeight = document.body.clientHeight;
+        var resizeWidth = document.body.clientWidth;
+        if (resizeHeight < originHeight && resizeWidth == originWidth) {
+          if (isPortrait) {
+            setPortrait();
+          } else {
+            setLandscape();
+          }
+        } else if (resizeHeight < originHeight && resizeWidth > originWidth) {
+          setLandscape();
+          originHeight = resizeHeight;
+          originWidth = resizeWidth;
+          // this.onBoardResize();
+        } else if (resizeHeight > originHeight && resizeWidth < originWidth) {
+          setPortrait();
+          originHeight = resizeHeight;
+          originWidth = resizeWidth;
+          // this.onBoardResize();
+        }
+      })
     },
   },
 

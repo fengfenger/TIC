@@ -1,6 +1,6 @@
 const TEduBoard = require('./libs/TEduBoard_miniprogram.min.js');
 const ImHandler = require('../webim-component/ImHandler');
-
+const logReport = require('../elk-component/ELKReport');
 
 Component({
   /**
@@ -32,7 +32,7 @@ Component({
     attached: function () {
       this.data.systemInfo = wx.getSystemInfoSync();
     },
-    detached: function () {},
+    detached: function () { },
   },
 
   /**
@@ -41,7 +41,8 @@ Component({
   data: {
     board: null,
     boardImg: '',
-    currentPic: "", //预留图片链接
+    currentPic: "", //当前图片链接
+    currentBoard: "", // 当前白板的id
     hideBoard: false, // 默认显示白板
     hideImg: true, // 默认隐藏图片, 只有计算出图片宽高后，才展示
     imgLoadList: null, //预加载图片链接列表
@@ -56,7 +57,12 @@ Component({
     ratio: '16:9',
     canvasComponent: null,
     orientation: null,
-    boardWrapClientRect: null
+    boardWrapClientRect: null,
+    imageCallbacks: {
+      start: null,
+      success: null,
+      error: null
+    }
   },
 
   /**
@@ -64,6 +70,14 @@ Component({
    */
   methods: {
     render(boardConfig = {}, callback) {
+      let startTime = Date.now();
+
+      logReport.setSdkAppId(boardConfig.sdkAppId);
+      logReport.setUserId(boardConfig.userId);
+      logReport.setRoomId(boardConfig.classId);
+
+      logReport.report(logReport.EVENT_NAME.INITBOARD_START);
+
       this.data.ratio = boardConfig.ratio;
       this.data.orientation = boardConfig.orientation;
 
@@ -75,6 +89,14 @@ Component({
         }
         this.init(boardConfig);
         callback && callback();
+
+        logReport.report(logReport.EVENT_NAME.INITBOARD_END, {
+          errorCode: 0,
+          errorDesc: '',
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       });
     },
 
@@ -87,9 +109,6 @@ Component({
       var canvasComponent = wx.createCanvasContext('tic_board_canvas', this);
       // 实时绘制的canvas
       var canvasDrawComponent = wx.createCanvasContext('tic_float_board_canvas', this);
-
-      var width = this.data.boardWidth;
-      var height = this.data.boardHeight;
 
       this.data.board = wx.board = new TEduBoard({
         userId: boardConfig.userId,
@@ -110,34 +129,7 @@ Component({
         brushThin: boardConfig.brushThin,
         toolType: boardConfig.toolType,
         globalBackgroundColor: boardConfig.globalBackgroundColor,
-        dataSyncEnable: boardConfig.dataSyncEnable,
-        smoothLevel: boardConfig.smoothLevel
-      });
-
-
-
-
-      // if (this.data.orientation === 'horizontal') { // 横屏
-      //   height = this.data.boardWidth;
-      //   width = this.data.boardHeight;
-      // } else {
-      //   width = this.data.boardWidth;
-      //   height = this.data.boardHeight;
-      // }
-
-      // this.setData({
-      //   orientation: boardConfig.orientation,
-      //   boardWidth: width,
-      //   boardHeight: height
-      // });
-
-      /*监听draw发送的预加载列表和图像链接 */
-      this.data.board.on("preload", (data) => {
-        this.setData({
-          hideImg: true,
-          currentPic: data.currentPic,
-          imgLoadList: data.preloadList
-        });
+        dataSyncEnable: boardConfig.dataSyncEnable
       });
 
       /**
@@ -163,6 +155,7 @@ Component({
      */
     bindContainerTouchmove(event) {
       this.data.board.canvasTouchMove(event);
+
     },
 
     /**
@@ -179,6 +172,7 @@ Component({
      * @param {*} event 
      */
     bindWrapTouchmove(event) {
+      // console.error('====== bindWrapTouchmove');
       // 如果是android平台
       if (this.data.systemInfo.platform && this.data.systemInfo.platform.toLowerCase() === 'android') {
         if (event && event.changedTouches && event.changedTouches[0]) {
@@ -209,27 +203,6 @@ Component({
     },
 
     /**
-     * 图片加载完成
-     * @param {*} ev 
-     */
-    imgOnLoad(ev) {
-      let src = ev.currentTarget.dataset.src,
-        width = ev.detail.width,
-        height = ev.detail.height;
-
-      // 获取图片原始宽高
-      this.setData({
-        naturalWidth: width,
-        naturalHeight: height
-      }, () => {
-        this.updateImgStyle();
-      });
-    },
-
-    // 图片加载失败
-    imgOnLoadError(error) {},
-
-    /**
      * 横竖屏方向
      * @param {*} callback 
      */
@@ -250,9 +223,11 @@ Component({
           boardHeight: boardHeight
         }, () => {
           // 正常设置容器和白板的宽高后，计算出偏移值，并设置给白板，白板用该偏移值计算涂鸦坐标
-          wx.createSelectorQuery().in(this).select('.tic-board-wrap').boundingClientRect((rect) => {
-            callback && callback(rect);
-          }).exec();
+          wx.nextTick(() => {
+            wx.createSelectorQuery().in(this).select('.tic-board-wrap').boundingClientRect((rect) => {
+              callback && callback(rect);
+            }).exec();
+          });
         });
       }).exec();
     },
@@ -280,7 +255,12 @@ Component({
           this.setData({
             hideBoard: false
           }, () => {
-            callback && callback();
+            wx.nextTick(() => {
+              wx.createSelectorQuery().in(this).select('.tic-board-wrap').boundingClientRect((rect) => {
+                this.data.boardWrapClientRect = rect;
+                callback && callback(rect);
+              }).exec();
+            });
           });
         });
       });
@@ -319,16 +299,49 @@ Component({
     },
 
     // 设置当前背景图片
-    setCurrentImg(currentPic, currentBoard) {
+    setCurrentImg(currentPic, currentBoard, startLoadCallback, loadSuccessCallback, loadErrorCallback) {
+      this.data.imageCallbacks.start = startLoadCallback
+      this.data.imageCallbacks.success = loadSuccessCallback
+      this.data.imageCallbacks.error = loadErrorCallback
+      if (this.data.currentPic === currentPic) { // 如果相等，则不需要再次加载
+        return;
+      }
       this.setData({
-        currentPic
+        currentPic: currentPic,
+        currentBoard
+      }, () => {
+        this.data.imageCallbacks.start && this.data.imageCallbacks.start(currentPic, currentBoard);
       });
     },
 
-    // 设置预加载图片
-    setPreLoadImgList(preloadList) {
+    /**
+     * 图片加载完成
+     * @param {*} ev 
+     */
+    imgOnLoad(ev) {
+      let width = ev.detail.width,
+        height = ev.detail.height;
+
+      this.data.imageCallbacks.success && this.data.imageCallbacks.success(this.data.currentPic, this.data.currentBoard);
+
+      // 获取图片原始宽高
       this.setData({
-        preloadList
+        naturalWidth: width,
+        naturalHeight: height
+      }, () => {
+        this.updateImgStyle();
+      });
+    },
+
+    // 图片加载失败
+    imgOnLoadError(error) {
+      this.data.imageCallbacks.error && this.data.imageCallbacks.error(this.data.currentPic, this.data.currentBoard, error.detail.errMsg);
+    },
+
+    // 设置预加载图片
+    setPreLoadImgList(imgLoadList) {
+      this.setData({
+        imgLoadList
       });
     },
 

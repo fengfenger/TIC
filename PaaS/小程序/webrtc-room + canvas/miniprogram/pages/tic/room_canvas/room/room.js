@@ -264,6 +264,9 @@ Page({
     this.txTic.addTICStatusListener({
       onTICForceOffline: () => {
         this.showErrorToast('被踢下线');
+        wx.navigateBack({
+          delta: 1
+        });
       }
     });
   },
@@ -516,7 +519,37 @@ Page({
     });
   },
 
-  uploadFile() {
+  prevTap() {
+    this.data.teduBoard.prevBoard();
+  },
+
+  nextTap() {
+    this.data.teduBoard.nextBoard();
+  },
+
+  curveTap() {
+    this.data.teduBoard.setToolType(1);
+  },
+
+  lineTap() {
+    this.data.teduBoard.setToolType(4);
+
+  },
+
+  rectTap() {
+    this.data.teduBoard.setToolType(6);
+
+  },
+
+  eraserTap() {
+    this.data.teduBoard.setToolType(2);
+  },
+
+  clearTap() {
+    this.data.teduBoard.clear();
+  },
+
+  uploadFileTap() {
     var _this = this;
     wx.chooseMessageFile({
       count: 1,

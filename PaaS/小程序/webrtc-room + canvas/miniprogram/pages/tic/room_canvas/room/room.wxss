@@ -19,13 +19,16 @@
 
 .container .tools-box {
   height: 80rpx;
+  display: flex;
   overflow: hidden;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .container .tools-box .item-icon {
   height: 50rpx;
   width: 50rpx;
-  padding: 15rpx;
+  margin: 0 2px;
 }
 
 

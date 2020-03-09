@@ -46,7 +46,7 @@ TICWebIM.prototype.initEvent = function () {
   var self = this;
   return {
     // 用于监听用户连接状态变化的函数，选填
-    onConnNotify(resp) {},
+    onConnNotify(resp) { },
 
     // 监听新消息(直播聊天室)事件，直播场景下必填
     onBigGroupMsgNotify(msgs) {
@@ -75,12 +75,16 @@ TICWebIM.prototype.initEvent = function () {
 
       //被管理员踢出群(只有被踢者接收到)
       "4": (notify) => {
-        self.eventListener.fireEvent('onTICMemberQuit', [self.accountModel.userId]);
+        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
+          self.eventListener.fireEvent('onTICMemberQuit', [self.accountModel.userId]);
+        }
       },
 
       //群被解散(全员接收)
       "5": (notify) => {
-        self.eventListener.fireEvent('onTICClassroomDestroy');
+        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
+          self.eventListener.fireEvent('onTICClassroomDestroy');
+        }
       },
 
       // //创建群(创建者接收)
@@ -106,16 +110,19 @@ TICWebIM.prototype.initEvent = function () {
 
       // //群已被回收(全员接收)
       "11": (notify) => {
-        self.eventListener.fireEvent('onTICClassroomDestroy');
+        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
+          self.eventListener.fireEvent('onTICClassroomDestroy');
+        }
       },
 
       // //用户自定义通知(默认全员接收)
-      // "255": (notify) => {
-      // }
+      "255": (notify) => {
+        this.messageListener.fireEvent('onTICRecvGroupSystemNotify', 255, notify);
+      }
     },
 
     // 监听群资料变化事件，选填
-    onGroupInfoChangeNotify(groupInfo) {},
+    onGroupInfoChangeNotify(groupInfo) { },
 
     // 被踢下线的回调
     onKickedEventCall() {
@@ -196,10 +203,12 @@ TICWebIM.prototype.resolveMessage = function (msg) {
     var content = elem.getContent();
     if (msg.getFromAccount() === '@TIM#SYSTEM') { // 接收到系统消息
       var opType = content.getOpType(); // 通知类型
-      if (opType === webim.GROUP_TIP_TYPE.JOIN) { // 加群通知
-        this.eventListener.fireEvent('onTICMemberJoin', elem.getContent().userIdList);
-      } else if (opType === webim.GROUP_TIP_TYPE.QUIT) { // 退群通知
-        this.eventListener.fireEvent('onTICMemberQuit', [elem.getContent().opUserId]);
+      if (msg.getSession().id() == this.accountModel.classChatId || msg.getSession().id() == this.accountModel.classId) {
+        if (opType === webim.GROUP_TIP_TYPE.JOIN) { // 加群通知
+          this.eventListener.fireEvent('onTICMemberJoin', elem.getContent().userIdList);
+        } else if (opType === webim.GROUP_TIP_TYPE.QUIT) { // 退群通知
+          this.eventListener.fireEvent('onTICMemberQuit', [elem.getContent().opUserId]);
+        }
       }
     } else { // 接收到群聊天/C2C消息
       var type = elem.getType();
@@ -272,8 +281,8 @@ TICWebIM.prototype.joinRoom = function () {
   return new Promise((resolve, reject) => {
     var groupID = String(this.accountModel.classId);
     webim.applyJoinBigGroup({
-        GroupId: groupID
-      },
+      GroupId: groupID
+    },
       (resp) => {
         //JoinedSuccess:加入成功; WaitAdminApproval:等待管理员审批
         if (resp.JoinedStatus && resp.JoinedStatus == 'JoinedSuccess') {
@@ -319,8 +328,8 @@ TICWebIM.prototype.joinSaasChatRoom = function () {
   return new Promise((resolve, reject) => {
     var groupID = String(this.accountModel.classChatId);
     webim.applyJoinBigGroup({
-        GroupId: groupID
-      },
+      GroupId: groupID
+    },
       (resp) => {
         //JoinedSuccess:加入成功; WaitAdminApproval:等待管理员审批
         if (resp.JoinedStatus && resp.JoinedStatus == 'JoinedSuccess') {
@@ -352,8 +361,8 @@ TICWebIM.prototype.joinSaasChatRoom = function () {
 TICWebIM.prototype.destroyGroup = function (groupID) {
   return new Promise((resolve, reject) => {
     webim.destroyGroup({
-        GroupId: groupID + ''
-      },
+      GroupId: groupID + ''
+    },
       function (resp) {
         resolve(resp);
       },
@@ -371,8 +380,8 @@ TICWebIM.prototype.quitGroup = function () {
   var groupID = String(this.accountModel.classId);
   return new Promise((resolve, reject) => {
     webim.quitBigGroup({
-        GroupId: groupID
-      },
+      GroupId: groupID
+    },
       function (resp) {
         resolve(resp);
       },
@@ -395,8 +404,8 @@ TICWebIM.prototype.quitChatGroup = function () {
   var groupID = String(this.accountModel.classChatId);
   return new Promise((resolve, reject) => {
     webim.quitBigGroup({
-        GroupId: groupID
-      },
+      GroupId: groupID
+    },
       function (resp) {
         resolve(resp);
       },

@@ -3,7 +3,14 @@
     <webrtc-room id="webrtcroom" wx:if="{{!!template}}" template="{{template}}" roomID="{{roomID}}" userID="{{userID}}" userSig="{{userSig}}" sdkAppID="{{sdkAppID}}" privateMapKey="{{privateMapKey}}" smallViewLeft="{{smallViewLeft}}" smallViewTop="{{smallViewTop}}" smallViewWidth="{{smallViewWidth}}" smallViewHeight="{{smallViewHeight}}" enableCamera="{{enableCamera}}" pusherBackgroundImg="{{pusherBackgroundImg}}" playerBackgroundImg="{{playerBackgroundImg}}" waitingImg="{{waitingImg}}" enableIM="{{false}}" bindRoomEvent="onRoomEvent"></webrtc-room>
   </view>
   <view class="tools-box" wx:if="{{!boardShowFullScreen}}">
-    <image catchtap="uploadFile" class="item-icon upload-icon" src="/resources/images/upload-icon.png"></image>
+    <image catchtap="prevTap" class="item-icon" src="/resources/images/icon-prev.png"></image>
+    <image catchtap="nextTap" class="item-icon" src="/resources/images/icon-next.png"></image>
+    <image catchtap="curveTap" class="item-icon" src="/resources/images/icon-curve.png"></image>
+    <image catchtap="lineTap" class="item-icon" src="/resources/images/icon-line.png"></image>
+    <image catchtap="rectTap" class="item-icon" src="/resources/images/icon-rect.png"></image>
+    <image catchtap="eraserTap" class="item-icon" src="/resources/images/icon-eraser.png"></image>
+    <image catchtap="clearTap" class="item-icon" src="/resources/images/icon-clear.png"></image>
+    <image catchtap="uploadFileTap" class="item-icon" src="/resources/images/icon-upload.png"></image>
   </view>
   <viev class="board_chat_tablist_container" wx:if="{{!boardShowFullScreen}}">
     <view bindtap="showBoardPanel" class="tab {{isShowBoardPanel ? 'active': ''}}">
