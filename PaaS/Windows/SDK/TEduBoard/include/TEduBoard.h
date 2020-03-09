@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.4.72
+ * @version 2.4.4.73
  */
 
 #pragma once
@@ -1626,7 +1626,8 @@ public:
 
     /**
      * @brief 添加图片文件
-     * @param  urls 			要使用的图片URL列表，编码格式为UTF8（SDK内部不会自动释放该参数，需要您自行调用 Release 方法释放）
+     * @param urls 			要使用的图片URL列表，编码格式为UTF8，不允许为nullptr
+     * @param urlCount      图片URL个数
      * @return 文件 ID
      * @warning 当传入文件的 URL 重复时，文件 ID 返回为空字符串
      * @warning 在收到对应的 onTEBAddImagesFile 回调前，无法用返回的文件 ID 查询到文件信息
@@ -1634,7 +1635,7 @@ public:
      *
      * 文件加载成功后，将自动切换到该文件
      */
-    virtual const char * AddImagesFile(const TEduBoardStringList *urls) = 0;
+    virtual const char * AddImagesFile(const char **urls, uint32_t urlCount) = 0;
 
     /**
      * @brief 添加视频文件
