@@ -1,5 +1,12 @@
 # Release Notes - 小程序
 
+## 2.4.4 @ 2020.03.09
+
+- 首屏渲染优化
+- ppt预加载优化
+- 涂鸦笔迹优化
+
+
 ## 2.3.6 @ 2019.11.08
 1. 转码资源全部接入CDN，请务必升级。
 2. 废弃addFile，addH5PPTFile接口，废弃TEB_ADDFILE，TEB_ADDH5PPTFILE事件。
