@@ -70,6 +70,13 @@
                 android:text="销毁"
                 android:visibility="visible" />
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/webview_container"
+            android:layout_width="match_parent"
+            android:background="@color/colorBlue"
+            android:layout_height="400dp"/>
+
     </LinearLayout>
 
 

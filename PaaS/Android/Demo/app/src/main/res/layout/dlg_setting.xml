@@ -255,6 +255,33 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="2dp">
             <TextView
+                android:text="笔锋开关"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/line_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7">
+                <CheckBox
+                    android:id="@+id/board_setHandwritingEnable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp">
+            <TextView
                 android:text="涂鸭工具"
                 android:textSize="16sp"
                 android:layout_gravity="center"
@@ -1220,6 +1247,38 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="2dp">
             <TextView
+                android:text="批量图片"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/line_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                >
+                <Button
+                    android:id="@+id/btn_addImagesFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="导入"
+                    android:textSize="14sp"
+                    android:layout_gravity="right"
+                    android:clickable="true"/>
+            </FrameLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp">
+            <TextView
                 android:text="删除文件"
                 android:textSize="16sp"
                 android:layout_gravity="center"
@@ -1295,6 +1354,101 @@
                     android:layout_alignParentRight="true"
                     android:clickable="true"/>
             </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!--视频组(video)-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Video(视频)"
+            android:textSize="16sp"
+            android:layout_gravity="left"
+            android:textColor="@color/line_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGray" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp">
+            <TextView
+                android:text="加载视频"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/line_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7">
+                <Spinner
+                    android:id="@+id/sp_addVideoFile"
+                    android:entries="@array/VideoRes"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_width="160dp"
+                    android:layout_marginBottom="2dp"/>
+
+                <Button
+                    android:id="@+id/btn_addVideoFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="加载"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp">
+            <TextView
+                android:text="控制开关"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:textColor="@color/line_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7">
+                <CheckBox
+                    android:id="@+id/btn_video_ctrl_enalbe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:layout_gravity="right"/>
+            </FrameLayout>
         </LinearLayout>
 
 

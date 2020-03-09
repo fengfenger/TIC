@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.tencent.liteav.basic.log.TXCLog;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.tencent.teduboard.TEduBoardController;
 import com.tencent.tic.core.TICManager;
 import com.tencent.tic.demo.R;
@@ -22,6 +27,9 @@ public class TICClassManagerActivity extends BaseActvity {
     // 课堂id
     EditText etRoomIdInput;
     TextView tvClassInfo;
+
+    WebView mWebView;
+    FrameLayout webviewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,53 @@ public class TICClassManagerActivity extends BaseActvity {
         etRoomIdInput = (EditText) findViewById(R.id.et_roomid);
 
         etRoomIdInput.setText(String.valueOf(mRoomId));
+
+        initwebView();
+
+        webviewContainer = (FrameLayout) findViewById(R.id.webview_container);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        webviewContainer.addView(mWebView, layoutParams);
     }
+
+    void initwebView() {
+
+        WebViewClient myWebClient = new WebViewClient() {
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                TXCLog.i(TAG, "onPageFinished  " + view + "|" + url);
+                String result = "";
+
+                super.onPageFinished(view, url);
+            }
+        };
+
+
+        if (mWebView == null) {
+            mWebView = new WebView(this);
+        }
+        else {
+            mWebView.clearView();
+        }
+
+
+
+        WebSettings settings = mWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);        //缓存
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAppCacheEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setTextZoom(100);
+
+        mWebView.setWebViewClient(myWebClient);
+
+        final String url = "http://debugtbs.qq.com?" + String.valueOf(System.currentTimeMillis());
+        mWebView.loadUrl(url);
+    }
+
+
 
     @Override
     protected void onStop() {

@@ -12,5 +12,8 @@
         <item>文本</item>
     </string-array>
 
+    <string-array name="VideoRes">
+        <item>腾讯云</item>
+    </string-array>
 
 </resources>

@@ -1,5 +1,21 @@
 # Release Notes - Web
 
+## 2.4.4 @ 2020.03.08
+
+- 替换内部mp4播放器为videojs
+- 新增接口
+    - addImagesFile 批量导入图片到白板
+    - setHandwritingEnable 开启或关闭笔锋功能
+    - isHandwritingEnable 获取白板是否开启笔锋
+- 新增回调
+    - TEB_ADDIMAGESFILE 增加批量图片文件回调
+- 参数变更
+   - TEduBoard初始化参数 smoothLevel 默认值变更为0
+- 枚举变更
+    - TEB_ERROR 新增 TEDU_BOARD_ERROR_AUTH_TIMEOUT 服务鉴权超时，请务必处理此错误
+    - TEB_WARNING 新增 TEDU_BOARD_WARNING_IMAGESFILE_ALREADY_EXISTS
+    - TEDU_BOARD_VIDEO_STATUS_PLAYING 变更为 TEDU_BOARD_VIDEO_STATUS_TIMEUPDATE
+    
 ## 2.4.1 @ 2020.01.08
 
 - 接口变更

@@ -629,6 +629,9 @@ public class TICManagerImpl  extends TICManager{
             if (clearBoard) {
                 mBoard.reset();
             }
+
+            TICReporter.report(TICReporter.EventId.unInitBoard);
+            mBoard.uninit();
         }
     }
 
@@ -1201,6 +1204,11 @@ public class TICManagerImpl  extends TICManager{
 
         @Override
         public void onTEBH5FileStatusChanged(String fileId, int status) {
+
+        }
+
+        @Override
+        public void onTEBAddImagesFile(String fileId) {
 
         }
 
