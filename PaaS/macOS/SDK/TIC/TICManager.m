@@ -93,6 +93,7 @@ id makeWeakRef (id object) {
 
 - (void)unInit
 {
+    [[TIMManager sharedInstance] removeMessageListener:self];
     [[TIMManager sharedInstance] unInit];
 }
 
@@ -243,54 +244,60 @@ id makeWeakRef (id object) {
 
 - (void)quitClassroom:(BOOL)clearBoard callback:(TICCallback)callback
 {
-    [self stopSyncTimer];
-    if(clearBoard){
-        [self.boardController reset];
-    }
-    UInt32 classId = _option.classId;
-    
-    TEView *renderView = [_boardController getBoardRenderView];
-    if(renderView.superview){
-        [renderView removeFromSuperview];
-    }
-    [_boardController removeDelegate:self];
-    if(_option.boardDelegate){
-        [_boardController removeDelegate:_option.boardDelegate];
-    }
-    _isEnterRoom = NO;
-    _option = nil;
-    _boardController = nil;
-    if((_disableModule & TIC_DISABLE_MODULE_TRTC) != TIC_DISABLE_MODULE_TRTC){
-        [[TRTCCloud sharedInstance] exitRoom];
-    }
-    [self report:TIC_REPORT_QUIT_GROUP_START];
     __weak typeof(self) ws = self;
-    
-    
-    void (^succ)(void) = ^{
-        [ws report:TIC_REPORT_QUIT_GROUP_END];
-        TICBLOCK_SAFE_RUN(callback, TICMODULE_IMSDK, 0, nil)
-    };
-    void (^fail)(int, NSString *) = ^(int code, NSString *msg){
-        [ws report:TIC_REPORT_QUIT_GROUP_END code:code msg:msg];
-        TICBLOCK_SAFE_RUN(callback, TICMODULE_IMSDK, code, msg);
-    };
-    
-    [self quitIMGroup:[@(classId) stringValue] succ:^{
-        if(ws.option.compatSaas){
-            NSString *chatGroup = [self getChatGroup];
-            [self quitIMGroup:chatGroup succ:^{
+    TICBLOCK_SAFE_RUN(^{
+        //停止同步
+        [ws stopSyncTimer];
+        //清除白板
+        if(clearBoard){
+            [ws.boardController reset];
+        }
+        [ws.boardController unInit];
+        UInt32 classId = ws.option.classId;
+        TEView *renderView = [ws.boardController getBoardRenderView];
+        if(renderView.superview){
+            [renderView removeFromSuperview];
+        }
+        [ws.boardController removeDelegate:ws];
+        if(ws.option.boardDelegate){
+            [ws.boardController removeDelegate:ws.option.boardDelegate];
+        }
+        ws.isEnterRoom = NO;
+        ws.option = nil;
+        ws.boardController = nil;
+        //退出TRTC房间
+        if((ws.disableModule & TIC_DISABLE_MODULE_TRTC) != TIC_DISABLE_MODULE_TRTC){
+            [[TRTCCloud sharedInstance] exitRoom];
+        }
+        [ws report:TIC_REPORT_QUIT_GROUP_START];
+        
+        //退出成功回调
+        void (^succ)(void) = ^{
+            [ws report:TIC_REPORT_QUIT_GROUP_END];
+            TICBLOCK_SAFE_RUN(callback, TICMODULE_IMSDK, 0, nil)
+        };
+        //退出失败回调
+        void (^fail)(int, NSString *) = ^(int code, NSString *msg){
+            [ws report:TIC_REPORT_QUIT_GROUP_END code:code msg:msg];
+            TICBLOCK_SAFE_RUN(callback, TICMODULE_IMSDK, code, msg);
+        };
+        //退出IM群组
+        [ws quitIMGroup:[@(classId) stringValue] succ:^{
+            if(ws.option.compatSaas){
+                NSString *chatGroup = [ws getChatGroup];
+                [ws quitIMGroup:chatGroup succ:^{
+                    succ();
+                } fail:^(int code, NSString *msg) {
+                    fail(code, msg);
+                }];
+            }
+            else{
                 succ();
-            } fail:^(int code, NSString *msg) {
-                fail(code, msg);
-            }];
-        }
-        else{
-            succ();
-        }
-    } fail:^(int code, NSString *msg) {
-        fail(code, msg);
-    }];
+            }
+        } fail:^(int code, NSString *msg) {
+            fail(code, msg);
+        }];
+    });
 }
 
 - (void)quitIMGroup:(NSString *)group succ:(void (^)(void))succ fail:(void (^)(int, NSString*))fail{
@@ -899,4 +906,5 @@ id makeWeakRef (id object) {
     param.data = data;
     [TICReport report:param];
 }
+
 @end
