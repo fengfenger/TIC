@@ -1,5 +1,12 @@
 # Release Notes - iOS & macOS
 
+## 2.4.4.2 @ 2020.03.14
+
+- BUG修复
+    - 白板中播放视频时，学生端自动播放的问题
+    - 批量导入图片组时，对URL字符串长度进行限制(总长7K)，超长时同步返回空串，同时回调错误TEDU_BOARD_ERROR_DATA_TOO_LARGE
+    - 去掉onGotoBoard多余回调，在一页PPT内有多个步时，只在最后一步/最前一步时才回调
+
 ## 2.4.4.1 @ 2020.03.09
 
 - 替换内部mp4播放器为videojs
