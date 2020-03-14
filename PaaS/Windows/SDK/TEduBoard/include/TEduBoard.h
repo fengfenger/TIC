@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.4.73
+ * @version 2.4.4.78
  */
 
 #pragma once
@@ -141,12 +141,13 @@ extern "C" {
     /**
      * @ingroup ctrl
      * @brief 启用白板离屏渲染
+     * @param sharedTextureEnabled          是否启用共享纹理渲染（Windows下有效）
      * @return 启用离屏渲染是否成功
      * @warning 该接口必须要在第一次调用 CreateTEduBoardController 之前调用才有效，否则将会失败
      *
      * 启用离屏渲染时，SDK 不再创建白板 VIEW，而是通过 onTEBOffscreenPaint 回调接口将白板离屏渲染的像素数据抛出
      */
-    EDUSDK_API bool EnableTEduBoardOffscreenRender();
+    EDUSDK_API bool EnableTEduBoardOffscreenRender(bool sharedTextureEnabled = false);
 
     /**
      * @ingroup ctrl
@@ -184,6 +185,7 @@ enum TEduBoardErrorCode {
     TEDU_BOARD_ERROR_HISTORYDATA		= 6,	///< 同步历史数据失败
     TEDU_BOARD_ERROR_RUNTIME			= 7,	///< 白板运行错误，请根据错误信息确认错误类型
     TEDU_BOARD_ERROR_AUTH_TIMEOUT       = 8,    ///< 服务鉴权超时，可能网络存在问题，请重试
+    TEDU_BOARD_ERROR_DATA_TOO_LARGE     = 9,    ///< 传输的数据太大，请分拆成两个或多个后传递(比如，添加图片组文件时url数量太大)
     TEDU_BOARD_ERROR_OOM                = 101,  ///< 内存耗尽
 };
 
@@ -891,12 +893,14 @@ struct TEduBoardCallback {
 
     /**
      * @brief 白板离屏渲染回调
-     * @param buffer            白板像素数据，大小为 width * height * 4，像素以白板左上方为原点从左到右从上到下按 BGRA 排列
+     * @param buffer            白板数据
      * @param width             白板像素数据的宽度
      * @param height            白板像素数据的高度
      * @warning 该回调不会从统一回调线程触发，可能来自不同线程调用
      *
      * 该回调只有在启用离屏渲染时才会被触发
+     * 当width != 0 || height != 0时，buffer指向白板像素数据，大小为 width * height * 4，像素以白板左上方为原点从左到右从上到下按 BGRA 排列
+     * 当width == 0 && height == 0是，buffer指向一个D3D11 Texture2D共享纹理，可通过ID3D11Device的OpenSharedResource方法来访问（Windows下）
      */
     virtual void onTEBOffscreenPaint(const void* buffer, uint32_t width, uint32_t height) {};
 
