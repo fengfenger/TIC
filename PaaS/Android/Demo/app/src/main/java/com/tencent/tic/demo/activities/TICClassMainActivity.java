@@ -15,6 +15,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -74,6 +75,9 @@ public class TICClassMainActivity extends BaseActvity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_ex);
+
+        //在白板上文本输入时，避免出现软键盘盖住情况。
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //1、获取用户信息
         mUserID = getIntent().getStringExtra(USER_ID);
@@ -885,17 +889,17 @@ public class TICClassMainActivity extends BaseActvity
 
         @Override
         public void onTEBDeleteBoard(List<String> boardId, final String fileId) {
-            TXLog.i(TAG, "onTEBDeleteBoard:" + fileId);
+            TXLog.i(TAG, "onTEBDeleteBoard:" + fileId + "|" + boardId);
         }
 
         @Override
         public void onTEBGotoBoard(String boardId, final String fileId) {
-            TXLog.i(TAG, "onTEBGotoBoard:" + fileId);
+            TXLog.i(TAG, "onTEBGotoBoard:" + fileId + "|" + boardId);
         }
 
          @Override
          public void onTEBGotoStep(int currentStep, int total) {
-
+             TXLog.i(TAG, "onTEBGotoStep:" + currentStep + "|" + total);
          }
 
         @Override

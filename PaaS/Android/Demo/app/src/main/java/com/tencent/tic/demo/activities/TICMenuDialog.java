@@ -52,10 +52,17 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
     }
 
     private final static String [] Images_URL = {
-        "https://main.qcloudimg.com/raw/a3a3eda87602bd3a346261a9be95b78d.jpg",
-         "https://main.qcloudimg.com/raw/9cea6ec724ac3ca034a0424ec0afe8f5.jpg",
-         "https://main.qcloudimg.com/raw/0e8988b172633f3381a9135494207f3a.jpg",
-          "https://main.qcloudimg.com/raw/e8798f7bd522ab3ffe0a43d8b9d346cd.jpg"
+            "https://main.qcloudimg.com/raw/f221068a0de6040c42d73344a72c387b.jpg",
+            "https://main.qcloudimg.com/raw/406551d15f1792b65d6586756b445c92.jpg",
+            "https://main.qcloudimg.com/raw/372a34196487aac1cb65b542a6633af5.jpg",
+            "https://main.qcloudimg.com/raw/ee75b1d4fa855cba8072839ed924ab86.jpg",
+            "https://main.qcloudimg.com/raw/ee67a580472142bd618a8e42ce62a28b.jpg",
+            "https://main.qcloudimg.com/raw/692c1da42fc56c62da866516b33e05f1.jpg",
+            "https://main.qcloudimg.com/raw/4da1910077d346d8aa62b2b27c11459a.jpg",
+            "https://main.qcloudimg.com/raw/a3a3eda87602bd3a346261a9be95b78d.jpg",
+            "https://main.qcloudimg.com/raw/9cea6ec724ac3ca034a0424ec0afe8f5.jpg",
+            "https://main.qcloudimg.com/raw/0e8988b172633f3381a9135494207f3a.jpg",
+            "https://main.qcloudimg.com/raw/e8798f7bd522ab3ffe0a43d8b9d346cd.jpg"
     };
 
     //PPT转码后的H5文件，
