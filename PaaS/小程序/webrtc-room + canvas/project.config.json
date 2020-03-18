@@ -2,12 +2,13 @@
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"enhance": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -19,7 +20,7 @@
 		}
 	},
 	"appid": "wx748277861c01d4be",
-	"projectname": "%E8%85%BE%E8%AE%AF%E4%BA%91%E4%BA%92%E5%8A%A8%E8%AF%BE%E5%A0%82",
+	"projectname": "腾讯云互动课堂-canvas",
 	"libVersion": "2.9.0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

@@ -1,5 +1,4 @@
 const TEduBoard = require('./libs/TEduBoard_miniprogram.min.js');
-const ImHandler = require('../webim-component/ImHandler');
 const logReport = require('../elk-component/ELKReport');
 
 Component({
@@ -130,13 +129,6 @@ Component({
         toolType: boardConfig.toolType,
         globalBackgroundColor: boardConfig.globalBackgroundColor,
         dataSyncEnable: boardConfig.dataSyncEnable
-      });
-
-      /**
-       * 监听到实时涂鸦数据后，通过im将数据同步到各端
-       */
-      this.data.board.on(TEduBoard.EVENT.TEB_SYNCDATA, data => {
-        ImHandler.sendBoardMsg(data);
       });
     },
 
