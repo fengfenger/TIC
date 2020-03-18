@@ -150,7 +150,7 @@ module.exports = {
     return this.tim.createGroup(options).then(res => {
       return Promise.resolve();
     }, error => {
-      if (err.code == 10025) { // 群组 ID 已被使用，并且操作者为群主，可以直接使用。
+      if (error.code == 10025) { // 群组 ID 已被使用，并且操作者为群主，可以直接使用。
         return Promise.resolve();
       } else {
         return Promise.reject(error);
