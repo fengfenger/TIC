@@ -1,4 +1,3 @@
-const imHandler = require('./im_handler.js');
 const CONSTANT = require('../../constant/Constant');
 var CircularJSON = require('../libs/circular-json');
 
@@ -77,11 +76,6 @@ Component({
       type: Boolean,
       value: false
     }, //是否显示log
-    enableIM: {
-      type: Boolean, //是否启用IM
-      value: true
-    },
-
     enableCamera: {
       type: Boolean,
       value: true
@@ -228,40 +222,6 @@ Component({
     },
 
     /**
-     * 初始化IM
-     */
-    initIm() {
-      imHandler.initData({
-        'sdkAppID': this.data.sdkAppID, //用户所属应用id,必填
-        'appIDAt3rd': this.data.sdkAppID, //用户所属应用id，必填
-        'accountType': this.data.accountType, //用户所属应用帐号类型，必填
-        'identifier': this.data.userID, //当前用户ID,必须是否字符串类型，选填
-        'identifierNick': this.data.userName || this.data.userID, //当前用户昵称，选填
-        'userSig': this.data.userSig
-      }, {});
-
-      // 初始化Im登录回调
-      imHandler.initLoginListeners(this.imLoginListener());
-
-      // 登录IM
-      imHandler.loginIm((res) => {
-        // 登录成功
-        this.fireIMEvent(CONSTANT.IM.LOGIN_EVENT, res.ErrorCode, res);
-        // 创建或者加入群
-        imHandler.joinGroup(this.data.roomID, (res) => {
-          // 创建或者加入群成功
-          this.fireIMEvent(CONSTANT.IM.JOIN_GROUP_EVENT, res.ErrorCode, res);
-        }, (error) => {
-          // 创建或者加入群失败
-          this.fireIMEvent(CONSTANT.IM.JOIN_GROUP_EVENT, error.ErrorCode, error);
-        });
-      }, (error) => {
-        // 登录失败
-        this.fireIMEvent(CONSTANT.IM.LOGIN_EVENT, error.ErrorCode, error);
-      });
-    },
-
-    /**
      * webrtc-room程序的入口
      */
     start: function (isNetWorkChange) {
@@ -275,9 +235,6 @@ Component({
         })
       } else {
         this.requestSigServer(this.data.userSig, this.data.privateMapKey);
-        if (this.data.enableIM) {
-          this.initIm(); // 初始化IM
-        }
       }
     },
 
@@ -694,139 +651,6 @@ Component({
 
       self.setData({
         members: self.data.members
-      });
-    },
-
-    // IM登录监听
-    imLoginListener() {
-      var self = this;
-      return {
-        // 用于监听用户连接状态变化的函数，选填
-        onConnNotify(resp) {
-          self.fireIMEvent(CONSTANT.IM.CONNECTION_EVENT, resp.ErrorCode, resp);
-        },
-
-        // 监听新消息(直播聊天室)事件，直播场景下必填
-        onBigGroupMsgNotify(msgs) {
-          if (msgs.length) { // 如果有消息才处理
-            self.fireIMEvent(CONSTANT.IM.BIG_GROUP_MSG_NOTIFY, 0, CircularJSON.stringify(msgs));
-          }
-        },
-
-        // 监听新消息函数，必填
-        onMsgNotify(msgs) {
-          if (msgs.length) { // 如果有消息才处理
-            self.fireIMEvent(CONSTANT.IM.MSG_NOTIFY, 0, CircularJSON.stringify(msgs));
-          }
-        },
-
-        // 系统消息
-        onGroupSystemNotifys: {
-          "1": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 1, notify);
-          }, //申请加群请求（只有管理员会收到）
-          "2": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 2, notify);
-          }, //申请加群被同意（只有申请人能够收到）
-          "3": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 3, notify);
-          }, //申请加群被拒绝（只有申请人能够收到）
-          "4": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 4, notify);
-          }, //被管理员踢出群(只有被踢者接收到)
-          "5": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 5, notify);
-          }, //群被解散(全员接收)
-          "6": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 6, notify);
-          }, //创建群(创建者接收)
-          "7": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 7, notify);
-          }, //邀请加群(被邀请者接收)
-          "8": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 8, notify);
-          }, //主动退群(主动退出者接收)
-          "9": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 9, notify);
-          }, //设置管理员(被设置者接收)
-          "10": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 10, notify);
-          }, //取消管理员(被取消者接收)
-          "11": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 11, notify);
-          }, //群已被回收(全员接收)
-          "255": (notify) => {
-            self.fireIMErrorEvent(CONSTANT.IM.GROUP_SYSTEM_NOTIFYS, 255, notify);
-          } //用户自定义通知(默认全员接收)
-        },
-
-        // 监听群资料变化事件，选填
-        onGroupInfoChangeNotify(groupInfo) {
-          self.fireIMErrorEvent(CONSTANT.IM.GROUP_INFO_CHANGE_NOTIFY, 0, groupInfo);
-        },
-
-        // 被踢下线
-        onKickedEventCall() {
-          self.fireIMErrorEvent(CONSTANT.IM.KICKED);
-        }
-      }
-    },
-
-    /**
-     * 发送C2C文本消息
-     * @param {string} msg 
-     * @param {function} succ 
-     * @param {function} fail
-     */
-    sendC2CTextMsg(receiveUser, msg, succ, fail) {
-      imHandler.sendC2CTextMsg(receiveUser, msg, succ, fail);
-    },
-
-    /**
-     * 发送C2C自定义消息
-     * @param {object} msgObj {data: 'xxx', cmd: 'xxxx'}
-     * @param {function} succ
-     * @param {function} fail
-     */
-    sendC2CCustomMsg(receiveUser, msgObj, succ, fail) {
-      imHandler.sendC2CCustomMsg(receiveUser, msgObj, succ, fail);
-    },
-
-    /**
-     * 发送群组文本消息
-     * @param {string} msg 
-     * @param {function} succ 
-     * @param {function} fail
-     */
-    sendGroupTextMsg(msg, succ, fail) {
-      imHandler.sendGroupTextMsg(msg, succ, fail);
-    },
-
-    /**
-     * 发送群组自定义消息
-     * @param {object} msgObj {data: 'xxx', cmd: 'xxxx'}
-     * @param {function} succ
-     * @param {function} fail
-     */
-    sendGroupCustomMsg(msgObj, succ, fail) {
-      imHandler.sendGroupCustomMsg(msgObj, succ, fail);
-    },
-
-    /**
-     * IM错误信息
-     */
-    fireIMErrorEvent: function (errCode, errMsg) {
-      self.fireIMEvent('error', errCode, errMsg);
-    },
-
-    /**
-     * 触发IM信息
-     */
-    fireIMEvent: function (tag, code, detail) {
-      self.triggerEvent('IMEvent', {
-        tag: tag,
-        code: code,
-        detail: detail
       });
     }
   }

@@ -72,6 +72,8 @@ class ELKReport {
       ONUSERSIGEXPIRED: 'onUserSigExpired', //	userSig过期	
       ONTEBERROR: 'onTEBError', //	错误信息	
       ONTEBWARNING: 'onTEBWarning', //	警告信息
+      ONTEBADDSYNCERROR: 'onTEBaddSyncError', //addSync错误
+      ONTEBADDSYNCTOREMOTEERROR: 'onTEBaddSyncToRemoteError' // add同步到远端失败
     }
   }
 
@@ -117,8 +119,7 @@ class ELKReport {
 
         }
       });
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   report(eventName, data) {
@@ -161,6 +162,7 @@ ELKReport.EVENT_NAME = {
   ONUSERSIGEXPIRED: 'onUserSigExpired', //	userSig过期	
   ONTEBERROR: 'onTEBError', //	错误信息	
   ONTEBWARNING: 'onTEBWarning', //	警告信息
+  ONTEBADDSYNCERROR: 'ONTEBADDSYNCERROR', //addSync错误
 }
 
 module.exports = new ELKReport();

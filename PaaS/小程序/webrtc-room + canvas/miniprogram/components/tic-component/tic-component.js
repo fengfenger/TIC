@@ -1,6 +1,3 @@
-// 常量
-const CONSTANT = require('../../constant/Constant');
-const webim = require('../webim-component/webim_wx.min');
 // webim组件
 const webimComponent = require('../webim-component/webim-component');
 const MessageListener = require('../event/MessageListener');
@@ -8,6 +5,7 @@ const EventListener = require('../event/EventListener');
 const BoardListener = require('../event/BoardListener');
 const StatusListener = require('../event/StatusListener');
 const logReport = require('../elk-component/ELKReport');
+const TEduBoard = require('../board-component/libs/TEduBoard_miniprogram.min.js');
 
 const Constant = {
   TICModule: {
@@ -16,8 +14,6 @@ const Constant = {
 }
 
 Component({
-  version: '2.0.0_RC1',
-
   /**
    * 组件的属性列表
    */
@@ -44,6 +40,7 @@ Component({
       logReport.report(logReport.EVENT_NAME.INITSDK_START);
       if (sdkAppId) {
         this.data.sdkAppId = sdkAppId;
+        webimComponent.init(sdkAppId);
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -83,21 +80,14 @@ Component({
      * @param {*} fail  失败回调
      */
     login(loginConfig, callback) {
-      this.data.userId = loginConfig.userId;
-      this.data.userSig = loginConfig.userSig;
+      this.data.userId = String(loginConfig.userId);
+      this.data.userSig = String(loginConfig.userSig);
 
       let startTime = Date.now();
       logReport.setUserId(this.data.userId);
       logReport.report(logReport.EVENT_NAME.LOGIN_START);
 
-      webimComponent.initData({
-        sdkAppID: this.data.sdkAppId,
-        userId: loginConfig.userId,
-        userSig: loginConfig.userSig
-      });
-
-      // 登录IM
-      webimComponent.login(function () {
+      webimComponent.login(this.data.userId, this.data.userSig).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -109,15 +99,15 @@ Component({
           data: '',
           ext: ''
         });
-      }, function (error) {
+      }).catch(error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         });
         logReport.report(logReport.EVENT_NAME.LOGIN_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
+          errorCode: error.code,
+          errorDesc: error.message,
           timeCost: Date.now() - startTime,
           data: '',
           ext: ''
@@ -133,7 +123,7 @@ Component({
       let startTime = Date.now();
       logReport.report(logReport.EVENT_NAME.LOGOUT_START);
 
-      webimComponent.logout(() => {
+      webimComponent.logout().then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -148,12 +138,12 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         });
         logReport.report(logReport.EVENT_NAME.LOGOUT_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
+          errorCode: error.code,
+          errorDesc: error.message,
           timeCost: Date.now() - startTime,
           data: '',
           ext: ''
@@ -172,7 +162,7 @@ Component({
       logReport.report(logReport.EVENT_NAME.CREATEGROUP_START);
 
       // WebIM加入聊天房间
-      webimComponent.createRoom(this.data.userId, classId).then(res => {
+      webimComponent.createGroup(classId).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -187,12 +177,12 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         });
         logReport.report(logReport.EVENT_NAME.CREATEGROUP_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
+          errorCode: error.code,
+          errorDesc: error.message,
           timeCost: Date.now() - startTime,
           data: '',
           ext: ''
@@ -212,17 +202,21 @@ Component({
 
       this.data.classId = classId * 1;
       // 加入群组
-      webimComponent.joinGroup(classId + '', () => {
+      webimComponent.joinGroup(classId).then(() => {
         BoardListener.addBoardEventListener({
-          RECEIVE_BOARD_DATA: (msg) => {
+          RECEIVE_BOARD_DATA: (element) => {
             if (this.data.txBoard) {
-              msg.elems.forEach((elem) => {
-                this.data.txBoard.addSyncData(JSON.parse(elem.content.data));
-              })
+              try {
+                this.data.txBoard.addSyncData(JSON.parse(element.content.data));
+              } catch (error) {
+                logReport.report(logReport.EVENT_NAME.ONTEBADDSYNCERROR);
+              }
+            } else {
+
             }
           },
           // 接收到文件数据
-          RECEIVE_BOARD_FILE_DATA: msg => {
+          RECEIVE_BOARD_FILE_DATA: element => {
 
           }
         });
@@ -244,12 +238,12 @@ Component({
       }, (error) => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         });
         logReport.report(logReport.EVENT_NAME.JOINGROUP_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
+          errorCode: error.code,
+          errorDesc: error.message,
           timeCost: Date.now() - startTime,
           data: '',
           ext: ''
@@ -265,7 +259,7 @@ Component({
     quitClassroom(callback) {
       let startTime = Date.now();
       logReport.report(logReport.EVENT_NAME.QUITGROUP_START);
-      webimComponent.quitGroup(this.data.classId, () => {
+      webimComponent.quitGroup(this.data.classId).then(() => {
         // 退出成功
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
@@ -279,34 +273,19 @@ Component({
           ext: ''
         });
       }, (error) => {
-        // 群不存在 或者 不在群里了 或者 群id不合法（一般这种情况是课堂销毁了groupId被重置后发生）(都认为成功)
-        if (error.ErrorCode === 10010 || error.ErrorCode === 10007 || error.ErrorCode === 10015) {
-          callback && callback({
-            module: Constant.TICModule.TICMODULE_IMSDK,
-            code: 0
-          });
-          logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
-            errorCode: 0,
-            errorDesc: '',
-            timeCost: Date.now() - startTime,
-            data: '',
-            ext: ''
-          });
-        } else {
-          // 退出失败
-          callback && callback({
-            module: Constant.TICModule.TICMODULE_IMSDK,
-            code: error.ErrorCode,
-            desc: error.ErrorInfo
-          });
-          logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
-            errorCode: error.ErrorCode,
-            errorDesc: error.ErrorInfo,
-            timeCost: Date.now() - startTime,
-            data: '',
-            ext: ''
-          });
-        }
+        // 退出失败
+        callback && callback({
+          module: Constant.TICModule.TICMODULE_IMSDK,
+          code: error.code,
+          desc: error.message
+        });
+        logReport.report(logReport.EVENT_NAME.QUITGROUP_END, {
+          errorCode: error.code,
+          errorDesc: error.message,
+          timeCost: Date.now() - startTime,
+          data: '',
+          ext: ''
+        });
       });
     },
 
@@ -335,12 +314,12 @@ Component({
         // 销毁失败
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         });
         logReport.report(logReport.EVENT_NAME.DELETEGROUP_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
+          errorCode: error.code,
+          errorDesc: error.message,
           timeCost: Date.now() - startTime,
           data: '',
           ext: ''
@@ -361,7 +340,26 @@ Component({
         orientation: this.data.orientation
       }, boardOption);
       // 开始白板
-      txBoard.render(boardOption, callback);
+      txBoard.render(boardOption, () => {
+        /**
+         * 监听到实时涂鸦数据后，通过im将数据同步到各端
+         */
+        txBoard.getBoardInstance().on(TEduBoard.EVENT.TEB_SYNCDATA, data => {
+          webimComponent.sendBoardGroupCustomMessage(data).catch((error) => {
+            // 同步到远端增加失败日志
+            try {
+              logReport.report(logReport.EVENT_NAME.ONTEBADDSYNCTOREMOTEERROR, {
+                errorCode: error.code,
+                errorDesc: error.message,
+                ext: JSON.stringify(error)
+              });
+            } catch (error) {
+
+            }
+          });
+        });
+        callback && callback();
+      });
     },
 
     /**
@@ -371,7 +369,7 @@ Component({
      * @param callback			回调
      */
     sendTextMessage(userId, text, callback) {
-      webimComponent.sendC2CTextMessage(userId, text, () => {
+      webimComponent.sendC2CTextMessage(userId, text).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -379,8 +377,8 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         })
       });
     },
@@ -392,7 +390,7 @@ Component({
      * @param callback			回调
      */
     sendCustomMessage(userId, data, callback) {
-      webimComponent.sendC2CCustomMessage(userId, data, () => {
+      webimComponent.sendC2CCustomMessage(userId, data).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -400,8 +398,8 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         })
       });
     },
@@ -413,7 +411,7 @@ Component({
      * @param {function} fail
      */
     sendGroupTextMessage(text, callback) {
-      webimComponent.sendGroupTextMessage(text, () => {
+      webimComponent.sendGroupTextMessage(text).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -421,8 +419,8 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         })
       });
     },
@@ -433,7 +431,7 @@ Component({
      * @param callback			回调
      */
     sendGroupCustomMessage(data, callback) {
-      webimComponent.sendGroupCustomMessage(data, () => {
+      webimComponent.sendGroupCustomMessage(data).then(() => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
           code: 0
@@ -441,8 +439,8 @@ Component({
       }, error => {
         callback && callback({
           module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
+          code: error.code,
+          desc: error.message
         })
       });
     },
@@ -468,7 +466,7 @@ Component({
      * @return {webim} im 返回IM实例
      */
     getImInstance() {
-      return webim;
+      return webimComponent.getImInstance();
     },
 
     /**
