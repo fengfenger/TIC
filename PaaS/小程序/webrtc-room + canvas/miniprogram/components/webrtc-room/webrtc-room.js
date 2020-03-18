@@ -193,7 +193,6 @@ Component({
 
   detached() {
     this.exitRoom();
-    imHandler.logout();
   },
 
   /**
