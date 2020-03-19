@@ -25,93 +25,107 @@ module.exports = {
   },
 
   initEvent() {
-    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED, (event) => { // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
-      let messages = event.data;
-      messages.forEach((message) => {
-        // 群组消息
-        if (message.conversationType === TIM.TYPES.CONV_GROUP) {
-          if (message.to === this.groupId) { // 如果是当前群组
-            let elements = message.getElements();
-            if (elements.length) {
-              elements.forEach((element) => {
-                if (element.type === 'TIMGroupTipElem') {
-                  switch (element.content.operationType) {
-                    case TIM.TYPES.GRP_TIP_MBR_JOIN:
-                      EventListener.fireEvent('onTICMemberJoin', element.content.userIDList);
-                      break;
-                    case TIM.TYPES.GRP_TIP_MBR_QUIT:
-                      EventListener.fireEvent('onTICMemberQuit', element.content.userIDList);
-                      break;
-                  }
-                } else if (element.type === 'TIMTextElem') {
-                  MessageListener.fireEvent('onTICRecvGroupTextMessage', message.from, element.content.text, element.content.text.length);
-                } else if (element.type === 'TIMCustomElem') {
-                  if (element.content.extension === 'TXWhiteBoardExt') {
-                    if (message.from != this.userId) {
-                      BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
-                    }
-                  } else if (element.content.extension === 'TXWhiteBoardExt') {
-                    if (message.from != this.userId) {
-                      BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
-                    }
-                  } else if (element.content.extension === 'TXConferenceExt') {
-                    // 对时消息过滤掉
-                  } else {
-                    MessageListener.fireEvent('onTICRecvGroupCustomMessage', message.from, element.content.data, element.content.data.length);
-                  }
-                }
-              });
-            }
-          } else {
-            // 其他群组消息忽略
-          }
-        } else if (message.conversationType === TIM.TYPES.CONV_C2C) { // C2C消息
+    this.tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived, this) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
 
+    this.tim.on(TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived, this) // SDK 收到新的群系统通知时触发
+
+    this.tim.on(TIM.EVENT.KICKED_OUT, this.onKickedOut, this) // 用户被踢下线时触发
+  },
+
+  uninitEvent() {
+    this.tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
+
+    this.tim.off(TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived) // SDK 收到新的群系统通知时触发
+
+    this.tim.off(TIM.EVENT.KICKED_OUT, this.onKickedOut) // 用户被踢下线时触发
+  },
+
+  onKickedOut(event) {
+    StatusListener.fireEvent('onTICForceOffline');
+  },
+
+  onGroupSystemNoticeReceived(event) {
+    const message = event.data.message; // 群系统通知的消息实例，详见 Message
+    const payload = message.payload;
+    switch (payload.operationType) {
+      case 4: // 被踢出群组
+        if (event.data.message.to == this.groupId) {
+          EventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+      case 5: // 群组被解散
+        if (event.data.message.to == this.groupId) {
+          EventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+      case 11: //群已被回收(全员接收)
+        if (event.data.message.to == this.groupId) {
+          EventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+    }
+  },
+
+  onMessageReceived(event) {
+    let messages = event.data;
+    messages.forEach((message) => {
+      // 群组消息
+      if (message.conversationType === TIM.TYPES.CONV_GROUP) {
+        if (message.to === this.groupId) { // 如果是当前群组
           let elements = message.getElements();
           if (elements.length) {
             elements.forEach((element) => {
-              if (element.type === 'TIMTextElem') {
-                MessageListener.fireEvent('onTICRecvTextMessage', message.from, element.content.text, element.content.text.length);
+              if (element.type === 'TIMGroupTipElem') {
+                switch (element.content.operationType) {
+                  case TIM.TYPES.GRP_TIP_MBR_JOIN:
+                    EventListener.fireEvent('onTICMemberJoin', element.content.userIDList);
+                    break;
+                  case TIM.TYPES.GRP_TIP_MBR_QUIT:
+                    EventListener.fireEvent('onTICMemberQuit', element.content.userIDList);
+                    break;
+                }
+              } else if (element.type === 'TIMTextElem') {
+                MessageListener.fireEvent('onTICRecvGroupTextMessage', message.from, element.content.text, element.content.text.length);
               } else if (element.type === 'TIMCustomElem') {
-                MessageListener.fireEvent('onTICRecvCustomMessage', message.from, element.content, element.content.length);
+                if (element.content.extension === 'TXWhiteBoardExt') {
+                  if (message.from != this.userId) {
+                    BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
+                  }
+                } else if (element.content.extension === 'TXWhiteBoardExt') {
+                  if (message.from != this.userId) {
+                    BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
+                  }
+                } else if (element.content.extension === 'TXConferenceExt') {
+                  // 对时消息过滤掉
+                } else {
+                  MessageListener.fireEvent('onTICRecvGroupCustomMessage', message.from, element.content.data, element.content.data.length);
+                }
               }
             });
           }
+        } else {
+          // 其他群组消息忽略
         }
+      } else if (message.conversationType === TIM.TYPES.CONV_C2C) { // C2C消息
 
-        try {
-          MessageListener.fireEvent('onTICRecvMessage', message);
-        } catch (error) {
-
+        let elements = message.getElements();
+        if (elements.length) {
+          elements.forEach((element) => {
+            if (element.type === 'TIMTextElem') {
+              MessageListener.fireEvent('onTICRecvTextMessage', message.from, element.content.text, element.content.text.length);
+            } else if (element.type === 'TIMCustomElem') {
+              MessageListener.fireEvent('onTICRecvCustomMessage', message.from, element.content, element.content.length);
+            }
+          });
         }
-      });
-    })
-
-    this.tim.on(TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, (event) => { // SDK 收到新的群系统通知时触发
-      const message = event.data.message; // 群系统通知的消息实例，详见 Message
-      const payload = message.payload;
-      switch (payload.operationType) {
-        case 4: // 被踢出群组
-          if (event.data.message.to == this.groupId) {
-            EventListener.fireEvent('onTICClassroomDestroy');
-          }
-          break;
-        case 5: // 群组被解散
-          if (event.data.message.to == this.groupId) {
-            EventListener.fireEvent('onTICClassroomDestroy');
-          }
-          break;
-        case 11: //群已被回收(全员接收)
-          if (event.data.message.to == this.groupId) {
-            EventListener.fireEvent('onTICClassroomDestroy');
-          }
-          break;
       }
-    })
 
-    this.tim.on(TIM.EVENT.KICKED_OUT, (event) => { // 用户被踢下线时触发
-      StatusListener.fireEvent('onTICForceOffline');
-    })
+      try {
+        MessageListener.fireEvent('onTICRecvMessage', message);
+      } catch (error) {
+
+      }
+    });
   },
 
   /**
@@ -130,6 +144,7 @@ module.exports = {
    * 注销IM
    */
   logout() {
+    this.uninitEvent();
     return this.tim.logout();
   },
 
