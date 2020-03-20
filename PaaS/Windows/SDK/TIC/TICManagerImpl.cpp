@@ -688,7 +688,7 @@ void TICManagerImpl::TRTCEnterRoom()
 	if (openMic_) {
 		//判断是否需要选择麦克风设备
 		if (!micId_.empty()) {
-			getTRTCShareInstance()->setCurrentCameraDevice(cameraId_.c_str());
+			getTRTCShareInstance()->setCurrentMicDevice(micId_.c_str());
 		}
 		getTRTCShareInstance()->startLocalAudio();
 	}
