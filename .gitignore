@@ -25,3 +25,4 @@ PaaS/Android/Demo/build
 Demo.iml
 PaaS/Android/Demo/gradle
 local.properties
+/PaaS/Windows/Demo/x64

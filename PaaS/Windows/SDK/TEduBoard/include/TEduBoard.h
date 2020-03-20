@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.4.78
+ * @version 2.4.4.82
  */
 
 #pragma once
@@ -141,13 +141,12 @@ extern "C" {
     /**
      * @ingroup ctrl
      * @brief 启用白板离屏渲染
-     * @param sharedTextureEnabled          是否启用共享纹理渲染（Windows下有效）
      * @return 启用离屏渲染是否成功
      * @warning 该接口必须要在第一次调用 CreateTEduBoardController 之前调用才有效，否则将会失败
      *
      * 启用离屏渲染时，SDK 不再创建白板 VIEW，而是通过 onTEBOffscreenPaint 回调接口将白板离屏渲染的像素数据抛出
      */
-    EDUSDK_API bool EnableTEduBoardOffscreenRender(bool sharedTextureEnabled = false);
+    EDUSDK_API bool EnableTEduBoardOffscreenRender();
 
     /**
      * @ingroup ctrl
@@ -771,6 +770,17 @@ struct TEduBoardTouchEvent {
 
 /**
  * @ingroup def
+ * @brief 矩形区域
+ */
+struct TEduBoardRect {
+    int32_t x;          ///< 矩形起始位置X轴坐标
+    int32_t y;          ///< 矩形起始位置Y轴坐标
+    int32_t width;      ///< 矩形宽度
+    int32_t height;     ///< 矩形高度
+};
+
+/**
+ * @ingroup def
  * @brief 文件信息列表
  */
 class TEduBoardFileInfoList {
@@ -896,13 +906,14 @@ struct TEduBoardCallback {
      * @param buffer            白板数据
      * @param width             白板像素数据的宽度
      * @param height            白板像素数据的高度
+     * @param dirtyRects        需要重绘的矩形区域数组（可能有多个）
+     * @param dirtyRectCount    需要重绘的矩形区域数组个数
      * @warning 该回调不会从统一回调线程触发，可能来自不同线程调用
      *
      * 该回调只有在启用离屏渲染时才会被触发
      * 当width != 0 || height != 0时，buffer指向白板像素数据，大小为 width * height * 4，像素以白板左上方为原点从左到右从上到下按 BGRA 排列
-     * 当width == 0 && height == 0是，buffer指向一个D3D11 Texture2D共享纹理，可通过ID3D11Device的OpenSharedResource方法来访问（Windows下）
      */
-    virtual void onTEBOffscreenPaint(const void* buffer, uint32_t width, uint32_t height) {};
+    virtual void onTEBOffscreenPaint(const void* buffer, uint32_t width, uint32_t height, const TEduBoardRect *dirtyRects, uint32_t dirtyRectCount) {};
 
 #ifdef AUDIO_HANDLER_SUPPORT
     /**
