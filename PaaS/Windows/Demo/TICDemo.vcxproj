@@ -77,20 +77,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\Win32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib\x86;$(ProjectDir)..\SDK\TIM\lib\Win32\$(Configuration);$(ProjectDir)..\SDK\TRTC\Win32\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib;$(ProjectDir)..\SDK\TIM\lib\$(Configuration);$(ProjectDir)..\SDK\TRTC\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\Win64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib\x64;$(ProjectDir)..\SDK\TIM\lib\Win64\$(Configuration);$(ProjectDir)..\SDK\TRTC\Win64\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\Win32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib\x86;$(ProjectDir)..\SDK\TIM\lib\Win32\$(Configuration);$(ProjectDir)..\SDK\TRTC\Win32\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib;$(ProjectDir)..\SDK\TIM\lib\$(Configuration);$(ProjectDir)..\SDK\TRTC\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TIM\includes;$(ProjectDir)..\SDK\TRTC\Win64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDK\TEduBoard\lib\x64;$(ProjectDir)..\SDK\TIM\lib\Win64\$(Configuration);$(ProjectDir)..\SDK\TRTC\Win64\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,12 +102,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TRTC\include;$(ProjectDir)..\SDK\TIM\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDK\TEduBoard\lib;$(ProjectDir)..\SDK\TRTC\lib;$(ProjectDir)..\SDK\TIM\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
       <AdditionalDependencies>uafxcwd.lib;Libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>uafxcwd.lib;Libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -118,9 +124,9 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) 
+      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib\x86 $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TIM\lib\Win32\$(Configuration) $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TRTC\Win32\lib $(OutDir) 
 XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -137,6 +143,9 @@ XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>uafxcwd.lib;Libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -149,9 +158,9 @@ XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
+      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib\x64 $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TIM\lib\Win64\$(Configuration) $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TRTC\Win64\lib $(OutDir) </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -162,14 +171,16 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\SDK\TEduBoard\include;$(ProjectDir)..\SDK\TRTC\include;$(ProjectDir)..\SDK\TIM\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\SDK\TEduBoard\lib;$(ProjectDir)..\SDK\TRTC\lib;$(ProjectDir)..\SDK\TIM\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>uafxcw.lib;Libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -184,9 +195,9 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) 
+      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib\x86 $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TIM\lib\Win32\$(Configuration) $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TRTC\Win32\lib $(OutDir) 
 XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
@@ -207,6 +218,9 @@ XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>uafxcw.lib;Libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -219,9 +233,9 @@ XCOPY /Y /E $(ProjectDir)..\SDK\TIC\localrecord\lib $(OutDir)</Command>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TIM\lib\$(Configuration) $(OutDir) 
-COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
+      <Command>XCOPY /Y /E $(ProjectDir)..\SDK\TEduBoard\lib\x64 $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TIM\lib\Win64\$(Configuration) $(OutDir) 
+COPY /Y $(ProjectDir)..\SDK\TRTC\Win64\lib $(OutDir) </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -247,40 +261,58 @@ COPY /Y $(ProjectDir)..\SDK\TRTC\lib $(OutDir) </Command>
     <ClCompile Include="..\SDK\TIC\HttpClient.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\jsoncpp\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\localRecord\TICLocalRecord.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\localRecord\TICLocalRecordImpl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\NTP.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\TICManager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\TICManagerImpl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\SDK\TIC\TICRecorder.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="BoardDlg.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TICDemo.cpp" />
     <ClCompile Include="TICDemoDlg.cpp" />
