@@ -21,22 +21,17 @@ module.exports = {
       SDKAppID: sdkAppId
     }); // SDK 实例通常用 tim 表示
     this.tim.setLogLevel(1);
-    this.initEvent();
   },
 
   initEvent() {
     this.tim.on(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived, this) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
-
     this.tim.on(TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived, this) // SDK 收到新的群系统通知时触发
-
     this.tim.on(TIM.EVENT.KICKED_OUT, this.onKickedOut, this) // 用户被踢下线时触发
   },
 
   uninitEvent() {
     this.tim.off(TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
-
     this.tim.off(TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived) // SDK 收到新的群系统通知时触发
-
     this.tim.off(TIM.EVENT.KICKED_OUT, this.onKickedOut) // 用户被踢下线时触发
   },
 
@@ -63,6 +58,9 @@ module.exports = {
           EventListener.fireEvent('onTICClassroomDestroy');
         }
         break;
+      case 255:
+        this.messageListener.fireEvent('onTICRecvGroupSystemNotify', 255, event.data.message);
+        break;
     }
   },
 
@@ -73,6 +71,7 @@ module.exports = {
       if (message.conversationType === TIM.TYPES.CONV_GROUP) {
         if (message.to === this.groupId) { // 如果是当前群组
           let elements = message.getElements();
+          let isBoardMessage = false; // 如果是白板消息
           if (elements.length) {
             elements.forEach((element) => {
               if (element.type === 'TIMGroupTipElem') {
@@ -86,16 +85,42 @@ module.exports = {
                 }
               } else if (element.type === 'TIMTextElem') {
                 MessageListener.fireEvent('onTICRecvGroupTextMessage', message.from, element.content.text, element.content.text.length);
+              } else if (element.type === 'TIMFileElem') {
+                if (element.content.fileName === 'TXWhiteBoardExt') {
+                  if (message.from != this.userId) {
+                    isBoardMessage = true; // 是白板消息
+                    wx.request({
+                      url: element.content.fileUrl,
+                      method: 'GET',
+                      success: (res) => {
+                        BoardListener.fireEvent('RECEIVE_BOARD_DATA', res.data);
+                      },
+                      fail: () => {
+                        setTimeout(() => {
+                          // 重试一次
+                          wx.request({
+                            url: element.content.fileUrl,
+                            method: 'GET',
+                            success: (res) => {
+                              BoardListener.fireEvent('RECEIVE_BOARD_DATA', res.data);
+                            },
+                            fail: () => {
+
+                            }
+                          })
+                        }, 1000);
+                      }
+                    })
+                  }
+                }
               } else if (element.type === 'TIMCustomElem') {
                 if (element.content.extension === 'TXWhiteBoardExt') {
+                  isBoardMessage = true; // 是白板消息
                   if (message.from != this.userId) {
-                    BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
-                  }
-                } else if (element.content.extension === 'TXWhiteBoardExt') {
-                  if (message.from != this.userId) {
-                    BoardListener.fireEvent('RECEIVE_BOARD_DATA', element);
+                    BoardListener.fireEvent('RECEIVE_BOARD_DATA', element.content.data);
                   }
                 } else if (element.content.extension === 'TXConferenceExt') {
+                  isBoardMessage = true; // 是白板消息
                   // 对时消息过滤掉
                 } else {
                   MessageListener.fireEvent('onTICRecvGroupCustomMessage', message.from, element.content.data, element.content.data.length);
@@ -103,11 +128,16 @@ module.exports = {
               }
             });
           }
+
+          if (!isBoardMessage) { // 如果不是白板消息，则需要将消息抛出来
+            try {
+              this.messageListener.fireEvent('onTICRecvMessage', message);
+            } catch (error) {}
+          }
         } else {
           // 其他群组消息忽略
         }
       } else if (message.conversationType === TIM.TYPES.CONV_C2C) { // C2C消息
-
         let elements = message.getElements();
         if (elements.length) {
           elements.forEach((element) => {
@@ -118,12 +148,12 @@ module.exports = {
             }
           });
         }
-      }
 
-      try {
-        MessageListener.fireEvent('onTICRecvMessage', message);
-      } catch (error) {
+        try {
+          MessageListener.fireEvent('onTICRecvMessage', message);
+        } catch (error) {
 
+        }
       }
     });
   },
@@ -134,6 +164,8 @@ module.exports = {
   login(userId, userSig) {
     this.userId = userId;
     this.userSig = userSig;
+    this.uninitEvent();
+    this.initEvent();
     return this.tim.login({
       userID: String(userId),
       userSig: String(userSig)
@@ -196,6 +228,8 @@ module.exports = {
       }
     }, error => {
       if (error.code == 10013) { // 被邀请加入的用户已经是群成员,也表示成功
+        return Promise.resolve();
+      } else if (error.code == -12) { // Join Group succeed; But the type of group is not AVChatRoom
         return Promise.resolve();
       }
       return Promise.reject(error);
@@ -299,14 +333,18 @@ module.exports = {
       extension: 'TXWhiteBoardExt'
     };
     return this.sendGroupCustomMessage(msg).then(() => {
-      return Promise.resolve();
-    }, () => {
-      // 失败重试一次
-      this.sendGroupCustomMessage(msg).then(() => {
-        return Promise.resolve();
-      }, (error) => {
+      return Promise.resolve(content);
+    }, (error) => {
+      if (error && error.data && error.data.message) {
+        // 失败重试一次
+        return this.tim.resendMessage(error.data.message).then(() => {
+          return Promise.resolve(content);
+        }, error => {
+          return Promise.reject(error);
+        });
+      } else {
         return Promise.reject(error);
-      });
+      }
     });
-  },
+  }
 }
