@@ -204,10 +204,10 @@ Component({
       // 加入群组
       webimComponent.joinGroup(classId).then(() => {
         BoardListener.addBoardEventListener({
-          RECEIVE_BOARD_DATA: (element) => {
+          RECEIVE_BOARD_DATA: (data) => {
             if (this.data.txBoard) {
               try {
-                this.data.txBoard.addSyncData(JSON.parse(element.content.data));
+                this.data.txBoard.addSyncData(data);
               } catch (error) {
                 logReport.report(logReport.EVENT_NAME.ONTEBADDSYNCERROR);
               }
@@ -345,7 +345,10 @@ Component({
          * 监听到实时涂鸦数据后，通过im将数据同步到各端
          */
         txBoard.getBoardInstance().on(TEduBoard.EVENT.TEB_SYNCDATA, data => {
-          webimComponent.sendBoardGroupCustomMessage(data).catch((error) => {
+          webimComponent.sendBoardGroupCustomMessage(data).then((content) => {
+            let board = txBoard.getBoardInstance();
+            board && board.addAckData(content);
+          }, (error) => {
             // 同步到远端增加失败日志
             try {
               logReport.report(logReport.EVENT_NAME.ONTEBADDSYNCTOREMOTEERROR, {
@@ -353,9 +356,7 @@ Component({
                 errorDesc: error.message,
                 ext: JSON.stringify(error)
               });
-            } catch (error) {
-
-            }
+            } catch (error) {}
           });
         });
         callback && callback();

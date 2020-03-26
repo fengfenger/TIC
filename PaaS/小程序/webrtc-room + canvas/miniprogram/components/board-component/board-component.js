@@ -31,7 +31,7 @@ Component({
     attached: function () {
       this.data.systemInfo = wx.getSystemInfoSync();
     },
-    detached: function () { },
+    detached: function () {},
   },
 
   /**
@@ -57,6 +57,7 @@ Component({
     canvasComponent: null,
     orientation: null,
     boardWrapClientRect: null,
+    imageTimeout: 10,
     imageCallbacks: {
       start: null,
       success: null,
@@ -128,7 +129,8 @@ Component({
         brushThin: boardConfig.brushThin,
         toolType: boardConfig.toolType,
         globalBackgroundColor: boardConfig.globalBackgroundColor,
-        dataSyncEnable: boardConfig.dataSyncEnable
+        dataSyncEnable: boardConfig.dataSyncEnable,
+        imageTimeout: boardConfig.imageTimeout
       });
     },
 
@@ -302,7 +304,9 @@ Component({
         currentPic: currentPic,
         currentBoard
       }, () => {
-        this.data.imageCallbacks.start && this.data.imageCallbacks.start(currentPic, currentBoard);
+        if (currentPic) {
+          this.data.imageCallbacks.start && this.data.imageCallbacks.start(currentPic, currentBoard);
+        }
       });
     },
 
@@ -314,20 +318,26 @@ Component({
       let width = ev.detail.width,
         height = ev.detail.height;
 
-      this.data.imageCallbacks.success && this.data.imageCallbacks.success(this.data.currentPic, this.data.currentBoard);
+      let boardId = ev.currentTarget.dataset.board;
+      let currentPic = ev.currentTarget.dataset.src;
+      this.data.imageCallbacks.success && this.data.imageCallbacks.success(currentPic, boardId);
 
-      // 获取图片原始宽高
-      this.setData({
-        naturalWidth: width,
-        naturalHeight: height
-      }, () => {
-        this.updateImgStyle();
-      });
+      if (this.data.currentBoard === boardId) {
+        // 获取图片原始宽高
+        this.setData({
+          naturalWidth: width,
+          naturalHeight: height
+        }, () => {
+          this.updateImgStyle();
+        });
+      }
     },
 
     // 图片加载失败
-    imgOnLoadError(error) {
-      this.data.imageCallbacks.error && this.data.imageCallbacks.error(this.data.currentPic, this.data.currentBoard, error.detail.errMsg);
+    imgOnLoadError(ev) {
+      let boardId = ev.currentTarget.dataset.board;
+      let currentPic = ev.currentTarget.dataset.src;
+      this.data.imageCallbacks.error && this.data.imageCallbacks.error(currentPic, boardId, ev.detail.errMsg);
     },
 
     // 设置预加载图片
