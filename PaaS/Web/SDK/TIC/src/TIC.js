@@ -69,7 +69,10 @@ TIC.prototype = {
     });
 
     if (sdkAppId) {
+      this.ticWebIm = new WebIM();
+      this.ticWebIm.setLog(this.log);
       this.accountModel.sdkAppId = sdkAppId;
+      this.ticWebIm.init(sdkAppId);
       cb && cb({
         module: Constant.TICModule.TICMODULE_IMSDK,
         code: 0
@@ -103,7 +106,7 @@ TIC.prototype = {
 
   // 保留接口
   uninit() {
-
+    // this.tim.uninitEvent();
   },
 
   /**
@@ -116,8 +119,6 @@ TIC.prototype = {
 
     this.accountModel.userId = loginConfig.userId;
     this.accountModel.userSig = loginConfig.userSig;
-    this.ticWebIm = new WebIM();
-    this.ticWebIm.setLog(this.log);
 
     this.log.setUserId(loginConfig.userId);
 
@@ -130,8 +131,7 @@ TIC.prototype = {
       ext: '',
     });
 
-    this.ticWebIm.login(this.accountModel, this.classModel).then((res) => {
-
+    this.ticWebIm.login(this.accountModel, this.classModel).then(() => {
       this.ticWebIm.setMessageListener(this.messageListener);
       this.ticWebIm.setEventListener(this.eventListener);
       this.ticWebIm.setStatusListener(this.statusListener);
@@ -141,9 +141,9 @@ TIC.prototype = {
         onTICForceOffline: () => {
           this.ticWebRTC && this.ticWebRTC.quit();
           this.ticBoard && this.ticBoard.quit();
-          this.removeTICEventListener();
-          this.removeTICMessageListener();
-          this.removeTICStatusListener();
+          // this.removeTICEventListener();
+          // this.removeTICMessageListener();
+          // this.removeTICStatusListener();
         }
       });
 
@@ -164,8 +164,8 @@ TIC.prototype = {
 
       // 登录- end
       this.log.report(LogReport.EVENT_NAME.LOGIN_END, {
-        errorCode: error.ErrorCode,
-        errorDesc: error.ErrorInfo,
+        errorCode: error.code,
+        errorDesc: error.message,
         timeCost: Date.now() - startTime,
         data: '',
         ext: '',
@@ -173,8 +173,8 @@ TIC.prototype = {
 
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       });
     });
   },
@@ -195,7 +195,7 @@ TIC.prototype = {
       ext: '',
     });
 
-    this.ticWebIm.logout().then((res) => {
+    this.ticWebIm.logout().then(() => {
       // 登出-end
       this.log.report(LogReport.EVENT_NAME.LOGOUT_END, {
         errorCode: 0,
@@ -213,8 +213,8 @@ TIC.prototype = {
 
       // 登出-end
       this.log.report(LogReport.EVENT_NAME.LOGOUT_END, {
-        errorCode: error.ErrorCode,
-        errorDesc: error.ErrorInfo,
+        errorCode: error.code,
+        errorDesc: error.message,
         timeCost: Date.now() - startTime,
         data: '',
         ext: '',
@@ -222,8 +222,8 @@ TIC.prototype = {
 
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       });
     });
   },
@@ -252,11 +252,11 @@ TIC.prototype = {
       errorDesc: '',
       timeCost: Date.now() - startTime,
       data: classId + '',
-      ext: '' + scene, // 将场景上报
+      ext: 'scene:' + scene, // 将场景上报
     });
 
     // WebIM加入聊天房间
-    this.ticWebIm.createRoom(classId, scene).then(res => {
+    this.ticWebIm.createRoom(classId, scene).then(() => {
       // 创建课堂-end
       this.log.report(LogReport.EVENT_NAME.CREATEGROUP_END, {
         errorCode: 0,
@@ -273,8 +273,8 @@ TIC.prototype = {
     }, error => {
       // 创建课堂-end
       this.log.report(LogReport.EVENT_NAME.CREATEGROUP_END, {
-        errorCode: error.ErrorCode,
-        errorDesc: error.ErrorInfo,
+        errorCode: error.code,
+        errorDesc: error.message,
         timeCost: Date.now() - startTime,
         data: classId + '',
         ext: '',
@@ -282,8 +282,8 @@ TIC.prototype = {
 
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       });
     });
   },
@@ -338,14 +338,9 @@ TIC.prototype = {
         ext: '',
       });
 
-      this.ticWebIm.setReceiveBoardNotifyCallback(msg => {
+      this.ticWebIm.setReceiveBoardNotifyCallback(boardData => {
         if (this.ticBoard && this.ticBoard.getInstance()) {
-          var elems = msg.elems;
-          elems.forEach(elem => {
-            if (elem.type === 'TIMCustomElem' && elem.content.ext === 'TXWhiteBoardExt') {
-              this.ticBoard.getInstance().addSyncData(JSON.parse(elem.content.data));
-            }
-          });
+          this.ticBoard.getInstance().addSyncData(JSON.parse(boardData));
         }
       });
 
@@ -376,7 +371,10 @@ TIC.prototype = {
 
         // 设置白板的监听回调
         this.ticBoard.addSyncDataEventCallback((data) => {
-          this.ticWebIm.sendBoardGroupCustomMessage(data);
+          this.ticWebIm.sendBoardGroupCustomMessage(data).then((content) => {
+            let board = this.getBoardInstance();
+            board && board.addAckData(content);
+          });
         });
 
         callback && callback({
@@ -434,7 +432,10 @@ TIC.prototype = {
 
             // 设置白板的监听回调
             this.ticBoard.addSyncDataEventCallback((data) => {
-              this.ticWebIm.sendBoardGroupCustomMessage(data);
+              this.ticWebIm.sendBoardGroupCustomMessage(data).then((content) => {
+                let board = this.getBoardInstance();
+                board && board.addAckData(content);
+              });
             });
 
             callback && callback({
@@ -478,8 +479,8 @@ TIC.prototype = {
 
       // 加入课堂-end
       this.log.report(LogReport.EVENT_NAME.JOINGROUP_END, {
-        errorCode: error.ErrorCode,
-        errorDesc: error.ErrorInfo,
+        errorCode: error.code,
+        errorDesc: error.message,
         timeCost: Date.now() - startTime,
         data: '',
         ext: '',
@@ -487,8 +488,8 @@ TIC.prototype = {
 
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       });
     });
 
@@ -526,8 +527,8 @@ TIC.prototype = {
         }, error => {
           // 加入聊天群-end
           this.log.report(LogReport.EVENT_NAME.JOINCHATGROUP_END, {
-            errorCode: error.ErrorCode,
-            errorDesc: error.ErrorInfo,
+            errorCode: error.code,
+            errorDesc: error.message,
             timeCost: Date.now() - startTime,
             data: '',
             ext: '',
@@ -557,11 +558,6 @@ TIC.prototype = {
       this.ticWebRTC && this.ticWebRTC.quit();
       this.ticBoard && this.ticBoard.quit();
 
-      this.removeTICEventListener();
-      this.removeTICMessageListener();
-      this.removeTICStatusListener();
-
-
       // 退出课堂-end
       this.log.report(LogReport.EVENT_NAME.QUITGROUP_END, {
         errorCode: 0,
@@ -577,47 +573,21 @@ TIC.prototype = {
         code: 0
       });
     }).catch((error) => {
-      // 群不存在 或者 不在群里了 或者 群id不合法（一般这种情况是课堂销毁了groupId被重置后发生）(都认为成功)
-      if (error.ErrorCode === 10010 || error.ErrorCode === 10007 || error.ErrorCode === 10015) {
-        this.ticWebRTC && this.ticWebRTC.quit();
-        this.ticBoard && this.ticBoard.quit();
+      // 退出课堂-end
+      this.log.report(LogReport.EVENT_NAME.QUITGROUP_END, {
+        errorCode: error.code,
+        errorDesc: error.message,
+        timeCost: Date.now() - startTime,
+        data: '',
+        ext: '',
+      });
 
-        this.removeTICEventListener();
-        this.removeTICMessageListener();
-        this.removeTICStatusListener();
-
-        // 退出课堂-end
-        this.log.report(LogReport.EVENT_NAME.QUITGROUP_END, {
-          errorCode: 0,
-          errorDesc: '',
-          timeCost: Date.now() - startTime,
-          data: '',
-          ext: '',
-        });
-
-        // 退出成功
-        callback && callback({
-          module: Constant.TICModule.TICMODULE_IMSDK,
-          code: 0
-        });
-      } else {
-
-        // 退出课堂-end
-        this.log.report(LogReport.EVENT_NAME.QUITGROUP_END, {
-          errorCode: error.ErrorCode,
-          errorDesc: error.ErrorInfo,
-          timeCost: Date.now() - startTime,
-          data: '',
-          ext: '',
-        });
-
-        // 退出失败
-        callback && callback({
-          module: Constant.TICModule.TICMODULE_IMSDK,
-          code: error.ErrorCode,
-          desc: error.ErrorInfo
-        });
-      }
+      // 退出失败
+      callback && callback({
+        module: Constant.TICModule.TICMODULE_IMSDK,
+        code: error.code,
+        desc: error.message
+      });
     });
 
     // 如果与互动课堂互通
@@ -648,10 +618,6 @@ TIC.prototype = {
       this.ticBoard && this.ticBoard.clearAll();
       this.ticBoard && this.ticBoard.quit();
 
-      this.removeTICEventListener();
-      this.removeTICMessageListener();
-      this.removeTICStatusListener();
-
       // 销毁课堂-start
       this.log.report(LogReport.EVENT_NAME.DELETEGROUP_END, {
         errorCode: 0,
@@ -669,8 +635,8 @@ TIC.prototype = {
     }).catch(error => {
       // 销毁课堂-end
       this.log.report(LogReport.EVENT_NAME.DELETEGROUP_END, {
-        errorCode: error.ErrorCode,
-        errorDesc: error.ErrorInfo,
+        errorCode: error.code,
+        errorDesc: error.message,
         timeCost: Date.now() - startTime,
         data: classId + '',
         ext: '',
@@ -679,8 +645,8 @@ TIC.prototype = {
       // 销毁失败
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       });
     });
   },
@@ -692,7 +658,7 @@ TIC.prototype = {
    * @param callback			回调
    */
   sendTextMessage(userId, text, callback) {
-    this.ticWebIm.sendC2CTextMessage(userId, text, () => {
+    this.ticWebIm.sendC2CTextMessage(userId, text).then(() => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
         code: 0
@@ -700,8 +666,8 @@ TIC.prototype = {
     }, error => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       })
     });
   },
@@ -713,7 +679,7 @@ TIC.prototype = {
    * @param callback			回调
    */
   sendCustomMessage(userId, data, callback) {
-    this.ticWebIm.sendC2CCustomMessage(userId, data, () => {
+    this.ticWebIm.sendC2CCustomMessage(userId, data).then(() => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
         code: 0
@@ -721,8 +687,8 @@ TIC.prototype = {
     }, error => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       })
     });
   },
@@ -733,7 +699,7 @@ TIC.prototype = {
    * @param callback			回调
    */
   sendGroupTextMessage(text, callback) {
-    this.ticWebIm.sendGroupTextMessage(text, () => {
+    this.ticWebIm.sendGroupTextMessage(text).then(() => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
         code: 0
@@ -741,8 +707,8 @@ TIC.prototype = {
     }, error => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       })
     });
   },
@@ -754,7 +720,7 @@ TIC.prototype = {
    * @param callback			回调
    */
   sendGroupCustomMessage(text, callback) {
-    this.ticWebIm.sendGroupCustomMessage(text, () => {
+    this.ticWebIm.sendGroupCustomMessage(text).then(() => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
         code: 0
@@ -762,8 +728,8 @@ TIC.prototype = {
     }, error => {
       callback && callback({
         module: Constant.TICModule.TICMODULE_IMSDK,
-        code: error.ErrorCode,
-        desc: error.ErrorInfo
+        code: error.code,
+        desc: error.message
       })
     });
   },

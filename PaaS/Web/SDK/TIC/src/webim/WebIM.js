@@ -1,473 +1,499 @@
-import IMHandler from './ImHandler';
 import LogReport from '../log/LogReport'
 import Constant from '../constant/Constant';
 
-function TICWebIM() {
-  this.accountModel = null;
-  this.classModel = null;
-  this.imListener = null;
-  this.boardNotifyCallback = null;
-  this.imHandler = null;
-}
-
-TICWebIM.prototype.setLog = function (log) {
-  this.log = log;
-}
-
-TICWebIM.prototype.login = function (accountModel, classModel) {
-  this.accountModel = accountModel;
-  this.classModel = classModel;
-  this.listeners = this.initEvent();
-  return new Promise((resolve, reject) => {
-    webim.login({
-      'sdkAppID': accountModel.sdkAppId + '', //用户所属应用id,必填
-      'appIDAt3rd': accountModel.sdkAppId + '', //用户所属应用id，必填
-      'accountType': accountModel.accountType || 1, //用户所属应用帐号类型，必填
-      'identifier': accountModel.userId, //当前用户ID,必须是否字符串类型，选填
-      'identifierNick': accountModel.userNick || accountModel.userId, //当前用户昵称，选填
-      'userSig': accountModel.userSig
-    }, this.listeners, {
-      isAccessFormalEnv: true,
-      isLogOn: false
-    }, (res) => {
-      this.imHandler = new IMHandler(accountModel, classModel);
-      resolve(res);
-    }, reject);
-  });
-}
-
-TICWebIM.prototype.logout = function () {
-  return new Promise((resolve, reject) => {
-    webim.logout(resolve, reject);
-  });
-}
-
-TICWebIM.prototype.initEvent = function () {
-  var self = this;
-  return {
-    // 用于监听用户连接状态变化的函数，选填
-    onConnNotify(resp) { },
-
-    // 监听新消息(直播聊天室)事件，直播场景下必填
-    onBigGroupMsgNotify(msgs) {
-      self.messageHandler(msgs);
-    },
-
-    // 监听新消息函数，必填
-    onMsgNotify(msgs) {
-      self.messageHandler(msgs);
-    },
-
-
-    // 监听（多终端同步）群系统消息事件，必填
-    onGroupSystemNotifys: {
-      // //申请加群请求（只有管理员会收到）
-      // "1": (notify) => {
-      // },
-
-      // //申请加群被同意（只有申请人能够收到）
-      // "2": (notify) => {
-      // },
-
-      // //申请加群被拒绝（只有申请人能够收到）
-      // "3": (notify) => {
-      // },
-
-      //被管理员踢出群(只有被踢者接收到)
-      "4": (notify) => {
-        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
-          self.eventListener.fireEvent('onTICMemberQuit', [self.accountModel.userId]);
-        }
-      },
-
-      //群被解散(全员接收)
-      "5": (notify) => {
-        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
-          self.eventListener.fireEvent('onTICClassroomDestroy');
-        }
-      },
-
-      // //创建群(创建者接收)
-      // "6": (notify) => {
-      // },
-
-      // //邀请加群(被邀请者接收)
-      // "7": (notify) => {
-      // },
-
-      // //主动退群(主动退出者接收)
-      // "8": (notify) => {
-
-      // },
-
-      // //设置管理员(被设置者接收)
-      // "9": (notify) => {
-      // },
-
-      // //取消管理员(被取消者接收)
-      // "10": (notify) => {
-      // },
-
-      // //群已被回收(全员接收)
-      "11": (notify) => {
-        if (notify.GroupId == self.accountModel.classChatId || notify.GroupId == self.accountModel.classId) {
-          self.eventListener.fireEvent('onTICClassroomDestroy');
-        }
-      },
-
-      // //用户自定义通知(默认全员接收)
-      "255": (notify) => {
-        this.messageListener.fireEvent('onTICRecvGroupSystemNotify', 255, notify);
-      }
-    },
-
-    // 监听群资料变化事件，选填
-    onGroupInfoChangeNotify(groupInfo) { },
-
-    // 被踢下线的回调
-    onKickedEventCall() {
-      // 被强制下线
-      self.log.report(LogReport.EVENT_NAME.ONFORCEOFFLINE, {
-        errorCode: 0,
-        errorDesc: '',
-        timeCost: 0,
-        data: '',
-        ext: 'im onKickedEventCall'
-      });
-
-      self.statusListener.fireEvent('onTICForceOffline');
-    },
-
-    // 监听 C2C 消息通道的处理
-    onC2cEventNotifys: {
-      // 多终端互踢
-      "96": (notify) => {
-        // 被强制下线
-        self.log.report(LogReport.EVENT_NAME.ONFORCEOFFLINE, {
-          errorCode: 0,
-          errorDesc: '',
-          timeCost: 0,
-          data: '',
-          ext: 'im onC2cEventNotifys-96'
-        });
-        self.statusListener.fireEvent('onTICForceOffline');
-      }
-    }
+class TICWebIM {
+  constructor() {
+    this.accountModel = null;
+    this.classModel = null;
+    this.imListener = null;
+    this.boardNotifyCallback = null;
+    this.compatSaas = null;
+    this.groupChatId = null;
+    this.groupBoardId = null;
+    this.xmlHttp = null;
   }
-}
 
-TICWebIM.prototype.messageHandler = function (msgs) {
-  let self = this;
-  if (msgs.length) { // 如果有消息才处理
-    msgs.forEach(msg => {
-      var sess = msg.getSession();
-      var msgType = sess.type();
-      // 如果是群组消息
-      if (msgType === webim.SESSION_TYPE.GROUP) {
-        var groupid = sess.id();
-        // 如果是信令群（如果不与saas同步，则同时也是聊天群）
-        if (groupid == self.accountModel.classId) {
-          var elems = msg.elems;
-          if (elems.length) {
-            // 白板消息
-            if (elems[0].type === 'TIMCustomElem' && elems[0].content.ext === 'TXWhiteBoardExt') {
-              if (msg.getFromAccount() != self.accountModel.userId) {
-                self.boardNotifyCallback && self.boardNotifyCallback(msg)
-              }
-            } else if (elems[0].type === 'TIMFileElem' && elems[0].content.ext === 'TXWhiteBoardExt') { // 白板消息
-              if (msg.getFromAccount() != self.accountModel.userId) {
-                self.boardNotifyCallback && self.boardNotifyCallback(msg)
-              }
-            } else if (elems[0].type === 'TIMCustomElem' && elems[0].content.ext === 'TXConferenceExt') { // 对时消息过滤掉
-            } else {
-              self.resolveMessage(msg);
-            }
-          }
-        } else if (groupid == self.accountModel.classChatId) { // 如果是聊天群
-          self.resolveMessage(msg);
-        } else {
-          // 非本群通知，忽略
-        }
-      } else { // 如果是C2C消息
-        self.resolveMessage(msg);
+  init(sdkAppId) {
+    var options = {
+      SDKAppID: sdkAppId // 接入时需要将0替换为您的即时通信 IM 应用的 SDKAppID
+    };
+    this.tim = window.TIM.create(options);
+    this.tim.setLogLevel(0); // 普通级别，日志量较多，接入时建议使用
+    this.tim.registerPlugin({
+      'cos-js-sdk': window.COS
+    }); // 注册 COS SDK 插件
+  }
+
+  setLog(log) {
+    this.log = log;
+  }
+
+  login(accountModel, classModel) {
+    this.accountModel = accountModel;
+    this.classModel = classModel;
+    this.uninitEvent();
+    this.initEvent();
+    return this.tim.login({
+      userID: String(accountModel.userId),
+      userSig: String(accountModel.userSig)
+    });
+  }
+
+  initEvent() {
+    this.tim.on(window.TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived, this) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
+    this.tim.on(window.TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived, this) // SDK 收到新的群系统通知时触发
+    this.tim.on(window.TIM.EVENT.KICKED_OUT, this.onKickedOut, this) // 用户被踢下线时触发
+  }
+
+  uninitEvent() {
+    this.tim.off(window.TIM.EVENT.MESSAGE_RECEIVED, this.onMessageReceived) // SDK 收到推送的单聊、群聊、群提示、群系统通知的新消息
+    this.tim.off(window.TIM.EVENT.GROUP_SYSTEM_NOTICE_RECEIVED, this.onGroupSystemNoticeReceived) // SDK 收到新的群系统通知时触发
+    this.tim.off(window.TIM.EVENT.KICKED_OUT, this.onKickedOut) // 用户被踢下线时触发
+  }
+
+  logout() {
+    this.uninitEvent();
+    return this.tim.logout();
+  }
+
+  /**
+   * @classId 群组id
+   * @scene 场景
+   */
+  createRoom(groupId, scene) {
+    scene = Number(scene);
+    groupId = String(groupId);
+
+    let groupType = null;
+    if (scene === Constant.TICClassScene.TIC_CLASS_SCENE_VIDEO_CALL) {
+      groupType = window.TIM.TYPES.GRP_PUBLIC;
+    } else {
+      groupType = window.TIM.TYPES.GRP_AVCHATROOM;
+
+    }
+    var options = {
+      name: groupId,
+      groupID: groupId,
+      type: groupType,
+      joinOption: window.TIM.TYPES.JOIN_OPTIONS_FREE_ACCESS //自由加入
+    };
+
+    return this.tim.createGroup(options).then(res => {
+      return Promise.resolve();
+    }, error => {
+      if (error.code == 10025) { // 群组 ID 已被使用，并且操作者为群主，可以直接使用。
+        return Promise.resolve();
+      } else {
+        return Promise.reject(error);
+      }
+    })
+  }
+
+  /**
+   * 加入白板信令群
+   */
+  joinRoom() {
+    var groupId = String(this.accountModel.classId);
+    this.groupBoardId = groupId;
+    let compatSaas = this.classModel.compatSaas; // 是否要与saas互通
+    this.compatSaas = compatSaas;
+    if (!compatSaas) { // 如果不与saas互通
+      this.groupChatId = null; // 将saas的聊天群置空
+    }
+    return this.tim.joinGroup({
+      groupID: groupId,
+      type: window.TIM.TYPES.GRP_AVCHATROOM,
+    }).then(res => {
+      switch (res.data.status) {
+        case window.TIM.TYPES.JOIN_STATUS_SUCCESS: // 加群成功
+        case window.TIM.TYPES.JOIN_STATUS_ALREADY_IN_GROUP: // 已经在群中
+          return Promise.resolve();
+        case window.TIM.TYPES.JOIN_STATUS_WAIT_APPROVAL: // 等待管理员同意,业务上认为失败
+        default:
+          return Promise.reject(res);
+      }
+    }, error => {
+      if (error.code == 10013) { // 被邀请加入的用户已经是群成员,也表示成功
+        return Promise.resolve();
+      } else if (error.code == -12) { // Join Group succeed; But the type of group is not AVChatRoom
+        return Promise.resolve();
+      }
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * 加入Saas聊天群
+   */
+  joinSaasChatRoom() {
+    var groupChatId = String(this.accountModel.classChatId);
+    this.groupChatId = groupChatId;
+    return this.tim.joinGroup({
+      groupID: groupChatId,
+      type: window.TIM.TYPES.GRP_AVCHATROOM,
+    }).then(res => {
+      switch (res.data.status) {
+        case window.TIM.TYPES.JOIN_STATUS_SUCCESS: // 加群成功
+        case window.TIM.TYPES.JOIN_STATUS_ALREADY_IN_GROUP: // 已经在群中
+          return Promise.resolve();
+        case window.TIM.TYPES.JOIN_STATUS_WAIT_APPROVAL: // 等待管理员同意,业务上认为失败
+        default:
+          return Promise.reject(res);
+      }
+    }, error => {
+      if (error.code == 10013) { // 被邀请加入的用户已经是群成员,也表示成功
+        return Promise.resolve();
+      } else if (error.code == -12) { // Join Group succeed; But the type of group is not AVChatRoom
+        return Promise.resolve();
+      }
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * 销毁群组
+   */
+  destroyGroup(groupId) {
+    groupId = String(groupId);
+    return this.tim.dismissGroup(groupId);
+  }
+
+  /**
+   * 退出群组
+   */
+  quitGroup() {
+    var groupId = String(this.accountModel.classId);
+    groupId = String(groupId);
+    return this.tim.quitGroup(groupId).then(res => {
+      return Promise.resolve();
+    }, error => {
+      // 群不存在 或者 不在群里了 或者 群id不合法（一般这种情况是课堂销毁了groupId被重置后发生）
+      if (error.code === 10010 || error.code === 10007 || error.code === 10015) {
+        return Promise.resolve();
+      } else if (error.code == 10009) { // 群主自己想退课堂
+        return Promise.resolve();
+      } else {
+        return Promise.reject(error);
       }
     });
   }
-}
 
+  /**
+   * 退出chat群组
+   */
+  quitChatGroup() {
+    var groupId = String(this.accountModel.classChatId);
+    return this.tim.quitGroup(groupId).then(res => {
+      return Promise.resolve();
+    }, error => {
+      // 群不存在 或者 不在群里了 或者 群id不合法（一般这种情况是课堂销毁了groupId被重置后发生）
+      if (error.code === 10010 || error.code === 10007 || error.code === 10015) {
+        return Promise.resolve();
+      } else if (error.code == 10009) { // 群主自己想退课堂
+        return Promise.resolve();
+      } else {
+        return Promise.reject(error);
+      }
+    });
+  }
 
-TICWebIM.prototype.resolveMessage = function (msg) {
-  var elems = msg.elems;
-  this.messageListener.fireEvent('onTICRecvMessage', msg);
-  elems.forEach(elem => {
-    var content = elem.getContent();
-    if (msg.getFromAccount() === '@TIM#SYSTEM') { // 接收到系统消息
-      var opType = content.getOpType(); // 通知类型
-      if (msg.getSession().id() == this.accountModel.classChatId || msg.getSession().id() == this.accountModel.classId) {
-        if (opType === webim.GROUP_TIP_TYPE.JOIN) { // 加群通知
-          this.eventListener.fireEvent('onTICMemberJoin', elem.getContent().userIdList);
-        } else if (opType === webim.GROUP_TIP_TYPE.QUIT) { // 退群通知
-          this.eventListener.fireEvent('onTICMemberQuit', [elem.getContent().opUserId]);
+  onKickedOut(event) {
+    this.statusListener.fireEvent('onTICForceOffline');
+  }
+
+  onGroupSystemNoticeReceived(event) {
+    const message = event.data.message; // 群系统通知的消息实例，详见 Message
+    const payload = message.payload;
+    switch (payload.operationType) {
+      case 4: // 被踢出群组
+        if (event.data.message.to == this.groupBoardId || event.data.message.to == this.groupChatId) {
+          this.eventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+      case 5: // 群组被解散
+        if (event.data.message.to == this.groupBoardId || event.data.message.to == this.groupChatId) {
+          this.eventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+      case 11: //群已被回收(全员接收)
+        if (event.data.message.to == this.groupBoardId || event.data.message.to == this.groupChatId) {
+          this.eventListener.fireEvent('onTICClassroomDestroy');
+        }
+        break;
+      case 255:
+        this.messageListener.fireEvent('onTICRecvGroupSystemNotify', 255, event.data.message);
+        break;
+    }
+  }
+
+  onMessageReceived(event) {
+    let messages = event.data;
+    messages.forEach((message) => {
+      // 群组消息
+      if (message.conversationType === window.TIM.TYPES.CONV_GROUP) {
+        if (message.to === this.groupBoardId || (message.to === this.groupChatId && this.compatSaas)) { // 如果是当前群组
+          let elements = message.getElements();
+          let isBoardMessage = false; // 如果是白板消息
+          if (elements.length) {
+            elements.forEach((element) => {
+              if (element.type === 'TIMGroupTipElem') {
+                switch (element.content.operationType) {
+                  case window.TIM.TYPES.GRP_TIP_MBR_JOIN:
+                    this.eventListener.fireEvent('onTICMemberJoin', element.content.userIDList);
+                    break;
+                  case window.TIM.TYPES.GRP_TIP_MBR_QUIT:
+                    this.eventListener.fireEvent('onTICMemberQuit', element.content.userIDList);
+                    break;
+                }
+              } else if (element.type === 'TIMTextElem') {
+                this.messageListener.fireEvent('onTICRecvGroupTextMessage', message.from, element.content.text, element.content.text.length);
+              } else if (element.type === 'TIMFileElem') {
+                if (element.content.fileName === 'TXWhiteBoardExt') {
+                  if (message.from != this.userId) {
+                    isBoardMessage = true; // 是白板消息
+                    var xhr = this._getXhr();
+                    xhr.onreadystatechange = () => {
+                      if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                          this.boardNotifyCallback && this.boardNotifyCallback(xhr.responseText);
+                        }
+                      }
+                    };
+                    xhr.open('get', element.content.fileUrl, true);
+                    xhr.send();
+                  }
+                }
+              } else if (element.type === 'TIMCustomElem') {
+                if (element.content.extension === 'TXWhiteBoardExt') {
+                  isBoardMessage = true; // 是白板消息
+                  if (message.from != this.userId) {
+                    this.boardNotifyCallback && this.boardNotifyCallback(element.content.data);
+                  }
+                } else if (element.content.extension === 'TXConferenceExt') {
+                  isBoardMessage = true; // 是白板消息
+                  // 对时消息过滤掉
+                } else {
+                  this.messageListener.fireEvent('onTICRecvGroupCustomMessage', message.from, element.content.data, element.content.data.length);
+                }
+              }
+            });
+          }
+          if (!isBoardMessage) { // 如果不是白板消息，则需要将消息抛出来
+            try {
+              this.messageListener.fireEvent('onTICRecvMessage', message);
+            } catch (error) {}
+          }
+        } else if (message.to == this.groupChatId) { // 如果是saas聊天群
+          try {
+            this.messageListener.fireEvent('onTICRecvMessage', message);
+          } catch (error) {}
+        } else {
+          // 其他群组消息忽略
+        }
+      } else if (message.conversationType === window.TIM.TYPES.CONV_C2C) { // C2C消息
+
+        let elements = message.getElements();
+        if (elements.length) {
+          elements.forEach((element) => {
+            if (element.type === 'TIMTextElem') {
+              this.messageListener.fireEvent('onTICRecvTextMessage', message.from, element.content.text, element.content.text.length);
+            } else if (element.type === 'TIMCustomElem') {
+              this.messageListener.fireEvent('onTICRecvCustomMessage', message.from, element.content, element.content.length);
+            }
+          });
+        }
+        try {
+          this.messageListener.fireEvent('onTICRecvMessage', message);
+        } catch (error) {
+
         }
       }
-    } else { // 接收到群聊天/C2C消息
-      var type = elem.getType();
-      if (type === 'TIMTextElem') {
-        var text = '';
-        if (msg.getSession().type() === webim.SESSION_TYPE.GROUP) {
-          text = elem.getContent().getText() || '';
-          this.messageListener.fireEvent('onTICRecvGroupTextMessage', msg.getFromAccount(), text, text.length);
-        } else {
-          text = elem.getContent().getText() || '';
-          this.messageListener.fireEvent('onTICRecvTextMessage', msg.getFromAccount(), text, text.length);
+    });
+  }
+
+  /**
+   * 收到白板消息的回调
+   * @param {Function} callback 
+   */
+  setReceiveBoardNotifyCallback(callback) {
+    this.boardNotifyCallback = callback;
+  }
+
+  /**
+   * 发送C2C文本消息
+   */
+  sendC2CTextMessage(userId, msg) {
+    let message = this.tim.createTextMessage({
+      to: userId,
+      conversationType: window.TIM.TYPES.CONV_C2C,
+      payload: {
+        text: msg
+      }
+    })
+    return this.tim.sendMessage(message).then(() => {
+      return Promise.resolve();
+    }, (error) => {
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * 发送C2C自定义消息
+   */
+  sendC2CCustomMessage(userId, msg) {
+    let message = this.tim.createCustomMessage({
+      to: userId,
+      conversationType: window.TIM.TYPES.CONV_C2C,
+      payload: {
+        data: msg.data,
+        description: msg.description,
+        extension: msg.extension
+      }
+    })
+    return this.tim.sendMessage(message).then(() => {
+      return Promise.resolve();
+    }, (error) => {
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * 发送群文本消息
+   */
+  sendGroupTextMessage(msg) {
+    let toGroupId = this.compatSaas ? this.groupChatId : this.groupBoardId;
+    let message = this.tim.createTextMessage({
+      to: toGroupId,
+      conversationType: window.TIM.TYPES.CONV_GROUP,
+      payload: {
+        text: msg
+      }
+    })
+    return this.tim.sendMessage(message).then(() => {
+      return Promise.resolve();
+    }, (error) => {
+      return Promise.reject(error);
+    });
+  }
+
+  /**
+   * 发送群组自定义消息
+   */
+  sendGroupCustomMessage(msg) {
+    let toGroupId = this.compatSaas ? this.groupChatId : this.groupBoardId;
+    let message = this.tim.createCustomMessage({
+      to: toGroupId,
+      conversationType: window.TIM.TYPES.CONV_GROUP,
+      payload: {
+        data: msg.data,
+        description: msg.description,
+        extension: msg.extension
+      }
+    })
+    return this.tim.sendMessage(message).then(() => {
+      return Promise.resolve();
+    }, (error) => {
+      return Promise.reject(error);
+    });
+  }
+
+  // 发送白板数据
+  sendBoardGroupCustomMessage(content) {
+    let contentStr = null;
+    try {
+      contentStr = JSON.stringify(content);
+    } catch (error) {
+      contentStr = content;
+    }
+    if (contentStr.length > 7000) {
+      return this.sendBoardGroupFileMessage(content)
+    } else {
+      let toGroupId = this.groupBoardId;
+      let message = this.tim.createCustomMessage({
+        to: toGroupId,
+        conversationType: window.TIM.TYPES.CONV_GROUP,
+        payload: {
+          data: JSON.stringify(content),
+          description: '',
+          extension: 'TXWhiteBoardExt'
         }
-      } else if (type === 'TIMCustomElem') {
-        var data = '';
-        if (msg.getSession().type() === webim.SESSION_TYPE.GROUP) {
-          data = elem.getContent().getData() || '';
-          this.messageListener.fireEvent('onTICRecvGroupCustomMessage', msg.getFromAccount(), data, data.length);
-        } else {
-          data = elem.getContent().getData() || '';
-          this.messageListener.fireEvent('onTICRecvCustomMessage', msg.getFromAccount(), data, data.length);
-        }
+      })
+      return this.tim.sendMessage(message).then(() => {
+        return Promise.resolve(content);
+      }, () => {
+        // 失败重试一次
+        return this.tim.resendMessage(message).then(() => {
+          return Promise.resolve(content);
+        }, error => {
+          return Promise.reject(error);
+        });
+      });
+    }
+  }
+
+  /**
+   * 发送文件
+   * @param {*} content 
+   */
+  sendBoardGroupFileMessage(content) {
+    let toGroupId = this.groupBoardId;
+    var blob = new Blob([JSON.stringify(content)], {
+      type: 'application/json'
+    });
+    var myFile = new File([blob], 'TXWhiteBoardExt', {
+      type: "text/plain"
+    });
+    let message = this.tim.createFileMessage({
+      to: toGroupId,
+      conversationType: window.TIM.TYPES.CONV_GROUP,
+      payload: {
+        file: myFile
+      },
+      onProgress() {}
+    })
+    return this.tim.sendMessage(message).then(() => {
+      return Promise.resolve(content);
+    }, () => {
+      // 失败重试一次
+      return this.tim.resendMessage(message).then(() => {
+        return Promise.resolve(content);
+      }, error => {
+        return Promise.reject(error);
+      });
+    });
+  }
+
+  setMessageListener(messageListener) {
+    this.messageListener = messageListener;
+  }
+
+  setEventListener(eventListener) {
+    this.eventListener = eventListener;
+  }
+
+  setStatusListener(statusListener) {
+    this.statusListener = statusListener;
+  }
+
+  _getXhr() {
+    if (this.xmlHttp) {
+      return this.xmlHttp;
+    }
+    let xmlHttp = null;
+    if (window.XMLHttpRequest) {
+      xmlHttp = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      try {
+        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+      } catch (e) {
+        try {
+          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e) {}
       }
     }
-  });
-}
-
-/**
- * @classId 群组id
- * @scene 场景
- */
-TICWebIM.prototype.createRoom = function (classId, scene) {
-  classId = classId + '';
-  scene = scene * 1;
-  let groupType = scene === Constant.TICClassScene.TIC_CLASS_SCENE_VIDEO_CALL ? 'Public' : 'AVChatRoom';
-  var options = {
-    'GroupId': classId,
-    'Owner_Account': String(this.accountModel.userId),
-    'Type': groupType,
-    'ApplyJoinOption': 'FreeAccess',
-    'Name': classId,
-    'Notification': "",
-    'Introduction': "",
-    'MemberList': [],
-  };
-
-  return new Promise((resolve, reject) => {
-    webim.createGroup(
-      options,
-      function (resp) {
-        resolve(resp);
-      },
-      function (err) {
-        if (err.ErrorCode == 10025) {
-          resolve(err);
-        } else if (err.ErrorCode == 10021) {
-          reject(err);
-        } else {
-          reject(err);
-        }
-      }
-    );
-  });
-}
-
-/**
- * 加入白板信令群
- */
-TICWebIM.prototype.joinRoom = function () {
-  // 先创建群，成功后加入群
-  return new Promise((resolve, reject) => {
-    var groupID = String(this.accountModel.classId);
-    webim.applyJoinBigGroup({
-      GroupId: groupID
-    },
-      (resp) => {
-        //JoinedSuccess:加入成功; WaitAdminApproval:等待管理员审批
-        if (resp.JoinedStatus && resp.JoinedStatus == 'JoinedSuccess') {
-          this.imHandler.setIMBoardSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          // 如果不与saas互通
-          if (!this.classModel.compatSaas) {
-            this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          }
-          resolve(resp);
-        } else {
-          reject(resp);
-        }
-      },
-
-      (err) => {
-        if (err.ErrorCode == 10013) { // 被邀请加入的用户已经是群成员,也表示成功
-          this.imHandler.setIMBoardSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          // 如果不与saas互通
-          if (!this.classModel.compatSaas) {
-            this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          }
-          resolve(err);
-        } else if (err.ErrorCode == -12) { // Join Group succeed; But the type of group is not AVChatRoom
-          this.imHandler.setIMBoardSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          // 如果不与saas互通
-          if (!this.classModel.compatSaas) {
-            this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          }
-          resolve(err);
-        } else {
-          reject(err);
-        }
-      }
-    );
-  });
-}
-
-/**
- * 加入Saas聊天群
- */
-TICWebIM.prototype.joinSaasChatRoom = function () {
-  // 先创建群，成功后加入群
-  return new Promise((resolve, reject) => {
-    var groupID = String(this.accountModel.classChatId);
-    webim.applyJoinBigGroup({
-      GroupId: groupID
-    },
-      (resp) => {
-        //JoinedSuccess:加入成功; WaitAdminApproval:等待管理员审批
-        if (resp.JoinedStatus && resp.JoinedStatus == 'JoinedSuccess') {
-          this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          resolve(resp);
-        } else {
-          reject(resp);
-        }
-      },
-
-      (err) => {
-        if (err.ErrorCode == 10013) { // 被邀请加入的用户已经是群成员,也表示成功
-          this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          resolve(err);
-        } else if (err.ErrorCode == -12) { // Join Group succeed; But the type of group is not AVChatRoom
-          this.imHandler.setIMChatSession(new webim.Session(webim.SESSION_TYPE.GROUP, groupID, groupID));
-          resolve(err);
-        } else {
-          reject(err);
-        }
-      }
-    );
-  });
-}
-
-/**
- * 销毁群组
- */
-TICWebIM.prototype.destroyGroup = function (groupID) {
-  return new Promise((resolve, reject) => {
-    webim.destroyGroup({
-      GroupId: groupID + ''
-    },
-      function (resp) {
-        resolve(resp);
-      },
-      function (err) {
-        reject(err);
-      }
-    );
-  });
-}
-
-/**
- * 退出群组
- */
-TICWebIM.prototype.quitGroup = function () {
-  var groupID = String(this.accountModel.classId);
-  return new Promise((resolve, reject) => {
-    webim.quitBigGroup({
-      GroupId: groupID
-    },
-      function (resp) {
-        resolve(resp);
-      },
-      (err) => {
-        // 群主想退群,则也认为成功
-        if (err.ErrorCode == 10009) {
-          resolve();
-          return;
-        }
-        reject(err);
-      }
-    );
-  });
-}
-
-/**
- * 退出chat群组
- */
-TICWebIM.prototype.quitChatGroup = function () {
-  var groupID = String(this.accountModel.classChatId);
-  return new Promise((resolve, reject) => {
-    webim.quitBigGroup({
-      GroupId: groupID
-    },
-      function (resp) {
-        resolve(resp);
-      },
-      (err) => {
-        // 群主想退群,则也认为成功
-        if (err.ErrorCode == 10009) {
-          resolve();
-          return;
-        }
-        reject(err);
-      }
-    );
-  });
-}
-
-TICWebIM.prototype.setReceiveBoardNotifyCallback = function (callback) {
-  this.boardNotifyCallback = callback;
-}
-
-/**
- * 发送C2C文本消息
- */
-TICWebIM.prototype.sendC2CTextMessage = function (userId, msg, succ, fail) {
-  this.imHandler.sendTextMessage(webim.SESSION_TYPE.C2C, msg, userId, succ, fail);
-}
-
-/**
- * 发送C2C自定义消息
- */
-TICWebIM.prototype.sendC2CCustomMessage = function (userId, msg, succ, fail) {
-  this.imHandler.sendCustomMsg(webim.SESSION_TYPE.C2C, msg, userId, succ, fail);
-}
-
-/**
- * 发送群文本消息
- */
-TICWebIM.prototype.sendGroupTextMessage = function (msg, succ, fail) {
-  this.imHandler.sendTextMessage(webim.SESSION_TYPE.GROUP, msg, null, succ, fail);
-}
-
-/**
- * 发送群组自定义消息
- */
-TICWebIM.prototype.sendGroupCustomMessage = function (msg, succ, fail) {
-  this.imHandler.sendCustomMsg(webim.SESSION_TYPE.GROUP, msg, null, succ, fail);
-}
-
-// 发送白板数据
-TICWebIM.prototype.sendBoardGroupCustomMessage = function (msg) {
-  this.imHandler.sendBoardGroupCustomMessage(JSON.stringify(msg));
-}
-
-TICWebIM.prototype.setMessageListener = function (messageListener) {
-  this.messageListener = messageListener;
-}
-
-TICWebIM.prototype.setEventListener = function (eventListener) {
-  this.eventListener = eventListener;
-}
-
-TICWebIM.prototype.setStatusListener = function (statusListener) {
-  this.statusListener = statusListener;
+    this.xmlHttp = xmlHttp;
+    return xmlHttp;
+  }
 }
 
 export default TICWebIM;

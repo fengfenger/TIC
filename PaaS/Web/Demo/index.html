@@ -186,7 +186,7 @@
               <el-tab-pane label="版本">
                 <p v-text="'Board: ' + TEduBoard.getVersion() "></p>
                 <p v-text="'WebRTC: ' + TRTC.VERSION"></p>
-                <p v-text="'IM: 1.7.1'"> </p>
+                <p v-text="'IM: ' + TIM.VERSION"> </p>
               </el-tab-pane>
             </el-tabs>
           </el-col>
@@ -474,25 +474,23 @@
 
   <!-- WebRTC SDK -->
   <script src="./libs/trtc.js"></script>
-  <!-- WebIM SDK -->
-  <script src="https://resources-tiw.qcloudtrtc.com/webim/webim.min.js"></script>
-
+  
   <!-- COS SDK -->
-  <script src="https://resources-tiw.qcloudtrtc.com/thirdpart/cos/5.1.0/cos.min.js"></script>
+  <!-- <script src="https://resources-tiw.qcloudtrtc.com/thirdpart/cos/5.1.0/cos.min.js"></script> -->
+  <script src="./libs/cos-js-sdk-v5.min.js"></script>
+  <!-- WebIM SDK -->
+  <!-- <script src="https://resources-tiw.qcloudtrtc.com/webim/webim.min.js"></script> -->
+  <script src="./libs/tim-js.js"></script>
 
   <!-- 白板SDK -->
-  <script src="https://resources-tiw.qcloudtrtc.com/board/2.4.4/TEduBoard.min.js"></script>
-  <!-- <script src="libs/TEduBoard.min.js"></script> -->
-
-  <!-- TIC SDK 可根据开源代码自行编译TIC-->
-  <script src="https://resources-tiw.qcloudtrtc.com/tic/2.4.3/TIC.min.js"></script>
-  <!-- <script src="libs/TIC.js"></script> -->
+  <script src="https://resources-tiw.qcloudtrtc.com/board/2.4.5/TEduBoard.min.js"></script>
+  <script src="https://resources-tiw.qcloudtrtc.com/tic/2.5.0/TIC.min.js"></script>
 
   <script src="libs/thirdpart/purl.js"></script>
   <script src="libs/thirdpart/vconsole.min.js"></script>
   <script src="js/account_dev.js"></script>
-  <!-- <script src="account/1400162216.js"></script>
-  <script src="account/1400189148.js"></script> -->
+  <!-- <script src="account/1400162216.js"></script> -->
+<!--   <script src="account/1400189148.js"></script> -->
   <script src="js/main.js"></script>
 
   <script>

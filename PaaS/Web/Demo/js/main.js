@@ -8,7 +8,6 @@ window.app = new Vue({
 
       //账号信息
       account: purl().param('userid') || localStorage.getItem('IIC_USERID') || TEST_ACCOUNT.users[0]['userId'],
-      userID: sessionStorage.getItem('IIC_USERNAME'),
       sdkAppId: TEST_ACCOUNT.sdkappid,
       userSig: '',
 
@@ -355,9 +354,8 @@ window.app = new Vue({
           console.log('quitClassroom error' + res.code);
         } else {
           this.initData();
-
           this.status = this.STATUS_LOGINED;
-          // this.showTip('退出课堂成功');
+          this.showTip('退出课堂成功');
           this.showMessageInBox('TIC', "quitClassroom Succ");
         }
 
@@ -405,11 +403,6 @@ window.app = new Vue({
       teduBoard.on(TEduBoard.EVENT.TEB_HISTROYDATA_SYNCCOMPLETED, () => {
         console.log('======================:  ', 'TEB_HISTROYDATA_SYNCCOMPLETED');
         this.showMessageInBox('TIC', "onTEBHistory Sync Completed finished");
-
-        // setTimeout(() => {
-        //   teduBoard.addImage('https://main.qcloudimg.com/raw/5c11f1a14f74b00988c5c43dddff2d41.png');
-        //   // teduBoard.addImage('https://main.qcloudimg.com/raw/ea3692fd322dbcc7d86c3fc3cc6d3c59.jpg');
-        // }, 2000);
       });
 
       // 白板错误回调
@@ -870,8 +863,9 @@ window.app = new Vue({
         this.tic.sendTextMessage(this.imMsg.common.toUser, text, (res) => {
           if (res.code !== 0) {
             this.showMessageInBox('TIC', 'sendTextMessage failed, code=' + res.code + " content:" + text);
+          } else {
+            this.showMessageInBox(this.account, text);
           }
-
           console.log('===sendTextMessage:', res);
         });
       } else { // 群组 文本
@@ -883,8 +877,9 @@ window.app = new Vue({
         this.tic.sendGroupTextMessage(text, (res) => {
           if (res.code !== 0) {
             this.showMessageInBox('TIC', 'sendGroupTextMessage failed, code=' + res.code + " content:" + text);
+          } else {
+            this.showMessageInBox(this.account, text);
           }
-
           console.log('===sendTextMessage:', res);
         });
       }
