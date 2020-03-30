@@ -65,7 +65,8 @@ WebBoard.prototype.addSyncDataEventCallback = function (callback) {
 
 WebBoard.prototype.quit = function () {
   if (this.board) {
-    this.board && this.board.off();
+    this.board.destroy && this.board.destroy();
+    this.board.off && this.board.off();
     this.board = null;
   }
 }

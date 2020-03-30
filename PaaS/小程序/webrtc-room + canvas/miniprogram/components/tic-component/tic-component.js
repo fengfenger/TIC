@@ -346,8 +346,6 @@ Component({
          */
         txBoard.getBoardInstance().on(TEduBoard.EVENT.TEB_SYNCDATA, data => {
           webimComponent.sendBoardGroupCustomMessage(data).then((content) => {
-            let board = txBoard.getBoardInstance();
-            board && board.addAckData(content);
           }, (error) => {
             // 同步到远端增加失败日志
             try {
