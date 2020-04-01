@@ -371,10 +371,7 @@ TIC.prototype = {
 
         // 设置白板的监听回调
         this.ticBoard.addSyncDataEventCallback((data) => {
-          this.ticWebIm.sendBoardGroupCustomMessage(data).then((content) => {
-            let board = this.getBoardInstance();
-            board && board.addAckData(content);
-          });
+          this.ticWebIm.sendBoardGroupCustomMessage(data)
         });
 
         callback && callback({
@@ -432,10 +429,7 @@ TIC.prototype = {
 
             // 设置白板的监听回调
             this.ticBoard.addSyncDataEventCallback((data) => {
-              this.ticWebIm.sendBoardGroupCustomMessage(data).then((content) => {
-                let board = this.getBoardInstance();
-                board && board.addAckData(content);
-              });
+              this.ticWebIm.sendBoardGroupCustomMessage(data)
             });
 
             callback && callback({
@@ -445,32 +439,38 @@ TIC.prototype = {
           } catch (error) {
             this.log.report(LogReport.EVENT_NAME.ENTERROOM_END, {
               errorCode: -9999,
-              errorDesc: JSON.stringify(error),
+              errorDesc: error.message,
               timeCost: Date.now() - startTime,
               data: '',
-              ext: '',
+              ext: JSON.stringify({
+                stack: error.stack,
+                message: error.message
+              }),
             });
 
             callback && callback({
               module: Constant.TICModule.TICMODULE_BOARD,
               code: -9999,
-              desc: JSON.stringify(error)
+              desc: error.message
             });
           }
         }, (error) => {
           // 加入AV房间-end
           this.log.report(LogReport.EVENT_NAME.ENTERROOM_END, {
             errorCode: error.errorCode,
-            errorDesc: JSON.stringify(error),
+            errorDesc: error.message,
             timeCost: Date.now() - startTime,
             data: '',
-            ext: '',
+            ext: JSON.stringify({
+              stack: error.stack,
+              message: error.message
+            }),
           });
 
           callback && callback({
             module: Constant.TICModule.TICMODULE_TRTC,
             code: error.errorCode,
-            desc: JSON.stringify(error)
+            desc: error.message
           });
         });
       }
@@ -747,7 +747,7 @@ TIC.prototype = {
    * @return {webim} im 返回IM实例
    */
   getImInstance() {
-    return webim;
+    return this.ticWebIm.getInstance();
   },
 
   /**

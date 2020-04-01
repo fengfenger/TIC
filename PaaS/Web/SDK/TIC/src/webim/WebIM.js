@@ -18,10 +18,14 @@ class TICWebIM {
       SDKAppID: sdkAppId // 接入时需要将0替换为您的即时通信 IM 应用的 SDKAppID
     };
     this.tim = window.TIM.create(options);
-    this.tim.setLogLevel(0); // 普通级别，日志量较多，接入时建议使用
+    this.tim.setLogLevel(1); // 普通级别，日志量较多，接入时建议使用
     this.tim.registerPlugin({
       'cos-js-sdk': window.COS
     }); // 注册 COS SDK 插件
+  }
+
+  getInstance() {
+    return this.tim;
   }
 
   setLog(log) {
