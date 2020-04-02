@@ -21,8 +21,8 @@ git clone https://github.com/tencentyun/TIC.git
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/小程序.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Windows.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Android.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/iOS.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/macOS.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/ios/TICDemo.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/mac/src/TICDemo_Mac.zip">Download Zip</a></td>
 </tr>
 </table>
 
@@ -111,7 +111,7 @@ git clone https://github.com/tencentyun/TIC.git
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/98569a546d085544b5171670e6e60c11.png" width="150"/></td>
 <td style="text-align:center"><img src="https://main.qcloudimg.com/raw/b660a6c57aecebf6a0c749a1daf8532a.jpg" width="150"/></td>
 <td style="text-align:center">
-<a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Mac.zip">单击下载</a>
+<a href="https://tic-res-1259648581.file.myqcloud.com/demo/mac/app/TICDemo_Mac.zip">单击下载</a>
 </td>
 <td style="text-align:center">
 <a href="https://tic-res-1259648581.file.myqcloud.com/demo/tic/TICDemo_Windows.zip">单击下载</a>
