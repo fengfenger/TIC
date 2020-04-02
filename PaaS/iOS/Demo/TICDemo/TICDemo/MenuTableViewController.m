@@ -443,6 +443,20 @@
     }
 }
 
+- (IBAction)onAddH5File:(id)sender {
+    NSMutableArray *array = [NSMutableArray array];
+    [array addObject:@"https://cloud.tencent.com/"];
+    [array addObject:@"https://cloud.tencent.com/product/tiw"];
+    
+    [self.tableSheet setData:array];
+    __weak typeof(self) ws = self;
+    self.tableSheet.block = ^(NSInteger index){
+        if(ws.delegate && [ws.delegate respondsToSelector:@selector(onAddH5File:)]){
+            [ws.delegate onAddH5File:array[index]];
+        }
+    };
+    [self.view.superview addSubview:self.tableSheet];
+}
 
 #pragma mark - document
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray <NSURL *>*)urls {

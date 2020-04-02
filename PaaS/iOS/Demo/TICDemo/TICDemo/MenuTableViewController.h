@@ -24,6 +24,7 @@
 - (void)onSelectTextColor:(UIColor *)color;
 - (void)onTextSizeChanged:(float)thin;
 - (void)onSetBackgroundH5:(NSString *)url;
+- (void)onAddH5File:(NSString *)url;
 - (void)onSetTextStyle:(int)style;
 - (void)onSetTextFamily:(NSString *)family;
 
