@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.4.82
+ * @version 2.4.6.94
  */
 
 #pragma once
@@ -141,12 +141,13 @@ extern "C" {
     /**
      * @ingroup ctrl
      * @brief 启用白板离屏渲染
+     * @param maxFps                        离屏渲染的最大帧率，取值[1, 60]
      * @return 启用离屏渲染是否成功
      * @warning 该接口必须要在第一次调用 CreateTEduBoardController 之前调用才有效，否则将会失败
      *
      * 启用离屏渲染时，SDK 不再创建白板 VIEW，而是通过 onTEBOffscreenPaint 回调接口将白板离屏渲染的像素数据抛出
      */
-    EDUSDK_API bool EnableTEduBoardOffscreenRender();
+    EDUSDK_API bool EnableTEduBoardOffscreenRender(uint32_t maxFps = 30);
 
     /**
      * @ingroup ctrl
@@ -242,10 +243,12 @@ enum TEduBoardImageFitMode {
  * @brief 白板图片状态
  */
 enum TEduBoardImageStatus {
-    TEDU_BOARD_IMAGE_STATUS_LOADING		= 1,	///< 背景图片正在加载
-    TEDU_BOARD_IMAGE_STATUS_LOAD_DONE	= 2,	///< 背景图片加载完成
-    TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT	= 3,	///< 背景图片加载中断
-    TEDU_BOARD_IMAGE_STATUS_LOAD_ERROR	= 4,	///< 背景图片加载错误
+    TEDU_BOARD_IMAGE_STATUS_LOADING		    = 1,	///< 背景图片正在加载
+    TEDU_BOARD_IMAGE_STATUS_LOAD_DONE	    = 2,	///< 背景图片加载完成
+    TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT	    = 3,	///< 背景图片加载中断
+    TEDU_BOARD_IMAGE_STATUS_LOAD_ERROR	    = 4,	///< 背景图片加载错误
+    TEDU_BOARD_IMAGE_STATUS_LOAD_TIMEOUT    = 5,    ///< 背景图片加载超时
+    TEDU_BOARD_IMAGE_STATUS_LOAD_CANCEL     = 6,    ///< 背景图片取消加载
 };
 
 /**
@@ -478,7 +481,8 @@ struct TEduBoardColor {
  * @brief 白板初始化参数
  */
 struct TEduBoardInitParam {
-    bool progressEnable;					///< 是否启用 SDK 内置 Loading 图标
+    bool progressEnable;					///< 启用加载图标，主要作用于图片加载、ppt加载过程，默认为 false
+    const char *progressBarUrl;             ///< 自定义加载图标，在 processEnable = true 时生效，支持 jpg、gif、png、svg
     const char * ratio;                     ///< 默认白板宽高比（可传格式如“4:3”、“16:9”的字符串）
     bool drawEnable;                        ///< 是否允许涂鸦
     TEduBoardColor globalBackgroundColor;   ///< 全局背景色
@@ -493,6 +497,7 @@ struct TEduBoardInitParam {
     uint32_t preloadDepth;					///< 图片预加载深度，默认值5，表示预加载当前页前后5页的图片
     double smoothLevel;						///< 笔迹平滑系数，默认0，范围 [0，1]
     TEduBoardContentFitMode contentFitMode; ///< 内容自适应模式
+    uint32_t imageTimeout;                  ///< 图片加载超时时间，单位秒，默认10秒
 #ifdef AUDIO_HANDLER_SUPPORT
     bool audioCallback;                     ///< 是否启用音频回调模式（启用后白板内的音频不再播放，而是将PCM数据通过回调抛出）
 #endif
@@ -500,6 +505,7 @@ struct TEduBoardInitParam {
 
     TEduBoardInitParam()
             : progressEnable(false)
+            , progressBarUrl(nullptr)
             , ratio("16:9")
             , drawEnable(true)
             , globalBackgroundColor(255, 255, 255, 255)
@@ -514,6 +520,7 @@ struct TEduBoardInitParam {
             , preloadDepth(5)
             , smoothLevel(0)
             , contentFitMode(TEDU_BOARD_CONTENT_FIT_MODE_NONE)
+            , imageTimeout(10)
 #ifdef AUDIO_HANDLER_SUPPORT
             , audioCallback(false)
 #endif
@@ -546,8 +553,8 @@ struct TEduBoardLineStyle {
  * @brief 鼠标样式
  */
 struct TEduBoardCursorIcon{
-    const char *cursor; ///< 浏览器内置鼠标指针样式，[可取值参考文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor)
-    const char *url;    ///< 自定义鼠标指针样式的 URL，[格式限制参考文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor/url)
+    const char *cursor; ///< 浏览器内置鼠标指针样式，[可取值参考文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor)，使用自定义图片时，该字段请填写"url"
+    const char *url;    ///< 自定义鼠标指针样式的 URL，[格式限制参考文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor/url)，该字段内容不需要包含"url()"
     uint32_t offsetX;   ///< 自定义鼠标指针样式的横行偏移
     uint32_t offsetY;   ///< 自定义鼠标指针样式的纵向偏移
 
@@ -900,6 +907,12 @@ struct TEduBoardCallback {
      * @param canRedo			白板当前是否还能执行 Redo 操作
      */
     virtual void onTEBRedoStatusChanged(bool canRedo) {};
+
+    /**
+     * @brief 框选工具选中回调
+     * 只有框选中涂鸦或图片元素后触发回调
+     */
+    virtual void onTEBRectSelected() {};
 
     /**
      * @brief 白板离屏渲染回调
