@@ -153,11 +153,14 @@
                 <el-form ref="form" label-width="80px" size="mini">
 
                   <el-form-item label="课堂号">
-                    <el-input id="roomid" v-model.trim="roomID" placeholder="课堂ID"></el-input>
+                    <el-tooltip class="item" effect="dark" content="课堂号只支持数字" placement="top">
+                      <el-input id="roomid" v-model.trim="roomID" placeholder="课堂ID"></el-input>
+                    </el-tooltip>
                   </el-form-item>
 
                   <el-form-item>
-                    <el-button @click="createClassroom" :disabled="status < STATUS_LOGINED || status == STATUS_INCLASS" v-text="'创建房间'"></el-button>
+                    <el-button @click="createClassroom" :disabled="status < STATUS_LOGINED || status == STATUS_INCLASS"
+                      v-text="'创建房间'"></el-button>
                   </el-form-item>
 
                   <el-form-item>
@@ -166,7 +169,8 @@
                   </el-form-item>
 
                   <el-form-item>
-                    <el-button @click="joinClassroom" :disabled="status < STATUS_LOGINED || status == STATUS_INCLASS" v-text="'进入房间'"></el-button>
+                    <el-button @click="joinClassroom" :disabled="status < STATUS_LOGINED || status == STATUS_INCLASS"
+                      v-text="'进入房间'"></el-button>
                   </el-form-item>
 
                   <el-form-item>
@@ -204,7 +208,8 @@
           <el-header style="height: 100px">
             <el-container>
               <el-header style="height: 42px;">
-                <el-button plain @click="startRTC" type="button" :disabled="status < STATUS_INCLASS" v-text="'摄像头推流'" size="mini"></el-button>
+                <el-button plain @click="startRTC" type="button" :disabled="status < STATUS_INCLASS" v-text="'摄像头推流'"
+                  size="mini"></el-button>
                 <el-button plain @click="pushScreen" :disabled="status < STATUS_INCLASS" v-text="'屏幕分享'" size="mini">
                 </el-button>
                 <el-button @click="stopPush" v-if="isPushing === 1" size="mini">停止推流</el-button>
@@ -224,8 +229,10 @@
           <el-main>
             <el-container>
               <el-header style="height: 42px;">
-                <el-tabs size="mini" v-model="currentFileId" closable type="card" @tab-remove="onDeleteFileById" @tab-click="onClickBoardTab">
-                  <el-tab-pane size="mini" :key="file.fid" v-for="file in fileInfoList" :label="file.title" :name="file.fid">
+                <el-tabs size="mini" v-model="currentFileId" closable type="card" @tab-remove="onDeleteFileById"
+                  @tab-click="onClickBoardTab">
+                  <el-tab-pane size="mini" :key="file.fid" v-for="file in fileInfoList" :label="file.title"
+                    :name="file.fid">
                   </el-tab-pane>
                 </el-tabs>
               </el-header>
@@ -236,7 +243,8 @@
                 <div style="text-align: center; padding-top: 30px; color: gray;" v-if="thumbUrls.length == 0">此文件不支持缩略图
                 </div>
                 <div style="overflow-x: scroll visible; overflow-y:hidden; white-space:nowrap; height:inherit; ">
-                  <img style="height: 100%; margin-right: 3px;" v-for="(item, index) in thumbUrls" :name="index" :src="item" v-on:click="onThumbClick(index)"><img>
+                  <img style="height: 100%; margin-right: 3px;" v-for="(item, index) in thumbUrls" :name="index"
+                    :src="item" v-on:click="onThumbClick(index)"><img>
                 </div>
               </el-footer>
             </el-container>
@@ -329,11 +337,16 @@
               </el-form-item>
 
               <el-form-item label="字体颜色">
-                <button type="button" style="padding:0;width:20px;height:20px;background: #ff0000;border:none;" @mousedown.prevent="onSetTextColor('#ff0000')"></button>
-                <button type="button" style="padding:0;width:20px;height:20px;background: #00ff00;border:none;" @mousedown.prevent="onSetTextColor('#00ff00')"></button>
-                <button type="button" style="padding:0;width:20px;height:20px;background: #0000ff;border:none;" @mousedown.prevent="onSetTextColor('#0000ff')"></button>
-                <button type="button" style="padding:0;width:20px;height:20px;background: #ffff00;border:none;" @mousedown.prevent="onSetTextColor('#ffff00')"></button>
-                <button type="button" style="padding:0;width:20px;height:20px;background: #000000;border:none;" @mousedown.prevent="onSetTextColor('#000000')"></button>
+                <button type="button" style="padding:0;width:20px;height:20px;background: #ff0000;border:none;"
+                  @mousedown.prevent="onSetTextColor('#ff0000')"></button>
+                <button type="button" style="padding:0;width:20px;height:20px;background: #00ff00;border:none;"
+                  @mousedown.prevent="onSetTextColor('#00ff00')"></button>
+                <button type="button" style="padding:0;width:20px;height:20px;background: #0000ff;border:none;"
+                  @mousedown.prevent="onSetTextColor('#0000ff')"></button>
+                <button type="button" style="padding:0;width:20px;height:20px;background: #ffff00;border:none;"
+                  @mousedown.prevent="onSetTextColor('#ffff00')"></button>
+                <button type="button" style="padding:0;width:20px;height:20px;background: #000000;border:none;"
+                  @mousedown.prevent="onSetTextColor('#000000')"></button>
               </el-form-item>
 
               <el-form-item label="字体大小">
@@ -350,10 +363,14 @@
 
               <el-form-item label="设置背景">
                 <el-select placeholder="工具" v-model="backgroundImage" @change="onSetBackgroundImage">
-                  <el-option label="美图1" v-bind:value="'https://main.qcloudimg.com/raw/36d31e0d6f9d24a9b5727ab5e21b4b8c.jpg'"></el-option>
-                  <el-option label="美图2" v-bind:value="'https://main.qcloudimg.com/raw/a748528fecffd13a466a3a6c23ad1f45.jpg'"></el-option>
-                  <el-option label="美图3" v-bind:value="'https://main.qcloudimg.com/raw/5e3f50336b85071ef09affcd967e679d.jpg'"></el-option>
-                  <el-option label="美图4" v-bind:value="'https://main.qcloudimg.com/raw/4a897d60a49ae211f6e492f6ebe8340f.jpg'"></el-option>
+                  <el-option label="美图1"
+                    v-bind:value="'https://main.qcloudimg.com/raw/36d31e0d6f9d24a9b5727ab5e21b4b8c.jpg'"></el-option>
+                  <el-option label="美图2"
+                    v-bind:value="'https://main.qcloudimg.com/raw/a748528fecffd13a466a3a6c23ad1f45.jpg'"></el-option>
+                  <el-option label="美图3"
+                    v-bind:value="'https://main.qcloudimg.com/raw/5e3f50336b85071ef09affcd967e679d.jpg'"></el-option>
+                  <el-option label="美图4"
+                    v-bind:value="'https://main.qcloudimg.com/raw/4a897d60a49ae211f6e492f6ebe8340f.jpg'"></el-option>
                 </el-select>
               </el-form-item>
 
@@ -366,7 +383,9 @@
 
               <el-form-item label="添加图片资源">
                 <el-select placeholder="图片url" @change="onAddImageElement">
-                  <el-option label="腾讯云" v-bind:value="'https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/qcloud.jpg'"></el-option>
+                  <el-option label="腾讯云"
+                    v-bind:value="'https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/qcloud.jpg'">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-form>
@@ -425,7 +444,8 @@
 
               <el-form-item label="新增视频文件">
                 <el-select placeholder="视频文件" @change="onAddVideoFile">
-                  <el-option label="腾讯教育" v-bind:value="'https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4'">
+                  <el-option label="腾讯教育"
+                    v-bind:value="'https://tic-res-1259648581.cos.ap-shanghai.myqcloud.com/demo/tiw-vod.mp4'">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -474,23 +494,19 @@
 
   <!-- WebRTC SDK -->
   <script src="./libs/trtc.js"></script>
-  
+
   <!-- COS SDK -->
-  <!-- <script src="https://resources-tiw.qcloudtrtc.com/thirdpart/cos/5.1.0/cos.min.js"></script> -->
   <script src="./libs/cos-js-sdk-v5.min.js"></script>
   <!-- WebIM SDK -->
-  <!-- <script src="https://resources-tiw.qcloudtrtc.com/webim/webim.min.js"></script> -->
   <script src="./libs/tim-js.js"></script>
 
   <!-- 白板SDK -->
-  <script src="https://resources-tiw.qcloudtrtc.com/board/2.4.5/TEduBoard.min.js"></script>
+  <script src="https://resources-tiw.qcloudtrtc.com/board/2.4.6/TEduBoard.min.js"></script>
   <script src="https://resources-tiw.qcloudtrtc.com/tic/2.5.0/TIC.min.js"></script>
 
   <script src="libs/thirdpart/purl.js"></script>
   <script src="libs/thirdpart/vconsole.min.js"></script>
   <script src="js/account_dev.js"></script>
-  <!-- <script src="account/1400162216.js"></script> -->
-<!--   <script src="account/1400189148.js"></script> -->
   <script src="js/main.js"></script>
 
   <script>

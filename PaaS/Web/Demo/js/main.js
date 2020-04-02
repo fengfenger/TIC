@@ -319,6 +319,8 @@ window.app = new Vue({
         smoothLevel: 0,
         boardContentFitMode: 1,
         toolType: 1,
+        progressEnable: true,
+        progressBarUrl: 'https://resources-tiw.qcloudtrtc.com/board/icons/Gear-0.2s-48px.png'
       }, res => {
         if (res.code) {
           this.showErrorTip('加入课堂失败');

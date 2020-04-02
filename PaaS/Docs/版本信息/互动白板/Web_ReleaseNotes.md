@@ -1,11 +1,21 @@
 # Release Notes - Web
 
+## 2.4.6 @ 2020.04.02
+
+- 新增回调
+    - TEduBoardImageStatus 新增两个状态回调
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_TIMEOUT 图片加载超时
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_CANCEL 图片取消加载
+    - onTEBRectSelected 框选工具选中回调
+- 新增参数
+    - progressBarUrl 自定义加载图标
+    - imageTimeout 图片加载超时
+- BUG修复
+    - 修复加载相同图片没有回调问题
+
 ## 2.4.4 @ 2020.03.14
 
 - 批量导入图片组时，对URL字符串长度进行限制(总长7K)，超长时同步返回空串，同时回调错误TEDU_BOARD_ERROR_DATA_TOO_LARGE
-
-## 2.4.4 @ 2020.03.08
-
 - 替换内部mp4播放器为videojs
 - 新增接口
     - addImagesFile 批量导入图片到白板
