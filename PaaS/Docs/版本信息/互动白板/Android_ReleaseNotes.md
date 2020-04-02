@@ -1,4 +1,19 @@
 # Release Notes - Android
+## 2.4.4.18 @ 2020.04.02
+- 新增回调
+    - TEduBoardImageStatus 新增三个状态回调
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT 图片加载中断
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_TIMEOUT 图片加载超时
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_CANCEL 图片取消加载
+    - onTEBRectSelected 框选工具选中回调
+- 新增接口
+    - TEduBoardInitParam 新增两个参数
+        - progressEnable 启用加载图标
+        - progressBarUrl 自定义加载图标
+        - imageTimeout 图片加载超时
+- BUG修复
+    - 修复加载相同图片没有回调问题
+
 ## 2.4.4.14 @ 2020.03.14
 - BUG修复
     - 白板中播放视频时，学生端自动播放的问题
