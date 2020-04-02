@@ -1,5 +1,5 @@
 # Release Notes - Android
-## 2.4.4.18 @ 2020.04.02
+## 2.4.6.20 @ 2020.04.02
 - 新增回调
     - TEduBoardImageStatus 新增三个状态回调
         - TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT 图片加载中断
