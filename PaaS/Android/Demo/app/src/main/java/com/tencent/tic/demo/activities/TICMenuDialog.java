@@ -21,7 +21,6 @@ import com.tencent.tic.demo.R;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,17 +65,20 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
     };
 
     //PPT转码后的H5文件，
-    private final static String [] H5FILE_URL = {
-            "https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-38-54/index.html",
-            "https://test04-1257240443.cos.ap-shanghai.myqcloud.com/2019-05-08-15-18-25-0/index.html",
-            "http://test04-1257240443.cos.ap-shanghai.myqcloud.com/9m4e2mr0ui3e8a215n4g/index.html"
+    private final static TEduBoardController.TEduBoardTranscodeFileResult H5_PPT_URL[]= {
+            new TEduBoardController.TEduBoardTranscodeFileResult("欢迎新同学","https://ppt2h5-1259648581.file.myqcloud.com/ghikv1979vq1bhl3jtpb/index.html",23,"960x540"),
+            new TEduBoardController.TEduBoardTranscodeFileResult("腾讯课堂介绍","https://transcode-result-1259648581.file.myqcloud.com/g6lcd5qcpqrgit7mopob/",9,"1766x987")
     };
 
-    //PPT转码后的H5文件，
+    //H5背景
     private final static KValue [] H5_BK_URL = {
             new KValue("https://www.qq.com/", "QQ"),
-//            new KValue("https://cloud.tencent.com", "腾讯云"),
             new KValue("http://b.hiphotos.baidu.com/image/h%3D300/sign=92afee66fd36afc3110c39658318eb85/908fa0ec08fa513db777cf78376d55fbb3fbd9b3.jpg", "美图"),
+    };
+
+    //H5文件
+    private final static KValue [] H5_FILE_URL = {
+            new KValue("https://cloud.tencent.com/", "腾讯云"),
     };
 
     //Video
@@ -168,7 +170,8 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
 
 
         //Board(文件操作)
-        void onTransCodeFile(String id);
+        void onTransCodeFile(TEduBoardController.TEduBoardTranscodeFileResult result);
+        void onAddH5File(String url);
         void onDeleteFile(String boardId);
         void onGotoFile(String boardId);
         void onAddImagesFile(List<String> urls);
@@ -502,24 +505,12 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.btn_deleteFile).setOnClickListener(this);
         findViewById(R.id.btn_switchFile).setOnClickListener(this);
         findViewById(R.id.btn_addImagesFile).setOnClickListener(this);
+        findViewById(R.id.btn_addH5File).setOnClickListener(this);
 
         ArrayAdapter<String> pptArray =new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, android.R.id.text1);
-
-        String[] ppts = null;
-        try {
-            ppts = getContext().getAssets().list("ppt");
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (TEduBoardController.TEduBoardTranscodeFileResult file : H5_PPT_URL) {
+            pptArray.add(file.title);
         }
-        if (ppts != null) { //本地文件
-            for (String file : ppts) {
-                String extension = MimeTypeMap.getFileExtensionFromUrl(file);
-                if (extension != null && (extension.equals("ppt") || extension.equals("pptx") || extension.equals("pdf"))) {
-                    pptArray.add(LOCAL_FILE + file);
-                }
-            }
-        }
-
         Spinner sp_addFile = (Spinner)findViewById(R.id.sp_addFile);
         sp_addFile.setAdapter(pptArray);
 
@@ -535,6 +526,16 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
                 i++;
             }
         }
+
+        //H5文件
+        ArrayAdapter<String> H5FileArray =new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_spinner_item, android.R.id.text1);
+        for (int i = 0; i < H5_FILE_URL.length; i++) {
+            H5FileArray.add(H5_FILE_URL[i].value);
+        }
+        Spinner H5FileSp = (Spinner)findViewById(R.id.sp_addH5File);
+        H5FileSp.setAdapter(H5FileArray);
+        H5FileSp.setSelection(0, false);
+
 
         Spinner deletefile = (Spinner)findViewById(R.id.sp_deleteFile);
         deletefile.setAdapter(filesArray);
@@ -771,17 +772,18 @@ public class TICMenuDialog extends Dialog implements View.OnClickListener {
 
             //Board(文件)
             case R.id.btn_addFile:
-                Object pos5 = ((Spinner)findViewById(R.id.sp_addFile)).getSelectedItem();
-                if (pos5 != null && pos5 instanceof String) {
-                    String path = "";
-                    final String item = (String) pos5;
-                    if (item.startsWith(LOCAL_FILE)){
-                        path = "file:///android_asset/ppt/" + item.substring(LOCAL_FILE.length());
-                    }
+                int pos5 = ((Spinner)findViewById(R.id.sp_addFile)).getSelectedItemPosition();
+                if (pos5 >= 0 && pos5 < H5_PPT_URL.length) {
+                    TEduBoardController.TEduBoardTranscodeFileResult result = H5_PPT_URL[pos5];
+                    listener.onTransCodeFile(result);
+                }
+                break;
 
-                    if (!TextUtils.isEmpty(path)) {
-                        listener.onTransCodeFile(path);
-                    }
+            case R.id.btn_addH5File:
+                int h5File = ((Spinner)findViewById(R.id.sp_addH5File)).getSelectedItemPosition();
+                if (h5File >= 0 && h5File < H5_FILE_URL.length) {
+                    String url = H5_FILE_URL[h5File].key;
+                    listener.onAddH5File(url);
                 }
                 break;
 

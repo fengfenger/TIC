@@ -26,7 +26,6 @@ public class TICClassManagerActivity extends BaseActvity {
 
     // 课堂id
     EditText etRoomIdInput;
-    TextView tvClassInfo;
 
     WebView mWebView;
     FrameLayout webviewContainer;
@@ -42,7 +41,6 @@ public class TICClassManagerActivity extends BaseActvity {
 
         mRoomId = resumeFromCache();
 
-        tvLog = (TextView) findViewById(R.id.tv_manager_log);
         etRoomIdInput = (EditText) findViewById(R.id.et_roomid);
 
         etRoomIdInput.setText(String.valueOf(mRoomId));
@@ -113,6 +111,13 @@ public class TICClassManagerActivity extends BaseActvity {
         SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
         int roomId = sharedPreferences.getInt(USER_ROOM, randRoom);
         return roomId;
+    }
+
+    /**
+     * 退出
+     */
+    public void onExit(View v) {
+        finish();
     }
 
     /**

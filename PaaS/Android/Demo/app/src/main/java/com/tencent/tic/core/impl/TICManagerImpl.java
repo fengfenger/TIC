@@ -1064,10 +1064,10 @@ public class TICManagerImpl  extends TICManager{
                 String str = new String(bytes);
                 JSONObject jsonObject = new JSONObject(str);
                 boolean isSyncTime = jsonObject.has(SYNCTIME);
-                TXCLog.i(TAG, "TICManager: onRecvSEIMsg  synctime 1: " + isSyncTime);
+                //TXCLog.i(TAG, "TICManager: onRecvSEIMsg  synctime 1: " + isSyncTime);
                 if (isSyncTime) {
                     long time =  jsonObject.getLong(SYNCTIME);
-                    TXCLog.i(TAG, "TICManager: onRecvSEIMsg  synctime 2: " + userid +  "|" + time);
+                    //TXCLog.i(TAG, "TICManager: onRecvSEIMsg  synctime 2: " + userid +  "|" + time);
                     if (mBoard != null) {
                         mBoard.syncRemoteTime(userid, time);
                     }
@@ -1170,6 +1170,11 @@ public class TICManagerImpl  extends TICManager{
 
         @Override
         public void onTEBGotoStep(int currentStep, int total) {
+
+        }
+
+        @Override
+        public void onTEBRectSelected() {
 
         }
 

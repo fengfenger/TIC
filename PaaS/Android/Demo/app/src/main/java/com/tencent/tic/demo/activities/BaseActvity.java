@@ -73,12 +73,14 @@ public class BaseActvity extends AppCompatActivity implements TICManager.TICIMSt
     }
 
     protected void addLog(String logs) {
-        logMsg = logMsg + "\r\n" + logs;
-        tvLog.setText(logMsg + "\r\n");
+        if (tvLog != null) {
+            logMsg = logMsg + "\r\n" + logs;
+            tvLog.setText(logMsg + "\r\n");
 
-        int offset = tvLog.getLineCount() * tvLog.getLineHeight();
-        if (offset > tvLog.getHeight()) {
-            tvLog.scrollTo(0, offset - tvLog.getHeight());
+            int offset = tvLog.getLineCount() * tvLog.getLineHeight();
+            if (offset > tvLog.getHeight()) {
+                tvLog.scrollTo(0, offset - tvLog.getHeight());
+            }
         }
     }
 

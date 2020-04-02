@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 //import android.support.v4.app.ActivityCompat;
@@ -43,7 +44,6 @@ public class TICClassMainActivity extends BaseActvity
         TICManager.TICEventListener
         {
     private final static String TAG = "TICClassMainActivity";
-    private static final int CROP_CHOOSE = 10;
 
      TICMenuDialog moreDlg;
      MySettingCallback mySettingCallback;
@@ -428,8 +428,13 @@ public class TICClassMainActivity extends BaseActvity
         }
 
         @Override
-        public void onTransCodeFile(String url) {
-            mBoard.applyFileTranscode(url, null);
+        public void onTransCodeFile(TEduBoardController.TEduBoardTranscodeFileResult myresult) {
+            mBoard.addTranscodeFile(myresult);
+        }
+
+        @Override
+        public void onAddH5File(String url) {
+            mBoard.addH5File(url);
         }
 
         @Override
@@ -463,6 +468,13 @@ public class TICClassMainActivity extends BaseActvity
         View boardview = mBoard.getBoardRenderView();
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         mBoardContainer.addView(boardview, layoutParams);
+
+        //设置透明
+        //boardview.setBackgroundColor(Color.TRANSPARENT);
+        //boardview.getBackground().setAlpha(0); // 设置填充透明度 范围：0-255
+        //mBoard.setGlobalBackgroundColor(new TEduBoardController.TEduBoardColor(0, 0,0, 0));
+        //mBoard.setBackgroundColor(new TEduBoardController.TEduBoardColor(0, 0,10, 0));
+
         postToast("正在使用白板：" + TEduBoardController.getVersion(), true);
     }
 
@@ -566,7 +578,7 @@ public class TICClassMainActivity extends BaseActvity
 
         //2、如果用户希望白板显示出来时，不使用系统默认的参数，就需要设置特性缺省参数，如是使用默认参数，则填null。
         TEduBoardController.TEduBoardInitParam initParam = new TEduBoardController.TEduBoardInitParam();
-        initParam.brushColor = new TEduBoardController.TEduBoardColor(0, 255, 0, 255);
+        initParam.brushColor = new TEduBoardController.TEduBoardColor(255, 0, 0, 255);
         initParam.smoothLevel = 0; //用于指定笔迹平滑级别，默认值0.1，取值[0, 1]
 
         TICClassroomOption classroomOption = new TICClassroomOption();
@@ -902,7 +914,12 @@ public class TICClassMainActivity extends BaseActvity
              TXLog.i(TAG, "onTEBGotoStep:" + currentStep + "|" + total);
          }
 
-        @Override
+         @Override
+         public void onTEBRectSelected() {
+             TXLog.i(TAG, "onTEBRectSelected:" );
+         }
+
+         @Override
         public void onTEBDeleteFile(String fileId) {
         }
 
