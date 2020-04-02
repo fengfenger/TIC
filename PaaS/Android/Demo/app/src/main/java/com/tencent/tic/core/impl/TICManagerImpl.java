@@ -946,7 +946,7 @@ public class TICManagerImpl  extends TICManager{
             }
             sendOfflineRecordInfo();
 
-            if (classroomOption.classScene == TICClassScene.TIC_CLASS_SCENE_LIVE
+            if (classroomOption != null && classroomOption.classScene == TICClassScene.TIC_CLASS_SCENE_LIVE
                     && classroomOption.roleType == TICRoleType.TIC_ROLE_TYPE_ANCHOR) {
                 startSyncTimer();
             }
