@@ -87,7 +87,7 @@
     TIMMessage *msg = [[TIMMessage alloc] init];
     [msg addElem:elem];
     TIMOfflinePushInfo *pushinfo = [[TIMOfflinePushInfo alloc] init];
-    pushinfo.ext = kTICEduRecordCmd;
+    pushinfo.ext = kTICEduBoardCmd;
     [msg setOfflinePushInfo:pushinfo];
     
     __weak typeof(self) ws = self;

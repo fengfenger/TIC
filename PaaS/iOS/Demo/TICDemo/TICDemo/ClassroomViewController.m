@@ -204,6 +204,11 @@ static const NSString *staticClassID = @"";
     [[[TICManager sharedInstance] getBoardController] setBackgroundH5:url];
 }
 
+- (void)onAddH5File:(NSString *)url
+{
+    [[[TICManager sharedInstance] getBoardController] addH5File:url];
+}
+
 - (void)onSetTextStyle:(int)style
 {
     [[[TICManager sharedInstance] getBoardController] setTextStyle:(TEduBoardTextStyle)style];

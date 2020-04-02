@@ -20,7 +20,7 @@ git clone https://github.com/tencentyun/TIC.git
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Web.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/小程序.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Windows.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Android.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/android/TICDemo.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/ios/TICDemo.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/mac/src/TICDemo_Mac.zip">Download Zip</a></td>
 </tr>

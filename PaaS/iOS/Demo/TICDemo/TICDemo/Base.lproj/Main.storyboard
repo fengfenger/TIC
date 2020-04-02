@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1kv-At-H0z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1kv-At-H0z">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1184,6 +1184,30 @@
                                                 <constraint firstAttribute="bottom" secondItem="omz-9z-DO4" secondAttribute="bottom" constant="5.5" id="AEe-7o-zI2"/>
                                                 <constraint firstItem="omz-9z-DO4" firstAttribute="leading" secondItem="XQU-EO-w7y" secondAttribute="leading" constant="16" id="XAc-rF-YDh"/>
                                                 <constraint firstItem="omz-9z-DO4" firstAttribute="top" secondItem="XQU-EO-w7y" secondAttribute="top" constant="5" id="mOs-qG-x2k"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hi0-yN-FC6">
+                                        <rect key="frame" x="0.0" y="1675.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hi0-yN-FC6" id="yXQ-N8-K8Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A38-po-LVp">
+                                                    <rect key="frame" x="16" y="5" width="58" height="33.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <state key="normal" title="H5文件"/>
+                                                    <connections>
+                                                        <action selector="onAddH5File:" destination="sdO-uE-4Up" eventType="touchUpInside" id="nwz-Eq-CNq"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="A38-po-LVp" firstAttribute="leading" secondItem="yXQ-N8-K8Q" secondAttribute="leading" constant="16" id="08E-Uo-TEl"/>
+                                                <constraint firstAttribute="bottom" secondItem="A38-po-LVp" secondAttribute="bottom" constant="5.5" id="9vK-ho-NoM"/>
+                                                <constraint firstItem="A38-po-LVp" firstAttribute="top" secondItem="yXQ-N8-K8Q" secondAttribute="top" constant="5" id="D80-ec-iqt"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

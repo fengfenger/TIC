@@ -20,26 +20,26 @@
 		6AAD6B1F20AAD90F00348C94 /* ClassroomJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD6B1E20AAD90F00348C94 /* ClassroomJoinViewController.m */; };
 		6AAD6B2920AB05DD00348C94 /* ClassroomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAD6B2720AB05DD00348C94 /* ClassroomViewController.m */; };
 		7BA57FA3A76AC795D172A538 /* libPods-TICDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A005B33256A5C1ACA8C44722 /* libPods-TICDemo.a */; };
+		CF02DD3B239FD2EE00990EBB /* TICManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD1D239FD2ED00990EBB /* TICManager.m */; };
+		CF02DD3C239FD2EE00990EBB /* TICWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD1F239FD2ED00990EBB /* TICWeakProxy.m */; };
+		CF02DD3D239FD2EE00990EBB /* TICDef.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD21239FD2ED00990EBB /* TICDef.m */; };
+		CF02DD3E239FD2EE00990EBB /* TICReport.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD22239FD2ED00990EBB /* TICReport.m */; };
+		CF02DD3F239FD2EE00990EBB /* NSDate+NetworkClock.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD28239FD2ED00990EBB /* NSDate+NetworkClock.m */; };
+		CF02DD40239FD2EE00990EBB /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = CF02DD29239FD2ED00990EBB /* Notes */; };
+		CF02DD41239FD2EE00990EBB /* NetAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD2D239FD2ED00990EBB /* NetAssociation.m */; };
+		CF02DD42239FD2EE00990EBB /* NetworkClock.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD2E239FD2ED00990EBB /* NetworkClock.m */; };
+		CF02DD43239FD2EE00990EBB /* TICRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD2F239FD2ED00990EBB /* TICRecorder.mm */; };
+		CF02DD44239FD2EE00990EBB /* TICKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD30239FD2ED00990EBB /* TICKeychainWrapper.m */; };
+		CF02DD45239FD2EE00990EBB /* TICReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD32239FD2ED00990EBB /* TICReachability.m */; };
+		CF02DD46239FD2EE00990EBB /* TICRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD35239FD2ED00990EBB /* TICRenderView.m */; };
+		CF02DD47239FD2EE00990EBB /* TICDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD36239FD2ED00990EBB /* TICDevice.m */; };
+		CF02DD48239FD2EE00990EBB /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF02DD38239FD2EE00990EBB /* GCDAsyncUdpSocket.m */; };
 		CF327918227191B500FF817F /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF327917227191B500FF817F /* MenuTableViewController.m */; };
 		CF3279C22271F10200FF817F /* TableSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3279C12271F10200FF817F /* TableSheetView.m */; };
 		CF3279C52271F11300FF817F /* PickSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3279C42271F11300FF817F /* PickSheetView.m */; };
 		CF3279C72271F15C00FF817F /* PickSheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3279C62271F15C00FF817F /* PickSheetView.xib */; };
 		CF3279C92271F18C00FF817F /* TableSheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3279C82271F18C00FF817F /* TableSheetView.xib */; };
-		CF377827230A5D6400101054 /* TICWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = CF377825230A5D6400101054 /* TICWeakProxy.m */; };
-		CF3FB2FD2273191D001C148E /* TICDef.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB2F32273191D001C148E /* TICDef.m */; };
-		CF3FB2FE2273191D001C148E /* TICManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB2F52273191D001C148E /* TICManager.m */; };
-		CF3FB2FF2273191D001C148E /* TICRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3FB2F72273191D001C148E /* TICRenderView.m */; };
 		CF3FB30722758FFE001C148E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AAD6A7920A5A44900348C94 /* libc++.tbd */; };
-		CF7C40E523278D4400136800 /* TICKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7C40E423278D4400136800 /* TICKeychainWrapper.m */; };
-		CF9F964722D4992C00E4ADF8 /* TICDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F963C22D4992B00E4ADF8 /* TICDevice.m */; };
-		CF9F964822D4992C00E4ADF8 /* TICReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F963E22D4992B00E4ADF8 /* TICReachability.m */; };
-		CF9F964C22D4992C00E4ADF8 /* TICReport.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9F964622D4992C00E4ADF8 /* TICReport.m */; };
-		CFDF442A22942A77004FFD01 /* TICRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = CFDF442922942A74004FFD01 /* TICRecorder.mm */; };
-		CFDF444D22953496004FFD01 /* NetAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDF444622953496004FFD01 /* NetAssociation.m */; };
-		CFDF444E22953496004FFD01 /* NetworkClock.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDF444822953496004FFD01 /* NetworkClock.m */; };
-		CFDF444F22953496004FFD01 /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = CFDF444922953496004FFD01 /* Notes */; };
-		CFDF445022953496004FFD01 /* NSDate+NetworkClock.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDF444B22953496004FFD01 /* NSDate+NetworkClock.m */; };
-		CFDF445622953AA5004FFD01 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDF445522953AA5004FFD01 /* GCDAsyncUdpSocket.m */; };
 		CFEB9E7F22707E9100E56932 /* TICConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB9E7D22707E9100E56932 /* TICConfig.m */; };
 		CFEB9E8122707F8600E56932 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = CFEB9E8022707F8600E56932 /* config.json */; };
 /* End PBXBuildFile section */
@@ -87,6 +87,35 @@
 		6AAD6B2620AB05DD00348C94 /* ClassroomViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassroomViewController.h; sourceTree = "<group>"; };
 		6AAD6B2720AB05DD00348C94 /* ClassroomViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassroomViewController.m; sourceTree = "<group>"; };
 		A005B33256A5C1ACA8C44722 /* libPods-TICDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TICDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF02DD1C239FD2ED00990EBB /* TICKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICKeychainWrapper.h; sourceTree = "<group>"; };
+		CF02DD1D239FD2ED00990EBB /* TICManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICManager.m; sourceTree = "<group>"; };
+		CF02DD1E239FD2ED00990EBB /* TICRenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICRenderView.h; sourceTree = "<group>"; };
+		CF02DD1F239FD2ED00990EBB /* TICWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICWeakProxy.m; sourceTree = "<group>"; };
+		CF02DD20239FD2ED00990EBB /* TICReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICReachability.h; sourceTree = "<group>"; };
+		CF02DD21239FD2ED00990EBB /* TICDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICDef.m; sourceTree = "<group>"; };
+		CF02DD22239FD2ED00990EBB /* TICReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICReport.m; sourceTree = "<group>"; };
+		CF02DD23239FD2ED00990EBB /* TICDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICDevice.h; sourceTree = "<group>"; };
+		CF02DD24239FD2ED00990EBB /* TICRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICRecorder.h; sourceTree = "<group>"; };
+		CF02DD26239FD2ED00990EBB /* NetworkClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkClock.h; sourceTree = "<group>"; };
+		CF02DD27239FD2ED00990EBB /* NetAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetAssociation.h; sourceTree = "<group>"; };
+		CF02DD28239FD2ED00990EBB /* NSDate+NetworkClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+NetworkClock.m"; sourceTree = "<group>"; };
+		CF02DD29239FD2ED00990EBB /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		CF02DD2A239FD2ED00990EBB /* ios-ntp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ios-ntp.h"; sourceTree = "<group>"; };
+		CF02DD2B239FD2ED00990EBB /* ntp-log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ntp-log.h"; sourceTree = "<group>"; };
+		CF02DD2C239FD2ED00990EBB /* NSDate+NetworkClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+NetworkClock.h"; sourceTree = "<group>"; };
+		CF02DD2D239FD2ED00990EBB /* NetAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetAssociation.m; sourceTree = "<group>"; };
+		CF02DD2E239FD2ED00990EBB /* NetworkClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkClock.m; sourceTree = "<group>"; };
+		CF02DD2F239FD2ED00990EBB /* TICRecorder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TICRecorder.mm; sourceTree = "<group>"; };
+		CF02DD30239FD2ED00990EBB /* TICKeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICKeychainWrapper.m; sourceTree = "<group>"; };
+		CF02DD31239FD2ED00990EBB /* TICDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICDef.h; sourceTree = "<group>"; };
+		CF02DD32239FD2ED00990EBB /* TICReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICReachability.m; sourceTree = "<group>"; };
+		CF02DD33239FD2ED00990EBB /* TICManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICManager.h; sourceTree = "<group>"; };
+		CF02DD34239FD2ED00990EBB /* TICWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICWeakProxy.h; sourceTree = "<group>"; };
+		CF02DD35239FD2ED00990EBB /* TICRenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICRenderView.m; sourceTree = "<group>"; };
+		CF02DD36239FD2ED00990EBB /* TICDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICDevice.m; sourceTree = "<group>"; };
+		CF02DD38239FD2EE00990EBB /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		CF02DD39239FD2EE00990EBB /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		CF02DD3A239FD2EE00990EBB /* TICReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICReport.h; sourceTree = "<group>"; };
 		CF327916227191B500FF817F /* MenuTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
 		CF327917227191B500FF817F /* MenuTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		CF3279C02271F10200FF817F /* TableSheetView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableSheetView.h; sourceTree = "<group>"; };
@@ -95,38 +124,9 @@
 		CF3279C42271F11300FF817F /* PickSheetView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickSheetView.m; sourceTree = "<group>"; };
 		CF3279C62271F15C00FF817F /* PickSheetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickSheetView.xib; sourceTree = "<group>"; };
 		CF3279C82271F18C00FF817F /* TableSheetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSheetView.xib; sourceTree = "<group>"; };
-		CF377825230A5D6400101054 /* TICWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICWeakProxy.m; sourceTree = "<group>"; };
-		CF377826230A5D6400101054 /* TICWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICWeakProxy.h; sourceTree = "<group>"; };
-		CF3FB2F22273191D001C148E /* TICDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICDef.h; sourceTree = "<group>"; };
-		CF3FB2F32273191D001C148E /* TICDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICDef.m; sourceTree = "<group>"; };
-		CF3FB2F42273191D001C148E /* TICManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICManager.h; sourceTree = "<group>"; };
-		CF3FB2F52273191D001C148E /* TICManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICManager.m; sourceTree = "<group>"; };
-		CF3FB2F62273191D001C148E /* TICRenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICRenderView.h; sourceTree = "<group>"; };
-		CF3FB2F72273191D001C148E /* TICRenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICRenderView.m; sourceTree = "<group>"; };
-		CF7C40E323278D4400136800 /* TICKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICKeychainWrapper.h; sourceTree = "<group>"; };
-		CF7C40E423278D4400136800 /* TICKeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICKeychainWrapper.m; sourceTree = "<group>"; };
 		CF7D09E222BA84540088CDD1 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
 		CF7D09E422BA847E0088CDD1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CF7D0A5B22BA890A0088CDD1 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		CF9F963B22D4992B00E4ADF8 /* TICReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICReachability.h; sourceTree = "<group>"; };
-		CF9F963C22D4992B00E4ADF8 /* TICDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICDevice.m; sourceTree = "<group>"; };
-		CF9F963D22D4992B00E4ADF8 /* TICDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICDevice.h; sourceTree = "<group>"; };
-		CF9F963E22D4992B00E4ADF8 /* TICReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICReachability.m; sourceTree = "<group>"; };
-		CF9F964322D4992C00E4ADF8 /* TICReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICReport.h; sourceTree = "<group>"; };
-		CF9F964622D4992C00E4ADF8 /* TICReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICReport.m; sourceTree = "<group>"; };
-		CFDF442822942A74004FFD01 /* TICRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TICRecorder.h; sourceTree = "<group>"; };
-		CFDF442922942A74004FFD01 /* TICRecorder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TICRecorder.mm; sourceTree = "<group>"; };
-		CFDF444422953496004FFD01 /* ios-ntp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ios-ntp.h"; sourceTree = "<group>"; };
-		CFDF444522953496004FFD01 /* NetAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetAssociation.h; sourceTree = "<group>"; };
-		CFDF444622953496004FFD01 /* NetAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetAssociation.m; sourceTree = "<group>"; };
-		CFDF444722953496004FFD01 /* NetworkClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkClock.h; sourceTree = "<group>"; };
-		CFDF444822953496004FFD01 /* NetworkClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkClock.m; sourceTree = "<group>"; };
-		CFDF444922953496004FFD01 /* Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
-		CFDF444A22953496004FFD01 /* NSDate+NetworkClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+NetworkClock.h"; sourceTree = "<group>"; };
-		CFDF444B22953496004FFD01 /* NSDate+NetworkClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+NetworkClock.m"; sourceTree = "<group>"; };
-		CFDF444C22953496004FFD01 /* ntp-log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ntp-log.h"; sourceTree = "<group>"; };
-		CFDF445422953AA5004FFD01 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		CFDF445522953AA5004FFD01 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		CFEB9E7D22707E9100E56932 /* TICConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TICConfig.m; sourceTree = "<group>"; };
 		CFEB9E7E22707E9100E56932 /* TICConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TICConfig.h; sourceTree = "<group>"; };
 		CFEB9E8022707F8600E56932 /* config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 		6AAD6A0A20A58E3200348C94 /* TICDemo */ = {
 			isa = PBXGroup;
 			children = (
-				CF3FB2EE2273191D001C148E /* SDK */,
+				CF02DD1B239FD2ED00990EBB /* TIC */,
 				CFEB9E7C22707E7A00E56932 /* Config */,
 				6A1BF1A720BBEB1600FEA44D /* JMToast */,
 				6AAD6A0B20A58E3200348C94 /* AppDelegate.h */,
@@ -241,63 +241,54 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		CF3FB2EE2273191D001C148E /* SDK */ = {
+		CF02DD1B239FD2ED00990EBB /* TIC */ = {
 			isa = PBXGroup;
 			children = (
-				CF3FB2F12273191D001C148E /* TIC */,
-			);
-			name = SDK;
-			path = ../../../SDK;
-			sourceTree = "<group>";
-		};
-		CF3FB2F12273191D001C148E /* TIC */ = {
-			isa = PBXGroup;
-			children = (
-				CFDF445322953AA5004FFD01 /* CocoaAsyncSocket */,
-				CFDF444322953496004FFD01 /* ios-ntp */,
-				CF3FB2F22273191D001C148E /* TICDef.h */,
-				CF3FB2F32273191D001C148E /* TICDef.m */,
-				CF3FB2F42273191D001C148E /* TICManager.h */,
-				CF3FB2F52273191D001C148E /* TICManager.m */,
-				CF3FB2F62273191D001C148E /* TICRenderView.h */,
-				CF3FB2F72273191D001C148E /* TICRenderView.m */,
-				CFDF442822942A74004FFD01 /* TICRecorder.h */,
-				CFDF442922942A74004FFD01 /* TICRecorder.mm */,
-				CF9F964322D4992C00E4ADF8 /* TICReport.h */,
-				CF9F964622D4992C00E4ADF8 /* TICReport.m */,
-				CF9F963D22D4992B00E4ADF8 /* TICDevice.h */,
-				CF9F963C22D4992B00E4ADF8 /* TICDevice.m */,
-				CF9F963B22D4992B00E4ADF8 /* TICReachability.h */,
-				CF9F963E22D4992B00E4ADF8 /* TICReachability.m */,
-				CF377826230A5D6400101054 /* TICWeakProxy.h */,
-				CF377825230A5D6400101054 /* TICWeakProxy.m */,
-				CF7C40E323278D4400136800 /* TICKeychainWrapper.h */,
-				CF7C40E423278D4400136800 /* TICKeychainWrapper.m */,
+				CF02DD1C239FD2ED00990EBB /* TICKeychainWrapper.h */,
+				CF02DD1D239FD2ED00990EBB /* TICManager.m */,
+				CF02DD1E239FD2ED00990EBB /* TICRenderView.h */,
+				CF02DD1F239FD2ED00990EBB /* TICWeakProxy.m */,
+				CF02DD20239FD2ED00990EBB /* TICReachability.h */,
+				CF02DD21239FD2ED00990EBB /* TICDef.m */,
+				CF02DD22239FD2ED00990EBB /* TICReport.m */,
+				CF02DD23239FD2ED00990EBB /* TICDevice.h */,
+				CF02DD24239FD2ED00990EBB /* TICRecorder.h */,
+				CF02DD25239FD2ED00990EBB /* ios-ntp */,
+				CF02DD2F239FD2ED00990EBB /* TICRecorder.mm */,
+				CF02DD30239FD2ED00990EBB /* TICKeychainWrapper.m */,
+				CF02DD31239FD2ED00990EBB /* TICDef.h */,
+				CF02DD32239FD2ED00990EBB /* TICReachability.m */,
+				CF02DD33239FD2ED00990EBB /* TICManager.h */,
+				CF02DD34239FD2ED00990EBB /* TICWeakProxy.h */,
+				CF02DD35239FD2ED00990EBB /* TICRenderView.m */,
+				CF02DD36239FD2ED00990EBB /* TICDevice.m */,
+				CF02DD37239FD2ED00990EBB /* CocoaAsyncSocket */,
+				CF02DD3A239FD2EE00990EBB /* TICReport.h */,
 			);
 			path = TIC;
 			sourceTree = "<group>";
 		};
-		CFDF444322953496004FFD01 /* ios-ntp */ = {
+		CF02DD25239FD2ED00990EBB /* ios-ntp */ = {
 			isa = PBXGroup;
 			children = (
-				CFDF444422953496004FFD01 /* ios-ntp.h */,
-				CFDF444522953496004FFD01 /* NetAssociation.h */,
-				CFDF444622953496004FFD01 /* NetAssociation.m */,
-				CFDF444722953496004FFD01 /* NetworkClock.h */,
-				CFDF444822953496004FFD01 /* NetworkClock.m */,
-				CFDF444922953496004FFD01 /* Notes */,
-				CFDF444A22953496004FFD01 /* NSDate+NetworkClock.h */,
-				CFDF444B22953496004FFD01 /* NSDate+NetworkClock.m */,
-				CFDF444C22953496004FFD01 /* ntp-log.h */,
+				CF02DD26239FD2ED00990EBB /* NetworkClock.h */,
+				CF02DD27239FD2ED00990EBB /* NetAssociation.h */,
+				CF02DD28239FD2ED00990EBB /* NSDate+NetworkClock.m */,
+				CF02DD29239FD2ED00990EBB /* Notes */,
+				CF02DD2A239FD2ED00990EBB /* ios-ntp.h */,
+				CF02DD2B239FD2ED00990EBB /* ntp-log.h */,
+				CF02DD2C239FD2ED00990EBB /* NSDate+NetworkClock.h */,
+				CF02DD2D239FD2ED00990EBB /* NetAssociation.m */,
+				CF02DD2E239FD2ED00990EBB /* NetworkClock.m */,
 			);
 			path = "ios-ntp";
 			sourceTree = "<group>";
 		};
-		CFDF445322953AA5004FFD01 /* CocoaAsyncSocket */ = {
+		CF02DD37239FD2ED00990EBB /* CocoaAsyncSocket */ = {
 			isa = PBXGroup;
 			children = (
-				CFDF445422953AA5004FFD01 /* GCDAsyncUdpSocket.h */,
-				CFDF445522953AA5004FFD01 /* GCDAsyncUdpSocket.m */,
+				CF02DD38239FD2EE00990EBB /* GCDAsyncUdpSocket.m */,
+				CF02DD39239FD2EE00990EBB /* GCDAsyncUdpSocket.h */,
 			);
 			path = CocoaAsyncSocket;
 			sourceTree = "<group>";
@@ -377,7 +368,7 @@
 				6AAD6A1320A58E3200348C94 /* Main.storyboard in Resources */,
 				CFEB9E8122707F8600E56932 /* config.json in Resources */,
 				CF3279C92271F18C00FF817F /* TableSheetView.xib in Resources */,
-				CFDF444F22953496004FFD01 /* Notes in Resources */,
+				CF02DD40239FD2EE00990EBB /* Notes in Resources */,
 				CF3279C72271F15C00FF817F /* PickSheetView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,32 +422,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF7C40E523278D4400136800 /* TICKeychainWrapper.m in Sources */,
 				CF3279C22271F10200FF817F /* TableSheetView.m in Sources */,
-				CFDF444E22953496004FFD01 /* NetworkClock.m in Sources */,
 				6AAD6A1020A58E3200348C94 /* ViewController.m in Sources */,
+				CF02DD3D239FD2EE00990EBB /* TICDef.m in Sources */,
 				6AAD6A1B20A58E3200348C94 /* main.m in Sources */,
-				CFDF445622953AA5004FFD01 /* GCDAsyncUdpSocket.m in Sources */,
 				6A1BF1AF20BBEB1600FEA44D /* JMLoadingHUD.m in Sources */,
+				CF02DD41239FD2EE00990EBB /* NetAssociation.m in Sources */,
 				6AAD6B2920AB05DD00348C94 /* ClassroomViewController.m in Sources */,
-				CF3FB2FF2273191D001C148E /* TICRenderView.m in Sources */,
+				CF02DD42239FD2EE00990EBB /* NetworkClock.m in Sources */,
+				CF02DD3E239FD2EE00990EBB /* TICReport.m in Sources */,
+				CF02DD3C239FD2EE00990EBB /* TICWeakProxy.m in Sources */,
 				6A1BF1B120BBEB1600FEA44D /* MBProgressHUD.m in Sources */,
+				CF02DD3B239FD2EE00990EBB /* TICManager.m in Sources */,
+				CF02DD45239FD2EE00990EBB /* TICReachability.m in Sources */,
+				CF02DD46239FD2EE00990EBB /* TICRenderView.m in Sources */,
 				CFEB9E7F22707E9100E56932 /* TICConfig.m in Sources */,
+				CF02DD47239FD2EE00990EBB /* TICDevice.m in Sources */,
 				6AAD6B1F20AAD90F00348C94 /* ClassroomJoinViewController.m in Sources */,
-				CF3FB2FD2273191D001C148E /* TICDef.m in Sources */,
-				CF9F964822D4992C00E4ADF8 /* TICReachability.m in Sources */,
 				6A90D68720B2A737004AA011 /* UIViewController+Utils.m in Sources */,
-				CFDF445022953496004FFD01 /* NSDate+NetworkClock.m in Sources */,
-				CF377827230A5D6400101054 /* TICWeakProxy.m in Sources */,
-				CF9F964C22D4992C00E4ADF8 /* TICReport.m in Sources */,
 				6A1BF1B020BBEB1600FEA44D /* JMToast.m in Sources */,
+				CF02DD3F239FD2EE00990EBB /* NSDate+NetworkClock.m in Sources */,
 				CF3279C52271F11300FF817F /* PickSheetView.m in Sources */,
-				CF9F964722D4992C00E4ADF8 /* TICDevice.m in Sources */,
+				CF02DD44239FD2EE00990EBB /* TICKeychainWrapper.m in Sources */,
 				6AAD6A0D20A58E3200348C94 /* AppDelegate.m in Sources */,
-				CF3FB2FE2273191D001C148E /* TICManager.m in Sources */,
+				CF02DD43239FD2EE00990EBB /* TICRecorder.mm in Sources */,
+				CF02DD48239FD2EE00990EBB /* GCDAsyncUdpSocket.m in Sources */,
 				CF327918227191B500FF817F /* MenuTableViewController.m in Sources */,
-				CFDF442A22942A77004FFD01 /* TICRecorder.mm in Sources */,
-				CFDF444D22953496004FFD01 /* NetAssociation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,16 +589,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DBB3G9KNQ2;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TICDemo/TICDemo.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../SDK/TIC",
+					"\"$(SRCROOT)/TICDemo/TIC\"",
 				);
 				INFOPLIST_FILE = TICDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -618,7 +609,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.tic.demo.ios.kenneth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.tic.demo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -632,16 +623,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DBB3G9KNQ2;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TICDemo/TICDemo.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../SDK/TIC",
+					"\"$(SRCROOT)/TICDemo/TIC\"",
 				);
 				INFOPLIST_FILE = TICDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -651,7 +642,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.tic.demo.ios.kenneth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.tic.demo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
