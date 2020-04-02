@@ -1,5 +1,23 @@
 # Release Notes - iOS & macOS
 
+## 2.4.6.1 @ 2020.04.02
+
+- 新增回调
+    - TEduBoardImageStatus 新增三个状态回调
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_ABORT 图片加载中断
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_TIMEOUT 图片加载超时
+        - TEDU_BOARD_IMAGE_STATUS_LOAD_CANCEL 图片取消加载
+    - onTEBRectSelected 框选工具选中回调
+- 新增接口
+    - TEduBoardInitParam 新增两个参数
+        - progressEnable 启用加载图标
+        - progressBarUrl 自定义加载图标
+        - imageTimeout 图片加载超时
+- BUG修复
+    - 修复加载相同图片没有回调问题
+    - 修复addTranscodeFIle接口title转义错误导致添加失败问题
+    
+
 ## 2.4.4.2 @ 2020.03.14
 
 - BUG修复
