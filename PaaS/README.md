@@ -19,19 +19,19 @@ git clone https://github.com/tencentyun/TIC.git
 <th style="text-align:center">macOS</th>
 </tr>
 <tr>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Web.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/小程序.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/web/web-demo.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/wx/%E5%B0%8F%E7%A8%8B%E5%BA%8F.zip">Download Zip</a></td>
 <td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Windows.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/Android.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/iOS.zip">Download Zip</a></td>
-<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/macOS.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/android/TICDemo.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/ios/TICDemo.zip">Download Zip</a></td>
+<td style="text-align:center"><a href="https://tic-res-1259648581.file.myqcloud.com/demo/mac/src/TICDemo_Mac.zip">Download Zip</a></td>
 </tr>
 </table>
 
 ## Demo 下载
 
 |所属平台|Demo 源码|Demo 运行说明| TIC 接入文档|
-|:-:|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|
 |Android|[Github](https://github.com/tencentyun/TIC/tree/master)|[Doc](./Android/README.md)|[Doc](./Docs/SDK文档/Android/互动课堂接入文档.md)|
 |iOS|[Github](https://github.com/tencentyun/TIC/tree/master)|[Doc](./iOS/README.md)|[Doc](./Docs/SDK文档/iOS/互动课堂接入文档.md)|
 |Windows|[Github](https://github.com/tencentyun/TIC/tree/master)|[Doc](./Windows/README.md)|[Doc](./Docs/SDK文档/Windows/互动课堂接入文档.md)|
