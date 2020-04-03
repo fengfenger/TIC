@@ -611,7 +611,7 @@ id makeWeakRef (id object) {
 - (void)onTEBError:(TEduBoardErrorCode)code msg:(NSString *)msg
 {
     [self report:TIC_REPORT_BOARD_ERROR code:(int)code msg:msg];
-    if(code == TEDU_BOARD_ERROR_AUTH || code == TEDU_BOARD_ERROR_LOAD || code == TEDU_BOARD_ERROR_INIT){
+    if(code == TEDU_BOARD_ERROR_AUTH || code == TEDU_BOARD_ERROR_LOAD || code == TEDU_BOARD_ERROR_INIT || code == TEDU_BOARD_ERROR_AUTH_TIMEOUT){
         [self report:TIC_REPORT_INIT_BOARD_END code:(int)code msg:msg];
         TICBLOCK_SAFE_RUN(self->_enterCallback, TICMODULE_TRTC, (int)code, msg);
         _enterCallback = nil;
