@@ -1,7 +1,7 @@
-﻿ /*
+ /*
  * Module:   TRTCCloudCallback @ TXLiteAVSDK
  *
- * Function: 腾讯云视频通话功能的回调接口类
+ * Function: ��Ѷ����Ƶͨ�����ܵĻص��ӿ���
  *
  */
  
@@ -13,10 +13,10 @@
 #include "TXLiteAVCode.h"
 
 /// @defgroup ITRTCCloudCallback_cplusplus ITRTCCloudCallback
-/// 腾讯云视频通话功能的回调接口类
+/// ��Ѷ����Ƶͨ�����ܵĻص��ӿ���
 /// @{
 /**
- * 腾讯云视频通话功能的回调接口类
+ * ��Ѷ����Ƶͨ�����ܵĻص��ӿ���
  */
 class ITRTCCloudCallback
 {
@@ -25,252 +25,252 @@ public:
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （一）错误事件和警告事件
+    //                      ��һ�������¼��;����¼�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 错误事件和警告事件
+    /// @name �����¼��;����¼�
     /// @{
 
     /**
-    * 1.1 错误回调：SDK 不可恢复的错误，一定要监听，并分情况给用户适当的界面提示。
+    * 1.1 ����ص���SDK ���ɻָ��Ĵ���һ��Ҫ����������������û��ʵ��Ľ�����ʾ��
     *
-    * @param errCode 	错误码
-    * @param errMsg 	错误信息
-    * @param extraInfo 扩展信息字段，个别错误码可能会带额外的信息帮助定位问题
+    * @param errCode 	������
+    * @param errMsg 	������Ϣ
+    * @param extraInfo ��չ��Ϣ�ֶΣ������������ܻ���������Ϣ������λ����
     */
     virtual void onError(TXLiteAVError errCode, const char* errMsg, void* extraInfo) = 0;
 
     /**
-    * 1.2 警告回调：用于告知您一些非严重性问题，例如出现了卡顿或者可恢复的解码失败。
+    * 1.2 ����ص������ڸ�֪��һЩ�����������⣬��������˿��ٻ��߿ɻָ��Ľ���ʧ�ܡ�
     *
-    * @param warningCode 警告码
-    * @param warningMsg 警告信息
-    * @param extraInfo 扩展信息字段，个别警告码可能会带额外的信息帮助定位问题
+    * @param warningCode ������
+    * @param warningMsg ������Ϣ
+    * @param extraInfo ��չ��Ϣ�ֶΣ����𾯸�����ܻ���������Ϣ������λ����
     */
     virtual void onWarning(TXLiteAVWarning warningCode, const char* warningMsg, void* extraInfo) = 0;
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （二）房间事件回调
+    //                      �����������¼��ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 房间事件回调
+    /// @name �����¼��ص�
     /// @{
     /**
-    * 2.1 已加入房间的回调
+    * 2.1 �Ѽ��뷿��Ļص�
     *
-    * 调用 TRTCCloud 中的 enterRoom() 接口执行进房操作后，会收到来自 SDK 的 onEnterRoom(result) 回调：
+    * ���� TRTCCloud �е� enterRoom() �ӿ�ִ�н��������󣬻��յ����� SDK �� onEnterRoom(result) �ص���
     * 
-    * - 如果加入成功，result 会是一个正数（result > 0），代表加入房间的时间消耗，单位是毫秒（ms）。
-    * - 如果加入失败，result 会是一个负数（result < 0），代表进房失败的错误码。
-    * 进房失败的错误码含义请参见[错误码](https://cloud.tencent.com/document/product/647/32257)。
+    * - �������ɹ���result ����һ��������result > 0�����������뷿���ʱ�����ģ���λ�Ǻ��루ms����
+    * - �������ʧ�ܣ�result ����һ��������result < 0������������ʧ�ܵĴ����롣
+    * ����ʧ�ܵĴ����뺬����μ�[������](https://cloud.tencent.com/document/product/647/32257)��
     *
-    * @note 在 Ver6.6 之前的版本，只有进房成功会抛出 onEnterRoom(result) 回调，进房失败由 onError() 回调抛出。
-    *       在 Ver6.6 及之后改为：进房成功返回正的 result，进房失败返回负的 result，同时进房失败也会有 onError() 回调抛出。
+    * @note �� Ver6.6 ֮ǰ�İ汾��ֻ�н����ɹ����׳� onEnterRoom(result) �ص�������ʧ���� onError() �ص��׳���
+    *       �� Ver6.6 ��֮���Ϊ�������ɹ��������� result������ʧ�ܷ��ظ��� result��ͬʱ����ʧ��Ҳ���� onError() �ص��׳���
     *
-    * @param result result > 0 时为进房耗时（ms），result < 0 时为进房错误码。
+    * @param result result > 0 ʱΪ������ʱ��ms����result < 0 ʱΪ���������롣
     */
     virtual void onEnterRoom(int result) = 0;
 
     /**
-    * 2.2 离开房间的事件回调
+    * 2.2 �뿪������¼��ص�
     *
-    * 调用 TRTCCloud 中的 exitRoom() 接口会执行退出房间的相关逻辑，例如释放音视频设备资源和编解码器资源等。
-    * 待资源释放完毕，SDK 会通过 onExitRoom() 回调通知到您。
+    * ���� TRTCCloud �е� exitRoom() �ӿڻ�ִ���˳����������߼��������ͷ�����Ƶ�豸��Դ�ͱ��������Դ�ȡ�
+    * ����Դ�ͷ���ϣ�SDK ��ͨ�� onExitRoom() �ص�֪ͨ������
     *
-    * 如果您要再次调用 enterRoom() 或者切换到其他的音视频 SDK，请等待 onExitRoom() 回调到来后再执行相关操作。
-    * 否则可能会遇到例如摄像头、麦克风设备被强占等各种异常问题。
+    * �����Ҫ�ٴε��� enterRoom() �����л�������������Ƶ SDK����ȴ� onExitRoom() �ص���������ִ����ز�����
+    * ������ܻ�������������ͷ����˷��豸��ǿռ�ȸ����쳣���⡣
     *
-    * @param reason 离开房间原因，0：主动调用 exitRoom 退房；1：被服务器踢出当前房间；2：当前房间整个被解散。
+    * @param reason �뿪����ԭ��0���������� exitRoom �˷���1�����������߳���ǰ���䣻2����ǰ������������ɢ��
     */
     virtual void onExitRoom(int reason) = 0;
 
     /**
-     * 2.3 切换角色的事件回调
+     * 2.3 �л���ɫ���¼��ص�
      *
-     * 调用 TRTCCloud 中的 switchRole() 接口会切换主播和观众的角色，该操作会伴随一个线路切换的过程，
-     * 待 SDK 切换完成后，会抛出 onSwitchRole() 事件回调。
+     * ���� TRTCCloud �е� switchRole() �ӿڻ��л������͹��ڵĽ�ɫ���ò��������һ����·�л��Ĺ��̣�
+     * �� SDK �л���ɺ󣬻��׳� onSwitchRole() �¼��ص���
      *
-     * @param errCode 错误码，ERR_NULL 代表切换成功，其他请参见[错误码](https://cloud.tencent.com/document/product/647/32257)。
-     * @param errMsg  错误信息。
+     * @param errCode �����룬ERR_NULL �����л��ɹ���������μ�[������](https://cloud.tencent.com/document/product/647/32257)��
+     * @param errMsg  ������Ϣ��
      */
     virtual void onSwitchRole(TXLiteAVError errCode, const char* errMsg) {}
 
     /**
-    * 2.4 请求跨房通话（主播 PK）的结果回调
+    * 2.4 ����緿ͨ�������� PK���Ľ���ص�
     *
-    * 调用 TRTCCloud 中的 connectOtherRoom() 接口会将两个不同房间中的主播拉通视频通话，也就是所谓的“主播PK”功能。
-    * 调用者会收到 onConnectOtherRoom() 回调来获知跨房通话是否成功，
-    * 如果成功，两个房间中的所有用户都会收到 PK 主播的 onUserVideoAvailable() 回调。
+    * ���� TRTCCloud �е� connectOtherRoom() �ӿڻὫ������ͬ�����е�������ͨ��Ƶͨ����Ҳ������ν�ġ�����PK�����ܡ�
+    * �����߻��յ� onConnectOtherRoom() �ص�����֪�緿ͨ���Ƿ�ɹ���
+    * ����ɹ������������е������û������յ� PK ������ onUserVideoAvailable() �ص���
     *
-    * @param userId 要 PK 的目标主播 userId。
-    * @param errCode 错误码，ERR_NULL 代表切换成功，其他请参见[错误码](https://cloud.tencent.com/document/product/647/32257)。
-    * @param errMsg  错误信息。
+    * @param userId Ҫ PK ��Ŀ������ userId��
+    * @param errCode �����룬ERR_NULL �����л��ɹ���������μ�[������](https://cloud.tencent.com/document/product/647/32257)��
+    * @param errMsg  ������Ϣ��
     */
     virtual void onConnectOtherRoom(const char* userId, TXLiteAVError errCode, const char* errMsg) {}
 
     /**
-    * 2.5 结束跨房通话（主播 PK）的结果回调
+    * 2.5 �����緿ͨ�������� PK���Ľ���ص�
     */
     virtual void onDisconnectOtherRoom(TXLiteAVError errCode, const char* errMsg) {}
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （三）成员事件回调
+    //                      ��������Ա�¼��ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 成员事件回调
+    /// @name ��Ա�¼��ص�
     /// @{
     /**
-    * 3.1 有用户加入当前房间
+    * 3.1 ���û����뵱ǰ����
     *
-    * 出于性能方面的考虑，在两种不同的应用场景下，该通知的行为会有差别：
-    * - 通话场景（TRTCAppSceneVideoCall 和 TRTCAppSceneAudioCall）：该场景下用户没有角色的区别，任何用户进入房间都会触发该通知。
-    * - 直播场景（TRTCAppSceneLIVE 和 TRTCAppSceneVoiceChatRoom）：该场景不限制观众的数量，如果任何用户进出都抛出回调会引起很大的性能损耗，所以该场景下只有主播进入房间时才会触发该通知，观众进入房间不会触发该通知。
+    * �������ܷ���Ŀ��ǣ������ֲ�ͬ��Ӧ�ó����£���֪ͨ����Ϊ���в��
+    * - ͨ��������TRTCAppSceneVideoCall �� TRTCAppSceneAudioCall�����ó������û�û�н�ɫ�������κ��û����뷿�䶼�ᴥ����֪ͨ��
+    * - ֱ��������TRTCAppSceneLIVE �� TRTCAppSceneVoiceChatRoom�����ó��������ƹ��ڵ�����������κ��û��������׳��ص�������ܴ��������ģ����Ըó�����ֻ���������뷿��ʱ�Żᴥ����֪ͨ�����ڽ��뷿�䲻�ᴥ����֪ͨ��
     *
     *
-    * @note 注意 onRemoteUserEnterRoom 和 onRemoteUserLeaveRoom 只适用于维护当前房间里的“成员列表”，如果需要显示远程画面，建议使用监听 onUserVideoAvailable() 事件回调。
+    * @note ע�� onRemoteUserEnterRoom �� onRemoteUserLeaveRoom ֻ������ά����ǰ������ġ���Ա�б����������Ҫ��ʾԶ�̻��棬����ʹ�ü��� onUserVideoAvailable() �¼��ص���
     *
-    * @param userId 用户标识
+    * @param userId �û���ʶ
     */
     virtual void onRemoteUserEnterRoom(const char* userId) {}
 
     /**
-    * 3.2 有用户离开当前房间
+    * 3.2 ���û��뿪��ǰ����
     *
-    * 与 onRemoteUserEnterRoom 相对应，在两种不同的应用场景下，该通知的行为会有差别：
-    * - 通话场景（TRTCAppSceneVideoCall 和 TRTCAppSceneAudioCall）：该场景下用户没有角色的区别，任何用户的离开都会触发该通知。
-    * - 直播场景（TRTCAppSceneLIVE 和 TRTCAppSceneVoiceChatRoom）：只有主播离开房间时才会触发该通知，观众离开房间不会触发该通知。
+    * �� onRemoteUserEnterRoom ���Ӧ�������ֲ�ͬ��Ӧ�ó����£���֪ͨ����Ϊ���в��
+    * - ͨ��������TRTCAppSceneVideoCall �� TRTCAppSceneAudioCall�����ó������û�û�н�ɫ�������κ��û����뿪���ᴥ����֪ͨ��
+    * - ֱ��������TRTCAppSceneLIVE �� TRTCAppSceneVoiceChatRoom����ֻ�������뿪����ʱ�Żᴥ����֪ͨ�������뿪���䲻�ᴥ����֪ͨ��
     *
-    * @param userId 用户标识
-    * @param reason 离开原因，0表示用户主动退出房间，1表示用户超时退出，2表示被踢出房间。
+    * @param userId �û���ʶ
+    * @param reason �뿪ԭ��0��ʾ�û������˳����䣬1��ʾ�û���ʱ�˳���2��ʾ���߳����䡣
     */
     virtual void onRemoteUserLeaveRoom(const char* userId, int reason) {}
 
     /**
-    * 3.3 用户是否开启摄像头视频
+    * 3.3 �û��Ƿ�������ͷ��Ƶ
     *
-    * 当您收到 onUserVideoAvailable(userId, YES) 通知时，表示该路画面已经有可用的视频数据帧到达。
-    * 此时，您需要调用 startRemoteView(userId) 接口加载该用户的远程画面。
-    * 然后，您还会收到名为 onFirstVideoFrame(userId) 的首帧画面渲染回调。
+    * �����յ� onUserVideoAvailable(userId, YES) ֪ͨʱ����ʾ��·�����Ѿ��п��õ���Ƶ����֡���
+    * ��ʱ������Ҫ���� startRemoteView(userId) �ӿڼ��ظ��û���Զ�̻��档
+    * Ȼ���������յ���Ϊ onFirstVideoFrame(userId) ����֡������Ⱦ�ص���
     *
-    * 当您收到 onUserVideoAvailable(userId, NO) 通知时，表示该路远程画面已被关闭，
-    * 可能由于该用户调用了 muteLocalVideo() 或 stopLocalPreview()。
+    * �����յ� onUserVideoAvailable(userId, NO) ֪ͨʱ����ʾ��·Զ�̻����ѱ��رգ�
+    * �������ڸ��û������� muteLocalVideo() �� stopLocalPreview()��
     *
-    * @param userId 用户标识
-    * @param available 画面是否开启
+    * @param userId �û���ʶ
+    * @param available �����Ƿ���
     */
     virtual void onUserVideoAvailable(const char* userId, bool available) {}
 
     /**
-    * 3.4 用户是否开启屏幕分享
+    * 3.4 �û��Ƿ�����Ļ����
     *
-    * @note 显示辅路画面使用的函数是 startRemoteSubStreamView() 而非 startRemoteView()。
-    * @param userId 用户标识
-    * @param available 屏幕分享是否开启
+    * @note ��ʾ��·����ʹ�õĺ����� startRemoteSubStreamView() ���� startRemoteView()��
+    * @param userId �û���ʶ
+    * @param available ��Ļ�����Ƿ���
     */
     virtual void onUserSubStreamAvailable(const char* userId, bool available) {}
 
     /**
-    * 3.5 用户是否开启音频上行
+    * 3.5 �û��Ƿ�����Ƶ����
     *
-    * @param userId 用户标识
-    * @param available 声音是否开启
+    * @param userId �û���ʶ
+    * @param available �����Ƿ���
     */
     virtual void onUserAudioAvailable(const char* userId, bool available) {}
 
     /**
-    * 3.6 开始渲染本地或远程用户的首帧画面
+    * 3.6 ��ʼ��Ⱦ���ػ�Զ���û�����֡����
     *
-    * 如果 userId 为 null，表示开始渲染本地采集的摄像头画面，需要您先调用 startLocalPreview 触发。
-    * 如果 userId 不为 null，表示开始渲染远程用户的首帧画面，需要您先调用 startRemoteView 触发。
+    * ��� userId Ϊ null����ʾ��ʼ��Ⱦ���زɼ�������ͷ���棬��Ҫ���ȵ��� startLocalPreview ������
+    * ��� userId ��Ϊ null����ʾ��ʼ��ȾԶ���û�����֡���棬��Ҫ���ȵ��� startRemoteView ������
     *
-    * @note 只有当您调用 startLocalPreview()、startRemoteView() 或 startRemoteSubStreamView() 之后，才会触发该回调。
+    * @note ֻ�е������� startLocalPreview()��startRemoteView() �� startRemoteSubStreamView() ֮�󣬲Żᴥ���ûص���
     *
-    * @param userId 本地或远程用户 ID，如果 userId == null 代表本地，userId != null 代表远程。
-    * @param streamType 视频流类型：摄像头或屏幕分享。
-    * @param width  画面宽度
-    * @param height 画面高度
+    * @param userId ���ػ�Զ���û� ID����� userId == null �������أ�userId != null ����Զ�̡�
+    * @param streamType ��Ƶ�����ͣ�����ͷ����Ļ������
+    * @param width  �������
+    * @param height ����߶�
     */
     virtual void onFirstVideoFrame(const char* userId, const TRTCVideoStreamType streamType, const int width, const int height) {}
 
     /**
-    * 3.7 开始播放远程用户的首帧音频（本地声音暂不通知）
+    * 3.7 ��ʼ����Զ���û�����֡��Ƶ�����������ݲ�֪ͨ��
     *
-    * @param userId 远程用户 ID。
+    * @param userId Զ���û� ID��
     */
     virtual void onFirstAudioFrame(const char* userId) {}
 
     /**
-    * 3.8 首帧本地视频数据已经被送出
+    * 3.8 ��֡������Ƶ�����Ѿ����ͳ�
     *
-    * SDK 会在 enterRoom() 并 startLocalPreview() 成功后开始摄像头采集，并将采集到的画面进行编码。
-    * 当 SDK 成功向云端送出第一帧视频数据后，会抛出这个回调事件。
+    * SDK ���� enterRoom() �� startLocalPreview() �ɹ���ʼ����ͷ�ɼ��������ɼ����Ļ�����б��롣
+    * �� SDK �ɹ����ƶ��ͳ���һ֡��Ƶ���ݺ󣬻��׳�����ص��¼���
     *
-    * @param streamType 视频流类型，主画面、小画面或辅流画面（屏幕分享）
+    * @param streamType ��Ƶ�����ͣ������桢С����������棨��Ļ������
     */
     virtual void onSendFirstLocalVideoFrame(const TRTCVideoStreamType streamType) {}
 
     /**
-    * 3.9 首帧本地音频数据已经被送出
+    * 3.9 ��֡������Ƶ�����Ѿ����ͳ�
     *
-    * SDK 会在 enterRoom() 并 startLocalAudio() 成功后开始麦克风采集，并将采集到的声音进行编码。
-    * 当 SDK 成功向云端送出第一帧音频数据后，会抛出这个回调事件。
+    * SDK ���� enterRoom() �� startLocalAudio() �ɹ���ʼ��˷�ɼ��������ɼ������������б��롣
+    * �� SDK �ɹ����ƶ��ͳ���һ֡��Ƶ���ݺ󣬻��׳�����ص��¼���
     */
     virtual void onSendFirstLocalAudioFrame() {}
     
     /**
-     * 3.10 废弃接口：有主播加入当前房间
+     * 3.10 �����ӿڣ����������뵱ǰ����
      *
-     * 该回调接口可以被看作是 onRemoteUserEnterRoom 的废弃版本，不推荐使用。请使用 onUserVideoAvailable 或 onRemoteUserEnterRoom 进行替代。
+     * �ûص��ӿڿ��Ա������� onRemoteUserEnterRoom �ķ����汾�����Ƽ�ʹ�á���ʹ�� onUserVideoAvailable �� onRemoteUserEnterRoom ���������
      *
-     * @note 该接口已被废弃，不推荐使用
+     * @note �ýӿ��ѱ����������Ƽ�ʹ��
      *
-     * @param userId 用户标识
+     * @param userId �û���ʶ
      */
     virtual void onUserEnter(const char* userId) {}
 
     /**
-     * 3.11 废弃接口： 有主播离开当前房间
+     * 3.11 �����ӿڣ� �������뿪��ǰ����
      *
-     * 该回调接口可以被看作是 onRemoteUserLeaveRoom 的废弃版本，不推荐使用。请使用 onUserVideoAvailable 或 onRemoteUserEnterRoom 进行替代。
+     * �ûص��ӿڿ��Ա������� onRemoteUserLeaveRoom �ķ����汾�����Ƽ�ʹ�á���ʹ�� onUserVideoAvailable �� onRemoteUserEnterRoom ���������
      *
-     * @note 该接口已被废弃，不推荐使用
+     * @note �ýӿ��ѱ����������Ƽ�ʹ��
      *
-     * @param userId 用户标识
-     * @param reason 离开原因。
+     * @param userId �û���ʶ
+     * @param reason �뿪ԭ��
      */
     virtual void onUserExit(const char* userId, int reason) {}
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （四）统计和质量回调
+    //                      ���ģ�ͳ�ƺ������ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 统计和质量回调
+    /// @name ͳ�ƺ������ص�
     /// @{
     /**
-    * 4.1 网络质量：该回调每2秒触发一次，统计当前网络的上行和下行质量
+    * 4.1 �����������ûص�ÿ2�봥��һ�Σ�ͳ�Ƶ�ǰ��������к���������
     *
-    * @note userId == null 代表自己当前的视频质量
+    * @note userId == null �����Լ���ǰ����Ƶ����
     *
-    * @param localQuality 上行网络质量
-    * @param remoteQuality 下行网络质量
-    * @param remoteQualityCount 下行网络质量的数组大小
+    * @param localQuality ������������
+    * @param remoteQuality ������������
+    * @param remoteQualityCount �������������������С
     */
     virtual void onNetworkQuality(TRTCQualityInfo localQuality, TRTCQualityInfo* remoteQuality, uint32_t remoteQualityCount) {}
 
     /**
-    * 4.2 技术指标统计回调
+    * 4.2 ����ָ��ͳ�ƻص�
     *
-    * 如果您是熟悉音视频领域相关术语，可以通过这个回调获取 SDK 的所有技术指标。
-    * 如果您是首次开发音视频相关项目，可以只关注 onNetworkQuality 回调。
+    * ���������Ϥ����Ƶ��������������ͨ������ص���ȡ SDK �����м���ָ�ꡣ
+    * ��������״ο�������Ƶ�����Ŀ������ֻ��ע onNetworkQuality �ص���
     *
-    * @param statis 统计数据，包括本地和远程的
-    * @note 每2秒回调一次
+    * @param statis ͳ�����ݣ��������غ�Զ�̵�
+    * @note ÿ2��ص�һ��
     */
     virtual void onStatistics(const TRTCStatistics& statis) {}
     /// @}
@@ -278,278 +278,278 @@ public:
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （五）服务器事件回调
+    //                      ���壩�������¼��ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
 
-    /// @name 服务器事件回调
+    /// @name �������¼��ص�
     /// @{
 
     /**
-    * 5.1 SDK 跟服务器的连接断开
+    * 5.1 SDK �������������ӶϿ�
     */
     virtual void onConnectionLost() {}
 
     /**
-    * 5.2 SDK 尝试重新连接到服务器
+    * 5.2 SDK �����������ӵ�������
     */
     virtual void onTryToReconnect() {}
 
     /**
-    * 5.3 SDK 跟服务器的连接恢复
+    * 5.3 SDK �������������ӻָ�
     */
     virtual void onConnectionRecovery() {}
 
     /**
-    * 5.4 服务器测速的回调，SDK 对多个服务器 IP 做测速，每个 IP 的测速结果通过这个回调通知
+    * 5.4 ���������ٵĻص���SDK �Զ�������� IP �����٣�ÿ�� IP �Ĳ��ٽ��ͨ������ص�֪ͨ
     *
-    * @param currentResult 当前完成的测速结果
-    * @param finishedCount 已完成测速的服务器数量
-    * @param totalCount 需要测速的服务器总数量
+    * @param currentResult ��ǰ��ɵĲ��ٽ��
+    * @param finishedCount ����ɲ��ٵķ���������
+    * @param totalCount ��Ҫ���ٵķ�����������
     */
     virtual void onSpeedTest(const TRTCSpeedTestResult& currentResult, uint32_t finishedCount, uint32_t totalCount) {}
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （六）硬件设备事件回调
+    //                      ������Ӳ���豸�¼��ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 硬件设备事件回调
+    /// @name Ӳ���豸�¼��ص�
     /// @{
     /**
-    * 6.1 摄像头准备就绪
+    * 6.1 ����ͷ׼������
     */
     virtual void onCameraDidReady() {}
 
     /**
-    * 6.2 麦克风准备就绪
+    * 6.2 ��˷�׼������
     */
     virtual void onMicDidReady() {}
 
     /**
-    * 6.3 用于提示音量大小的回调,包括每个 userId 的音量和远端总音量
+    * 6.3 ������ʾ������С�Ļص�,����ÿ�� userId ��������Զ��������
     *
-    * 您可以通过调用 TRTCCloud 中的 enableAudioVolumeEvaluation 接口来开关这个回调或者设置它的触发间隔。
-    * 需要注意的是，调用 enableAudioVolumeEvaluation 开启音量回调后，无论频道内是否有人说话，都会按设置的时间间隔调用这个回调，
-    * 如果没有人说话，则 userVolumes 为空，totalVolume 为0。
+    * ������ͨ������ TRTCCloud �е� enableAudioVolumeEvaluation �ӿ�����������ص������������Ĵ��������
+    * ��Ҫע����ǣ����� enableAudioVolumeEvaluation ���������ص�������Ƶ�����Ƿ�����˵�������ᰴ���õ�ʱ������������ص���
+    * ���û����˵������ userVolumes Ϊ�գ�totalVolume Ϊ0��
     *
-    * @param userVolumes 所有正在说话的房间成员的音量，取值范围0 - 100。
-    * @param userVolumesCount 房间成员数量
-    * @param totalVolume 所有远端成员的总音量, 取值范围0 - 100。
-    * @note userId 为 null 时表示自己的音量，userVolumes 内仅包含正在说话（音量不为0）的用户音量信息。
+    * @param userVolumes ��������˵���ķ����Ա��������ȡֵ��Χ0 - 100��
+    * @param userVolumesCount �����Ա����
+    * @param totalVolume ����Զ�˳�Ա��������, ȡֵ��Χ0 - 100��
+    * @note userId Ϊ null ʱ��ʾ�Լ���������userVolumes �ڽ���������˵����������Ϊ0�����û�������Ϣ��
     */
     virtual void onUserVoiceVolume(TRTCVolumeInfo* userVolumes, uint32_t userVolumesCount, uint32_t totalVolume) {}
 
     /**
-    * 6.4 本地设备通断回调
+    * 6.4 �����豸ͨ�ϻص�
     *
-    * @param deviceId 设备 ID
-    * @param type 设备类型
-    * @param state 事件类型
+    * @param deviceId �豸 ID
+    * @param type �豸����
+    * @param state �¼�����
     */
     virtual void onDeviceChange(const char* deviceId, TRTCDeviceType type, TRTCDeviceState state) {}
 
     /**
-    * 6.5 麦克风测试音量回调
+    * 6.5 ��˷���������ص�
     * 
-    * 麦克风测试接口 startMicDeviceTest 会触发这个回调
+    * ��˷���Խӿ� startMicDeviceTest �ᴥ������ص�
     *
-    * @param volume 音量值，取值范围0 - 100
+    * @param volume ����ֵ��ȡֵ��Χ0 - 100
     */
     virtual void onTestMicVolume(uint32_t volume) {}
 
     /**
-    * 6.6 扬声器测试音量回调
+    * 6.6 ���������������ص�
     * 
-    * 扬声器测试接口 startSpeakerDeviceTest 会触发这个回调
+    * ���������Խӿ� startSpeakerDeviceTest �ᴥ������ص�
     *
-    * @param volume 音量值，取值范围0 - 100
+    * @param volume ����ֵ��ȡֵ��Χ0 - 100
     */
     virtual void onTestSpeakerVolume(uint32_t volume) {}
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （七）自定义消息的接收回调
+    //                      ���ߣ��Զ�����Ϣ�Ľ��ջص�
 	//
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 自定义消息的接收回调
+    /// @name �Զ�����Ϣ�Ľ��ջص�
     /// @{
     /**
-    * 7.1 收到自定义消息回调
+    * 7.1 �յ��Զ�����Ϣ�ص�
     *
-    * 当房间中的某个用户使用 sendCustomCmdMsg 发送自定义消息时，房间中的其它用户可以通过 onRecvCustomCmdMsg 接口接收消息
+    * �������е�ĳ���û�ʹ�� sendCustomCmdMsg �����Զ�����Ϣʱ�������е������û�����ͨ�� onRecvCustomCmdMsg �ӿڽ�����Ϣ
     *
-    * @param userId 用户标识
-    * @param cmdID 命令 ID
-    * @param seq   消息序号
-    * @param message 消息数据
-    * @param messageSize 消息数据大小
+    * @param userId �û���ʶ
+    * @param cmdID ���� ID
+    * @param seq   ��Ϣ���
+    * @param message ��Ϣ����
+    * @param messageSize ��Ϣ���ݴ�С
     */
     virtual void onRecvCustomCmdMsg(const char* userId, int32_t cmdID, uint32_t seq, const uint8_t* message, uint32_t messageSize) {}
 
     /**
-    * 7.2 自定义消息丢失回调
+    * 7.2 �Զ�����Ϣ��ʧ�ص�
     *
-    * 实时音视频使用 UDP 通道，即使设置了可靠传输（reliable）也无法确保100@%不丢失，只是丢消息概率极低，能满足常规可靠性要求。
-    * 在发送端设置了可靠传输（reliable）后，SDK 都会通过此回调通知过去时间段内（通常为5s）传输途中丢失的自定义消息数量统计信息。
+    * ʵʱ����Ƶʹ�� UDP ͨ������ʹ�����˿ɿ����䣨reliable��Ҳ�޷�ȷ��100@%����ʧ��ֻ�Ƕ���Ϣ���ʼ��ͣ������㳣��ɿ���Ҫ��
+    * �ڷ��Ͷ������˿ɿ����䣨reliable����SDK ����ͨ���˻ص�֪ͨ��ȥʱ����ڣ�ͨ��Ϊ5s������;�ж�ʧ���Զ�����Ϣ����ͳ����Ϣ��
     *
-    * @note  只有在发送端设置了可靠传输（reliable），接收方才能收到消息的丢失回调
-    * @param userId 用户标识
-    * @param cmdID 命令 ID
-    * @param errCode 错误码
-    * @param missed 丢失的消息数量
+    * @note  ֻ���ڷ��Ͷ������˿ɿ����䣨reliable�������շ������յ���Ϣ�Ķ�ʧ�ص�
+    * @param userId �û���ʶ
+    * @param cmdID ���� ID
+    * @param errCode ������
+    * @param missed ��ʧ����Ϣ����
     */
     virtual void onMissCustomCmdMsg(const char* userId, int32_t cmdID, int32_t errCode, int32_t missed) {}
 
 
     /**
-    * 7.3 收到 SEI 消息的回调
+    * 7.3 �յ� SEI ��Ϣ�Ļص�
     *
-    * 当房间中的某个用户使用 sendSEIMsg 发送数据时，房间中的其它用户可以通过 onRecvSEIMsg 接口接收数据。
+    * �������е�ĳ���û�ʹ�� sendSEIMsg ��������ʱ�������е������û�����ͨ�� onRecvSEIMsg �ӿڽ������ݡ�
     *
-    * @param userId   用户标识
-    * @param message  数据
-    * @param messageSize 数据大小
+    * @param userId   �û���ʶ
+    * @param message  ����
+    * @param messageSize ���ݴ�С
     */
     virtual void onRecvSEIMsg(const char* userId, const uint8_t* message, uint32_t messageSize) {};
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （八）CDN 旁路转推回调
+    //                      ���ˣ�CDN ��·ת�ƻص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name CDN 旁路转推回调
+    /// @name CDN ��·ת�ƻص�
     /// @{
     /**
-    * 8.1 开始向腾讯云的直播 CDN 推流的回调，对应于 TRTCCloud 中的 startPublishing() 接口
+    * 8.1 ��ʼ����Ѷ�Ƶ�ֱ�� CDN �����Ļص�����Ӧ�� TRTCCloud �е� startPublishing() �ӿ�
     *
-    * @param err 0表示成功，其余值表示失败
-    * @param errMsg 具体错误原因
+    * @param err 0��ʾ�ɹ�������ֵ��ʾʧ��
+    * @param errMsg �������ԭ��
     */
     virtual void onStartPublishing(int err, const char *errMsg) {};
 
     /**
-    * 8.2 停止向腾讯云的直播 CDN 推流的回调，对应于 TRTCCloud 中的 stopPublishing() 接口
+    * 8.2 ֹͣ����Ѷ�Ƶ�ֱ�� CDN �����Ļص�����Ӧ�� TRTCCloud �е� stopPublishing() �ӿ�
     *
-    * @param err 0表示成功，其余值表示失败
-    * @param errMsg 具体错误原因
+    * @param err 0��ʾ�ɹ�������ֵ��ʾʧ��
+    * @param errMsg �������ԭ��
     */
     virtual void onStopPublishing(int err, const char *errMsg) {};
 
     /**
-    * 8.3 启动旁路推流到 CDN 完成的回调
+    * 8.3 ������·������ CDN ��ɵĻص�
     *
-    * 对应于 TRTCCloud 中的 startPublishCDNStream() 接口
+    * ��Ӧ�� TRTCCloud �е� startPublishCDNStream() �ӿ�
     *
-    * @note Start 回调如果成功，只能说明转推请求已经成功告知给腾讯云，如果目标 CDN 有异常，还是有可能会转推失败。
+    * @note Start �ص�����ɹ���ֻ��˵��ת�������Ѿ��ɹ���֪����Ѷ�ƣ����Ŀ�� CDN ���쳣�������п��ܻ�ת��ʧ�ܡ�
     */
     virtual void onStartPublishCDNStream(int errCode, const char* errMsg) {};
 
     /**
-    * 8.4 停止旁路推流到 CDN 完成的回调
+    * 8.4 ֹͣ��·������ CDN ��ɵĻص�
     *
-    * 对应于 TRTCCloud 中的 stopPublishCDNStream() 接口
+    * ��Ӧ�� TRTCCloud �е� stopPublishCDNStream() �ӿ�
     *
     */
     virtual void onStopPublishCDNStream(int errCode, const char* errMsg) {};
 
     /**
-    * 8.5 设置云端的混流转码参数的回调，对应于 TRTCCloud 中的 setMixTranscodingConfig() 接口
+    * 8.5 �����ƶ˵Ļ���ת������Ļص�����Ӧ�� TRTCCloud �е� setMixTranscodingConfig() �ӿ�
     *
-    * @param errCode 0表示成功，其余值表示失败
-    * @param errMsg 具体错误原因
+    * @param errCode 0��ʾ�ɹ�������ֵ��ʾʧ��
+    * @param errMsg �������ԭ��
     */
     virtual void onSetMixTranscodingConfig(int errCode, const char* errMsg) {};
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （九）音效回调
+    //                      ���ţ���Ч�ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 音效回调
+    /// @name ��Ч�ص�
     /// @{
 
     /**
-    * 9.1 播放音效结束回调
+    * 9.1 ������Ч�����ص�
     *
     * @param effectId
-    * @param code 0表示播放正常结束；其他表示异常结束
+    * @param code 0��ʾ��������������������ʾ�쳣����
     */
     virtual void onAudioEffectFinished(int effectId, int code) {};
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （十）屏幕分享回调
+    //                      ��ʮ����Ļ�����ص�
 	//
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 屏幕分享回调
+    /// @name ��Ļ�����ص�
     /// @{
 
     /**
-    * 10.1 当屏幕分享窗口被遮挡无法正常捕获时，SDK 会通过此回调通知，可在此回调里通知用户移开遮挡窗口
+    * 10.1 ����Ļ�������ڱ��ڵ��޷���������ʱ��SDK ��ͨ���˻ص�֪ͨ�����ڴ˻ص���֪ͨ�û��ƿ��ڵ�����
     */
     virtual void onScreenCaptureCovered() {};
 
     /**
-    * 10.2 当屏幕分享开始时，SDK 会通过此回调通知
+    * 10.2 ����Ļ������ʼʱ��SDK ��ͨ���˻ص�֪ͨ
     */
     virtual void onScreenCaptureStarted() {};
 
     /**
-    * 10.3 当屏幕分享暂停时，SDK 会通过此回调通知
+    * 10.3 ����Ļ������ͣʱ��SDK ��ͨ���˻ص�֪ͨ
     *
-    * @param reason 停止原因，0：表示用户主动暂停；1：表示设置屏幕分享参数导致的暂停；2：表示屏幕分享窗口被最小化导致的暂停；3：表示屏幕分享窗口被隐藏导致的暂停
+    * @param reason ֹͣԭ��0����ʾ�û�������ͣ��1����ʾ������Ļ�����������µ���ͣ��2����ʾ��Ļ�������ڱ���С�����µ���ͣ��3����ʾ��Ļ�������ڱ����ص��µ���ͣ
     */
     virtual void onScreenCapturePaused(int reason) {};
 
     /**
-    * 10.4 当屏幕分享恢复时，SDK 会通过此回调通知
+    * 10.4 ����Ļ�����ָ�ʱ��SDK ��ͨ���˻ص�֪ͨ
     *
-    * @param reason 停止原因，0：表示用户主动恢复，1：表示屏幕分享参数设置完毕后自动恢复；2：表示屏幕分享窗口从最小化被恢复；3：表示屏幕分享窗口从隐藏被恢复
+    * @param reason ֹͣԭ��0����ʾ�û������ָ���1����ʾ��Ļ��������������Ϻ��Զ��ָ���2����ʾ��Ļ�������ڴ���С�����ָ���3����ʾ��Ļ�������ڴ����ر��ָ�
     */
     virtual void onScreenCaptureResumed(int reason) {};
 
     /**
-    * 10.5 当屏幕分享停止时，SDK 会通过此回调通知
+    * 10.5 ����Ļ����ֹͣʱ��SDK ��ͨ���˻ص�֪ͨ
     *
-    * @param reason 停止原因，0：表示用户主动停止；1：表示屏幕分享窗口被关闭
+    * @param reason ֹͣԭ��0����ʾ�û�����ֹͣ��1����ʾ��Ļ�������ڱ��ر�
     */
     virtual void onScreenCaptureStoped(int reason) {};
     /// @}
 
     /////////////////////////////////////////////////////////////////////////////////
     //
-    //                      （十一）背景混音事件回调
+    //                      ��ʮһ�����������¼��ص�
     //
     /////////////////////////////////////////////////////////////////////////////////
-    /// @name 背景混音事件回调
+    /// @name ���������¼��ص�
     /// @{
 
     /**
-    * 11.1 开始播放背景音乐
+    * 11.1 ��ʼ���ű�������
     *
-    * @param errCode 错误码
+    * @param errCode ������
     */
     virtual void onPlayBGMBegin(TXLiteAVError errCode) {}
 
     /**
-    * 11.2 播放背景音乐的进度
+    * 11.2 ���ű������ֵĽ���
     *
-    * @param progressMS 已播放时间
-    * @param durationMS 总时间
+    * @param progressMS �Ѳ���ʱ��
+    * @param durationMS ��ʱ��
     */
     virtual void onPlayBGMProgress(uint32_t progressMS, uint32_t durationMS) {}
 
     /**
-    * 11.3 播放背景音乐结束
+    * 11.3 ���ű������ֽ���
     *
-    * @param errCode 错误码
+    * @param errCode ������
     */
     virtual void onPlayBGMComplete(TXLiteAVError errCode) {}
     /// @}
@@ -558,23 +558,23 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////
 //
-//                      （十二）自定义视频渲染回调
+//                      ��ʮ�����Զ�����Ƶ��Ⱦ�ص�
 //
 /////////////////////////////////////////////////////////////////////////////////
 
-/// 自定义视频渲染回调
+/// �Զ�����Ƶ��Ⱦ�ص�
 class ITRTCVideoRenderCallback
 {
 public:
     virtual ~ITRTCVideoRenderCallback() {}
     /**
-    * 12.1 自定义视频渲染回调
+    * 12.1 �Զ�����Ƶ��Ⱦ�ص�
     * 
-    * 可以通过 setLocalVideoRenderCallback 和 setRemoteVideoRenderCallback 接口设置自定义渲染回调
+    * ����ͨ�� setLocalVideoRenderCallback �� setRemoteVideoRenderCallback �ӿ������Զ�����Ⱦ�ص�
     *
-    * @param userId     用户标识
-    * @param streamType	流类型：即摄像头还是屏幕分享
-    * @param frame      视频帧数据
+    * @param userId     �û���ʶ
+    * @param streamType	�����ͣ�������ͷ������Ļ����
+    * @param frame      ��Ƶ֡����
     */
     virtual void onRenderVideoFrame(const char* userId, TRTCVideoStreamType streamType, TRTCVideoFrame* frame) {}
 };
@@ -582,68 +582,68 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////
 //
-//                      （十三）音频数据回调
+//                      ��ʮ������Ƶ���ݻص�
 //
 /////////////////////////////////////////////////////////////////////////////////
 
-/// 音频数据回调
+/// ��Ƶ���ݻص�
 class ITRTCAudioFrameCallback
 {
 public:
     virtual ~ITRTCAudioFrameCallback() {}
     /**
-    * 13.1 本地麦克风采集到的音频数据回调
+    * 13.1 ������˷�ɼ�������Ƶ���ݻص�
     * 
-    * @param frame      音频数据
-    * @note - 请不要在此回调函数中做任何耗时操作，建议直接拷贝到另一线程进行处理，否则会导致各种声音问题。
-    * @note - 此接口回调出的音频数据支持修改。
-    * @note - 此接口回调出的音频时间帧长固定为0.02s。
-              由时间帧长转化为字节帧长的公式为【采样率 × 时间帧长 × 声道数 × 采样点位宽】。
-              以SDK默认的音频录制格式48000采样率、单声道、16采样点位宽为例，字节帧长为【48000 × 0.02s × 1 × 16bit = 15360bit = 1920字节】。
-    * @note - 此接口回调出的音频数据包含背景音、音效、混响等前处理效果。
+    * @param frame      ��Ƶ����
+    * @note - �벻Ҫ�ڴ˻ص����������κκ�ʱ����������ֱ�ӿ�������һ�߳̽��д���������ᵼ�¸����������⡣
+    * @note - �˽ӿڻص�������Ƶ����֧���޸ġ�
+    * @note - �˽ӿڻص�������Ƶʱ��֡���̶�Ϊ0.02s��
+              ��ʱ��֡��ת��Ϊ�ֽ�֡���Ĺ�ʽΪ�������� �� ʱ��֡�� �� ������ �� ������λ������
+              ��SDKĬ�ϵ���Ƶ¼�Ƹ�ʽ48000�����ʡ���������16������λ��Ϊ�����ֽ�֡��Ϊ��48000 �� 0.02s �� 1 �� 16bit = 15360bit = 1920�ֽڡ���
+    * @note - �˽ӿڻص�������Ƶ���ݰ�������������Ч�������ǰ����Ч����
     */
     virtual void onCapturedAudioFrame(TRTCAudioFrame *frame) {};
 
     /**
-    * 13.2 混音前的每一路远程用户的音频数据（例如您要对某一路的语音进行文字转换，必须要使用这里的原始数据，而不是混音之后的数据）
+    * 13.2 ����ǰ��ÿһ·Զ���û�����Ƶ���ݣ�������Ҫ��ĳһ·��������������ת��������Ҫʹ�������ԭʼ���ݣ������ǻ���֮������ݣ�
     * 
-    * @param frame      音频数据
-    * @param userId     用户标识
-    * @note - 请不要在此回调函数中做任何耗时操作，建议直接拷贝到另一线程进行处理，否则会导致各种声音问题。
-    *       - 此接口回调出的音频数据是只读的，不支持修改。
+    * @param frame      ��Ƶ����
+    * @param userId     �û���ʶ
+    * @note - �벻Ҫ�ڴ˻ص����������κκ�ʱ����������ֱ�ӿ�������һ�߳̽��д���������ᵼ�¸����������⡣
+    *       - �˽ӿڻص�������Ƶ������ֻ���ģ���֧���޸ġ�
     */
     virtual void onPlayAudioFrame(TRTCAudioFrame *frame, const char* userId) {};
     /**
-    * 13.3 各路音频数据混合后送入喇叭播放的音频数据
+    * 13.3 ��·��Ƶ���ݻ�Ϻ��������Ȳ��ŵ���Ƶ����
     * 
-    * @param frame      音频数据
-    * @note - 请不要在此回调函数中做任何耗时操作，建议直接拷贝到另一线程进行处理，否则会导致各种声音问题。
- 	* @note - 此接口回调出的音频数据支持修改。
- 	* @note - 此接口回调出的音频时间帧长固定为0.02s。
- 	          由时间帧长转化为字节帧长的公式为【采样率 × 时间帧长 × 声道数 × 采样点位宽】。
- 	          以SDK默认的音频播放格式48000采样率、双声道、16采样点位宽为例，字节帧长为【48000 × 0.02s × 2 × 16bit = 30720bit = 3840字节】。
- 	* @note - 此接口回调出的音频数据是各路音频播放数据的混合,不包含耳返的音频数据。
+    * @param frame      ��Ƶ����
+    * @note - �벻Ҫ�ڴ˻ص����������κκ�ʱ����������ֱ�ӿ�������һ�߳̽��д���������ᵼ�¸����������⡣
+ 	* @note - �˽ӿڻص�������Ƶ����֧���޸ġ�
+ 	* @note - �˽ӿڻص�������Ƶʱ��֡���̶�Ϊ0.02s��
+ 	          ��ʱ��֡��ת��Ϊ�ֽ�֡���Ĺ�ʽΪ�������� �� ʱ��֡�� �� ������ �� ������λ������
+ 	          ��SDKĬ�ϵ���Ƶ���Ÿ�ʽ48000�����ʡ�˫������16������λ��Ϊ�����ֽ�֡��Ϊ��48000 �� 0.02s �� 2 �� 16bit = 30720bit = 3840�ֽڡ���
+ 	* @note - �˽ӿڻص�������Ƶ�����Ǹ�·��Ƶ�������ݵĻ��,��������������Ƶ���ݡ�
     */
     virtual void onMixedPlayAudioFrame(TRTCAudioFrame *frame) {};
 };
 
 /////////////////////////////////////////////////////////////////////////////////
 //
-//                      （十四）Log 信息回调
+//                      ��ʮ�ģ�Log ��Ϣ�ص�
 //
 /////////////////////////////////////////////////////////////////////////////////
 
-/// 日志相关回调
+/// ��־��ػص�
 class ITRTCLogCallback
 {
 public:
     virtual ~ITRTCLogCallback() {}
     /**
-    * 14.1 有日志打印时的回调
+    * 14.1 ����־��ӡʱ�Ļص�
     *
-    * @param log 日志内容
-    * @param level 日志等级 参见 TRTCLogLevel
-    * @param module 暂无具体意义，目前为固定值 TXLiteAVSDK
+    * @param log ��־����
+    * @param level ��־�ȼ� �μ� TRTCLogLevel
+    * @param module ���޾������壬ĿǰΪ�̶�ֵ TXLiteAVSDK
     */
     virtual void onLog(const char* log, TRTCLogLevel level, const char* module) {}
 };

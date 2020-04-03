@@ -1,7 +1,7 @@
-ï»¿/**
+/**
 * Module:   TXLiteAVBase @ liteav
 *
-* Function: SDK å…¬å…±å®šä¹‰å¤´æ–‡ä»¶
+* Function: SDK ¹«¹²¶¨ÒåÍ·ÎÄ¼ş
 *
 */
 
@@ -23,12 +23,12 @@
 #endif
 
 extern "C" {
-    /// @name SDK å¯¼å‡ºåŸºç¡€åŠŸèƒ½æ¥å£
+    /// @name SDK µ¼³ö»ù´¡¹¦ÄÜ½Ó¿Ú
     /// @{
     /**
-    * \brief è·å– SDK ç‰ˆæœ¬å·
+    * \brief »ñÈ¡ SDK °æ±¾ºÅ
     *
-    * \return è¿”å› UTF-8 ç¼–ç çš„ç‰ˆæœ¬å·ã€‚
+    * \return ·µ»Ø UTF-8 ±àÂëµÄ°æ±¾ºÅ¡£
     */
     LITEAV_API const char* getLiteAvSDKVersion();
     /// @}
@@ -38,62 +38,62 @@ extern "C" {
 /// @{
 
 /**
-* è§†é¢‘æ•°æ®ç»“æ„ç±»å‹
+* ÊÓÆµÊı¾İ½á¹¹ÀàĞÍ
 */
 enum LiteAVVideoBufferType
 {
     LiteAVVideoBufferType_Unknown = 0,
-    LiteAVVideoBufferType_Buffer = 1,       ///< äºŒè¿›åˆ¶Bufferç±»å‹
-    LiteAVVideoBufferType_Texture = 3,      ///< çº¹ç†ç±»å‹
+    LiteAVVideoBufferType_Buffer = 1,       ///< ¶ş½øÖÆBufferÀàĞÍ
+    LiteAVVideoBufferType_Texture = 3,      ///< ÎÆÀíÀàĞÍ
 };
 
 /**
-* è§†é¢‘å¸§çš„æ ¼å¼
+* ÊÓÆµÖ¡µÄ¸ñÊ½
 */
 enum LiteAVVideoPixelFormat
 {
     LiteAVVideoPixelFormat_Unknown = 0,
     LiteAVVideoPixelFormat_I420 = 1,        ///< I420
-    LiteAVVideoPixelFormat_Texture_2D = 2,  ///< OpenGL 2D çº¹ç†
+    LiteAVVideoPixelFormat_Texture_2D = 2,  ///< OpenGL 2D ÎÆÀí
     LiteAVVideoPixelFormat_BGRA32 = 3,      ///< BGRA32
 };
 
 /**
-* éŸ³é¢‘å¸§çš„æ ¼å¼
+* ÒôÆµÖ¡µÄ¸ñÊ½
 */
 enum LiteAVAudioFrameFormat
 {
     LiteAVAudioFrameFormatNone = 0,
-    LiteAVAudioFrameFormatPCM,              ///< PCMï¼Œæ¯ä¸ªé‡‡æ ·ç‚¹å 16bitæ•°æ®é‡ã€‚
+    LiteAVAudioFrameFormatPCM,              ///< PCM£¬Ã¿¸ö²ÉÑùµãÕ¼16bitÊı¾İÁ¿¡£
 };
 
 /**
-* è§†é¢‘ç”»é¢æ—‹è½¬æ–¹å‘
+* ÊÓÆµ»­ÃæĞı×ª·½Ïò
 */
 enum LiteAVVideoRotation
 {
-    LiteAVVideoRotation0 = 0,             ///< é¡ºæ—¶é’ˆæ—‹è½¬0åº¦
-    LiteAVVideoRotation90 = 1,             ///< é¡ºæ—¶é’ˆæ—‹è½¬90åº¦
-    LiteAVVideoRotation180 = 2,             ///< é¡ºæ—¶é’ˆæ—‹è½¬180åº¦
-    LiteAVVideoRotation270 = 3,             ///< é¡ºæ—¶é’ˆæ—‹è½¬270åº¦
+    LiteAVVideoRotation0 = 0,             ///< Ë³Ê±ÕëĞı×ª0¶È
+    LiteAVVideoRotation90 = 1,             ///< Ë³Ê±ÕëĞı×ª90¶È
+    LiteAVVideoRotation180 = 2,             ///< Ë³Ê±ÕëĞı×ª180¶È
+    LiteAVVideoRotation270 = 3,             ///< Ë³Ê±ÕëĞı×ª270¶È
 };
 
 /*************************************************************************************************************************************************************************/
 
 /**
-* è§†é¢‘å¸§æ•°æ®
+* ÊÓÆµÖ¡Êı¾İ
 */
 struct LiteAVVideoFrame
 {
-    LiteAVVideoPixelFormat videoFormat;     ///< è§†é¢‘å¸§çš„æ ¼å¼
-    LiteAVVideoBufferType bufferType;       ///< è§†é¢‘æ•°æ®ç»“æ„ç±»å‹
-    char* data;                             ///< è§†é¢‘æ•°æ®ï¼Œå­—æ®µbufferTypeæ˜¯LiteAVVideoBufferType_Bufferæ—¶ç”Ÿæ•ˆ
-    int textureId;                          ///< è§†é¢‘çº¹ç†IDï¼Œå­—æ®µbufferTypeæ˜¯LiteAVVideoBufferType_Textureæ—¶ç”Ÿæ•ˆ
-    uint32_t length;                        ///< è§†é¢‘æ•°æ®çš„é•¿åº¦ï¼Œå•ä½æ˜¯å­—èŠ‚ï¼Œå¯¹äºi420è€Œè¨€ï¼Œ length = width * height * 3 / 2ï¼Œå¯¹äºBGRA32è€Œè¨€ï¼Œ length = width * height * 4
-    uint32_t width;                         ///< ç”»é¢çš„å®½åº¦
-    uint32_t height;                        ///< ç”»é¢çš„é«˜åº¦
-    uint64_t timestamp;                     ///< æ—¶é—´æˆ³ï¼Œå•ä½ms
-    LiteAVVideoRotation rotation;           ///< ç”»é¢æ—‹è½¬è§’åº¦
+    LiteAVVideoPixelFormat videoFormat;     ///< ÊÓÆµÖ¡µÄ¸ñÊ½
+    LiteAVVideoBufferType bufferType;       ///< ÊÓÆµÊı¾İ½á¹¹ÀàĞÍ
+    char* data;                             ///< ÊÓÆµÊı¾İ£¬×Ö¶ÎbufferTypeÊÇLiteAVVideoBufferType_BufferÊ±ÉúĞ§
+    int textureId;                          ///< ÊÓÆµÎÆÀíID£¬×Ö¶ÎbufferTypeÊÇLiteAVVideoBufferType_TextureÊ±ÉúĞ§
+    uint32_t length;                        ///< ÊÓÆµÊı¾İµÄ³¤¶È£¬µ¥Î»ÊÇ×Ö½Ú£¬¶ÔÓÚi420¶øÑÔ£¬ length = width * height * 3 / 2£¬¶ÔÓÚBGRA32¶øÑÔ£¬ length = width * height * 4
+    uint32_t width;                         ///< »­ÃæµÄ¿í¶È
+    uint32_t height;                        ///< »­ÃæµÄ¸ß¶È
+    uint64_t timestamp;                     ///< Ê±¼ä´Á£¬µ¥Î»ms
+    LiteAVVideoRotation rotation;           ///< »­ÃæĞı×ª½Ç¶È
 
     LiteAVVideoFrame()
         : videoFormat(LiteAVVideoPixelFormat_Unknown)
@@ -110,16 +110,16 @@ struct LiteAVVideoFrame
 };
 
 /**
-* éŸ³é¢‘å¸§æ•°æ®
+* ÒôÆµÖ¡Êı¾İ
 */
 struct LiteAVAudioFrame
 {
-    LiteAVAudioFrameFormat audioFormat;     ///< éŸ³é¢‘å¸§çš„æ ¼å¼
-    char* data;                             ///< éŸ³é¢‘æ•°æ®
-    uint32_t length;                        ///< éŸ³é¢‘æ•°æ®çš„é•¿åº¦
-    uint32_t sampleRate;                    ///< é‡‡æ ·ç‡
-    uint32_t channel;                       ///< å£°é“æ•°
-    uint64_t timestamp;                     ///< æ—¶é—´æˆ³ï¼Œå•ä½ms
+    LiteAVAudioFrameFormat audioFormat;     ///< ÒôÆµÖ¡µÄ¸ñÊ½
+    char* data;                             ///< ÒôÆµÊı¾İ
+    uint32_t length;                        ///< ÒôÆµÊı¾İµÄ³¤¶È
+    uint32_t sampleRate;                    ///< ²ÉÑùÂÊ
+    uint32_t channel;                       ///< ÉùµÀÊı
+    uint64_t timestamp;                     ///< Ê±¼ä´Á£¬µ¥Î»ms
 
     LiteAVAudioFrame()
         : audioFormat(LiteAVAudioFrameFormatNone)
@@ -137,24 +137,24 @@ struct LiteAVAudioFrame
 
 
 /////////////////////////////////////////////////////////////////////////////////
-/// \briefã€å±å¹•åˆ†äº«çª—å£ä¿¡æ¯ TRTCScreenCaptureSourceInfoã€‘
+/// \brief¡¾ÆÁÄ»·ÖÏí´°¿ÚĞÅÏ¢ TRTCScreenCaptureSourceInfo¡¿
 ///
-/// \desc æ‚¨å¯ä»¥é€šè¿‡ getScreenCaptureSources() æšä¸¾å¯å…±äº«çš„çª—å£åˆ—è¡¨ï¼Œåˆ—è¡¨é€šè¿‡ ITRTCScreenCaptureSourceList è¿”å›
+/// \desc Äú¿ÉÒÔÍ¨¹ı getScreenCaptureSources() Ã¶¾Ù¿É¹²ÏíµÄ´°¿ÚÁĞ±í£¬ÁĞ±íÍ¨¹ı ITRTCScreenCaptureSourceList ·µ»Ø
 /////////////////////////////////////////////////////////////////////////////////
 enum LiteAVScreenCaptureSourceType
 {
     LiteAVScreenCaptureSourceTypeUnknown = -1,
-    LiteAVScreenCaptureSourceTypeWindow = 0,   ///< è¯¥åˆ†äº«ç›®æ ‡æ˜¯æŸä¸€ä¸ªWindowsçª—å£
-    LiteAVScreenCaptureSourceTypeScreen = 1,   ///< è¯¥åˆ†äº«ç›®æ ‡æ˜¯æ•´ä¸ªWindowsæ¡Œé¢
+    LiteAVScreenCaptureSourceTypeWindow = 0,   ///< ¸Ã·ÖÏíÄ¿±êÊÇÄ³Ò»¸öWindows´°¿Ú
+    LiteAVScreenCaptureSourceTypeScreen = 1,   ///< ¸Ã·ÖÏíÄ¿±êÊÇÕû¸öWindows×ÀÃæ
     LiteAVScreenCaptureSourceTypeCustom = 2,
 };
 
 struct LiteAVImageBuffer
 {
-    const char* buffer;      ///< å›¾å†…å®¹
-    uint32_t length;         ///< å›¾ç¼“å­˜å¤§å°
-    uint32_t width;          ///< å›¾å®½
-    uint32_t height;         ///< å›¾é«˜
+    const char* buffer;      ///< Í¼ÄÚÈİ
+    uint32_t length;         ///< Í¼»º´æ´óĞ¡
+    uint32_t width;          ///< Í¼¿í
+    uint32_t height;         ///< Í¼¸ß
     LiteAVImageBuffer()
         : buffer(NULL)
         , length(0)
@@ -164,11 +164,11 @@ struct LiteAVImageBuffer
 };
 
 struct LiteAVScreenCaptureSourceInfo {
-    LiteAVScreenCaptureSourceType type;              ///< é‡‡é›†æºç±»å‹
-    HWND            sourceId;                        ///< é‡‡é›†æºIDï¼›å¯¹äºçª—å£ï¼Œè¯¥å­—æ®µæŒ‡ç¤ºçª—å£å¥æŸ„ï¼›å¯¹äºå±å¹•ï¼Œè¯¥å­—æ®µæŒ‡ç¤ºå±å¹•ID
-    const char*     sourceName;                      ///< é‡‡é›†æºåç§°ï¼ŒUTF8ç¼–ç 
-    LiteAVImageBuffer thumbBGRA;                     ///< ç¼©ç•¥å›¾å†…å®¹
-    LiteAVImageBuffer iconBGRA;                      ///< å›¾æ ‡å†…å®¹
+    LiteAVScreenCaptureSourceType type;              ///< ²É¼¯Ô´ÀàĞÍ
+    HWND            sourceId;                        ///< ²É¼¯Ô´ID£»¶ÔÓÚ´°¿Ú£¬¸Ã×Ö¶ÎÖ¸Ê¾´°¿Ú¾ä±ú£»¶ÔÓÚÆÁÄ»£¬¸Ã×Ö¶ÎÖ¸Ê¾ÆÁÄ»ID
+    const char*     sourceName;                      ///< ²É¼¯Ô´Ãû³Æ£¬UTF8±àÂë
+    LiteAVImageBuffer thumbBGRA;                     ///< ËõÂÔÍ¼ÄÚÈİ
+    LiteAVImageBuffer iconBGRA;                      ///< Í¼±êÄÚÈİ
     LiteAVScreenCaptureSourceInfo()
         : type(LiteAVScreenCaptureSourceTypeUnknown)
         , sourceId(0)
@@ -182,23 +182,23 @@ protected:
     virtual ~ILiteAVScreenCaptureSourceList() {}
 public:
     /**
-    * \return çª—å£ä¸ªæ•°
+    * \return ´°¿Ú¸öÊı
     */
     virtual uint32_t getCount() = 0;
     /**
-    * \return çª—å£ä¿¡æ¯
+    * \return ´°¿ÚĞÅÏ¢
     */
     virtual LiteAVScreenCaptureSourceInfo getSourceInfo(uint32_t index) = 0;
     /**
-    * \brief éå†å®Œçª—å£åˆ—è¡¨åï¼Œè°ƒç”¨releaseé‡Šæ”¾èµ„æºã€‚
+    * \brief ±éÀúÍê´°¿ÚÁĞ±íºó£¬µ÷ÓÃreleaseÊÍ·Å×ÊÔ´¡£
     */
     virtual void release() = 0;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
-/// \briefã€è·å–SDKå½“å‰ä½¿ç”¨è®¾å¤‡ä¿¡æ¯ ILiteAVDeviceInfoã€‘
+/// \brief¡¾»ñÈ¡SDKµ±Ç°Ê¹ÓÃÉè±¸ĞÅÏ¢ ILiteAVDeviceInfo¡¿
 ///
-/// \desc æ‚¨å¯ä»¥é€šè¿‡ setCurrentCameraDevice()/getCurrentMicDevice()/getCurrentSpeakerDevice è·å–å½“å‰ä½¿ç”¨è®¾å¤‡ã€‚
+/// \desc Äú¿ÉÒÔÍ¨¹ı setCurrentCameraDevice()/getCurrentMicDevice()/getCurrentSpeakerDevice »ñÈ¡µ±Ç°Ê¹ÓÃÉè±¸¡£
 /////////////////////////////////////////////////////////////////////////////////
 class ILiteAVDeviceInfo
 {
@@ -206,25 +206,25 @@ protected:
     virtual ~ILiteAVDeviceInfo() {}
 public:
     /**
-    * \return è®¾å¤‡åç§°ï¼Œå­—ç¬¦ç¼–ç æ ¼å¼æ˜¯UTF-8
+    * \return Éè±¸Ãû³Æ£¬×Ö·û±àÂë¸ñÊ½ÊÇUTF-8
     */
     virtual const char* getDeviceName() = 0;
 
     /**
-    * \return è®¾å¤‡PIDï¼Œå­—ç¬¦ç¼–ç æ ¼å¼æ˜¯UTF-8
+    * \return Éè±¸PID£¬×Ö·û±àÂë¸ñÊ½ÊÇUTF-8
     */
     virtual const char* getDevicePID() = 0;
 
     /**
-    * \brief è·å–å®Œè®¾å¤‡ä¿¡æ¯åï¼Œè°ƒç”¨releaseé‡Šæ”¾èµ„æºã€‚
+    * \brief »ñÈ¡ÍêÉè±¸ĞÅÏ¢ºó£¬µ÷ÓÃreleaseÊÍ·Å×ÊÔ´¡£
     */
     virtual void release() = 0;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
-/// \briefã€è·å–SDKè®¾å¤‡ä¿¡æ¯æ¥å£ ITRTCDeviceCollectionã€‘
+/// \brief¡¾»ñÈ¡SDKÉè±¸ĞÅÏ¢½Ó¿Ú ITRTCDeviceCollection¡¿
 ///
-/// \desc æ‚¨å¯ä»¥é€šè¿‡ getMicDevicesList()/getSpeakerDevicesList()/getMicDevicesList æšä¸¾ç¡¬ä»¶è®¾å¤‡åˆ—è¡¨ï¼Œåˆ—è¡¨é€šè¿‡ ITRTCDeviceCollection è¿”å›
+/// \desc Äú¿ÉÒÔÍ¨¹ı getMicDevicesList()/getSpeakerDevicesList()/getMicDevicesList Ã¶¾ÙÓ²¼şÉè±¸ÁĞ±í£¬ÁĞ±íÍ¨¹ı ITRTCDeviceCollection ·µ»Ø
 /////////////////////////////////////////////////////////////////////////////////
 class ILiteAVDeviceCollection
 {
@@ -232,22 +232,22 @@ protected:
     virtual ~ILiteAVDeviceCollection() {}
 public:
     /**
-    * \return è®¾å¤‡ä¸ªæ•°
+    * \return Éè±¸¸öÊı
     */
     virtual uint32_t getCount() = 0;
 
     /**
-    * \return è®¾å¤‡åç§°ï¼Œå­—ç¬¦ç¼–ç æ ¼å¼æ˜¯UTF-8
+    * \return Éè±¸Ãû³Æ£¬×Ö·û±àÂë¸ñÊ½ÊÇUTF-8
     */
     virtual const char* getDeviceName(uint32_t index) = 0;
 
     /**
-    * \return è®¾å¤‡PIDï¼Œå­—ç¬¦ç¼–ç æ ¼å¼æ˜¯UTF-8
+    * \return Éè±¸PID£¬×Ö·û±àÂë¸ñÊ½ÊÇUTF-8
     */
     virtual const char* getDevicePID(uint32_t index) = 0;
 
     /**
-    * \brief éå†å®Œè®¾å¤‡åï¼Œè°ƒç”¨releaseé‡Šæ”¾èµ„æºã€‚
+    * \brief ±éÀúÍêÉè±¸ºó£¬µ÷ÓÃreleaseÊÍ·Å×ÊÔ´¡£
     */
     virtual void release() = 0;
 };
@@ -260,45 +260,45 @@ class ILiteAVStreamDataSource
 {
 public:
     /**
-    * \brief SDKåœ¨æˆåŠŸè¯·æ±‚åˆ°è§†é¢‘ä½åä¼šè°ƒç”¨è¯¥æ–¹æ³•ä»¥é€šçŸ¥æ•°æ®æºå¼€å§‹å·¥ä½œ
+    * \brief SDKÔÚ³É¹¦ÇëÇóµ½ÊÓÆµÎ»ºó»áµ÷ÓÃ¸Ã·½·¨ÒÔÍ¨ÖªÊı¾İÔ´¿ªÊ¼¹¤×÷
     */
     virtual void onStart() = 0;
 
     /**
-    * \brief SDKåœ¨ä¸å†éœ€è¦ç”¨åˆ°è¯¥æ•°æ®æºçš„æ—¶å€™ä¼šè°ƒç”¨è¯¥æ–¹æ³•ä»¥é€šçŸ¥æ•°æ®æºåœæ­¢å·¥ä½œ
+    * \brief SDKÔÚ²»ÔÙĞèÒªÓÃµ½¸ÃÊı¾İÔ´µÄÊ±ºò»áµ÷ÓÃ¸Ã·½·¨ÒÔÍ¨ÖªÊı¾İÔ´Í£Ö¹¹¤×÷
     */
     virtual void onStop() = 0;
 
     /**
-    * \brief SDKåœ¨éœ€è¦è§†é¢‘å¸§æ—¶è°ƒç”¨è¯¥æ–¹æ³•ä»¥è¯·æ±‚è§†é¢‘å¸§
+    * \brief SDKÔÚĞèÒªÊÓÆµÖ¡Ê±µ÷ÓÃ¸Ã·½·¨ÒÔÇëÇóÊÓÆµÖ¡
     *
-    * \param frame ç”¨äºå­˜æ”¾è¯·æ±‚åˆ°çš„è§†é¢‘å¸§ï¼Œå…¶ä¸­
-    *                   bufferType      æ— æ•ˆï¼Œæš‚æ—¶åªæ”¯æŒLiteAVVideoBufferType_Bufferç±»å‹
-    *                   videoFormat     å¿…å¡«
-    *                   data            SDKå·²åˆ›å»ºå¥½bufferï¼Œæ•°æ®æºä»…è´Ÿè´£å°†è§†é¢‘æ•°æ®æ‹·è´å…¶ä¸­
-    *                   textureId       æ— æ•ˆ
-    *                   length          å¿…å¡«ï¼Œåˆå§‹å€¼æŒ‡ç¤ºdataå­—æ®µå¯ç”¨ç©ºé—´å¤§å°ï¼Œéœ€å¡«å†™ä¸ºå¯ç”¨æ•°æ®å¤§å°
-    *                   width           å¿…å¡«
-    *                   height          å¿…å¡«
-    *                   timestamp       å¯é€‰
-    *                   rotation        å¯é€‰
+    * \param frame ÓÃÓÚ´æ·ÅÇëÇóµ½µÄÊÓÆµÖ¡£¬ÆäÖĞ
+    *                   bufferType      ÎŞĞ§£¬ÔİÊ±Ö»Ö§³ÖLiteAVVideoBufferType_BufferÀàĞÍ
+    *                   videoFormat     ±ØÌî
+    *                   data            SDKÒÑ´´½¨ºÃbuffer£¬Êı¾İÔ´½ö¸ºÔğ½«ÊÓÆµÊı¾İ¿½±´ÆäÖĞ
+    *                   textureId       ÎŞĞ§
+    *                   length          ±ØÌî£¬³õÊ¼ÖµÖ¸Ê¾data×Ö¶Î¿ÉÓÃ¿Õ¼ä´óĞ¡£¬ĞèÌîĞ´Îª¿ÉÓÃÊı¾İ´óĞ¡
+    *                   width           ±ØÌî
+    *                   height          ±ØÌî
+    *                   timestamp       ¿ÉÑ¡
+    *                   rotation        ¿ÉÑ¡
     *
-    * \return å¯ç”¨æ•°æ®å¤§å°ï¼Œ<0 è¡¨ç¤ºå‡ºé”™
+    * \return ¿ÉÓÃÊı¾İ´óĞ¡£¬<0 ±íÊ¾³ö´í
     */
     virtual int onRequestVideoFrame(LiteAVVideoFrame &frame) = 0;
 
     /**
-    * \brief SDKåœ¨éœ€è¦è§†é¢‘å¸§æ—¶è°ƒç”¨è¯¥æ–¹æ³•ä»¥è¯·æ±‚éŸ³é¢‘å¸§
+    * \brief SDKÔÚĞèÒªÊÓÆµÖ¡Ê±µ÷ÓÃ¸Ã·½·¨ÒÔÇëÇóÒôÆµÖ¡
     *
-    * \param frame ç”¨äºå­˜æ”¾è¯·æ±‚åˆ°çš„è§†é¢‘å¸§ï¼Œå…¶ä¸­
-    *                   audioFormat     æ— æ•ˆï¼Œæš‚æ—¶åªæ”¯æŒLiteAVAudioFrameFormatPCMç±»å‹
-    *                   data            SDKå·²åˆ›å»ºå¥½bufferï¼Œæ•°æ®æºä»…è´Ÿè´£å°†è§†é¢‘æ•°æ®æ‹·è´å…¶ä¸­
-    *                   length          å¿…å¡«ï¼Œåˆå§‹å€¼æŒ‡ç¤ºdataå­—æ®µå¯ç”¨ç©ºé—´å¤§å°ï¼Œéœ€å¡«å†™ä¸ºå¯ç”¨æ•°æ®å¤§å°
-    *                   sampleRate      å¿…å¡«
-    *                   channel         å¿…å¡«
-    *                   timestamp       å¯é€‰
+    * \param frame ÓÃÓÚ´æ·ÅÇëÇóµ½µÄÊÓÆµÖ¡£¬ÆäÖĞ
+    *                   audioFormat     ÎŞĞ§£¬ÔİÊ±Ö»Ö§³ÖLiteAVAudioFrameFormatPCMÀàĞÍ
+    *                   data            SDKÒÑ´´½¨ºÃbuffer£¬Êı¾İÔ´½ö¸ºÔğ½«ÊÓÆµÊı¾İ¿½±´ÆäÖĞ
+    *                   length          ±ØÌî£¬³õÊ¼ÖµÖ¸Ê¾data×Ö¶Î¿ÉÓÃ¿Õ¼ä´óĞ¡£¬ĞèÌîĞ´Îª¿ÉÓÃÊı¾İ´óĞ¡
+    *                   sampleRate      ±ØÌî
+    *                   channel         ±ØÌî
+    *                   timestamp       ¿ÉÑ¡
     *
-    * \return å¯ç”¨æ•°æ®å¤§å°ï¼Œ<0 è¡¨ç¤ºå‡ºé”™
+    * \return ¿ÉÓÃÊı¾İ´óĞ¡£¬<0 ±íÊ¾³ö´í
     */
     virtual int onRequestAudioFrame(LiteAVAudioFrame &frame) = 0;
 

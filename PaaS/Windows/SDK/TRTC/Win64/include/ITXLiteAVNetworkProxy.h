@@ -1,4 +1,4 @@
-ï»¿#ifndef __ITXLITEAVNETWORKPROXY_H__
+#ifndef __ITXLITEAVNETWORKPROXY_H__
 #define __ITXLITEAVNETWORKPROXY_H__
 
 #include "TXLiteAVBase.h"
@@ -6,16 +6,16 @@ class ITXNetworkProxy;
 
 extern "C" {
     /**
-    * ç”¨äºŽåŠ¨æ€åŠ è½½dllæ—¶ï¼Œå¯¼å‡ºTXNetworkProxy C++å¯¹è±¡ã€‚
+    * ÓÃÓÚ¶¯Ì¬¼ÓÔØdllÊ±£¬µ¼³öTXNetworkProxy C++¶ÔÏó¡£
     *
-    * @return TXNetworkProxyå¯¹è±¡æŒ‡é’ˆï¼Œæ³¨æ„ï¼šdelete ITXNetworkProxy*ä¼šç¼–è¯‘é”™è¯¯ï¼Œéœ€è¦è°ƒç”¨destroyTXNetworkProxyé‡Šæ”¾ã€‚
+    * @return TXNetworkProxy¶ÔÏóÖ¸Õë£¬×¢Òâ£ºdelete ITXNetworkProxy*»á±àÒë´íÎó£¬ÐèÒªµ÷ÓÃdestroyTXNetworkProxyÊÍ·Å¡£
     */
     LITEAV_API ITXNetworkProxy* createTXNetworkProxy();
 
     /**
-    * æžæž„ITXNetworkProxyå¯¹è±¡
+    * Îö¹¹ITXNetworkProxy¶ÔÏó
     *
-    * @param pTXNetworkProxy ä¼ å…¥éœ€è¦é‡Šæ”¾çš„å¯¹è±¡æŒ‡é’ˆåœ°å€
+    * @param pTXNetworkProxy ´«ÈëÐèÒªÊÍ·ÅµÄ¶ÔÏóÖ¸ÕëµØÖ·
     */
     LITEAV_API void destroyTXNetworkProxy(ITXNetworkProxy** pTXNetworkProxy);
 }
@@ -29,39 +29,39 @@ public:
 
     /////////////////////////////////////////////////////////////////////////////////
     //   
-    //              SDK ä»£ç†åŠŸèƒ½æŽ¥å£
+    //              SDK ´úÀí¹¦ÄÜ½Ó¿Ú
     //
     /////////////////////////////////////////////////////////////////////////////////
     /*
-    * TRTCCloud ä»£ç†è®¾ç½®
+    * TRTCCloud ´úÀíÉèÖÃ
     *
-    * socks5 ä»£ç†æ¨¡å¼ï¼Œè®¾ç½® socks5 tcp/udp ä»£ç†æœåŠ¡å™¨ ip å’Œ portã€‚
-    * è®¾ç½®æ­¤æŽ¥å£åŽï¼Œåœ¨å†…ç½‘çŽ¯å¢ƒå¯ä»¥æ­£å¸¸ä½¿ç”¨è¿›æˆ¿ã€å‘å¸ƒæœ¬åœ°éŸ³è§†é¢‘ã€è®¢é˜…è¿œç«¯éŸ³è§†é¢‘ã€é€€æˆ¿ç­‰åŠŸèƒ½
-    * ç»†èŠ‚è¯·å‚è€ƒTRTC ä»£ç†æ–¹æ¡ˆ<http://trtc-1252463788.file.myqcloud.com/proxy/proxy_server_deploy.zip>
+    * socks5 ´úÀíÄ£Ê½£¬ÉèÖÃ socks5 tcp/udp ´úÀí·þÎñÆ÷ ip ºÍ port¡£
+    * ÉèÖÃ´Ë½Ó¿Úºó£¬ÔÚÄÚÍø»·¾³¿ÉÒÔÕý³£Ê¹ÓÃ½ø·¿¡¢·¢²¼±¾µØÒôÊÓÆµ¡¢¶©ÔÄÔ¶¶ËÒôÊÓÆµ¡¢ÍË·¿µÈ¹¦ÄÜ
+    * Ï¸½ÚÇë²Î¿¼TRTC ´úÀí·½°¸<http://trtc-1252463788.file.myqcloud.com/proxy/proxy_server_deploy.zip>
 
     *
-    * @param ip ä»£ç†æœåŠ¡å™¨çš„ ip åœ°å€
-    * @param port ä»£ç†æœåŠ¡å™¨çš„ç«¯å£
+    * @param ip ´úÀí·þÎñÆ÷µÄ ip µØÖ·
+    * @param port ´úÀí·þÎñÆ÷µÄ¶Ë¿Ú
     *
-    * @note æœ¬æŽ¥å£æœ‰ä»¥ä¸‹é™åˆ¶ï¼š
-    *       - æ­¤æŽ¥å£å¿…é¡»åœ¨ getTRTCShareInstance ä¹‹å‰è°ƒç”¨,è€Œä¸”ä¸æ”¯æŒåŠ¨æ€è®¾ç½®ï¼Œä»¥ç¡®ä¿å†…éƒ¨æ‰€æœ‰ tcp/udp æ•°æ®éƒ½èµ°ä»£ç†æœåŠ¡å™¨ã€‚
-    *       - å¦‚æžœä½ åªæ˜¯ç”¨ TRTCCloudï¼Œåˆ™åªéœ€è¦è®¾ç½®Sock5ä»£ç†æŽ¥å£ã€‚
+    * @note ±¾½Ó¿ÚÓÐÒÔÏÂÏÞÖÆ£º
+    *       - ´Ë½Ó¿Ú±ØÐëÔÚ getTRTCShareInstance Ö®Ç°µ÷ÓÃ,¶øÇÒ²»Ö§³Ö¶¯Ì¬ÉèÖÃ£¬ÒÔÈ·±£ÄÚ²¿ËùÓÐ tcp/udp Êý¾Ý¶¼×ß´úÀí·þÎñÆ÷¡£
+    *       - Èç¹ûÄãÖ»ÊÇÓÃ TRTCCloud£¬ÔòÖ»ÐèÒªÉèÖÃSock5´úÀí½Ó¿Ú¡£
     */
     virtual void setSocks5Proxy(const char * ip, unsigned short port) = 0;
 
     /*
-    * TXLivePusher/TXLivePlayer ä»£ç†è®¾ç½®
+    * TXLivePusher/TXLivePlayer ´úÀíÉèÖÃ
     *
-    * natç«¯å£è½¬å‘ä»£ç†æ¨¡å¼ï¼Œè®¾ç½®NATç«¯å£è½¬å‘ä»£ç†æœåŠ¡å™¨çš„ ip å’Œ portï¼Œ
+    * nat¶Ë¿Ú×ª·¢´úÀíÄ£Ê½£¬ÉèÖÃNAT¶Ë¿Ú×ª·¢´úÀí·þÎñÆ÷µÄ ip ºÍ port£¬
     *
-    * ITXLivePusher/ITXLivePlayer ä½¿ç”¨æ­¤ä»£ç†æ¨¡å¼è¿›è¡Œç©¿é€å†…ç½‘ï¼›å¦‚æžœä»…ä½¿ç”¨ ITRTCCloud ï¼Œä¸éœ€è¦è®¾ç½®æ­¤æŽ¥å£ã€‚
+    * ITXLivePusher/ITXLivePlayer Ê¹ÓÃ´Ë´úÀíÄ£Ê½½øÐÐ´©Í¸ÄÚÍø£»Èç¹û½öÊ¹ÓÃ ITRTCCloud £¬²»ÐèÒªÉèÖÃ´Ë½Ó¿Ú¡£
     *
-    * @param ip ä»£ç†æœåŠ¡å™¨çš„ ip åœ°å€
-    * @param port ä»£ç†æœåŠ¡å™¨çš„ç«¯å£
+    * @param ip ´úÀí·þÎñÆ÷µÄ ip µØÖ·
+    * @param port ´úÀí·þÎñÆ÷µÄ¶Ë¿Ú
     *
-    * @note æœ¬æŽ¥å£æœ‰ä»¥ä¸‹é™åˆ¶ï¼š
-    *       - æ­¤æŽ¥å£å¿…é¡»åœ¨ createTXLivePlayer/createTXLivePusher ä¹‹å‰è°ƒç”¨ï¼Œä»¥ç¡®ä¿å†…éƒ¨æ‰€æœ‰æ•°æ®éƒ½èµ°ä»£ç†æœåŠ¡å™¨ã€‚
-    *       - å¦‚æžœä½ åªæ˜¯ç”¨ç›´æ’­ SDK çš„åŠŸèƒ½ï¼Œåˆ™åªéœ€è¦è®¾ç½®NATä»£ç†æŽ¥å£ã€‚
+    * @note ±¾½Ó¿ÚÓÐÒÔÏÂÏÞÖÆ£º
+    *       - ´Ë½Ó¿Ú±ØÐëÔÚ createTXLivePlayer/createTXLivePusher Ö®Ç°µ÷ÓÃ£¬ÒÔÈ·±£ÄÚ²¿ËùÓÐÊý¾Ý¶¼×ß´úÀí·þÎñÆ÷¡£
+    *       - Èç¹ûÄãÖ»ÊÇÓÃÖ±²¥ SDK µÄ¹¦ÄÜ£¬ÔòÖ»ÐèÒªÉèÖÃNAT´úÀí½Ó¿Ú¡£
     */
     virtual void setNATProxy(const char * ip, unsigned short port) = 0;
 };
