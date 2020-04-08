@@ -1,7 +1,7 @@
 /**
  * @file TEduBoard.h
  * @brief 腾讯云互动白板SDK for Window/Linux
- * @version 2.4.6.94
+ * @version 2.4.6.95
  */
 
 #pragma once
