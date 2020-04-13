@@ -1,5 +1,9 @@
 # Release Notes - Windows
 
+## 2.4.6.103 @2020.04.13
+- BUG修复
+    - 修复上传本地文件后白板无法操作问题
+
 ## 2.4.6.95 @ 2020.04.08
 - 新增回调
     - TEduBoardImageStatus 新增三个状态回调
